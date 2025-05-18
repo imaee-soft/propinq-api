@@ -1,0 +1,17 @@
+spring:
+  application:
+    name: propinq
+  jpa:
+    database-platform: org.hibernate.dialect.MySQLDialect
+    hibernate:
+      ddl-auto: ${DDL_AUTO:update}
+  datasource:
+    url: jdbc:mysql://${MYSQL_HOST:localhost}:${MYSQL_PORT:3306}/propinq
+    username: ${DB_USERNAME:root}
+    password: ${DB_PASSWORD:password}
+    driver-class-name: com.mysql.cj.jdbc.Driver
+  data:
+    mongodb:
+      uri: ${MONGO_URL:mongodb://mongodb:27017}/propinq
+      username: ${MONGO_USER:mongo-user}
+      password: ${MONGO_PASSWORD:secret}
