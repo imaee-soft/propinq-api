@@ -1,16 +1,27 @@
 services:
   app:
-    build: .
+    build:
+      context: .
+      dockerfile: Dockerfile.dev
     ports:
       - "8080:8080"
+      - "35729:35729"
+    volumes:
+      - ./src:/app/src
+      - ./pom.xml:/app/pom.xml
+      - maven-cache:/root/.m2
     depends_on:
       - mysql-db
+      - mongodb
     environment:
+      SPRING_PROFILES_ACTIVE: dev
       SPRING_DATASOURCE_URL: jdbc:mysql://mysql-db:3306/propinq
       SPRING_DATASOURCE_USERNAME: root
       SPRING_DATASOURCE_PASSWORD: password
     networks:
-      - springboot-mysql-network
+      - app-network
+    stdin_open: true
+    tty: true
 
   mysql-db:
     image: mysql:8
@@ -20,7 +31,7 @@ services:
     volumes:
       - mysql-data:/var/lib/mysql
     networks:
-      - springboot-mysql-network
+      - app-network
 
   mongodb:
     image: mongo:6
@@ -34,12 +45,13 @@ services:
     volumes:
       - mongo-data:/data/db
     networks:
-      - springboot-mysql-network
+      - app-network
 
 volumes:
   mysql-data:
   mongo-data:
+  maven-cache:
 
 networks:
-  springboot-mysql-network:
+  app-network:
     driver: bridge
