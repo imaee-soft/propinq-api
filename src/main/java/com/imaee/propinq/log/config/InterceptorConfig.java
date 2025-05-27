@@ -10,10 +10,10 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 @AllArgsConstructor
 public class InterceptorConfig implements WebMvcConfigurer {
 
-    private final HandlerInterceptor handlerInterceptor;
+    private final HandlerInterceptor loggingInterceptor;
 
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
-        registry.addInterceptor(handlerInterceptor);
+        registry.addInterceptor(loggingInterceptor);
     }
 }
