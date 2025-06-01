@@ -12,6 +12,11 @@ spring:
     driver-class-name: com.mysql.cj.jdbc.Driver
   data:
     mongodb:
-      uri: ${MONGO_URL:mongodb://mongodb:27017}/propinq
+      uri: ${MONGO_URL:mongodb://mongo-user:secret@mongodb:27017/propinq?authSource=admin}
       username: ${MONGO_USER:mongo-user}
       password: ${MONGO_PASSWORD:secret}
+
+springdoc:
+  swagger-ui:
+    disable-swagger-default-url: true
+    path: /

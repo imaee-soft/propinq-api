@@ -1,0 +1,21 @@
+spring:
+  devtools:
+    restart:
+      enabled: true
+      poll-interval: 1000
+      quiet-period: 400
+      additional-paths: src/main
+    livereload:
+      enabled: true
+      port: 35729
+  jpa:
+    show-sql: true
+    properties:
+      hibernate:
+        format_sql: true
+
+logging:
+  level:
+    org.springframework.web: DEBUG
+    org.hibernate.SQL: DEBUG
+    org.hibernate.type.descriptor.sql.BasicBinder: TRACE
