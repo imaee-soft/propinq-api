@@ -1,0 +1,30 @@
+package com.imaee.propinq.properties.data.models;
+
+import com.imaee.propinq.buildings.data.models.Building;
+import jakarta.persistence.*;
+import lombok.*;
+import com.imaee.propinq.shared.data.models.Image;
+import com.imaee.propinq.shared.data.models.Locatable;
+
+
+import java.util.List;
+import java.util.UUID;
+
+@Entity(name="properties")
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
+@Data
+public class Property extends Locatable {
+
+    @Id
+    private final UUID propertyId = UUID.randomUUID();
+
+    @ManyToOne
+    private Building building;
+
+    @NonNull
+    @ManyToMany(mappedBy = "property", cascade = CascadeType.ALL)
+    private List<Image> images;
+
+}
