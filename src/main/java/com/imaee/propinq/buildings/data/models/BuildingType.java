@@ -1,18 +1,19 @@
-package shared.data.models;
+package com.imaee.propinq.buildings.data.models;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import lombok.*;
 
-@Entity(name="images")
+import java.util.UUID;
+
+@Entity(name="building_types")
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
 @Data
-public class Image {
-
+public class BuildingType {
     @Id
-    private String url;
+    private UUID buildingTypeId = UUID.randomUUID();
 
     @NonNull
     private String name;
