@@ -6,7 +6,7 @@ import jakarta.validation.Payload;
 
 import java.lang.annotation.*;
 
-@Constraint(validatedBy = phoneNumberValidator.class)
+@Constraint(validatedBy = PhoneNumberValidator.class)
 @Documented
 @Retention(RetentionPolicy.RUNTIME)
 @Target({ElementType.FIELD})
