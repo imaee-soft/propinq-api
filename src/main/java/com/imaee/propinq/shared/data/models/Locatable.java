@@ -1,4 +1,4 @@
-package shared.data.models;
+package com.imaee.propinq.shared.data.models;
 
 import jakarta.persistence.Column;
 
