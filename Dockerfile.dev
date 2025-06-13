@@ -4,14 +4,12 @@
 # If you need more help, visit the Dockerfile reference guide at
 # https://docs.docker.com/go/dockerfile-reference/
 
-# Want to help us make this template better? Share your feedback here: https://forms.gle/ybq9Krt8jtBL3iCk7
-
 ################################################################################
 
 # Create a stage for resolving and downloading dependencies.
 # Etapa deps: 
-    # Descarga las dependencias del proyecto utilizando Maven.
-    # Aprovecha la caché de Docker para evitar descargas repetidas en futuras construcciones.
+# Descarga las dependencias del proyecto utilizando Maven.
+# Aprovecha la caché de Docker para evitar descargas repetidas en futuras construcciones.
 # Para ejecutar esta etapa:
 # docker build --target deps -t propinq-api-deps .
 FROM eclipse-temurin:21-jdk-jammy as deps
@@ -59,15 +57,19 @@ RUN java -Djarmode=layertools -jar target/app.jar extract --destination target/e
 
 ################################################################################
 
-# If reproducibility is important, consider using a specific digest SHA, like
-# eclipse-temurin@sha256:99cede493dfd88720b610eb8077c8688d3cca50003d76d1d539b0efc8cca72b4.
 # Etapa final:
+# Combina las ventajas del Dockerfile pequeño (live reload y herramientas de desarrollo) con las optimizaciones del grande.
 # Crea una imagen mínima basada en JRE para ejecutar la aplicación.
 # Configura un usuario no privilegiado (appuser) para mayor seguridad.
 # Copia las capas extraídas desde la etapa extract y establece el punto de entrada.
 # Para ejecutar esta etapa:
 # docker build -t propinq-api-final .
 FROM eclipse-temurin:21-jre-jammy AS final
+
+# Add live reload tools and entrypoint script.
+RUN apt-get update || (sleep 5 && apt-get update) && \
+    apt-get install -y inotify-tools && \
+    rm -rf /var/lib/apt/lists/*
 
 # Create a non-privileged user that the app will run under.
 # See https://docs.docker.com/go/dockerfile-user-best-practices/
@@ -82,6 +84,8 @@ RUN adduser \
     appuser
 USER appuser
 
+WORKDIR /app
+
 # Copy the executable from the "package" stage.
 COPY --from=extract build/target/extracted/dependencies/ ./
 COPY --from=extract build/target/extracted/spring-boot-loader/ ./
@@ -90,6 +94,7 @@ COPY --from=extract build/target/extracted/application/ ./
 
 COPY docker-entrypoint.dev.sh /docker-entrypoint.sh
 
+EXPOSE 8080
 EXPOSE 35729
 
 ENTRYPOINT ["/docker-entrypoint.sh"]
