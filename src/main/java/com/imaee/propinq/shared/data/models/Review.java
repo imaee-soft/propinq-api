@@ -1,4 +1,4 @@
-package com.imaee.propinq.buildings.data.models;
+package com.imaee.propinq.shared.data.models;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
