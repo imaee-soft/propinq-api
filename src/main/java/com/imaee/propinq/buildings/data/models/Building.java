@@ -2,6 +2,7 @@ package com.imaee.propinq.buildings.data.models;
 
 import com.imaee.propinq.shared.data.models.Image;
 import com.imaee.propinq.properties.data.models.Property;
+import com.imaee.propinq.shared.data.models.Review;
 import jakarta.persistence.*;
 import lombok.*;
 import com.imaee.propinq.shared.data.models.Locatable;
@@ -18,7 +19,7 @@ import java.util.UUID;
 public class Building extends Locatable {
 
     @Id
-    private final UUID buildingId = UUID.randomUUID();
+    private UUID buildingId = UUID.randomUUID();
 
     @NonNull
     private String name;
