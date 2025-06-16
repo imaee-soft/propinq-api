@@ -9,9 +9,7 @@ public record BuildingResponse(
         String description,
         String address,
         List<String> imagesURL,
-        List<UUID> properties,
         UUID userId,
-        UUID buildingTypeId,
-        List<UUID> reviews
+        UUID buildingTypeId
 ) {
 }
