@@ -17,10 +17,8 @@ public class BuildingMapper {
 
     public static BuildingResponse toBuildingResponse(Building building) {
         List<String> imagesURLS = getImagesURLs(building);
-        List<UUID> properties = getProperties(building);
         UUID userId = building.getUser().getUserId();
         UUID buildingTypeId = building.getBuildingType().getBuildingTypeId();
-        List<UUID> reviews = getReviews(building);
         return new BuildingResponse(
                 building.getBuildingId(),
                 building.getName(),
@@ -34,17 +32,6 @@ public class BuildingMapper {
     private static List<String> getImagesURLs(Building building) {
         return building.getImages().stream()
                 .map(image -> image.getUrl())
-                .toList();
-    }
-    private static List<UUID> getProperties(Building building) {
-        return building.getProperties().stream()
-                .map(property -> property.getPropertyId())
-                .toList();
-
-    }
-    private static List<UUID> getReviews(Building building) {
-        return building.getReviews().stream()
-                .map(Review::getReviewId)
                 .toList();
     }
 
