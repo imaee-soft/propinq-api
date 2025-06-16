@@ -1,6 +1,7 @@
 package com.imaee.propinq.properties.data.models;
 
 import com.imaee.propinq.buildings.data.models.Building;
+import com.imaee.propinq.buildings.data.models.BuildingType;
 import com.imaee.propinq.shared.data.models.Review;
 import jakarta.persistence.*;
 import lombok.*;
@@ -29,8 +30,12 @@ public class Property extends Locatable {
     private Building building;
 
     @NonNull
-    @ManyToMany(mappedBy = "property")
+    @ManyToMany(mappedBy = "properties")
     private List<Image> images;
+
+    @NonNull
+    @ManyToOne
+    private PropertyType propertyType;
 
     @OneToMany(mappedBy = "property", cascade = CascadeType.ALL)
     private List<Review> reviews = Collections.emptyList();
