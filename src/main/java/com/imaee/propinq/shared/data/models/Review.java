@@ -1,5 +1,7 @@
 package com.imaee.propinq.shared.data.models;
 
+import com.imaee.propinq.buildings.data.models.Building;
+import com.imaee.propinq.properties.data.models.Property;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.ManyToOne;
@@ -28,4 +30,9 @@ public class Review {
     @ManyToOne
     private User author;
 
+    @ManyToOne
+    private Building building;
+
+    @ManyToOne
+    private Property property;
 }

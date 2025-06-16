@@ -8,6 +8,7 @@ import com.imaee.propinq.shared.data.models.Image;
 import com.imaee.propinq.shared.data.models.Locatable;
 
 
+import java.util.Collections;
 import java.util.List;
 import java.util.UUID;
 
@@ -28,10 +29,9 @@ public class Property extends Locatable {
     private Building building;
 
     @NonNull
-    @ManyToMany(mappedBy = "property", cascade = CascadeType.ALL)
+    @ManyToMany(mappedBy = "property")
     private List<Image> images;
 
-    @NonNull
     @OneToMany(mappedBy = "property", cascade = CascadeType.ALL)
-    private List<Review> reviews;
+    private List<Review> reviews = Collections.emptyList();
 }
