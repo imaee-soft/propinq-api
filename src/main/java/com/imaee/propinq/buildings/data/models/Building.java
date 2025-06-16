@@ -8,6 +8,7 @@ import lombok.*;
 import com.imaee.propinq.shared.data.models.Locatable;
 import com.imaee.propinq.users.data.models.User;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.UUID;
 
@@ -34,9 +35,8 @@ public class Building extends Locatable {
     @ManyToMany(mappedBy = "building", cascade = CascadeType.ALL)
     private List<Image> images;
 
-    @NonNull
     @OneToMany(mappedBy = "building", cascade = CascadeType.ALL)
-    private List<Property> properties;
+    private List<Property> properties = Collections.emptyList();
 
     @NonNull
     @ManyToOne
@@ -45,8 +45,7 @@ public class Building extends Locatable {
     @ManyToOne
     private BuildingType buildingType;
 
-    @NonNull
     @OneToMany(mappedBy = "building", cascade = CascadeType.ALL)
-    private List<Review> reviews;
+    private List<Review> reviews = Collections.emptyList();
 
 }

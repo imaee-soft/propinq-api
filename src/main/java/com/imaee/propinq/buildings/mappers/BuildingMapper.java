@@ -27,10 +27,8 @@ public class BuildingMapper {
                 building.getDescription(),
                 building.getAddress(),
                 imagesURLS,
-                properties,
                 userId,
-                buildingTypeId,
-                reviews
+                buildingTypeId
         );
     }
     private static List<String> getImagesURLs(Building building) {
