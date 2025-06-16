@@ -10,9 +10,15 @@ spring:
       port: 35729
   jpa:
     show-sql: true
+    hibernate:
+        ddl-auto: create
+    defer-datasource-initialization: true
     properties:
       hibernate:
         format_sql: true
+  sql:
+    init:
+      mode: always
 
 logging:
   level:
