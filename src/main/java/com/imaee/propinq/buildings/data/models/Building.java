@@ -42,6 +42,7 @@ public class Building extends Locatable {
     @ManyToOne
     private User user;
 
+    @NonNull
     @ManyToOne
     private BuildingType buildingType;
 
