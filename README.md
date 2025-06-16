@@ -22,7 +22,9 @@ Recuerda que si ejecutas el proyecto directamente con Maven debes tener previame
 
 #### Ejecución con Docker
 
-1. Ejecuta el proyecto desde docker-compose: `docker-compose -f docker-compose.dev.yaml up --build`
+1. Ejecuta el proyecto desde docker-compose:
+   2. Si posees la versión 1.x.x de docker-compose :`docker-compose -f docker-compose.dev.yaml up --build`
+   3. Si posees la versión 2.x.x de docker-compose :`docker compose -f docker-compose.dev.yaml up --build`
 
 El script docker-compose automáticamente levanta las imágenes de MySQL y MongoDB y permite ejecutar la aplicación sin inconvenientes. En el entorno de desarrollo, además, permite cargar automáticamente el proyecto cuando se realice algún cambio utilizando Spring DevTools.
 
