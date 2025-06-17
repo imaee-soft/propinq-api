@@ -64,27 +64,20 @@ RUN java -Djarmode=layertools -jar target/app.jar extract --destination target/e
 # Copia las capas extraídas desde la etapa extract y establece el punto de entrada.
 # Para ejecutar esta etapa:
 # docker build -t propinq-api-final .
-FROM eclipse-temurin:21-jre-jammy AS final
+FROM eclipse-temurin:21-jdk-jammy AS final
 
 # Add live reload tools and entrypoint script.
-RUN apt-get update || (sleep 5 && apt-get update) && \
+RUN apt-get update && apt-get install -y bash && \
     apt-get install -y inotify-tools && \
     rm -rf /var/lib/apt/lists/*
 
 # Create a non-privileged user that the app will run under.
 # See https://docs.docker.com/go/dockerfile-user-best-practices/
 ARG UID=10001
-RUN adduser \
-    --disabled-password \
-    --gecos "" \
-    --home "/nonexistent" \
-    --shell "/sbin/nologin" \
-    --no-create-home \
-    --uid "${UID}" \
-    appuser
+RUN useradd -ms /bin/bash -u "${UID}" appuser
 USER appuser
-
 WORKDIR /app
+ENV HOME=/home/appuser
 
 # Copy the executable from the "package" stage.
 COPY --from=extract build/target/extracted/dependencies/ ./
@@ -92,7 +85,10 @@ COPY --from=extract build/target/extracted/spring-boot-loader/ ./
 COPY --from=extract build/target/extracted/snapshot-dependencies/ ./
 COPY --from=extract build/target/extracted/application/ ./
 
-COPY docker-entrypoint.dev.sh /docker-entrypoint.sh
+# Copy maven dependencies to execute maven in entrypoint.
+COPY --chmod=0755 mvnw ./mvnw
+COPY .mvn/ .mvn/
+COPY --chmod=0755 docker-entrypoint.dev.sh /docker-entrypoint.sh
 
 EXPOSE 8080
 EXPOSE 35729
