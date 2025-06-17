@@ -1,5 +1,6 @@
 package com.imaee.propinq.users.data.models;
 
+import com.imaee.propinq.users.data.pipes.PhoneNumberConverter;
 import jakarta.persistence.*;
 import lombok.*;
 import com.imaee.propinq.users.data.enums.Role;
@@ -33,7 +34,7 @@ public class User {
     private String email;
 
     @NonNull
-    //@Convert(converter = PhoneNumberConverter.class)
+    @Convert(converter = PhoneNumberConverter.class)
     private String phoneNumber;
 
     @Enumerated(EnumType.STRING)
