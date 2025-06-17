@@ -7,9 +7,10 @@ import lombok.*;
 import com.imaee.propinq.users.data.enums.Role;
 
 
+import java.util.List;
 import java.util.UUID;
 
-@Entity(name="users")
+@Entity(name = "users")
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
@@ -35,11 +36,11 @@ public class User extends Locatable {
     private String email;
 
     @NonNull
-    @Convert(converter = PhoneNumberConverter.class)
-    private String phoneNumber;
+    private String address;
 
     @NonNull
-    private String address;
+    @Convert(converter = PhoneNumberConverter.class)
+    private String phoneNumber;
 
     private String cuit;
 
@@ -47,8 +48,10 @@ public class User extends Locatable {
     @Builder.Default
     private Role role = Role.TENANT;
 
+    @OneToMany(mappedBy = "user", cascade = {CascadeType.ALL})
+    @Builder.Default
+    private List<Token> tokens;
 
-
-
+    private boolean activated = false;
 
 }
