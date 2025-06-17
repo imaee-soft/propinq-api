@@ -1,10 +1,7 @@
 package com.imaee.propinq.neighborhood.data.models;
 
 import com.imaee.propinq.shared.data.models.Locatable;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import lombok.*;
 
 import java.util.UUID;
@@ -21,6 +18,7 @@ public class Locality extends Locatable {
     private UUID id;
 
     @NonNull
+    @Column(unique = true)
     private String name;
 
 }

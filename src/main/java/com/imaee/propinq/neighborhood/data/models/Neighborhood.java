@@ -18,6 +18,7 @@ public class Neighborhood extends Locatable {
     private UUID id;
 
     @NonNull
+    @Column(unique = true)
     private String name;
 
     @NonNull
