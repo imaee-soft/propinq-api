@@ -1,5 +1,6 @@
 package com.imaee.propinq.users.data.models;
 
+import com.imaee.propinq.shared.data.models.Locatable;
 import com.imaee.propinq.users.data.pipes.PhoneNumberConverter;
 import jakarta.persistence.*;
 import lombok.*;
@@ -13,7 +14,7 @@ import java.util.UUID;
 @AllArgsConstructor
 @Builder
 @Data
-public class User {
+public class User extends Locatable {
 
     @Id
     private final UUID userId = UUID.randomUUID();
@@ -36,6 +37,11 @@ public class User {
     @NonNull
     @Convert(converter = PhoneNumberConverter.class)
     private String phoneNumber;
+
+    @NonNull
+    private String address;
+
+    private String cuit;
 
     @Enumerated(EnumType.STRING)
     @Builder.Default
