@@ -5,12 +5,14 @@ import com.imaee.propinq.buildings.data.models.Building;
 import com.imaee.propinq.buildings.data.repositories.IBuildingRepository;
 import com.imaee.propinq.buildings.mappers.BuildingMapper;
 import com.imaee.propinq.buildings.services.interfaces.IBuildingService;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
+@Service
 public class BuildingService implements IBuildingService {
     private final IBuildingRepository buildingRepository;
 
