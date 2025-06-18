@@ -6,6 +6,7 @@ import com.imaee.propinq.users.data.models.Token;
 import com.imaee.propinq.users.data.models.User;
 import com.imaee.propinq.users.services.interfaces.ITokenService;
 import com.imaee.propinq.users.services.interfaces.IUserService;
+import com.imaee.propinq.users.utils.EmailBuilder;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.server.ResponseStatusException;
 
@@ -16,10 +17,12 @@ public class UserService implements IUserService {
 
     private final IUserRepository userRepository;
     private final ITokenService tokenService;
+    private final EmailBuilder emailBuilder;
 
-    public UserService(IUserRepository userRepository, ITokenService tokenService) {
+    public UserService(IUserRepository userRepository, ITokenService tokenService, EmailBuilder emailBuilder) {
         this.userRepository = userRepository;
         this.tokenService = tokenService;
+        this.emailBuilder = emailBuilder;
     }
 
     @Override
@@ -27,7 +30,14 @@ public class UserService implements IUserService {
         throwExceptionIfTokenIsExpired(activationTokenId);
 
         User user = findUserToActivateOrThrowException(activationTokenId);
+        user.setActivated(true);
+        userRepository.save(user);
 
+        sendWelcomeEmail(user);
+
+    }
+    private void sendWelcomeEmail(User user){
+        String emailBody = emailBuilder.buildWelcomeEmail(user)
     }
 
     private void throwExceptionIfTokenIsExpired(UUID tokenId) {
@@ -44,9 +54,16 @@ public class UserService implements IUserService {
     private Token findActivationTokenByIdOrThrowException(UUID tokenId) {
         return tokenService.findTokenByIdOrThrowException(tokenId);
     }
-    private User findUserToActivateOrThrowException(UUID activationTokenId) {
-        User user = tokenService.findUserByTokenId();
+
+    private User findUserToActivateOrThrowException(UUID tokenId) {
+        User user = tokenService.findUserByTokenId(tokenId);
         ifUserIsActivatedThrowException(user);
-        return User;
+        return user;
+    }
+
+    private void ifUserIsActivatedThrowException(User user) {
+        if(user.isActivated()){
+            throw new IllegalArgumentException("User is already activated.");
+        }
     }
 }
