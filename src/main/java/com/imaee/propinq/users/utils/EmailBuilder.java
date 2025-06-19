@@ -6,7 +6,7 @@ import com.imaee.propinq.users.data.models.User;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
-Component
+@Component
 public class EmailBuilder {
 
     @Value("${frontend.url}")

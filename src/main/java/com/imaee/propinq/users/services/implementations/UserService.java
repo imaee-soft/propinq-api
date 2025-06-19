@@ -1,28 +1,57 @@
 package com.imaee.propinq.users.services.implementations;
 
 import com.imaee.propinq.shared.data.repositories.IUserRepository;
-import com.imaee.propinq.users.controllers.requests.ActivateUserRequest;
+import com.imaee.propinq.users.controllers.requests.SignUpRequest;
 import com.imaee.propinq.users.data.models.Token;
 import com.imaee.propinq.users.data.models.User;
+import com.imaee.propinq.users.mappers.UserMapper;
 import com.imaee.propinq.users.services.interfaces.ITokenService;
 import com.imaee.propinq.users.services.interfaces.IUserService;
 import com.imaee.propinq.users.utils.EmailBuilder;
 import org.springframework.http.HttpStatus;
+import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
-
+import org.springframework.security.crypto.password.PasswordEncoder;
 import java.time.LocalDateTime;
 import java.util.UUID;
 
+@Service
 public class UserService implements IUserService {
 
     private final IUserRepository userRepository;
     private final ITokenService tokenService;
     private final EmailBuilder emailBuilder;
+    private final PasswordEncoder passwordEncoder;
+    private final UserMapper userMapper;
 
-    public UserService(IUserRepository userRepository, ITokenService tokenService, EmailBuilder emailBuilder) {
+    public UserService(IUserRepository userRepository, ITokenService tokenService, EmailBuilder emailBuilder, PasswordEncoder passwordEncoder, UserMapper userMapper) {
         this.userRepository = userRepository;
         this.tokenService = tokenService;
         this.emailBuilder = emailBuilder;
+        this.passwordEncoder = passwordEncoder;
+        this.userMapper = userMapper;
+    }
+
+    @Override
+    public void saveUser(SignUpRequest createUserRequest) {
+        ifEmailAlreadyExistsThrowException(createUserRequest.email());
+        ifUsernameAlreadyExistsThrowException(createUserRequest.username());
+        User newUser = createUser(createUserRequest);
+    }
+    private void ifEmailAlreadyExistsThrowException(String email) {
+        if(userRepository.existsByEmail(email)){
+            throw new IllegalArgumentException( "Email already exists.");
+        }
+    }
+    private void ifUsernameAlreadyExistsThrowException(String username) {
+        if(userRepository.existsByUsername(username)){
+            throw new IllegalArgumentException("Username already exists.");
+        }
+    }
+    private User createUser(SignUpRequest createUserRequest) {
+        User user = userMapper.toUser(createUserRequest);
+        String passwordEncoded = passwordEncoder.encode(createUserRequest.password());
+        return user;
     }
 
     @Override
@@ -37,7 +66,7 @@ public class UserService implements IUserService {
 
     }
     private void sendWelcomeEmail(User user){
-        String emailBody = emailBuilder.buildWelcomeEmail(user)
+        String emailBody = emailBuilder.buildWelcomeEmail(user);
     }
 
     private void throwExceptionIfTokenIsExpired(UUID tokenId) {

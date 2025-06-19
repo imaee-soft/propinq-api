@@ -5,10 +5,12 @@ import com.imaee.propinq.users.data.models.User;
 import com.imaee.propinq.users.data.repositories.ITokenRepository;
 import com.imaee.propinq.users.services.interfaces.ITokenService;
 import org.springframework.http.HttpStatus;
+import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.util.UUID;
 
+@Service
 public class TokenService implements ITokenService {
 
     private final ITokenRepository tokenRepository;
@@ -17,7 +19,7 @@ public class TokenService implements ITokenService {
     }
 
     @Override
-    public User findUSerByTokenId(UUID tokenId) {
+    public User findUserByTokenId(UUID tokenId) {
         return findTokenByIdOrThrowException(tokenId).getUser();
     }
 

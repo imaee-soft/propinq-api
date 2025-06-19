@@ -14,7 +14,7 @@ import java.util.stream.Collectors;
 public class BuildingService implements IBuildingService {
     private final IBuildingRepository buildingRepository;
 
-    public BuildingService(BuildingMapper buildingMapper, IBuildingRepository buildingRepository) {
+    public BuildingService( IBuildingRepository buildingRepository) {
         this.buildingRepository = buildingRepository;
     }
 

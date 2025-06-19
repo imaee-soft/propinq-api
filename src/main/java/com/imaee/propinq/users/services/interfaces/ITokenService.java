@@ -9,6 +9,5 @@ public interface ITokenService {
 
     Token findTokenByIdOrThrowException(UUID tokenId);
 
-
     User findUserByTokenId(UUID tokenId);
 }
