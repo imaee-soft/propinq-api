@@ -7,6 +7,7 @@ import lombok.*;
 import com.imaee.propinq.users.data.enums.Role;
 
 
+import java.util.Collections;
 import java.util.List;
 import java.util.UUID;
 
@@ -50,7 +51,7 @@ public class User extends Locatable {
 
     @OneToMany(mappedBy = "user", cascade = {CascadeType.ALL})
     @Builder.Default
-    private List<Token> tokens;
+    private List<Token> tokens = Collections.emptyList();
 
     private boolean activated = false;
 
