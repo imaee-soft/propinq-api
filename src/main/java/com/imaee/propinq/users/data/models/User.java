@@ -55,4 +55,6 @@ public class User extends Locatable {
 
     private boolean activated = false;
 
+    private boolean deleted = false;
+
 }

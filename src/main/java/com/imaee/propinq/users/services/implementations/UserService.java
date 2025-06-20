@@ -1,9 +1,9 @@
 package com.imaee.propinq.users.services.implementations;
 
-import com.imaee.propinq.shared.data.repositories.IUserRepository;
 import com.imaee.propinq.users.controllers.requests.SignUpRequest;
 import com.imaee.propinq.users.data.models.Token;
 import com.imaee.propinq.users.data.models.User;
+import com.imaee.propinq.users.data.repositories.IUserRepository;
 import com.imaee.propinq.users.mappers.UserMapper;
 import com.imaee.propinq.users.services.interfaces.IEmailService;
 import com.imaee.propinq.users.services.interfaces.ITokenService;
@@ -114,4 +114,19 @@ public class UserService implements IUserService {
             throw new IllegalArgumentException("User is already activated.");
         }
     }
+
+    @Override
+    public void sendEmailToRecoverPassword(String email){
+        User user = findUserByEmailOrThrowException(email);
+        Token recoverPasswordToken = tokenService.saveToken(user);
+        String emailContent = emailBuilder.buildRecoverPasswordEmail(user.getUsername(), recoverPasswordToken.getTokenId());
+
+        emailService.sendEmail(email, "Recover Password", emailContent);
+    }
+
+    private User findUserByEmailOrThrowException(String email) {
+        return userRepository.findByEmailAndDeletedIsFalse(email)
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.BAD_REQUEST, "User with email " + email +" does not exists."));
+    }
+
 }

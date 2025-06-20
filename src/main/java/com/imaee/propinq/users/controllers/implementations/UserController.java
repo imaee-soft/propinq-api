@@ -26,7 +26,7 @@ public class UserController implements IUserController {
 
     @Override
     public void sendEmailToRecoverPassword(SendEmailRequest sendEmailRequest) {
-        // Implementación no funcional
+        userService.sendEmailToRecoverPassword(sendEmailRequest.email());
     }
 
     @Override
