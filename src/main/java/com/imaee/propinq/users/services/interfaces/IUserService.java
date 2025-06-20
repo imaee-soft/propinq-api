@@ -15,4 +15,6 @@ public interface IUserService {
     void sendEmailToRecoverPassword(String email);
 
     void recoverPassword(RecoverPasswordRequest recoverPasswordRequest);
+
+    void resendActivationEmail(SendEmailRequest sendEmailRequest);
 }

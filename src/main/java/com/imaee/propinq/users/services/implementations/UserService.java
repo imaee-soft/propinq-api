@@ -1,6 +1,7 @@
 package com.imaee.propinq.users.services.implementations;
 
 import com.imaee.propinq.users.controllers.requests.RecoverPasswordRequest;
+import com.imaee.propinq.users.controllers.requests.SendEmailRequest;
 import com.imaee.propinq.users.controllers.requests.SignUpRequest;
 import com.imaee.propinq.users.data.models.Token;
 import com.imaee.propinq.users.data.models.User;
@@ -144,5 +145,18 @@ public class UserService implements IUserService {
         if(!password.equals(confirmPassword)) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Passwords do not match.");
         }
+    }
+
+    @Override
+    public void resendActivationEmail(SendEmailRequest sendEmailRequest) {
+        User user = findUserByEmailOrThrowException(sendEmailRequest.email());
+        ifUserIsActivatedThrowException(user);
+        Token token = tokenService.findActiveTokenByUser(user);
+        sendNewActivationEmail(user,token.getTokenId());
+    }
+
+    private void sendNewActivationEmail(User user, UUID activationTokenId) {
+        String emailBody = emailBuilder.buildActivationEmailBody(user, activationTokenId);
+        emailService.sendEmail(user.getEmail(), "New Activation Token", emailBody);
     }
 }

@@ -12,4 +12,6 @@ public interface ITokenService {
     User findUserByTokenId(UUID tokenId);
 
     Token saveToken(User user);
+
+    Token findActiveTokenByUser(User user);
 }

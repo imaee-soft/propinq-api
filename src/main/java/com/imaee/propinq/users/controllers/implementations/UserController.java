@@ -36,7 +36,7 @@ public class UserController implements IUserController {
 
     @Override
     public void resendActivationEmail(SendEmailRequest sendEmailRequest) {
-        // Implementación no funcional
+        userService.resendActivationEmail(sendEmailRequest);
     }
 
     @Override
