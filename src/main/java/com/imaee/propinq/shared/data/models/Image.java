@@ -5,7 +5,6 @@ import com.imaee.propinq.properties.data.models.Property;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.ManyToMany;
-import jakarta.persistence.ManyToOne;
 import lombok.*;
 
 import java.util.List;
