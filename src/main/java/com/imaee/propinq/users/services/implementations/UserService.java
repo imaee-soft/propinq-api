@@ -49,7 +49,7 @@ public class UserService implements IUserService {
 
     private void ifEmailAlreadyExistsThrowException(String email) {
         if(userRepository.existsByEmail(email)){
-            throw new IllegalArgumentException( "Email already exists.");
+            throw new IllegalArgumentException("Email already exists.");
         }
     }
 
