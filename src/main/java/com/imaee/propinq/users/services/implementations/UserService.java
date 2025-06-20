@@ -1,5 +1,6 @@
 package com.imaee.propinq.users.services.implementations;
 
+import com.imaee.propinq.users.controllers.requests.RecoverPasswordRequest;
 import com.imaee.propinq.users.controllers.requests.SignUpRequest;
 import com.imaee.propinq.users.data.models.Token;
 import com.imaee.propinq.users.data.models.User;
@@ -67,7 +68,7 @@ public class UserService implements IUserService {
         return tokenService.saveToken(user).getTokenId();
     }
 
-    private void sendActivationEmail(User user, UUID activationTokenId){
+    private void sendActivationEmail(User user, UUID activationTokenId) {
         String emailBody = emailBuilder.buildActivationEmailBody(user,activationTokenId);
         emailService.sendEmail(user.getEmail(),"Account Activation", emailBody);
     }
@@ -83,7 +84,7 @@ public class UserService implements IUserService {
         sendWelcomeEmail(user);
 
     }
-    private void sendWelcomeEmail(User user){
+    private void sendWelcomeEmail(User user) {
         String emailBody = emailBuilder.buildWelcomeEmail(user);
         emailService.sendEmail(user.getEmail(), "Welcome to PropInq", emailBody);
     }
@@ -116,7 +117,7 @@ public class UserService implements IUserService {
     }
 
     @Override
-    public void sendEmailToRecoverPassword(String email){
+    public void sendEmailToRecoverPassword(String email) {
         User user = findUserByEmailOrThrowException(email);
         Token recoverPasswordToken = tokenService.saveToken(user);
         String emailContent = emailBuilder.buildRecoverPasswordEmail(user.getUsername(), recoverPasswordToken.getTokenId());
@@ -129,4 +130,19 @@ public class UserService implements IUserService {
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.BAD_REQUEST, "User with email " + email +" does not exists."));
     }
 
+    @Override
+    public void recoverPassword(RecoverPasswordRequest recoverPasswordRequest) {
+        throwExceptionIfPasswordAreNotEquals(recoverPasswordRequest.password(), recoverPasswordRequest.confirmPassword());
+        throwExceptionIfTokenIsExpired(recoverPasswordRequest.recoverPasswordToken());
+        User user = tokenService.findUserByTokenId(recoverPasswordRequest.recoverPasswordToken());
+        user.setPassword(passwordEncoder.encode(recoverPasswordRequest.password()));
+
+        userRepository.save(user);
+    }
+
+    public void throwExceptionIfPasswordAreNotEquals(String password, String confirmPassword) {
+        if(!password.equals(confirmPassword)) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Passwords do not match.");
+        }
+    }
 }
