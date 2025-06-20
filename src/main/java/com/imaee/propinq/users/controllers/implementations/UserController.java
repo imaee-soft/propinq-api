@@ -41,7 +41,7 @@ public class UserController implements IUserController {
 
     @Override
     public void sendNewActivationToken(SendNewActivationTokenRequest sendNewActivationTokenRequest) {
-        // Implementación no funcional
+        userService.sendNewActivationToken(sendNewActivationTokenRequest);
     }
 
 }

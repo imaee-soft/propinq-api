@@ -2,6 +2,7 @@ package com.imaee.propinq.users.services.implementations;
 
 import com.imaee.propinq.users.controllers.requests.RecoverPasswordRequest;
 import com.imaee.propinq.users.controllers.requests.SendEmailRequest;
+import com.imaee.propinq.users.controllers.requests.SendNewActivationTokenRequest;
 import com.imaee.propinq.users.controllers.requests.SignUpRequest;
 import com.imaee.propinq.users.data.models.Token;
 import com.imaee.propinq.users.data.models.User;
@@ -158,5 +159,19 @@ public class UserService implements IUserService {
     private void sendNewActivationEmail(User user, UUID activationTokenId) {
         String emailBody = emailBuilder.buildActivationEmailBody(user, activationTokenId);
         emailService.sendEmail(user.getEmail(), "New Activation Token", emailBody);
+    }
+
+    @Override
+    public void sendNewActivationToken(SendNewActivationTokenRequest sendNewActivationTokenRequest) {
+        throwExceptionIfTokenIsNotExpired(sendNewActivationTokenRequest.activationToken());
+        User user = tokenService.findUserByTokenId(sendNewActivationTokenRequest.activationToken());
+        Token token = tokenService.saveToken(user);
+        sendNewActivationEmail(user,token.getTokenId());
+    }
+
+    private void throwExceptionIfTokenIsNotExpired(UUID activationTokenId) {
+        if(!isTokenExpired(activationTokenId)) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "token is not expired yet.");
+        }
     }
 }
