@@ -58,7 +58,7 @@ public class PropertyTypeService implements IPropertyTypeService {
         if (propertyTypeOptional.isPresent()) {
             if (propertyTypeOptional.get().isState() == PropertyType.REMOVED) {
                 {
-                    throw new IllegalArgumentException("NO SE PUDO ACTUALIZAR, EL TIPO DE VIVIENDA ESTÁ ELIMINADO");
+                    throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "NO SE PUDO ACTUALIZAR, EL TIPO DE VIVIENDA ESTÁ ELIMINADO");
                 }
             }
             PropertyType propertyType = propertyTypeOptional.get();
@@ -66,14 +66,14 @@ public class PropertyTypeService implements IPropertyTypeService {
             propertyType.setDescription(model.getDescription());
             return PropertyTypeMapper.toPropertyTypeResponse(propertyTypeRepository.save(propertyType));
         }
-        throw new IllegalArgumentException("NO SE PUDO ACTUALIZAR, NO EXISTE EL TIPO DE VIVIENDA CON ID: " + id);
+        throw new ResponseStatusException(HttpStatus.BAD_REQUEST, MSG_NOT_EXISTS);
     }
 
     @Override
     public ResponseEntity<Void> deletePropertyType(UUID id) {
         PropertyType model = propertyTypeRepository.findById(id).orElse(null);
         if (model == null || model.isState() == PropertyType.REMOVED) {
-            throw new IllegalArgumentException("NO SE PUDO ELIMINAR, EL TIPO DE VIVIENDA YA ESTÁ ELIMINADO");
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "NO SE PUDO ELIMINAR, EL TIPO DE VIVIENDA YA ESTÁ ELIMINADO");
         }
 
         model.setState(PropertyType.REMOVED);
@@ -85,7 +85,7 @@ public class PropertyTypeService implements IPropertyTypeService {
     public ResponseEntity<Void> recoverPropertyType(UUID id) {
         PropertyType model = propertyTypeRepository.findById(id).orElse(null);
         if (model == null || model.isState() == PropertyType.ACTIVE) {
-            throw new IllegalArgumentException("NO SE PUDO RECUPERAR, EL TIPO DE VIVIENDA YA ESTÁ ACTIVO");
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "NO SE PUDO RECUPERAR, EL TIPO DE VIVIENDA YA ESTÁ ACTIVO");
         }
         model.setState(PropertyType.ACTIVE);
         propertyTypeRepository.save(model);
