@@ -31,7 +31,7 @@ public class UserController implements IUserController {
 
     @Override
     public void recoverPassword(RecoverPasswordRequest recoverPasswordRequest) {
-        // Implementación no funcional
+        userService.recoverPassword(recoverPasswordRequest);
     }
 
     @Override
