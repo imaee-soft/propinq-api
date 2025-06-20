@@ -75,6 +75,7 @@ RUN apt-get update && apt-get install -y bash && \
 # See https://docs.docker.com/go/dockerfile-user-best-practices/
 ARG UID=10001
 RUN useradd -ms /bin/bash -u "${UID}" appuser
+COPY --chmod=0755 /docker-entrypoint.dev.sh /docker-entrypoint.sh
 USER appuser
 WORKDIR /app
 ENV HOME=/home/appuser
@@ -88,7 +89,6 @@ COPY --from=extract build/target/extracted/application/ ./
 # Copy maven dependencies to execute maven in entrypoint.
 COPY --chmod=0755 mvnw ./mvnw
 COPY .mvn/ .mvn/
-COPY --chmod=0755 docker-entrypoint.dev.sh /docker-entrypoint.sh
 
 EXPOSE 8080
 EXPOSE 35729
