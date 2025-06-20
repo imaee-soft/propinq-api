@@ -10,6 +10,7 @@ public class AuthController implements IAuthController {
     private final IAuthService authService;
 
     public AuthController(IAuthService authService) {
+
         this.authService = authService;
     }
 
