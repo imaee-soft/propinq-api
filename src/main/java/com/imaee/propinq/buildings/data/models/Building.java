@@ -12,11 +12,12 @@ import java.util.Collections;
 import java.util.List;
 import java.util.UUID;
 
+@EqualsAndHashCode(callSuper = true)
 @Entity(name = "buildings")
+@Data
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-@Data
 public class Building extends Locatable {
 
     @Id
