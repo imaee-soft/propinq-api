@@ -37,4 +37,9 @@ public class TokenService implements ITokenService {
         return tokenRepository.save(token);
     }
 
+    @Override
+    public Token findActiveTokenByUser(User user) {
+        return tokenRepository.findActiveTokenByUser(user)
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.BAD_REQUEST, "User activation token has expired."));
+    }
 }
