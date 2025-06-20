@@ -29,5 +29,12 @@ public class TokenService implements ITokenService {
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.BAD_REQUEST, "Token with UUID " + tokenId + " does not exist."));
     }
 
+    @Override
+    public Token saveToken(User user) {
+        Token token = Token.builder()
+                .user(user)
+                .build();
+        return tokenRepository.save(token);
+    }
 
 }

@@ -10,4 +10,6 @@ public interface ITokenService {
     Token findTokenByIdOrThrowException(UUID tokenId);
 
     User findUserByTokenId(UUID tokenId);
+
+    Token saveToken(User user);
 }

@@ -5,6 +5,7 @@ import com.imaee.propinq.users.controllers.requests.SignUpRequest;
 import com.imaee.propinq.users.data.models.Token;
 import com.imaee.propinq.users.data.models.User;
 import com.imaee.propinq.users.mappers.UserMapper;
+import com.imaee.propinq.users.services.interfaces.IEmailService;
 import com.imaee.propinq.users.services.interfaces.ITokenService;
 import com.imaee.propinq.users.services.interfaces.IUserService;
 import com.imaee.propinq.users.utils.EmailBuilder;
@@ -22,14 +23,15 @@ public class UserService implements IUserService {
     private final ITokenService tokenService;
     private final EmailBuilder emailBuilder;
     private final PasswordEncoder passwordEncoder;
-    private final UserMapper userMapper;
+    private final IEmailService emailService;
 
-    public UserService(IUserRepository userRepository, ITokenService tokenService, EmailBuilder emailBuilder, PasswordEncoder passwordEncoder, UserMapper userMapper) {
+    public UserService(IUserRepository userRepository, ITokenService tokenService, EmailBuilder emailBuilder, PasswordEncoder passwordEncoder, IEmailService emailService) {
         this.userRepository = userRepository;
         this.tokenService = tokenService;
         this.emailBuilder = emailBuilder;
         this.passwordEncoder = passwordEncoder;
-        this.userMapper = userMapper;
+        this.emailService = emailService;
+
     }
 
     @Override
@@ -37,21 +39,37 @@ public class UserService implements IUserService {
         ifEmailAlreadyExistsThrowException(createUserRequest.email());
         ifUsernameAlreadyExistsThrowException(createUserRequest.username());
         User newUser = createUser(createUserRequest);
+        userRepository.save(newUser);
+        UUID activationTokenId = generateActivationToken(newUser);
+        sendActivationEmail(newUser, activationTokenId);
     }
+
     private void ifEmailAlreadyExistsThrowException(String email) {
         if(userRepository.existsByEmail(email)){
             throw new IllegalArgumentException( "Email already exists.");
         }
     }
+
     private void ifUsernameAlreadyExistsThrowException(String username) {
         if(userRepository.existsByUsername(username)){
             throw new IllegalArgumentException("Username already exists.");
         }
     }
+
     private User createUser(SignUpRequest createUserRequest) {
-        User user = userMapper.toUser(createUserRequest);
+        User user = UserMapper.toUser(createUserRequest);
         String passwordEncoded = passwordEncoder.encode(createUserRequest.password());
+        user.setPassword(passwordEncoded);
         return user;
+    }
+
+    private UUID generateActivationToken(User user) {
+        return tokenService.saveToken(user).getTokenId();
+    }
+
+    private void sendActivationEmail(User user, UUID activationTokenId){
+        String emailBody = emailBuilder.buildActivationEmailBody(user,activationTokenId);
+        emailService.sendEmail(user.getEmail(),"Account Activation", emailBody);
     }
 
     @Override
@@ -67,6 +85,7 @@ public class UserService implements IUserService {
     }
     private void sendWelcomeEmail(User user){
         String emailBody = emailBuilder.buildWelcomeEmail(user);
+        emailService.sendEmail(user.getEmail(), "Welcome to PropInq", emailBody);
     }
 
     private void throwExceptionIfTokenIsExpired(UUID tokenId) {
