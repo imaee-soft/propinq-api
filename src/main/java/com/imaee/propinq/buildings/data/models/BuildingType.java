@@ -23,4 +23,6 @@ public class BuildingType {
     @OneToMany
     private List<Building> buildings;
 
+    private Boolean deleted = false;
+
 }
