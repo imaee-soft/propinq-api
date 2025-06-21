@@ -1,13 +1,96 @@
-FROM maven:3.9.8-eclipse-temurin-21
+# syntax=docker/dockerfile:1
+
+# Comments are provided throughout this file to help you get started.
+# If you need more help, visit the Dockerfile reference guide at
+# https://docs.docker.com/go/dockerfile-reference/
+
+################################################################################
+
+# Create a stage for resolving and downloading dependencies.
+# Etapa deps: 
+# Descarga las dependencias del proyecto utilizando Maven.
+# Aprovecha la caché de Docker para evitar descargas repetidas en futuras construcciones.
+# Para ejecutar esta etapa:
+# docker build --target deps -t propinq-api-deps .
+FROM eclipse-temurin:21-jdk-jammy as deps
+
+WORKDIR /build
+
+# Copy the mvnw wrapper with executable permissions.
+COPY --chmod=0755 mvnw mvnw
+COPY .mvn/ .mvn/
+
+# Download dependencies as a separate step to take advantage of Docker's caching.
+# Leverage a cache mount to /root/.m2 so that subsequent builds don't have to
+# re-download packages.
+RUN --mount=type=bind,source=pom.xml,target=pom.xml \
+    --mount=type=cache,target=/root/.m2 ./mvnw dependency:go-offline -DskipTests
+
+################################################################################
+
+# Etapa package:
+# Compila el código fuente y genera un archivo JAR empaquetado (uber jar) con todas las dependencias necesarias.
+# Para ejecutar esta etapa:
+# docker build --target package -t propinq-api-package .
+FROM deps as package
+
+WORKDIR /build
+
+COPY ./src src/
+RUN --mount=type=bind,source=pom.xml,target=pom.xml \
+    --mount=type=cache,target=/root/.m2 \
+    ./mvnw package -DskipTests && \
+    mv target/$(./mvnw help:evaluate -Dexpression=project.artifactId -q -DforceStdout)-$(./mvnw help:evaluate -Dexpression=project.version -q -DforceStdout).jar target/app.jar
+
+################################################################################
+
+# Etapa extract:
+# Utiliza herramientas de Spring Boot para dividir el JAR empaquetado en capas (dependencias, loader, etc.).
+# Esto optimiza la imagen para producción al permitir que Docker reutilice capas.
+# Para ejecutar esta etapa:
+# docker build --target extract -t propinq-api-extract .
+FROM package as extract
+
+WORKDIR /build
+
+RUN java -Djarmode=layertools -jar target/app.jar extract --destination target/extracted
+
+################################################################################
+
+# Etapa final:
+# Combina las ventajas del Dockerfile pequeño (live reload y herramientas de desarrollo) con las optimizaciones del grande.
+# Crea una imagen mínima basada en JRE para ejecutar la aplicación.
+# Configura un usuario no privilegiado (appuser) para mayor seguridad.
+# Copia las capas extraídas desde la etapa extract y establece el punto de entrada.
+# Para ejecutar esta etapa:
+# docker build -t propinq-api-final .
+FROM eclipse-temurin:21-jdk-jammy AS final
+
+# Add live reload tools and entrypoint script.
+RUN apt-get update && apt-get install -y bash && \
+    apt-get install -y inotify-tools && \
+    rm -rf /var/lib/apt/lists/*
+
+# Create a non-privileged user that the app will run under.
+# See https://docs.docker.com/go/dockerfile-user-best-practices/
+ARG UID=10001
+RUN useradd -ms /bin/bash -u "${UID}" appuser
+COPY --chmod=0755 /docker-entrypoint.dev.sh /docker-entrypoint.sh
+USER appuser
 WORKDIR /app
-COPY pom.xml .
-RUN mvn dependency:go-offline
-COPY src ./src
+ENV HOME=/home/appuser
+
+# Copy the executable from the "package" stage.
+COPY --from=extract build/target/extracted/dependencies/ ./
+COPY --from=extract build/target/extracted/spring-boot-loader/ ./
+COPY --from=extract build/target/extracted/snapshot-dependencies/ ./
+COPY --from=extract build/target/extracted/application/ ./
+
+# Copy maven dependencies to execute maven in entrypoint.
+COPY --chmod=0755 mvnw ./mvnw
+COPY .mvn/ .mvn/
+
 EXPOSE 8080
+EXPOSE 35729
 
-# Script to detect changes and auto-reload Spring application
-RUN apt-get update && apt-get install -y inotify-tools && rm -rf /var/lib/apt/lists/*
-COPY docker-entrypoint.dev.sh /docker-entrypoint.sh
-RUN chmod +x /docker-entrypoint.sh
-
-CMD ["/docker-entrypoint.sh"]
+ENTRYPOINT ["/docker-entrypoint.sh"]
