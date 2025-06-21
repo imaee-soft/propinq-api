@@ -13,7 +13,7 @@ public interface IAuthController {
 
     @PostMapping("/signup")
     @ResponseStatus(HttpStatus.CREATED)
-        void signUp(@RequestBody @Valid SignUpRequest signUpRequest);
+    void signUp(@RequestBody @Valid SignUpRequest signUpRequest);
 
 
 }

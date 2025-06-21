@@ -17,18 +17,17 @@ public class PhoneNumberValidator implements
 
     @Override
     public boolean isValid(String phoneNumber, ConstraintValidatorContext constraintValidatorContext) {
-        PhoneNumberUtil phoneUtil = PhoneNumberUtil.getInstance();
 
         if(phoneNumber == null || phoneNumber.trim().isEmpty()) {
             return true;
         }
 
+        PhoneNumberUtil phoneUtil = PhoneNumberUtil.getInstance();
+
         try{
             PhoneNumber arNumberProto = phoneUtil.parse(phoneNumber, isoCode);
             return phoneUtil.isValidNumberForRegion(arNumberProto, isoCode);
-        } catch (NumberParseException e) {
-            return false;
-        }
+        } catch (NumberParseException e) { return false; }
     }
 
 

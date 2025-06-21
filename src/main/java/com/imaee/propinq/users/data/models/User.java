@@ -1,11 +1,14 @@
 package com.imaee.propinq.users.data.models;
 
-import com.imaee.propinq.shared.data.models.Locatable;
 import com.imaee.propinq.users.data.pipes.PhoneNumberConverter;
-import jakarta.persistence.*;
-import lombok.*;
-import com.imaee.propinq.users.data.enums.Role;
+import jakarta.persistence.Column;
 
+import com.imaee.propinq.users.data.enums.Role;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+import lombok.NonNull;
 
 import java.util.Collections;
 import java.util.List;
@@ -16,12 +19,13 @@ import java.util.UUID;
 @AllArgsConstructor
 @Builder
 @Data
-public class User extends Locatable {
+public class User {
 
     @Id
     private final UUID userId = UUID.randomUUID();
 
     @NonNull
+    @Column(unique = true)
     private String username;
 
     @NonNull
@@ -34,6 +38,7 @@ public class User extends Locatable {
     private String lastName;
 
     @NonNull
+    @Column(unique = true)
     private String email;
 
     @NonNull

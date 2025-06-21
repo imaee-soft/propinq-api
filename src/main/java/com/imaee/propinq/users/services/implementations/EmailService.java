@@ -4,17 +4,15 @@ import com.imaee.propinq.exceptions.custom_exceptions.EmailSendingException;
 import com.imaee.propinq.users.services.interfaces.IEmailService;
 import jakarta.mail.MessagingException;
 import jakarta.mail.internet.MimeMessage;
+import lombok.AllArgsConstructor;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
 
 @Service
+@AllArgsConstructor
 public class EmailService implements IEmailService {
     private final JavaMailSender javaMailSender;
-
-    public EmailService(JavaMailSender javaMailSender) {
-        this.javaMailSender = javaMailSender;
-    }
 
     @Override
     public void sendEmail(String to, String subject, String content) {

@@ -12,6 +12,7 @@ import com.imaee.propinq.users.services.interfaces.IEmailService;
 import com.imaee.propinq.users.services.interfaces.ITokenService;
 import com.imaee.propinq.users.services.interfaces.IUserService;
 import com.imaee.propinq.users.utils.EmailBuilder;
+import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
@@ -20,6 +21,7 @@ import java.time.LocalDateTime;
 import java.util.UUID;
 
 @Service
+@AllArgsConstructor
 public class UserService implements IUserService {
 
     private final IUserRepository userRepository;
@@ -27,15 +29,6 @@ public class UserService implements IUserService {
     private final EmailBuilder emailBuilder;
     private final PasswordEncoder passwordEncoder;
     private final IEmailService emailService;
-
-    public UserService(IUserRepository userRepository, ITokenService tokenService, EmailBuilder emailBuilder, PasswordEncoder passwordEncoder, IEmailService emailService) {
-        this.userRepository = userRepository;
-        this.tokenService = tokenService;
-        this.emailBuilder = emailBuilder;
-        this.passwordEncoder = passwordEncoder;
-        this.emailService = emailService;
-
-    }
 
     @Override
     public void saveUser(SignUpRequest createUserRequest) {
@@ -48,15 +41,15 @@ public class UserService implements IUserService {
     }
 
     private void ifEmailAlreadyExistsThrowException(String email) {
-        if(userRepository.existsByEmail(email)){
+        if (userRepository.existsByEmail(email))
             throw new IllegalArgumentException("Email already exists.");
-        }
+
     }
 
     private void ifUsernameAlreadyExistsThrowException(String username) {
-        if(userRepository.existsByUsername(username)){
+        if (userRepository.existsByUsername(username))
             throw new IllegalArgumentException("Username already exists.");
-        }
+
     }
 
     private User createUser(SignUpRequest createUserRequest) {
@@ -92,9 +85,8 @@ public class UserService implements IUserService {
     }
 
     private void throwExceptionIfTokenIsExpired(UUID tokenId) {
-        if(isTokenExpired(tokenId)) {
+        if (isTokenExpired(tokenId))
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST,"Activation token has expired");
-        }
     }
 
     private boolean isTokenExpired(UUID tokenId) {
@@ -113,9 +105,8 @@ public class UserService implements IUserService {
     }
 
     private void ifUserIsActivatedThrowException(User user) {
-        if(user.isActivated()){
+        if (user.isActivated())
             throw new IllegalArgumentException("User is already activated.");
-        }
     }
 
     @Override
@@ -134,7 +125,7 @@ public class UserService implements IUserService {
 
     @Override
     public void recoverPassword(RecoverPasswordRequest recoverPasswordRequest) {
-        throwExceptionIfPasswordAreNotEquals(recoverPasswordRequest.password(), recoverPasswordRequest.confirmPassword());
+        throwExceptionIfPasswordDontMatch(recoverPasswordRequest.password(), recoverPasswordRequest.confirmPassword());
         throwExceptionIfTokenIsExpired(recoverPasswordRequest.recoverPasswordToken());
         User user = tokenService.findUserByTokenId(recoverPasswordRequest.recoverPasswordToken());
         user.setPassword(passwordEncoder.encode(recoverPasswordRequest.password()));
@@ -142,10 +133,9 @@ public class UserService implements IUserService {
         userRepository.save(user);
     }
 
-    public void throwExceptionIfPasswordAreNotEquals(String password, String confirmPassword) {
-        if(!password.equals(confirmPassword)) {
+    public void throwExceptionIfPasswordDontMatch(String password, String confirmPassword) {
+        if (!password.equals(confirmPassword))
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Passwords do not match.");
-        }
     }
 
     @Override
@@ -170,8 +160,7 @@ public class UserService implements IUserService {
     }
 
     private void throwExceptionIfTokenIsNotExpired(UUID activationTokenId) {
-        if(!isTokenExpired(activationTokenId)) {
+        if (!isTokenExpired(activationTokenId))
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "token is not expired yet.");
-        }
     }
 }

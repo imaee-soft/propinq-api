@@ -49,4 +49,6 @@ public class Building extends Locatable {
     @OneToMany(mappedBy = "building", cascade = CascadeType.ALL)
     private List<Review> reviews = Collections.emptyList();
 
+    private Boolean deleted = false;
+
 }

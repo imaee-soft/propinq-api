@@ -4,6 +4,7 @@ import com.imaee.propinq.users.data.models.Token;
 import com.imaee.propinq.users.data.models.User;
 import com.imaee.propinq.users.data.repositories.ITokenRepository;
 import com.imaee.propinq.users.services.interfaces.ITokenService;
+import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
@@ -11,12 +12,10 @@ import org.springframework.web.server.ResponseStatusException;
 import java.util.UUID;
 
 @Service
+@AllArgsConstructor
 public class TokenService implements ITokenService {
 
     private final ITokenRepository tokenRepository;
-    public TokenService(ITokenRepository tokenRepository) {
-        this.tokenRepository = tokenRepository;
-    }
 
     @Override
     public User findUserByTokenId(UUID tokenId) {
@@ -26,7 +25,7 @@ public class TokenService implements ITokenService {
     @Override
     public Token findTokenByIdOrThrowException(UUID tokenId) {
         return tokenRepository.findById(tokenId)
-                .orElseThrow(() -> new ResponseStatusException(HttpStatus.BAD_REQUEST, "Token with UUID " + tokenId + " does not exist."));
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.BAD_REQUEST, "Token does not exist."));
     }
 
     @Override
