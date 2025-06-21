@@ -1,8 +1,7 @@
 services:
-  app:
-    build:
-      context: .
-      dockerfile: Dockerfile.dev
+  api:
+    image: propinq-api:latest
+    container_name: propinq-api
     ports:
       - "8080:8080"
       - "35729:35729"
@@ -23,8 +22,19 @@ services:
     stdin_open: true
     tty: true
 
+  frontend:
+    image: propinq-frontend:latest
+    container_name: propinq-frontend
+    ports:
+      - "4200:4200"
+    networks:
+      - app-network
+
   mysql-db:
     image: mysql:8
+    container_name: mysql-db
+    ports:
+      - "3306:3306"
     environment:
       MYSQL_ROOT_PASSWORD: password
       MYSQL_DATABASE: propinq
