@@ -11,6 +11,9 @@ import org.springframework.web.server.ResponseStatusException;
 
 import java.util.UUID;
 
+import static com.imaee.propinq.users.utils.Constants.EXPIRED_ACTIVATION_TOKEN_MESSAGE;
+import static com.imaee.propinq.users.utils.Constants.NONEXISTING_TOKEN_MESSAGE;
+
 @Service
 @AllArgsConstructor
 public class TokenService implements ITokenService {
@@ -25,7 +28,7 @@ public class TokenService implements ITokenService {
     @Override
     public Token findTokenByIdOrThrowException(UUID tokenId) {
         return tokenRepository.findById(tokenId)
-                .orElseThrow(() -> new ResponseStatusException(HttpStatus.BAD_REQUEST, "Token does not exist."));
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.BAD_REQUEST, NONEXISTING_TOKEN_MESSAGE));
     }
 
     @Override
@@ -39,6 +42,6 @@ public class TokenService implements ITokenService {
     @Override
     public Token findActiveTokenByUser(User user) {
         return tokenRepository.findActiveTokenByUser(user)
-                .orElseThrow(() -> new ResponseStatusException(HttpStatus.BAD_REQUEST, "User activation token has expired."));
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.BAD_REQUEST, EXPIRED_ACTIVATION_TOKEN_MESSAGE));
     }
 }

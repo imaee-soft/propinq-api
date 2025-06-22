@@ -19,6 +19,9 @@ import org.springframework.web.server.ResponseStatusException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import java.time.LocalDateTime;
 import java.util.UUID;
+import
+
+import static com.imaee.propinq.users.utils.Constants.*;
 
 @Service
 @AllArgsConstructor
@@ -42,13 +45,13 @@ public class UserService implements IUserService {
 
     private void ifEmailAlreadyExistsThrowException(String email) {
         if (userRepository.existsByEmail(email))
-            throw new IllegalArgumentException("Email already exists.");
+            throw new IllegalArgumentException(EXISTING_EMAIL_MESSAGE);
 
     }
 
     private void ifUsernameAlreadyExistsThrowException(String username) {
         if (userRepository.existsByUsername(username))
-            throw new IllegalArgumentException("Username already exists.");
+            throw new IllegalArgumentException(EXISTING_USERNAME_MESSAGE);
 
     }
 
@@ -65,7 +68,7 @@ public class UserService implements IUserService {
 
     private void sendActivationEmail(User user, UUID activationTokenId) {
         String emailBody = emailBuilder.buildActivationEmailBody(user,activationTokenId);
-        emailService.sendEmail(user.getEmail(),"Account Activation", emailBody);
+        emailService.sendEmail(user.getEmail(),ACTIVATION_EMAIL_SUBJECT, emailBody);
     }
 
     @Override
@@ -81,12 +84,12 @@ public class UserService implements IUserService {
     }
     private void sendWelcomeEmail(User user) {
         String emailBody = emailBuilder.buildWelcomeEmail(user);
-        emailService.sendEmail(user.getEmail(), "Welcome to PropInq", emailBody);
+        emailService.sendEmail(user.getEmail(), WELCOME_EMAIL_SUBJECT, emailBody);
     }
 
     private void throwExceptionIfTokenIsExpired(UUID tokenId) {
         if (isTokenExpired(tokenId))
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST,"Activation token has expired");
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, EXPIRED_ACTIVATION_TOKEN_MESSAGE);
     }
 
     private boolean isTokenExpired(UUID tokenId) {
@@ -106,7 +109,7 @@ public class UserService implements IUserService {
 
     private void ifUserIsActivatedThrowException(User user) {
         if (user.isActivated())
-            throw new IllegalArgumentException("User is already activated.");
+            throw new IllegalArgumentException(USER_ALREADY_ACTIVATED_MESSAGE);
     }
 
     @Override
@@ -115,12 +118,12 @@ public class UserService implements IUserService {
         Token recoverPasswordToken = tokenService.saveToken(user);
         String emailContent = emailBuilder.buildRecoverPasswordEmail(user.getUsername(), recoverPasswordToken.getTokenId());
 
-        emailService.sendEmail(email, "Recover Password", emailContent);
+        emailService.sendEmail(email, RECOVER_PASSWORD_EMAIL_SUBJECT, emailContent);
     }
 
     private User findUserByEmailOrThrowException(String email) {
         return userRepository.findByEmailAndDeletedIsFalse(email)
-                .orElseThrow(() -> new ResponseStatusException(HttpStatus.BAD_REQUEST, "User with email " + email +" does not exists."));
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.BAD_REQUEST, NONEXISTING_USER_EMAIL_MESSAGE + email));
     }
 
     @Override
@@ -135,7 +138,7 @@ public class UserService implements IUserService {
 
     public void throwExceptionIfPasswordDontMatch(String password, String confirmPassword) {
         if (!password.equals(confirmPassword))
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Passwords do not match.");
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, PASSWORDS_DO_NOT_MATCH_MESSAGE);
     }
 
     @Override
@@ -148,7 +151,7 @@ public class UserService implements IUserService {
 
     private void sendNewActivationEmail(User user, UUID activationTokenId) {
         String emailBody = emailBuilder.buildActivationEmailBody(user, activationTokenId);
-        emailService.sendEmail(user.getEmail(), "New Activation Token", emailBody);
+        emailService.sendEmail(user.getEmail(), NEW_ACTIVATION_TOKEN_EMAIL_SUBJECT, emailBody);
     }
 
     @Override
@@ -161,6 +164,6 @@ public class UserService implements IUserService {
 
     private void throwExceptionIfTokenIsNotExpired(UUID activationTokenId) {
         if (!isTokenExpired(activationTokenId))
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "token is not expired yet.");
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, TOKEN_NOT_EXPIRED_MESSAGE);
     }
 }
