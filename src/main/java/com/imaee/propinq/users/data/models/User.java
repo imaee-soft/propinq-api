@@ -1,7 +1,15 @@
 package com.imaee.propinq.users.data.models;
 
 import com.imaee.propinq.users.data.pipes.PhoneNumberConverter;
+
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
+import jakarta.persistence.Convert;
+import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
+import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
 
 import com.imaee.propinq.users.data.enums.Role;
 import lombok.AllArgsConstructor;
@@ -57,9 +65,9 @@ public class User {
     @OneToMany(mappedBy = "user", cascade = {CascadeType.ALL})
     @Builder.Default
     private List<Token> tokens = Collections.emptyList();
-
+    @Builder.Default
     private boolean activated = false;
-
+    @Builder.Default
     private boolean deleted = false;
 
 }
