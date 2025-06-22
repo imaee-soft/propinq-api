@@ -4,7 +4,6 @@ import com.imaee.propinq.buildings.data.models.Building;
 import com.imaee.propinq.shared.data.models.Review;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
-import jakarta.persistence.ManyToMany;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.CascadeType;
@@ -38,7 +37,7 @@ public class Property extends Locatable {
     private Building building;
 
     @NonNull
-    @ManyToMany(mappedBy = "properties")
+    @OneToMany(mappedBy = "properties")
     private List<Image> images = Collections.emptyList();
 
     @NonNull
