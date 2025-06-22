@@ -11,8 +11,9 @@ import java.util.UUID;
 @Component
 public class EmailBuilder {
 
-    private String frontendURL;
     @Value("${frontend.url}")
+    private String frontendURL;
+
     public String buildActivationEmailBody(User user, UUID activationTokenId) {
         String activationUrl = frontendURL + "/auth/activate?userId="
                 + user.getUserId() + "&activationToken=" + activationTokenId;
