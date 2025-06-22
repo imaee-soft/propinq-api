@@ -8,9 +8,9 @@ import org.springframework.data.jpa.repository.Query;
 import java.util.Optional;
 import java.util.UUID;
 
+import static com.imaee.propinq.users.utils.TokenQueries.ACTIVE_TOKEN_BY_USER_AND_EXPIRATION;
+
 public interface ITokenRepository extends JpaRepository<Token, UUID> {
-    @Query("SELECT t FROM tokens t " +
-            "WHERE t.user = ?1 " +
-            "AND t.tokenExpirationDate > CURRENT_TIMESTAMP ")
+    @Query(ACTIVE_TOKEN_BY_USER_AND_EXPIRATION)
     Optional<Token> findActiveTokenByUser(User user);
 }
