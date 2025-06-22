@@ -1,18 +1,17 @@
 package com.imaee.propinq.shared.data.models;
 
-import jakarta.persistence.Column;
-
 import jakarta.persistence.MappedSuperclass;
-
-
+import lombok.Data;
+import lombok.NonNull;
 
 @MappedSuperclass
+@Data
 public abstract class Locatable {
 
-    @Column(name="latitude")
+    @NonNull
     private Double latitude;
 
-    @Column(name="longitude")
+    @NonNull
     private Double longitude;
 
 }

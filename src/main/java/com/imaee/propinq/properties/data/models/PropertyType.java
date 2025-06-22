@@ -1,11 +1,14 @@
 package com.imaee.propinq.properties.data.models;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
-import jakarta.persistence.OneToMany;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+import lombok.NonNull;
 
-import java.util.List;
 import java.util.UUID;
 
 @Entity(name="property_types")
@@ -18,9 +21,8 @@ public class PropertyType {
     private UUID propertyTypeId = UUID.randomUUID();
 
     @NonNull
+    @Column(unique = true)
     private String name;
 
-    @OneToMany
-    private List<Property> properties;
-
+    private Boolean deleted = false;
 }

@@ -1,10 +1,18 @@
 package com.imaee.propinq.properties.data.models;
 
 import com.imaee.propinq.buildings.data.models.Building;
-import com.imaee.propinq.buildings.data.models.BuildingType;
 import com.imaee.propinq.shared.data.models.Review;
-import jakarta.persistence.*;
-import lombok.*;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
+import jakarta.persistence.ManyToMany;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
+import jakarta.persistence.CascadeType;
+import lombok.NoArgsConstructor;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NonNull;
 import com.imaee.propinq.shared.data.models.Image;
 import com.imaee.propinq.shared.data.models.Locatable;
 
@@ -31,7 +39,7 @@ public class Property extends Locatable {
 
     @NonNull
     @ManyToMany(mappedBy = "properties")
-    private List<Image> images;
+    private List<Image> images = Collections.emptyList();
 
     @NonNull
     @ManyToOne
@@ -39,4 +47,6 @@ public class Property extends Locatable {
 
     @OneToMany(mappedBy = "property", cascade = CascadeType.ALL)
     private List<Review> reviews = Collections.emptyList();
+
+    private Boolean deleted = false;
 }

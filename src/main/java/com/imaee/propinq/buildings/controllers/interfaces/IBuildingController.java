@@ -1,5 +1,6 @@
 package com.imaee.propinq.buildings.controllers.interfaces;
 
+import com.imaee.propinq.buildings.controllers.responses.BuildingDetailsResponse;
 import com.imaee.propinq.buildings.controllers.responses.BuildingResponse;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
@@ -16,5 +17,5 @@ public interface IBuildingController {
 
     @GetMapping("/{buildingId}")
     @ResponseStatus(HttpStatus.OK)
-    BuildingResponse getBuilding(@PathVariable UUID buildingId);
+    BuildingDetailsResponse getBuilding(@PathVariable UUID buildingId);
 }
