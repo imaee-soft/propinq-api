@@ -19,6 +19,7 @@ public class User {
     private final UUID userId = UUID.randomUUID();
 
     @NonNull
+    @Column(unique = true)
     private String username;
 
     @NonNull
@@ -41,8 +42,5 @@ public class User {
     @Builder.Default
     private Role role = Role.TENANT;
 
-
-
-
-
+    private Boolean deleted = false;
 }

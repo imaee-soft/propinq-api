@@ -1,5 +1,6 @@
 package com.imaee.propinq.buildings.services.interfaces;
 
+import com.imaee.propinq.buildings.controllers.responses.BuildingDetailsResponse;
 import com.imaee.propinq.buildings.controllers.responses.BuildingResponse;
 
 import java.util.List;
@@ -9,5 +10,5 @@ public interface IBuildingService {
 
     List<BuildingResponse> getBuildings();
 
-    BuildingResponse getBuilding(UUID buildingId);
+    BuildingDetailsResponse getBuilding(UUID buildingId);
 }

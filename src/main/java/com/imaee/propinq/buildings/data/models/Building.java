@@ -3,11 +3,20 @@ package com.imaee.propinq.buildings.data.models;
 import com.imaee.propinq.shared.data.models.Image;
 import com.imaee.propinq.properties.data.models.Property;
 import com.imaee.propinq.shared.data.models.Review;
-import jakarta.persistence.*;
-import lombok.*;
 import com.imaee.propinq.shared.data.models.Locatable;
 import com.imaee.propinq.users.data.models.User;
-
+import jakarta.persistence.CascadeType;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
+import jakarta.persistence.ManyToMany;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
+import jakarta.persistence.Column;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+import lombok.NonNull;
 import java.util.Collections;
 import java.util.List;
 import java.util.UUID;
@@ -23,6 +32,7 @@ public class Building extends Locatable {
     private UUID buildingId = UUID.randomUUID();
 
     @NonNull
+    @Column(unique = true)
     private String name;
 
     @NonNull
@@ -32,8 +42,8 @@ public class Building extends Locatable {
     private String address;
 
     @NonNull
-    @ManyToMany(mappedBy = "building", cascade = CascadeType.ALL)
-    private List<Image> images;
+    @ManyToMany(mappedBy = "building")
+    private List<Image> images = Collections.emptyList();
 
     @OneToMany(mappedBy = "building", cascade = CascadeType.ALL)
     private List<Property> properties = Collections.emptyList();
@@ -49,4 +59,5 @@ public class Building extends Locatable {
     @OneToMany(mappedBy = "building", cascade = CascadeType.ALL)
     private List<Review> reviews = Collections.emptyList();
 
+    private Boolean deleted = false;
 }

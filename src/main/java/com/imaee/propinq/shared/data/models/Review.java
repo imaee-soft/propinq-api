@@ -1,12 +1,15 @@
 package com.imaee.propinq.shared.data.models;
 
-import com.imaee.propinq.buildings.data.models.Building;
-import com.imaee.propinq.properties.data.models.Property;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.ManyToOne;
-import lombok.*;
 import com.imaee.propinq.users.data.models.User;
+import lombok.NoArgsConstructor;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NonNull;
 
 import java.util.UUID;
 
@@ -30,9 +33,5 @@ public class Review {
     @ManyToOne
     private User author;
 
-    @ManyToOne
-    private Building building;
-
-    @ManyToOne
-    private Property property;
+    private Boolean deleted = false;
 }
