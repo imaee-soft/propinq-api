@@ -8,7 +8,6 @@ import com.imaee.propinq.users.data.models.User;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
-import jakarta.persistence.ManyToMany;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Column;
@@ -42,7 +41,7 @@ public class Building extends Locatable {
     private String address;
 
     @NonNull
-    @ManyToMany(mappedBy = "building")
+    @OneToMany(mappedBy = "building")
     private List<Image> images = Collections.emptyList();
 
     @OneToMany(mappedBy = "building", cascade = CascadeType.ALL)
