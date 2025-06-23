@@ -13,23 +13,26 @@ import java.util.UUID;
 
 @RestController
 public class LocalityController implements ILocalityController {
-
     @Autowired
-    private ILocalityService service;
+    private ILocalityService localityService;
 
     @Override
     public ResponseEntity<Void> createLocality(LocalityRequest localityRequest) {
-        return service.createLocality(localityRequest);
+        return localityService.createLocality(localityRequest);
     }
 
     @Override
     public ResponseEntity<List<LocalityResponse>> getLocalities() {
-        return service.getLocalities();
+        return localityService.getLocalities();
     }
 
     @Override
     public ResponseEntity<LocalityResponse> getLocality(UUID id) {
-        return service.getLocality(id);
+        return localityService.getLocality(id);
     }
 
+    @Override
+    public ResponseEntity<Void> deleteLocality(UUID id) {
+        return localityService.deleteLocality(id);
+    }
 }

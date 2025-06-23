@@ -19,27 +19,25 @@ import java.util.stream.Collectors;
 
 @Service
 public class LocalityService implements ILocalityService {
-
     @Autowired
-    private ILocalityRepository repository;
+    private ILocalityRepository localityRepository;
 
     private final String MSG_ALREADY_EXISTS = "LOCALITY WITH THIS NAME ALREADY EXISTS";
     private final String MSG_NOT_EXISTS = "LOCALITY WITH THIS ID NOT EXISTS";
 
     @Override
     public ResponseEntity<Void> createLocality(LocalityRequest localityRequest) {
-
         Locality newLocality = LocalityMapper.toLocality(
                 localityRequest.name()
         );
 
-        Optional<Locality> existingLocality = repository.findByName(newLocality.getName());
+        Optional<Locality> existingLocality = localityRepository.findByName(newLocality.getName());
 
         if (existingLocality.isPresent()) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, MSG_ALREADY_EXISTS);
         }
 
-        repository.save(newLocality);
+        localityRepository.save(newLocality);
 
         return ResponseEntity.ok().build();
     }
@@ -47,7 +45,7 @@ public class LocalityService implements ILocalityService {
     @Override
     public ResponseEntity<List<LocalityResponse>> getLocalities() {
         return ResponseEntity.ok(
-                repository
+                localityRepository
                         .findAll()
                         .stream()
                         .map(LocalityMapper::toLocalityResponse)
@@ -57,8 +55,7 @@ public class LocalityService implements ILocalityService {
 
     @Override
     public ResponseEntity<LocalityResponse> getLocality(UUID id) {
-
-        Optional<Locality> existingLocality = repository.findById(id);
+        Optional<Locality> existingLocality = localityRepository.findById(id);
 
         if (existingLocality.isEmpty()) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, MSG_NOT_EXISTS);
@@ -67,4 +64,16 @@ public class LocalityService implements ILocalityService {
         return ResponseEntity.ok(LocalityMapper.toLocalityResponse(existingLocality.get()));
     }
 
+    @Override
+    public ResponseEntity<Void> deleteLocality(UUID id) {
+        Optional<Locality> existingLocality = localityRepository.findById(id);
+
+        if (existingLocality.isEmpty()) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, MSG_NOT_EXISTS);
+        }
+
+        localityRepository.deleteById(id);
+
+        return ResponseEntity.ok().build();
+    }
 }
