@@ -37,14 +37,14 @@ public class Property extends Locatable {
     private Building building;
 
     @NonNull
-    @OneToMany(mappedBy = "properties")
+    @OneToMany(cascade = CascadeType.ALL)
     private List<Image> images = Collections.emptyList();
 
     @NonNull
     @ManyToOne
     private PropertyType propertyType;
 
-    @OneToMany(mappedBy = "property", cascade = CascadeType.ALL)
+    @OneToMany(cascade = CascadeType.ALL)
     private List<Review> reviews = Collections.emptyList();
 
     private Boolean deleted = false;

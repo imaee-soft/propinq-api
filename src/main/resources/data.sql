@@ -7,7 +7,8 @@ INSERT INTO users (
     last_name,
     email,
     phone_number,
-    role
+    role,
+    deleted
 ) VALUES (
              UNHEX('11111111111111111111111111111111'),
              'demo_owner',
@@ -16,25 +17,30 @@ INSERT INTO users (
              'Pérez',
              'juan.perez@ejemplo.com',
              '+5493534123456',
-             'REAL_ESTATE_OWNER'
+             'OWNER',
+             0
          );
 
 -- Insertar tipo de edificio de prueba
 INSERT INTO building_types (
     building_type_id,
-    name
+    name,
+    deleted
 ) VALUES (
              UNHEX('22222222222222222222222222222222'),
-             'RESIDENTIAL'
+             'RESIDENTIAL',
+             0
          );
 
 -- Insertar tipo de propiedad de prueba
 INSERT INTO property_types (
     property_type_id,
-    name
+    name,
+    deleted
 ) VALUES (
              UNHEX('33333333333333333333333333333333'),
-             'APARTMENT'
+             'APARTMENT',
+             0
          );
 
 -- Insertar edificio en Villa María, Córdoba
@@ -46,7 +52,8 @@ INSERT INTO buildings (
     latitude,
     longitude,
     user_user_id,
-    building_type_building_type_id
+    building_type_building_type_id,
+    deleted
 ) VALUES (
              UNHEX('123e4567e89b12d3a456426614174000'),
              'Torre Villa María',
@@ -55,7 +62,8 @@ INSERT INTO buildings (
              -32.4094,
              -63.2432,
              UNHEX('11111111111111111111111111111111'),
-             UNHEX('22222222222222222222222222222222')
+             UNHEX('22222222222222222222222222222222'),
+             0
          );
 
 -- Insertar propiedades asociadas al building y al tipo de propiedad
@@ -65,19 +73,22 @@ INSERT INTO properties (
     latitude,
     longitude,
     building_building_id,
-    property_type_property_type_id
+    property_type_property_type_id,
+    deleted
 ) VALUES (
              UNHEX('44444444444444444444444444444444'),
              'Bv. España 1000, Villa María, Córdoba, Piso 1, Depto A',
              -32.4095,
              -63.2431,
              UNHEX('123e4567e89b12d3a456426614174000'),
-             UNHEX('33333333333333333333333333333333')
+             UNHEX('33333333333333333333333333333333'),
+             0
          ), (
              UNHEX('55555555555555555555555555555555'),
              'Bv. España 1000, Villa María, Córdoba, Piso 2, Depto B',
              -32.4093,
              -63.2433,
              UNHEX('123e4567e89b12d3a456426614174000'),
-             UNHEX('33333333333333333333333333333333')
+             UNHEX('33333333333333333333333333333333'),
+             0
          );

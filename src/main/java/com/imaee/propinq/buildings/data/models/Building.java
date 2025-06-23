@@ -41,7 +41,7 @@ public class Building extends Locatable {
     private String address;
 
     @NonNull
-    @OneToMany(mappedBy = "building")
+    @OneToMany(cascade = CascadeType.ALL)
     private List<Image> images = Collections.emptyList();
 
     @OneToMany(mappedBy = "building", cascade = CascadeType.ALL)
@@ -55,7 +55,7 @@ public class Building extends Locatable {
     @ManyToOne
     private BuildingType buildingType;
 
-    @OneToMany(mappedBy = "building", cascade = CascadeType.ALL)
+    @OneToMany(cascade = CascadeType.ALL)
     private List<Review> reviews = Collections.emptyList();
 
     private Boolean deleted = false;
