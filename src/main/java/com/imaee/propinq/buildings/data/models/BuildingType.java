@@ -3,7 +3,11 @@ package com.imaee.propinq.buildings.data.models;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
-import lombok.*;
+import jakarta.validation.constraints.NotNull;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.util.List;
 import java.util.UUID;
@@ -17,12 +21,13 @@ public class BuildingType {
     @Id
     private UUID buildingTypeId = UUID.randomUUID();
 
-    @NonNull
+    @NotNull
     private String name;
 
     @OneToMany
     private List<Building> buildings;
-
+    
+    @Builder.Default
     private Boolean deleted = false;
 
 }
