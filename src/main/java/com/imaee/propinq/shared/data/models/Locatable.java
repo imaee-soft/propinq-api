@@ -8,10 +8,8 @@ import lombok.NonNull;
 @Data
 public abstract class Locatable {
 
-    @NonNull
     private Double latitude;
 
-    @NonNull
     private Double longitude;
 
 }
