@@ -2,7 +2,7 @@ package com.imaee.propinq.shared.data.models;
 
 import jakarta.persistence.MappedSuperclass;
 import lombok.Data;
-import lombok.NonNull;
+
 
 @MappedSuperclass
 @Data
