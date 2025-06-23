@@ -5,7 +5,12 @@ import com.imaee.propinq.properties.data.models.Property;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.ManyToOne;
-import lombok.*;
+import jakarta.validation.constraints.NotNull;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
 import com.imaee.propinq.users.data.models.User;
 
 import java.util.UUID;
@@ -20,13 +25,13 @@ public class Review {
     @Id
     private final UUID reviewId = UUID.randomUUID();
 
-    @NonNull
+    @NotNull
     private String content;
 
-    @NonNull
+    @NotNull
     private Integer rating;
 
-    @NonNull
+    @NotNull
     @ManyToOne
     private User author;
 

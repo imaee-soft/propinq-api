@@ -1,13 +1,21 @@
 package com.imaee.propinq.properties.data.models;
 
 import com.imaee.propinq.buildings.data.models.Building;
-import com.imaee.propinq.buildings.data.models.BuildingType;
 import com.imaee.propinq.shared.data.models.Review;
-import jakarta.persistence.*;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 import com.imaee.propinq.shared.data.models.Image;
 import com.imaee.propinq.shared.data.models.Locatable;
 
+import jakarta.persistence.CascadeType;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
+import jakarta.persistence.ManyToMany;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
+import jakarta.validation.constraints.NotNull;
 
 import java.util.Collections;
 import java.util.List;
@@ -23,20 +31,21 @@ public class Property extends Locatable {
     @Id
     private final UUID propertyId = UUID.randomUUID();
 
-    @NonNull
+    @NotNull
     private String address;
 
     @ManyToOne
     private Building building;
 
-    @NonNull
+    @NotNull
     @ManyToMany(mappedBy = "properties")
     private List<Image> images;
 
-    @NonNull
+    @NotNull
     @ManyToOne
     private PropertyType propertyType;
 
     @OneToMany(mappedBy = "property", cascade = CascadeType.ALL)
+    @Builder.Default
     private List<Review> reviews = Collections.emptyList();
 }

@@ -10,13 +10,13 @@ import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
+import jakarta.validation.constraints.NotNull;
 
 import com.imaee.propinq.users.data.enums.Role;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import lombok.NonNull;
 
 import java.util.Collections;
 import java.util.List;
@@ -32,27 +32,27 @@ public class User {
     @Id
     private final UUID userId = UUID.randomUUID();
 
-    @NonNull
+    @NotNull
     @Column(unique = true)
     private String username;
 
-    @NonNull
+    @NotNull
     private String password;
 
-    @NonNull
+    @NotNull
     private String firstName;
 
-    @NonNull
+    @NotNull
     private String lastName;
 
-    @NonNull
+    @NotNull
     @Column(unique = true)
     private String email;
 
-    @NonNull
+    @NotNull
     private String address;
 
-    @NonNull
+    @NotNull
     @Convert(converter = PhoneNumberConverter.class)
     private String phoneNumber;
 

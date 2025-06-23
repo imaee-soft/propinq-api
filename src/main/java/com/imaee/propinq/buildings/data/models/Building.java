@@ -3,10 +3,20 @@ package com.imaee.propinq.buildings.data.models;
 import com.imaee.propinq.shared.data.models.Image;
 import com.imaee.propinq.properties.data.models.Property;
 import com.imaee.propinq.shared.data.models.Review;
-import jakarta.persistence.*;
-import lombok.*;
 import com.imaee.propinq.shared.data.models.Locatable;
 import com.imaee.propinq.users.data.models.User;
+
+import jakarta.persistence.CascadeType;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
+import jakarta.persistence.ManyToMany;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
+import jakarta.validation.constraints.NotNull;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.util.Collections;
 import java.util.List;
@@ -22,33 +32,35 @@ public class Building extends Locatable {
     @Id
     private UUID buildingId = UUID.randomUUID();
 
-    @NonNull
+    @NotNull
     private String name;
 
-    @NonNull
+    @NotNull
     private String description;
 
-    @NonNull
+    @NotNull
     private String address;
 
-    @NonNull
+    @NotNull
     @ManyToMany(mappedBy = "building", cascade = CascadeType.ALL)
     private List<Image> images;
 
     @OneToMany(mappedBy = "building", cascade = CascadeType.ALL)
+    @Builder.Default
     private List<Property> properties = Collections.emptyList();
 
-    @NonNull
+    @NotNull
     @ManyToOne
     private User user;
 
-    @NonNull
+    @NotNull
     @ManyToOne
     private BuildingType buildingType;
 
     @OneToMany(mappedBy = "building", cascade = CascadeType.ALL)
+    @Builder.Default
     private List<Review> reviews = Collections.emptyList();
-
+    @Builder.Default
     private Boolean deleted = false;
 
 }
