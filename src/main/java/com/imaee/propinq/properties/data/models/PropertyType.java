@@ -24,5 +24,8 @@ public class PropertyType {
     @Column(unique = true)
     private String name;
 
+    @NonNull
+    private String description;
+
     private Boolean deleted = false;
 }

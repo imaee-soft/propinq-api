@@ -9,6 +9,7 @@ import com.imaee.propinq.buildings.services.interfaces.IBuildingService;
 import com.imaee.propinq.shared.data.models.Image;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
+
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.UUID;
@@ -19,7 +20,6 @@ public class BuildingService implements IBuildingService {
 
     private static final String NO_BUILDING_MESSAGE = "Building does not exist";
     private final IBuildingRepository buildingRepository;
-
 
     @Override
     public List<BuildingResponse> getBuildings() {
@@ -36,7 +36,7 @@ public class BuildingService implements IBuildingService {
         UUID userId = building.getUser().getUserId();
         String userFullName = building.getUser().getFirstName() + " " + building.getUser().getLastName();
         String buildingTypeName = building.getBuildingType().getName();
-       return BuildingMapper.toBuildingDetailsResponse(building, imagesURLS, userId, userFullName, buildingTypeName);
+        return BuildingMapper.toBuildingDetailsResponse(building, imagesURLS, userId, userFullName, buildingTypeName);
     }
 
     private List<String> getImagesURLs(Building building) {

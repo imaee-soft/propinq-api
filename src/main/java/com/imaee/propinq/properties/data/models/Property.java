@@ -44,8 +44,5 @@ public class Property extends Locatable {
     @ManyToOne
     private PropertyType propertyType;
 
-    @OneToMany(cascade = CascadeType.ALL)
-    private List<Review> reviews = Collections.emptyList();
-
     private Boolean deleted = false;
 }
