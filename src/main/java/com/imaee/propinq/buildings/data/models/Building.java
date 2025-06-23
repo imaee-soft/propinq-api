@@ -5,12 +5,7 @@ import com.imaee.propinq.properties.data.models.Property;
 import com.imaee.propinq.shared.data.models.Review;
 import com.imaee.propinq.shared.data.models.Locatable;
 import com.imaee.propinq.users.data.models.User;
-import jakarta.persistence.CascadeType;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.ManyToOne;
-import jakarta.persistence.OneToMany;
-import jakarta.persistence.Column;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -49,6 +44,7 @@ public class Building extends Locatable {
 
     @NonNull
     @ManyToOne
+    @JoinColumn(name = "user_id")
     private User user;
 
     @NonNull
