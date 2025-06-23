@@ -14,7 +14,7 @@ import java.util.UUID;
 public interface ILocalityController {
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    ResponseEntity<Void> createLocality(@RequestBody @Valid LocalityRequest localityRequest);
+    ResponseEntity<Void> createLocality(@RequestBody @Valid LocalityRequest newLocalityRequest);
 
     @GetMapping
     @ResponseStatus(HttpStatus.OK)
@@ -23,6 +23,11 @@ public interface ILocalityController {
     @GetMapping("/{id}")
     @ResponseStatus(HttpStatus.OK)
     ResponseEntity<LocalityResponse> getLocality(@PathVariable UUID id);
+
+    @PutMapping("/{id}")
+    @ResponseStatus(HttpStatus.OK)
+    ResponseEntity<Void> updateLocality(@PathVariable UUID id,
+                                        @RequestBody @Valid LocalityRequest updatedLocalityRequest);
 
     @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.OK)

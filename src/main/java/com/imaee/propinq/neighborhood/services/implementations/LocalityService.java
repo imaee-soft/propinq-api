@@ -26,9 +26,9 @@ public class LocalityService implements ILocalityService {
     private final String MSG_NOT_EXISTS = "LOCALITY WITH THIS ID NOT EXISTS";
 
     @Override
-    public ResponseEntity<Void> createLocality(LocalityRequest localityRequest) {
+    public ResponseEntity<Void> createLocality(LocalityRequest newLocalityRequest) {
         Locality newLocality = LocalityMapper.toLocality(
-                localityRequest.name()
+                newLocalityRequest.name()
         );
 
         Optional<Locality> existingLocality = localityRepository.findByName(newLocality.getName());
@@ -62,6 +62,23 @@ public class LocalityService implements ILocalityService {
         }
 
         return ResponseEntity.ok(LocalityMapper.toLocalityResponse(existingLocality.get()));
+    }
+
+    @Override
+    public  ResponseEntity<Void> updateLocality(UUID id, LocalityRequest updatedLocalityRequest) {
+        Optional<Locality> existingLocality = localityRepository.findById(id);
+
+        if (existingLocality.isEmpty()) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, MSG_NOT_EXISTS);
+        }
+
+        Locality updatedLocality = existingLocality.get();
+
+        updatedLocality.setName(updatedLocalityRequest.name());
+
+        localityRepository.save(updatedLocality);
+
+        return ResponseEntity.ok().build();
     }
 
     @Override

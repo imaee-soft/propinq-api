@@ -9,7 +9,5 @@ import java.util.UUID;
 
 @Repository
 public interface INeighborhoodRepository extends JpaRepository<Neighborhood, UUID> {
-
     Optional<Neighborhood> findByName(String name);
-
 }

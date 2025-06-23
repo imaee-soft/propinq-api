@@ -17,8 +17,8 @@ public class LocalityController implements ILocalityController {
     private ILocalityService localityService;
 
     @Override
-    public ResponseEntity<Void> createLocality(LocalityRequest localityRequest) {
-        return localityService.createLocality(localityRequest);
+    public ResponseEntity<Void> createLocality(LocalityRequest newLocalityRequest) {
+        return localityService.createLocality(newLocalityRequest);
     }
 
     @Override
@@ -29,6 +29,11 @@ public class LocalityController implements ILocalityController {
     @Override
     public ResponseEntity<LocalityResponse> getLocality(UUID id) {
         return localityService.getLocality(id);
+    }
+
+    @Override
+    public ResponseEntity<Void> updateLocality(UUID id, LocalityRequest updatedLocalityRequest) {
+        return localityService.updateLocality(id, updatedLocalityRequest);
     }
 
     @Override

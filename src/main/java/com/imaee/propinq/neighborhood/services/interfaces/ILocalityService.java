@@ -8,11 +8,13 @@ import java.util.List;
 import java.util.UUID;
 
 public interface ILocalityService {
-    ResponseEntity<Void> createLocality(LocalityRequest localityRequest);
+    ResponseEntity<Void> createLocality(LocalityRequest newLocalityRequest);
 
     ResponseEntity<List<LocalityResponse>> getLocalities();
 
     ResponseEntity<LocalityResponse> getLocality(UUID id);
+
+    ResponseEntity<Void> updateLocality(UUID id, LocalityRequest updatedLocalityRequest);
 
     ResponseEntity<Void> deleteLocality(UUID id);
 }

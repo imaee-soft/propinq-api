@@ -4,7 +4,6 @@ import com.imaee.propinq.neighborhood.controllers.responses.LocalityResponse;
 import com.imaee.propinq.neighborhood.data.models.Locality;
 
 public class LocalityMapper {
-
     public static Locality toLocality(String name) {
         return Locality.builder()
                 .name(name)
@@ -17,5 +16,4 @@ public class LocalityMapper {
                 locality.getName()
         );
     }
-
 }

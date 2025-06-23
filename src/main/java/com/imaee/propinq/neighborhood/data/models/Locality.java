@@ -12,7 +12,6 @@ import java.util.UUID;
 @Builder
 @Data
 public class Locality extends Locatable {
-
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
@@ -20,5 +19,4 @@ public class Locality extends Locatable {
     @NonNull
     @Column(unique = true)
     private String name;
-
 }

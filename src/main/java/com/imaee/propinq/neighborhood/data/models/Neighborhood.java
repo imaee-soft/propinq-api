@@ -12,7 +12,6 @@ import java.util.UUID;
 @Builder
 @Data
 public class Neighborhood extends Locatable {
-
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
@@ -24,5 +23,4 @@ public class Neighborhood extends Locatable {
     @NonNull
     @ManyToOne
     private Locality locality;
-
 }

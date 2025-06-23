@@ -9,7 +9,5 @@ import java.util.UUID;
 
 @Repository
 public interface ILocalityRepository extends JpaRepository<Locality, UUID> {
-
     Optional<Locality> findByName(String name);
-
 }
