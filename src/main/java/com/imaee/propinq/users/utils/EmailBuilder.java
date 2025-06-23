@@ -33,7 +33,7 @@ public class EmailBuilder {
                 + "</tr>"
                 + "</table>";
     }
-    @Value("${frontend.url}")
+
     public String buildWelcomeEmail(User user) {
         return "<table style='width:100%; height:100%;'>"
                 + "<tr><td style='width:100%; height:100%; text-align:center; vertical-align:middle;'>"
@@ -44,7 +44,7 @@ public class EmailBuilder {
                 + "<p>Enjoy renting with us!</p>"
                 + "</div></td></tr></table>";
     }
-    @Value("${frontend.url}")
+
     public String buildRecoverPasswordEmail(String username, UUID recoverPasswordTokenId) {
         String recoverPasswordURL = frontendURL + "/auth/recover-password?token=" + recoverPasswordTokenId;
         return "<!DOCTYPE html>\n"

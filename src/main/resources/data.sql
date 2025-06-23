@@ -7,77 +7,89 @@ INSERT INTO users (
     last_name,
     email,
     phone_number,
-    role
+    role,
+    deleted,
+    activated,
+    address
 ) VALUES (
-             UNHEX('11111111111111111111111111111111'),
-             'demo_owner',
-             'demo_password',
-             'Juan',
-             'Pérez',
-             'juan.perez@ejemplo.com',
-             '+5493534123456',
-             'REAL_ESTATE_OWNER'
-         );
+    UNHEX('11111111111111111111111111111111'),
+    'demo_owner',
+    'demo_password',
+    'Juan',
+    'Pérez',
+    'juan.perez@ejemplo.com',
+    '+5493534123456',
+    'OWNER',
+    0,
+    1,
+    'Sin dirección'
+);
 
 -- Insertar tipo de edificio de prueba
 INSERT INTO building_types (
     building_type_id,
-    name
+    name,
+    deleted
 ) VALUES (
-             UNHEX('22222222222222222222222222222222'),
-             'RESIDENTIAL'
-         );
+    UNHEX('22222222222222222222222222222222'),
+    'RESIDENTIAL',
+    0
+);
 
 -- Insertar tipo de propiedad de prueba
 INSERT INTO property_types (
     property_type_id,
     name
 ) VALUES (
-             UNHEX('33333333333333333333333333333333'),
-             'APARTMENT'
-         );
+    UNHEX('33333333333333333333333333333333'),
+    'APARTMENT'
+);
 
 -- Insertar edificio en Villa María, Córdoba
 INSERT INTO buildings (
-    building_id,
-    name,
-    description,
-    address,
+    deleted,
     latitude,
     longitude,
+    building_id,
+    building_type_building_type_id,
     user_user_id,
-    building_type_building_type_id
+    address,
+    description,
+    name
 ) VALUES (
-             UNHEX('123e4567e89b12d3a456426614174000'),
-             'Torre Villa María',
-             'Edificio de prueba en Villa María, Córdoba, para desarrollo frontend',
-             'Bv. España 1000, Villa María, Córdoba',
-             -32.4094,
-             -63.2432,
-             UNHEX('11111111111111111111111111111111'),
-             UNHEX('22222222222222222222222222222222')
-         );
+    0,
+    -32.4094,
+    -63.2432,
+    UNHEX('123e4567e89b12d3a456426614174000'),
+    UNHEX('22222222222222222222222222222222'),
+    UNHEX('11111111111111111111111111111111'),
+    'Bv. España 1000, Villa María, Córdoba',
+    'Edificio de prueba en Villa María, Córdoba, para desarrollo frontend',
+    'Torre Villa María'
+);
 
 -- Insertar propiedades asociadas al building y al tipo de propiedad
 INSERT INTO properties (
-    property_id,
-    address,
     latitude,
     longitude,
     building_building_id,
-    property_type_property_type_id
-) VALUES (
-             UNHEX('44444444444444444444444444444444'),
-             'Bv. España 1000, Villa María, Córdoba, Piso 1, Depto A',
-             -32.4095,
-             -63.2431,
-             UNHEX('123e4567e89b12d3a456426614174000'),
-             UNHEX('33333333333333333333333333333333')
-         ), (
-             UNHEX('55555555555555555555555555555555'),
-             'Bv. España 1000, Villa María, Córdoba, Piso 2, Depto B',
-             -32.4093,
-             -63.2433,
-             UNHEX('123e4567e89b12d3a456426614174000'),
-             UNHEX('33333333333333333333333333333333')
-         );
+    property_id,
+    property_type_property_type_id,
+    address
+) VALUES
+    (
+        -32.4095,
+        -63.2431,
+        UNHEX('123e4567e89b12d3a456426614174000'),
+        UNHEX('44444444444444444444444444444444'),
+        UNHEX('33333333333333333333333333333333'),
+        'Bv. España 1000, Villa María, Córdoba, Piso 1, Depto A'
+    ),
+    (
+        -32.4093,
+        -63.2433,
+        UNHEX('123e4567e89b12d3a456426614174000'),
+        UNHEX('55555555555555555555555555555555'),
+        UNHEX('33333333333333333333333333333333'),
+        'Bv. España 1000, Villa María, Córdoba, Piso 2, Depto B'
+    );
