@@ -55,8 +55,5 @@ public class Building extends Locatable {
     @ManyToOne
     private BuildingType buildingType;
 
-    @OneToMany(cascade = CascadeType.ALL)
-    private List<Review> reviews = Collections.emptyList();
-
     private Boolean deleted = false;
 }

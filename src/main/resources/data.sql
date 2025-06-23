@@ -51,8 +51,8 @@ INSERT INTO buildings (
     address,
     latitude,
     longitude,
-    user_user_id,
-    building_type_building_type_id,
+    user_id,
+    building_type_id,
     deleted
 ) VALUES (
              UNHEX('123e4567e89b12d3a456426614174000'),

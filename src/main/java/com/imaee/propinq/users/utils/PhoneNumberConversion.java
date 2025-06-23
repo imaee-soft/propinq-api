@@ -8,12 +8,15 @@ import com.imaee.propinq.exceptions.custom_exceptions.PhoneNumberParseException;
 
 
 public class PhoneNumberConversion {
-    private PhoneNumberConversion(){}
+    private PhoneNumberConversion() {
+    }
 
-    public static String convertPhoneNumber(String phoneNumber ){
+    public static String convertPhoneNumber(String phoneNumber) {
+        if (phoneNumber == null || phoneNumber.trim().isEmpty()) {
+            return null;
+        }
         PhoneNumberUtil phoneUtil = PhoneNumberUtil.getInstance();
-
-        try{
+        try {
             PhoneNumber numberProto = phoneUtil.parse(phoneNumber, "AR");
             return phoneUtil.format(numberProto, PhoneNumberFormat.E164);
         } catch (NumberParseException e) {

@@ -46,7 +46,6 @@ public class BuildingMapper {
                 .properties(properties)
                 .user(user)
                 .buildingType(buildingType)
-                .reviews(reviews)
                 .build();
     }
 
