@@ -44,7 +44,6 @@ public class Building extends Locatable {
 
     @NonNull
     @ManyToOne
-    @JoinColumn(name = "user_id")
     private User user;
 
     @NonNull
