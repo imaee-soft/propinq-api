@@ -9,5 +9,8 @@ import java.util.UUID;
 
 @Repository
 public interface ILocalityRepository extends JpaRepository<Locality, UUID> {
+    static final String MSG_NOT_EXISTS = "LOCALITY WITH THIS ID NOT EXISTS";
+    static final String MSG_ALREADY_EXISTS = "LOCALITY WITH THIS NAME ALREADY EXISTS";
+
     Optional<Locality> findByName(String name);
 }
