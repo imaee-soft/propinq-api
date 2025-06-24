@@ -2,7 +2,6 @@ package com.imaee.propinq.buildings.data.models;
 
 import com.imaee.propinq.shared.data.models.Image;
 import com.imaee.propinq.properties.data.models.Property;
-import com.imaee.propinq.shared.data.models.Review;
 import com.imaee.propinq.shared.data.models.Locatable;
 import com.imaee.propinq.users.data.models.User;
 import jakarta.persistence.*;
