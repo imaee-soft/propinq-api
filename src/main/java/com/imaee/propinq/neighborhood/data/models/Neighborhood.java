@@ -11,13 +11,21 @@ import java.util.UUID;
 @AllArgsConstructor
 @Builder
 @Data
+@Table(uniqueConstraints = {
+        @UniqueConstraint(
+                name = "UniqueNameAndLocality",
+                columnNames = {
+                        "name",
+                        "locality"
+                }
+        )
+})
 public class Neighborhood extends Locatable {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
 
     @NonNull
-    @Column(unique = true)
     private String name;
 
     @NonNull
