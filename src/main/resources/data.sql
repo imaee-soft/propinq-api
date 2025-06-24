@@ -57,6 +57,16 @@ VALUES (UNHEX('123e4567e89b12d3a456426614174000'),
         0);
 
 -- Insertar propiedades asociadas al building y al tipo de propiedad
+INSERT INTO building_images (building_building_id,
+                             images_url,)
+VALUES (UNHEX('123e4567e89b12d3a456426614174000'),
+        'https://climalit.es/blog/wp-content/uploads/2018/05/edificios-eficientes-1280x1280.jpg');
+
+INSERT INTO BUILDING_IMAGES (building_building_id,
+                             images_url)
+VALUES (UNHEX('123e4567e89b12d3a456426614174000'),
+        'https://img.freepik.com/foto-gratis/tiro-vertical-edificio-blanco-cielo-despejado_181624-4575.jpg?semt=ais_hybrid&w=740');
+
 INSERT INTO properties (property_id,
                         address,
                         latitude,
