@@ -19,9 +19,14 @@ spring:
   sql:
     init:
       mode: always
+  datasource:
+    url: jdbc:mysql://${MYSQL_HOST:mysql}:${MYSQL_PORT:3306}/propinq?createDatabaseIfNotExist=true
+    username: ${DB_USERNAME:root}
+    password: ${DB_PASSWORD:password}
+    driver-class-name: com.mysql.cj.jdbc.Driver
   data:
     mongodb:
-      uri: mongodb://mongo-user:secret@mongodb:27017/propinq?authSource=admin
+      uri: mongodb://mongo-user:secret@${MONGO_HOST:mongodb}:27017/propinq?authSource=admin
       username: mongo-user
       password: secret
 

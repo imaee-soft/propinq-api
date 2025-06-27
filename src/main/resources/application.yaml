@@ -10,15 +10,13 @@ spring:
     show-sql: true
     open-in-view: false
   datasource:
-    # Para uso local, cambiar a jdbc:mysql://mysql:3306/propinq si se usa Docker
-    url: jdbc:mysql://${MYSQL_HOST:localhost}:${MYSQL_PORT:3306}/propinq?createDatabaseIfNotExist=true
+    url: jdbc:mysql://${MYSQL_HOST:mysql}:${MYSQL_PORT:3306}/propinq?createDatabaseIfNotExist=true
     username: ${DB_USERNAME:root}
     password: ${DB_PASSWORD:password}
     driver-class-name: com.mysql.cj.jdbc.Driver
   data:
     mongodb:
-      # Para uso local, cambiar a mongodb:27017 si se usa Docker
-      uri: ${MONGO_URL:mongodb://mongo-user:secret@localhost:27017/propinq?authSource=admin}
+      uri: ${MONGO_URL:mongodb://mongo-user:secret@${MONGO_HOST:mongodb}:27017/propinq?authSource=admin}
       username: ${MONGO_USER:mongo-user}
       password: ${MONGO_PASSWORD:secret}
   mail:
