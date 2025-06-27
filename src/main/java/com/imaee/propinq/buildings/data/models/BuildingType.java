@@ -19,6 +19,7 @@ import java.util.UUID;
 @Data
 public class BuildingType {
     @Id
+    @Builder.Default
     private UUID buildingTypeId = UUID.randomUUID();
 
     @NotNull

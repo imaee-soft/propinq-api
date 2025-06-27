@@ -11,7 +11,7 @@ spring:
   jpa:
     show-sql: true
     hibernate:
-        ddl-auto: create
+        ddl-auto: update
     defer-datasource-initialization: true
     properties:
       hibernate:
@@ -19,12 +19,32 @@ spring:
   sql:
     init:
       mode: always
+  data:
+    mongodb:
+      uri: mongodb://mongo-user:secret@mongodb:27017/propinq?authSource=admin
+      username: mongo-user
+      password: secret
 
 logging:
   level:
     org.springframework.web: DEBUG
     org.hibernate.SQL: DEBUG
     org.hibernate.type.descriptor.sql.BasicBinder: TRACE
+ 
+  mail:
+    host: ${MAIL_HOST:smtp.gmail.com}
+    port: ${MAIL_PORT:587}
+    username: ${MAIL_USERNAME:your_email@gmail.com}
+    password: ${MAIL_PASSWORD:your_password}
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
 
 cors:
   allowed-origins: http://localhost:4200
+
+frontend:
+  url: http://localhost:4200

@@ -1,18 +1,24 @@
 spring:
   application:
     name: propinq
+  # Deshabilitar la configuración automática de seguridad que causa conflictos
+  autoconfigure:
+    exclude: org.springframework.boot.autoconfigure.security.servlet.UserDetailsServiceAutoConfiguration
   jpa:
-    database-platform: org.hibernate.dialect.MySQLDialect
     hibernate:
-      ddl-auto: ${DDL_AUTO:create-drop}
+      ddl-auto: ${DDL_AUTO:update}
+    show-sql: true
+    open-in-view: false
   datasource:
+    # Para uso local, cambiar a jdbc:mysql://mysql:3306/propinq si se usa Docker
     url: jdbc:mysql://${MYSQL_HOST:localhost}:${MYSQL_PORT:3306}/propinq?createDatabaseIfNotExist=true
     username: ${DB_USERNAME:root}
     password: ${DB_PASSWORD:password}
     driver-class-name: com.mysql.cj.jdbc.Driver
   data:
     mongodb:
-      uri: ${MONGO_URL:mongodb://mongo-user:secret@mongodb:27017/propinq?authSource=admin}
+      # Para uso local, cambiar a mongodb:27017 si se usa Docker
+      uri: ${MONGO_URL:mongodb://mongo-user:secret@localhost:27017/propinq?authSource=admin}
       username: ${MONGO_USER:mongo-user}
       password: ${MONGO_PASSWORD:secret}
   mail:
@@ -30,6 +36,18 @@ spring:
 springdoc:
   swagger-ui:
     disable-swagger-default-url: true
-    path: /
+    path: /swagger-ui.html
+  api-docs:
+    path: /v3/api-docs
 frontend:
   url: http://localhost:4200
+  
+cors:
+  allowed-origins: http://localhost:4200
+
+# Configuración de logging para reducir mensajes verbosos
+logging:
+  level:
+    org.springframework.security: WARN
+    org.springframework.boot.autoconfigure.security: WARN
+    root: INFO
