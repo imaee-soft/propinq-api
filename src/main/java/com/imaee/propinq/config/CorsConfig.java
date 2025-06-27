@@ -1,4 +1,4 @@
-package com.imaee.propinq.log.config;
+package com.imaee.propinq.config;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;

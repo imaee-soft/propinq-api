@@ -53,10 +53,10 @@ public class User {
     @Convert(converter = PhoneNumberConverter.class)
     private String phoneNumber;
 
-    @OneToMany
+    @OneToMany(mappedBy = "user")
     private List<Building> buildings = Collections.emptyList();
 
-    @OneToMany
+    @OneToMany(mappedBy = "user")
     private List<Property> properties = Collections.emptyList();
 
     @Enumerated(EnumType.STRING)
