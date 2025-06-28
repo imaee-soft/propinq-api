@@ -2,7 +2,6 @@ package com.imaee.propinq.users.controllers.interfaces;
 
 import com.imaee.propinq.users.controllers.requests.SignUpRequest;
 import io.swagger.v3.oas.annotations.Operation;
-import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;

@@ -38,8 +38,8 @@ public class UserService implements IUserService {
         ifUsernameAlreadyExistsThrowException(createUserRequest.username());
         User newUser = createUser(createUserRequest);
         userRepository.save(newUser);
-        UUID activationTokenId = generateActivationToken(newUser);
-        sendActivationEmail(newUser, activationTokenId);
+        // UUID activationTokenId = generateActivationToken(newUser);
+        // sendActivationEmail(newUser, activationTokenId);
     }
 
     private void ifEmailAlreadyExistsThrowException(String email) {
