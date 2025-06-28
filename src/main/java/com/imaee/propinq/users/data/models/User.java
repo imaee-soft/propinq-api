@@ -3,20 +3,15 @@ package com.imaee.propinq.users.data.models;
 import com.imaee.propinq.buildings.data.models.Building;
 import com.imaee.propinq.properties.data.models.Property;
 import com.imaee.propinq.users.data.pipes.PhoneNumberConverter;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Column;
+import jakarta.persistence.*;
 import lombok.NoArgsConstructor;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NonNull;
-import jakarta.persistence.OneToMany;
-import jakarta.persistence.Convert;
-import jakarta.persistence.EnumType;
-import jakarta.persistence.Enumerated;
 
 import com.imaee.propinq.users.data.enums.Role;
+import lombok.experimental.SuperBuilder;
 
 
 import java.util.Collections;
@@ -26,12 +21,13 @@ import java.util.UUID;
 @Entity(name="users")
 @NoArgsConstructor
 @AllArgsConstructor
-@Builder
+@SuperBuilder
 @Data
 public class User {
 
     @Id
-    private UUID userId = UUID.randomUUID();
+    @GeneratedValue
+    private UUID userId;
 
     @NonNull
     @Column(unique = true)
@@ -64,5 +60,4 @@ public class User {
     private Role role = Role.TENANT;
 
     private Boolean deleted = false;
-
 }
