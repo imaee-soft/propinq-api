@@ -2,6 +2,7 @@ package com.imaee.propinq.properties.data.models;
 
 import com.imaee.propinq.buildings.data.models.Building;
 import com.imaee.propinq.shared.data.models.Review;
+import com.imaee.propinq.users.data.models.User;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.ManyToOne;
@@ -43,6 +44,10 @@ public class Property extends Locatable {
     @NonNull
     @ManyToOne
     private PropertyType propertyType;
+
+    @NonNull
+    @ManyToOne
+    private User user;
 
     private Boolean deleted = false;
 }
