@@ -39,7 +39,7 @@ public class NeighborhoodService implements INeighborhoodService {
                 newNeighborhoodRequestLocality.get()
         );
 
-        Optional<Neighborhood> existingNeighborhood = neighborhoodRepository.findByNameAndLocality(
+        Optional<Neighborhood> existingNeighborhood = neighborhoodRepository.findByNameIgnoreCaseAndLocality(
                 newNeighborhoodRequest.name(),
                 newNeighborhoodRequestLocality.get()
         );

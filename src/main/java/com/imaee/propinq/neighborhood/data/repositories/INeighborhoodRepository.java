@@ -13,5 +13,5 @@ public interface INeighborhoodRepository extends JpaRepository<Neighborhood, UUI
     static final String MSG_NOT_EXISTS = "NEIGHBORHOOD WITH THIS ID NOT EXISTS";
     static final String MSG_ALREADY_EXISTS = "NEIGHBORHOOD WITH THIS NAME AND LOCALITY ALREADY EXISTS";
 
-    Optional<Neighborhood> findByNameAndLocality(String name, Locality locality);
+    Optional<Neighborhood> findByNameIgnoreCaseAndLocality(String name, Locality locality);
 }

@@ -28,7 +28,7 @@ public class LocalityService implements ILocalityService {
                 newLocalityRequest.name()
         );
 
-        Optional<Locality> existingLocality = localityRepository.findByName(newLocality.getName());
+        Optional<Locality> existingLocality = localityRepository.findByNameIgnoreCase(newLocality.getName());
         if (existingLocality.isPresent()) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, ILocalityRepository.MSG_ALREADY_EXISTS);
         }
