@@ -30,6 +30,6 @@ public interface INeighborhoodController {
                                         @RequestBody @Valid NeighborhoodRequest neighborhoodRequest);
 
     @DeleteMapping("/{id}")
-    @ResponseStatus(HttpStatus.OK)
+    @ResponseStatus(HttpStatus.NO_CONTENT)
     ResponseEntity<Void> deleteNeighborhood(@PathVariable UUID id);
 }

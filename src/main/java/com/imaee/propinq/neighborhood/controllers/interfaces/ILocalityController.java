@@ -30,6 +30,6 @@ public interface ILocalityController {
                                         @RequestBody @Valid LocalityRequest localityRequest);
 
     @DeleteMapping("/{id}")
-    @ResponseStatus(HttpStatus.OK)
+    @ResponseStatus(HttpStatus.NO_CONTENT)
     ResponseEntity<Void> deleteLocality(@PathVariable UUID id);
 }
