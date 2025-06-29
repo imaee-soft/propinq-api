@@ -2,18 +2,22 @@ package com.imaee.propinq.neighborhood.mappers;
 
 import com.imaee.propinq.neighborhood.controllers.responses.LocalityResponse;
 import com.imaee.propinq.neighborhood.data.models.Locality;
+import com.imaee.propinq.neighborhood.data.models.Province;
 
 public class LocalityMapper {
-    public static Locality toLocality(String name) {
+    public static Locality toLocality(String name,
+                                      Province province) {
         return Locality.builder()
                 .name(name)
+                .province(province)
                 .build();
     }
 
     public static LocalityResponse toLocalityResponse(Locality locality) {
         return new LocalityResponse(
                 locality.getId(),
-                locality.getName()
+                locality.getName(),
+                locality.getProvince().getId()
         );
     }
 }

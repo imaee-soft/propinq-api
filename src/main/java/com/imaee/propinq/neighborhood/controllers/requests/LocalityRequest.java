@@ -8,6 +8,9 @@ public record LocalityRequest(
         @NotNull
         @Size(min = 2, max = 64, message = "THE NAME MUST BE BETWEEN 2 AND 64 CHARACTERS")
         @Pattern(regexp = "^[a-zA-Z0-9áéíóúÁÉÍÓÚ]+(\\s[a-zA-Z0-9áéíóúÁÉÍÓÚ]+)*$", message = "THE NAME MUST BE ONLY LETTERS OR NUMBERS, THERE MUST BE NO DOUBLE SPACES OR SPACE AT THE BEGINNING OR END")
-        String name
+        String name,
+
+        @NotNull
+        Integer provinceId
 ) {
 }

@@ -3,7 +3,9 @@ package com.imaee.propinq.neighborhood.services.implementations;
 import com.imaee.propinq.neighborhood.controllers.requests.LocalityRequest;
 import com.imaee.propinq.neighborhood.controllers.responses.LocalityResponse;
 import com.imaee.propinq.neighborhood.data.models.Locality;
+import com.imaee.propinq.neighborhood.data.models.Province;
 import com.imaee.propinq.neighborhood.data.repositories.ILocalityRepository;
+import com.imaee.propinq.neighborhood.data.repositories.IProvinceRepository;
 import com.imaee.propinq.neighborhood.mappers.LocalityMapper;
 import com.imaee.propinq.neighborhood.services.interfaces.ILocalityService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,18 +24,30 @@ public class LocalityService implements ILocalityService {
     @Autowired
     private ILocalityRepository localityRepository;
 
-    @Override
-    public ResponseEntity<Void> createLocality(LocalityRequest newLocalityRequest) {
-        Locality newLocality = LocalityMapper.toLocality(
-                newLocalityRequest.name()
-        );
+    @Autowired
+    private IProvinceRepository provinceRepository;
 
-        Optional<Locality> existingLocality = localityRepository.findByNameIgnoreCase(newLocality.getName());
+    @Override
+    public ResponseEntity<Void> createLocality(LocalityRequest localityRequest) {
+        Optional<Province> localityRequestProvince = provinceRepository.findById(localityRequest.provinceId());
+        if (localityRequestProvince.isEmpty()) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, IProvinceRepository.MSG_NOT_EXISTS);
+        }
+
+        Optional<Locality> existingLocality = localityRepository.findByNameIgnoreCaseAndProvince(
+                localityRequest.name(),
+                localityRequestProvince.get()
+        );
         if (existingLocality.isPresent()) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, ILocalityRepository.MSG_ALREADY_EXISTS);
         }
 
-        localityRepository.save(newLocality);
+        Locality locality = LocalityMapper.toLocality(
+                localityRequest.name(),
+                localityRequestProvince.get()
+        );
+
+        localityRepository.save(locality);
 
         return ResponseEntity.ok().build();
     }
@@ -60,17 +74,23 @@ public class LocalityService implements ILocalityService {
     }
 
     @Override
-    public  ResponseEntity<Void> updateLocality(UUID id, LocalityRequest updatedLocalityRequest) {
+    public  ResponseEntity<Void> updateLocality(UUID id, LocalityRequest localityRequest) {
+        Optional<Province> localityRequestProvince = provinceRepository.findById(localityRequest.provinceId());
+        if (localityRequestProvince.isEmpty()) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, IProvinceRepository.MSG_NOT_EXISTS);
+        }
+
         Optional<Locality> existingLocality = localityRepository.findById(id);
         if (existingLocality.isEmpty()) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, ILocalityRepository.MSG_NOT_EXISTS);
         }
 
-        Locality updatedLocality = existingLocality.get();
+        Locality locality = existingLocality.get();
 
-        updatedLocality.setName(updatedLocalityRequest.name());
+        locality.setName(localityRequest.name());
+        locality.setProvince(localityRequestProvince.get());
 
-        localityRepository.save(updatedLocality);
+        localityRepository.save(locality);
 
         return ResponseEntity.ok().build();
     }

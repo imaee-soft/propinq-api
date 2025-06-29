@@ -11,12 +11,24 @@ import java.util.UUID;
 @AllArgsConstructor
 @Builder
 @Data
+@Table(uniqueConstraints = {
+        @UniqueConstraint(
+                name = "UniqueNameAndProvince",
+                columnNames = {
+                        "name",
+                        "province"
+                }
+        )
+})
 public class Locality extends Locatable {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
 
     @NonNull
-    @Column(unique = true)
     private String name;
+
+    @NonNull
+    @ManyToOne
+    private Province province;
 }

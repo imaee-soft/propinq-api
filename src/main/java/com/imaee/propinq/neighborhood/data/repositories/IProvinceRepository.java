@@ -6,4 +6,5 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface IProvinceRepository extends JpaRepository<Province, Integer> {
+    static final String MSG_NOT_EXISTS = "PROVINCE WITH THIS ID NOT EXISTS";
 }

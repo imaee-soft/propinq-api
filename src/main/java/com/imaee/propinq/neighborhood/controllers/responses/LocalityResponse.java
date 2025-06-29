@@ -4,6 +4,7 @@ import java.util.UUID;
 
 public record LocalityResponse(
         UUID id,
-        String name
+        String name,
+        Integer provinceId
 ) {
 }
