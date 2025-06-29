@@ -1,5 +1,7 @@
 package com.imaee.propinq.users.controllers.interfaces;
 
+import com.imaee.propinq.users.controllers.requests.RecoverPasswordRequest;
+import com.imaee.propinq.users.controllers.requests.SendEmailRequest;
 import com.imaee.propinq.users.controllers.requests.SignUpRequest;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -24,7 +26,7 @@ public interface IAuthController {
     @ApiResponses(value = {
         @ApiResponse(responseCode = "201", description = "Usuario registrado exitosamente"),
         @ApiResponse(responseCode = "400", description = "Datos de registro inválidos", content = @Content()),
-        @ApiResponse(responseCode = "409", description = "Email ya registrado", content = @Content())
+        @ApiResponse(responseCode = "409", description = "Usuario ya registrado", content = @Content())
     })
     @PostMapping("/signup")
     @ResponseStatus(HttpStatus.CREATED)

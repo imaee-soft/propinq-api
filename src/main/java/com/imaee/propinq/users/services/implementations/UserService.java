@@ -13,6 +13,7 @@ import com.imaee.propinq.users.services.interfaces.ITokenService;
 import com.imaee.propinq.users.services.interfaces.IUserService;
 import com.imaee.propinq.users.utils.EmailBuilder;
 import lombok.AllArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
@@ -21,9 +22,12 @@ import java.time.LocalDateTime;
 import java.util.UUID;
 
 import static com.imaee.propinq.users.utils.Constants.*;
+import com.imaee.propinq.exceptions.custom_exceptions.DuplicateEmailException;
+import com.imaee.propinq.exceptions.custom_exceptions.DuplicateUserNameException;
 
 @Service
 @AllArgsConstructor
+@Slf4j
 public class UserService implements IUserService {
 
     private final IUserRepository userRepository;
@@ -32,26 +36,23 @@ public class UserService implements IUserService {
     private final PasswordEncoder passwordEncoder;
     private final IEmailService emailService;
 
+
     @Override
     public void saveUser(SignUpRequest createUserRequest) {
-        ifEmailAlreadyExistsThrowException(createUserRequest.email());
-        ifUsernameAlreadyExistsThrowException(createUserRequest.username());
+
+        if (userRepository.existsByEmail(createUserRequest.email())) {
+            throw new DuplicateEmailException("Email already exists: " + createUserRequest.email());
+        }
+        
+        if (userRepository.existsByUsername(createUserRequest.username())) {
+            throw new DuplicateUserNameException("Username already exists: " + createUserRequest.username());
+        }
+        
         User newUser = createUser(createUserRequest);
         userRepository.save(newUser);
-        // UUID activationTokenId = generateActivationToken(newUser);
-        // sendActivationEmail(newUser, activationTokenId);
-    }
-
-    private void ifEmailAlreadyExistsThrowException(String email) {
-        if (userRepository.existsByEmail(email))
-            throw new IllegalArgumentException(EXISTING_EMAIL_MESSAGE);
-
-    }
-
-    private void ifUsernameAlreadyExistsThrowException(String username) {
-        if (userRepository.existsByUsername(username))
-            throw new IllegalArgumentException(EXISTING_USERNAME_MESSAGE);
-
+        
+        UUID activationTokenId = generateActivationToken(newUser);
+        sendActivationEmail(newUser, activationTokenId);
     }
 
     private User createUser(SignUpRequest createUserRequest) {
@@ -66,7 +67,9 @@ public class UserService implements IUserService {
     }
 
     private void sendActivationEmail(User user, UUID activationTokenId) {
+
         String emailBody = emailBuilder.buildActivationEmailBody(user,activationTokenId);
+
         emailService.sendEmail(user.getEmail(),ACTIVATION_EMAIL_SUBJECT, emailBody);
     }
 
