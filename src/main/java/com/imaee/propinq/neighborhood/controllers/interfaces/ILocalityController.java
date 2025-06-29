@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 import java.util.UUID;
 
-@RequestMapping("/locality")
+@RequestMapping("/localities")
 public interface ILocalityController {
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)

@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 import java.util.UUID;
 
-@RequestMapping("/neighborhood")
+@RequestMapping("/neighborhoods")
 public interface INeighborhoodController {
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
