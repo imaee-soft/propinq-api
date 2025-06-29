@@ -1,11 +1,11 @@
 package com.imaee.propinq.users.controllers.requests;
 
-import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 
 import java.util.UUID;
 
 public record SendNewActivationTokenRequest(
-        @NotBlank(message = "Activation token must not be blank")
+        @NotNull(message = "Activation token must not be null")
         UUID activationToken
 ) {
 }

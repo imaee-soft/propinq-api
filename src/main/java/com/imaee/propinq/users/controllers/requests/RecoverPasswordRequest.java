@@ -1,6 +1,5 @@
 package com.imaee.propinq.users.controllers.requests;
 
-import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 
@@ -12,7 +11,7 @@ public record RecoverPasswordRequest(
         String password,
         String confirmPassword,
 
-        @NotBlank(message = "RecoverPasswordToken must not be null")
+        @NotNull(message = "RecoverPasswordToken must not be null")
         UUID recoverPasswordToken
 ) {
 }

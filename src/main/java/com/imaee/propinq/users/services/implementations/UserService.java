@@ -19,6 +19,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.UUID;
 
 import static com.imaee.propinq.users.utils.Constants.*;
@@ -35,7 +36,6 @@ public class UserService implements IUserService {
     private final EmailBuilder emailBuilder;
     private final PasswordEncoder passwordEncoder;
     private final IEmailService emailService;
-
 
     @Override
     public void saveUser(SignUpRequest createUserRequest) {
