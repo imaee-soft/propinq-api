@@ -4,7 +4,7 @@ import com.imaee.propinq.neighborhood.controllers.interfaces.INeighborhoodContro
 import com.imaee.propinq.neighborhood.controllers.requests.NeighborhoodRequest;
 import com.imaee.propinq.neighborhood.controllers.responses.NeighborhoodResponse;
 import com.imaee.propinq.neighborhood.services.interfaces.INeighborhoodService;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -12,13 +12,13 @@ import java.util.List;
 import java.util.UUID;
 
 @RestController
+@AllArgsConstructor
 public class NeighborhoodController implements INeighborhoodController {
-    @Autowired
     private INeighborhoodService neighborhoodService;
 
     @Override
-    public ResponseEntity<Void> createNeighborhood(NeighborhoodRequest newNeighborhoodRequest) {
-        return neighborhoodService.createNeighborhood(newNeighborhoodRequest);
+    public ResponseEntity<Void> createNeighborhood(NeighborhoodRequest neighborhoodRequest) {
+        return neighborhoodService.createNeighborhood(neighborhoodRequest);
     }
 
     @Override
@@ -32,8 +32,8 @@ public class NeighborhoodController implements INeighborhoodController {
     }
 
     @Override
-    public ResponseEntity<Void> updateNeighborhood(UUID id, NeighborhoodRequest updatedNeighborhoodRequest) {
-        return neighborhoodService.updateNeighborhood(id, updatedNeighborhoodRequest);
+    public ResponseEntity<Void> updateNeighborhood(UUID id, NeighborhoodRequest neighborhoodRequest) {
+        return neighborhoodService.updateNeighborhood(id, neighborhoodRequest);
     }
 
     @Override

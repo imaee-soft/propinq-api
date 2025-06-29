@@ -14,7 +14,7 @@ import java.util.UUID;
 public interface INeighborhoodController {
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    ResponseEntity<Void> createNeighborhood(@RequestBody @Valid NeighborhoodRequest newNeighborhoodRequest);
+    ResponseEntity<Void> createNeighborhood(@RequestBody @Valid NeighborhoodRequest neighborhoodRequest);
 
     @GetMapping
     @ResponseStatus(HttpStatus.OK)
@@ -27,7 +27,7 @@ public interface INeighborhoodController {
     @PutMapping("/{id}")
     @ResponseStatus(HttpStatus.OK)
     ResponseEntity<Void> updateNeighborhood(@PathVariable UUID id,
-                                        @RequestBody @Valid NeighborhoodRequest updatedNeighborhoodRequest);
+                                        @RequestBody @Valid NeighborhoodRequest neighborhoodRequest);
 
     @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.OK)
