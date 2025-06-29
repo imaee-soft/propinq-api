@@ -11,6 +11,6 @@ public interface IPropertyTypeService {
     List<PropertyTypeResponse> getPropertyType();
     PropertyTypeResponse createPropertyType(PropertyTypeRequest propertyTypeRequest);
     PropertyTypeResponse updatePropertyType(PropertyTypeRequest propertyTypeRequest, UUID id);
-    ResponseEntity<Void> deletePropertyType(UUID id);
-    ResponseEntity<Void> recoverPropertyType(UUID id);
+    void deletePropertyType(UUID id);
+    void recoverPropertyType(UUID id);
 }

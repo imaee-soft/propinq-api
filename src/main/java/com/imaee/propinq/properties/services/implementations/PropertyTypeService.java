@@ -6,6 +6,7 @@ import com.imaee.propinq.properties.data.models.PropertyType;
 import com.imaee.propinq.properties.data.repositories.IPropertyTypeRepository;
 import com.imaee.propinq.properties.mappers.PropertyTypeMapper;
 import com.imaee.propinq.properties.services.interfaces.IPropertyTypeService;
+import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -17,84 +18,75 @@ import java.util.Optional;
 import java.util.UUID;
 
 @Service
+@AllArgsConstructor
 public class PropertyTypeService implements IPropertyTypeService {
 
-    @Autowired
     private IPropertyTypeRepository propertyTypeRepository;
 
-    private final String MSG_ALREADY_EXISTS = "PROPERTYTYPE WITH THIS NAME ALREADY EXISTS";
-    private final String MSG_NOT_EXISTS = "PROPERTYTYPE WITH THIS ID NOT EXISTS";
-
+    private final String MSG_ALREADY_EXISTS = "propertytype with this name already exists";
+    private final String MSG_NOT_EXISTS = "PropertyType does not exist";
+    private final String MSG_IS_DELETED = "NO SE PUDO ACTUALIZAR, EL TIPO DE VIVIENDA ESTÁ ELIMINADO";
+    private final String MSG_IS_NOT_DELETED = "EL TIPO DE VIVIENDA NO ESTÁ ELIMINADO";
     @Override
     public List<PropertyTypeResponse> getPropertyType() {
-        List<PropertyType> propertyTypes = propertyTypeRepository.findByState(PropertyType.ACTIVE);
-        return propertyTypes.stream().map(PropertyTypeMapper::toPropertyTypeResponse).toList();
+        return propertyTypeRepository.findByDeletedFalse().stream()
+                .map(PropertyTypeMapper::toPropertyTypeResponse)
+                .toList();
     }
 
     @Override
     public PropertyTypeResponse createPropertyType(PropertyTypeRequest propertyTypeRequest) {
-        PropertyType model = PropertyTypeMapper.toPropertyType(propertyTypeRequest);
-        Optional<PropertyType> propertyTypeOptional = propertyTypeRepository.findByName(model.getName());
-
-        if(propertyTypeOptional.isPresent()){
-            PropertyType existingPropertyType = propertyTypeOptional.get();
-            if(existingPropertyType.isState() == PropertyType.REMOVED){
-                existingPropertyType.setState(PropertyType.ACTIVE);
-                existingPropertyType.setName(model.getName());
-                existingPropertyType.setDescription(model.getDescription());
-                return PropertyTypeMapper.toPropertyTypeResponse(propertyTypeRepository.save(existingPropertyType));
-            }else {
-                throw new ResponseStatusException(HttpStatus.BAD_REQUEST, MSG_ALREADY_EXISTS);
-            }
+        throwExceptionIfPropertyTypeAlreadyExists(propertyTypeRequest.name());
+        final var propertyType = PropertyTypeMapper.toPropertyType(propertyTypeRequest);
+        return PropertyTypeMapper.toPropertyTypeResponse(
+                propertyTypeRepository.save(propertyType)
+        );
+    }
+    private void throwExceptionIfPropertyTypeAlreadyExists(String propertyTypeName) {
+        if (propertyTypeRepository.existsByNameAndDeletedFalse(propertyTypeName)){
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, MSG_ALREADY_EXISTS);
         }
-        return PropertyTypeMapper.toPropertyTypeResponse(propertyTypeRepository.save(model));
     }
 
     @Override
     public PropertyTypeResponse updatePropertyType(PropertyTypeRequest propertyTypeRequest, UUID id) {
-        PropertyType model = PropertyTypeMapper.toPropertyType(propertyTypeRequest);
-        Optional<PropertyType> propertyTypeOptional = propertyTypeRepository.findById(id);
+        final var propertyType = findByIdOrThrowException(id);
+        throwExceptionIfPropertyTypeIsDeleted(propertyType);
+        propertyType.setName(propertyTypeRequest.name());
+        propertyType.setDescription(propertyTypeRequest.description());
+        return PropertyTypeMapper.toPropertyTypeResponse(propertyTypeRepository.save(propertyType));
+    }
 
-        if (propertyTypeOptional.isPresent()) {
-            if (propertyTypeOptional.get().isState() == PropertyType.REMOVED) {
-                {
-                    throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "NO SE PUDO ACTUALIZAR, EL TIPO DE VIVIENDA ESTÁ ELIMINADO");
-                }
-            }
-            PropertyType propertyType = propertyTypeOptional.get();
-            propertyType.setName(model.getName());
-            propertyType.setDescription(model.getDescription());
-            return PropertyTypeMapper.toPropertyTypeResponse(propertyTypeRepository.save(propertyType));
-        }
-        throw new ResponseStatusException(HttpStatus.BAD_REQUEST, MSG_NOT_EXISTS);
+    private PropertyType findByIdOrThrowException(UUID propertyTypeId) {
+        return propertyTypeRepository.findById(propertyTypeId)
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.BAD_REQUEST, MSG_NOT_EXISTS));
+    }
+
+    private void throwExceptionIfPropertyTypeIsDeleted(PropertyType propertyType) {
+        if (propertyType.isDeleted())
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, MSG_IS_DELETED);
     }
 
     @Override
-    public ResponseEntity<Void> deletePropertyType(UUID id) {
+    public void deletePropertyType(UUID id) {
         PropertyType model = propertyTypeRepository.findById(id).orElse(null);
-        if (model == null || model.isState() == PropertyType.REMOVED) {
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "NO SE PUDO ELIMINAR, EL TIPO DE VIVIENDA YA ESTÁ ELIMINADO");
-        }
-
-        model.setState(PropertyType.REMOVED);
-        propertyTypeRepository.save(model);
-        return ResponseEntity.noContent().build();
+        final var propertyType = findByIdOrThrowException(id);
+        throwExceptionIfPropertyTypeIsDeleted(propertyType);
+        model.setDeleted(true);
+        propertyTypeRepository.save(propertyType);
     }
 
     @Override
-    public ResponseEntity<Void> recoverPropertyType(UUID id) {
-        PropertyType model = propertyTypeRepository.findById(id).orElse(null);
-        if (model == null || model.isState() == PropertyType.ACTIVE) {
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "NO SE PUDO RECUPERAR, EL TIPO DE VIVIENDA YA ESTÁ ACTIVO");
-        }
-        model.setState(PropertyType.ACTIVE);
-        propertyTypeRepository.save(model);
-        return ResponseEntity.ok().build(); //respuesta con 200
+    public void recoverPropertyType(UUID id) {
+        final var propertyType = findByIdOrThrowException(id);
+        throwExceptionIfPropertyTypeIsNotDeleted(propertyType);
+        // Agreguemos una validación para ver si existe el mismo PropertyType pero activo
+        propertyType.setDeleted(false);
+        propertyTypeRepository.save(propertyType);
     }
 
-
-
+    private void throwExceptionIfPropertyTypeIsNotDeleted(PropertyType propertyType) {
+        if (!propertyType.isDeleted())
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, MSG_IS_NOT_DELETED);
+    }
 }
-
-
-

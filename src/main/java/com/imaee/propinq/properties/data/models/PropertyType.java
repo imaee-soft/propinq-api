@@ -15,8 +15,7 @@ import java.util.UUID;
 public class PropertyType {
     @Id
     @GeneratedValue(generator = "UUID")
-    @GenericGenerator(name = "UUID", strategy = "org.hibernate.id.UUIDGenerator")
-    @Column(name = "id", updatable = false, nullable = false)
+    @Column(name = "property_type_id", updatable = false, nullable = false)
     private UUID id;
 
     @NonNull
@@ -27,10 +26,8 @@ public class PropertyType {
 
     @Column(nullable = false)
     @Builder.Default
-    private boolean state = true;
+    private boolean deleted = false;
 
-    public static final boolean ACTIVE = true;
-    public static final boolean REMOVED = false;
 
     @OneToMany
     private List<Property> properties;

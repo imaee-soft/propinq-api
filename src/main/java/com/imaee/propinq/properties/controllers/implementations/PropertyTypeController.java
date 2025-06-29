@@ -5,6 +5,7 @@ import com.imaee.propinq.properties.controllers.interfaces.IPropertyTypeControll
 import com.imaee.propinq.properties.controllers.requests.PropertyTypeRequest;
 import com.imaee.propinq.properties.controllers.responses.PropertyTypeResponse;
 import com.imaee.propinq.properties.services.interfaces.IPropertyTypeService;
+import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -14,15 +15,10 @@ import java.util.List;
 import java.util.UUID;
 
 @RestController
-
+@AllArgsConstructor
 public class PropertyTypeController implements IPropertyTypeController {
 
     private IPropertyTypeService propertyTypeService;
-
-    @Autowired
-    public PropertyTypeController(IPropertyTypeService propertyTypeService) {
-        this.propertyTypeService = propertyTypeService;
-    }
 
     @Override
     public List<PropertyTypeResponse> getPropertyTypes() {
@@ -40,27 +36,12 @@ public class PropertyTypeController implements IPropertyTypeController {
     }
 
     @Override
-    public ResponseEntity<Void> deletePropertyType(@PathVariable  UUID id) {
+    public void deletePropertyType(UUID id) {
         propertyTypeService.deletePropertyType(id);
-        return ResponseEntity.noContent().build();
     }
 
     @Override
-    public ResponseEntity<Void> recoverPropertyType(UUID id) {
+    public void recoverPropertyType(UUID id) {
         propertyTypeService.recoverPropertyType(id);
-        return ResponseEntity.noContent().build();
     }
-
-
-
-
-
-
-
-
-
-
-
-
-
 }

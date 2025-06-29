@@ -13,7 +13,7 @@ public class PropertyTypeMapper {
                 propertyType.getId(),
                 propertyType.getName(),
                 propertyType.getDescription(),
-                propertyType.isState()
+                propertyType.isDeleted()
         );
     }
 

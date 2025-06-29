@@ -6,6 +6,6 @@ public record PropertyTypeResponse(
         UUID id,
         String name,
         String description,
-        boolean state
+        boolean deleted
 ) {
 }
