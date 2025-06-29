@@ -8,8 +8,8 @@ import java.util.UUID;
 
 public record NeighborhoodRequest(
         @NotNull
-        @Size(min = 2, max = 64, message = "THE NAME MUST BE BETWEEN 2 AND 64 CHARACTERS")
-        @Pattern(regexp = "^[a-zA-Z0-9áéíóúÁÉÍÓÚ]+(\\s[a-zA-Z0-9áéíóúÁÉÍÓÚ]+)*$", message = "THE NAME MUST BE ONLY LETTERS OR NUMBERS, THERE MUST BE NO DOUBLE SPACES OR SPACE AT THE BEGINNING OR END")
+        @Size(min = 2, max = 64, message = "EL NOMBRE DEBE IR DE ENTRE 2 Y 64 CARACTERES")
+        @Pattern(regexp = "^[a-zA-Z0-9áéíóúÁÉÍÓÚ]+(\\s[a-zA-Z0-9áéíóúÁÉÍÓÚ]+)*$", message = "EL NOMBRE SÓLO DEBE TENER LETRAS Y NÚMEROS, NO DEBEN HABER ESPACIOS DE MÁS NI TAMPOCO AL INICIO NI AL FINAL")
         String name,
 
         @NotNull
