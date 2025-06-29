@@ -8,7 +8,7 @@ import com.imaee.propinq.neighborhood.data.repositories.ILocalityRepository;
 import com.imaee.propinq.neighborhood.data.repositories.IProvinceRepository;
 import com.imaee.propinq.neighborhood.mappers.LocalityMapper;
 import com.imaee.propinq.neighborhood.services.interfaces.ILocalityService;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -20,11 +20,10 @@ import java.util.UUID;
 import java.util.stream.Collectors;
 
 @Service
+@AllArgsConstructor
 public class LocalityService implements ILocalityService {
-    @Autowired
     private ILocalityRepository localityRepository;
 
-    @Autowired
     private IProvinceRepository provinceRepository;
 
     @Override

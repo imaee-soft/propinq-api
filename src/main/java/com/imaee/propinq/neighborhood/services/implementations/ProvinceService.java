@@ -4,7 +4,7 @@ import com.imaee.propinq.neighborhood.controllers.responses.ProvinceResponse;
 import com.imaee.propinq.neighborhood.data.repositories.IProvinceRepository;
 import com.imaee.propinq.neighborhood.mappers.ProvinceMapper;
 import com.imaee.propinq.neighborhood.services.interfaces.IProvinceService;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
@@ -12,8 +12,8 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
+@AllArgsConstructor
 public class ProvinceService implements IProvinceService {
-    @Autowired
     private IProvinceRepository provinceRepository;
 
     @Override
