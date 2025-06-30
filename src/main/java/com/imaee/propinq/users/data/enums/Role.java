@@ -25,4 +25,3 @@ public enum Role {
     public boolean hasPermission(Permission permission) {
         return getPermissions().contains(permission);
     }
-}
