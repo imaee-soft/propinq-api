@@ -28,25 +28,15 @@ public class NeighborhoodService implements INeighborhoodService {
 
     @Override
     public ResponseEntity<Void> createNeighborhood(NeighborhoodRequest neighborhoodRequest) {
-        Optional<Locality> neighborhoodRequestLocality = localityRepository.findById(neighborhoodRequest.localityId());
-        if (neighborhoodRequestLocality.isEmpty()) {
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, ILocalityRepository.MSG_NOT_EXISTS);
-        }
+        final Locality neighborhoodRequestLocality = getNeighborhoodLocality(neighborhoodRequest);
+        throwExceptionIfNeighborhoodExistsByNameAndLocality(neighborhoodRequest.name(), neighborhoodRequestLocality);
 
-        Optional<Neighborhood> existingNeighborhood = neighborhoodRepository.findByNameIgnoreCaseAndLocality(
+        final var neighborhood = NeighborhoodMapper.toNeighborhood(
                 neighborhoodRequest.name(),
-                neighborhoodRequestLocality.get()
-        );
-        if (existingNeighborhood.isPresent()) {
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, INeighborhoodRepository.MSG_ALREADY_EXISTS);
-        }
-
-        Neighborhood neighborhood = NeighborhoodMapper.toNeighborhood(
-                neighborhoodRequest.name(),
-                neighborhoodRequestLocality.get()
+                neighborhoodRequestLocality
         );
 
-        neighborhoodRepository.save(neighborhood);
+       neighborhoodRepository.save(neighborhood);
 
         return ResponseEntity.ok().build();
     }
@@ -64,30 +54,18 @@ public class NeighborhoodService implements INeighborhoodService {
 
     @Override
     public ResponseEntity<NeighborhoodResponse> getNeighborhood(UUID id) {
-        Optional<Neighborhood> existingNeighborhood = neighborhoodRepository.findById(id);
-        if (existingNeighborhood.isEmpty()) {
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, INeighborhoodRepository.MSG_NOT_EXISTS);
-        }
-
-        return ResponseEntity.ok(NeighborhoodMapper.toNeighborhoodResponse(existingNeighborhood.get()));
+        return ResponseEntity.ok(NeighborhoodMapper.toNeighborhoodResponse(findByIdOrThrowException(id)));
     }
 
     @Override
     public  ResponseEntity<Void> updateNeighborhood(UUID id, NeighborhoodRequest neighborhoodRequest) {
-        Optional<Locality> neighborhoodRequestLocality = localityRepository.findById(neighborhoodRequest.localityId());
-        if (neighborhoodRequestLocality.isEmpty()) {
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, ILocalityRepository.MSG_NOT_EXISTS);
-        }
+        Neighborhood neighborhood = findByIdOrThrowException(id);
 
-        Optional<Neighborhood> existingNeighborhood = neighborhoodRepository.findById(id);
-        if (existingNeighborhood.isEmpty()) {
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, INeighborhoodRepository.MSG_NOT_EXISTS);
-        }
-
-        Neighborhood neighborhood = existingNeighborhood.get();
+        final Locality neighborhoodRequestLocality = getNeighborhoodLocality(neighborhoodRequest);
+        throwExceptionIfNeighborhoodExistsByNameAndLocality(neighborhoodRequest.name(), neighborhoodRequestLocality);
 
         neighborhood.setName(neighborhoodRequest.name());
-        neighborhood.setLocality(neighborhoodRequestLocality.get());
+        neighborhood.setLocality(neighborhoodRequestLocality);
 
         neighborhoodRepository.save(neighborhood);
 
@@ -96,13 +74,30 @@ public class NeighborhoodService implements INeighborhoodService {
 
     @Override
     public ResponseEntity<Void> deleteNeighborhood(UUID id) {
+        neighborhoodRepository.delete(findByIdOrThrowException(id));
+
+        return ResponseEntity.ok().build();
+    }
+
+    private Locality getNeighborhoodLocality(NeighborhoodRequest neighborhoodRequest) {
+        Optional<Locality> neighborhoodLocality = localityRepository.findById(neighborhoodRequest.localityId());
+        if (neighborhoodLocality.isEmpty()) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, ILocalityRepository.MSG_NOT_EXISTS);
+        }
+        return neighborhoodLocality.get();
+    }
+
+    private void throwExceptionIfNeighborhoodExistsByNameAndLocality(String name, Locality locality) {
+        if (neighborhoodRepository.existsByNameIgnoreCaseAndLocality(name, locality)) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, INeighborhoodRepository.MSG_ALREADY_EXISTS);
+        }
+    }
+
+    private Neighborhood findByIdOrThrowException(UUID id) {
         Optional<Neighborhood> existingNeighborhood = neighborhoodRepository.findById(id);
         if (existingNeighborhood.isEmpty()) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, INeighborhoodRepository.MSG_NOT_EXISTS);
         }
-
-        neighborhoodRepository.deleteById(id);
-
-        return ResponseEntity.ok().build();
+        return existingNeighborhood.get();
     }
 }
