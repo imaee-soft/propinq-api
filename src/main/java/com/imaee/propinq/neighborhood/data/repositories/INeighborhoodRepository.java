@@ -10,8 +10,8 @@ import java.util.UUID;
 
 @Repository
 public interface INeighborhoodRepository extends JpaRepository<Neighborhood, UUID> {
-    static final String MSG_NOT_EXISTS = "NEIGHBORHOOD WITH THIS ID NOT EXISTS";
-    static final String MSG_ALREADY_EXISTS = "NEIGHBORHOOD WITH THIS NAME AND LOCALITY ALREADY EXISTS";
+    static final String MSG_NOT_EXISTS = "EL BARRIO CON ESTE ID NO EXISTE";
+    static final String MSG_ALREADY_EXISTS = "EL BARRIO CON ESTE NOMBRE Y LOCALIDAD YA EXISTE";
 
     Optional<Neighborhood> findByNameIgnoreCaseAndLocality(String name, Locality locality);
 }
