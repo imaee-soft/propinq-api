@@ -1,29 +1,26 @@
 package com.imaee.propinq.users.data.models;
 
-import com.imaee.propinq.buildings.data.models.Building;
-import com.imaee.propinq.properties.data.models.Property;
 import com.imaee.propinq.users.data.pipes.PhoneNumberConverter;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
-import lombok.NoArgsConstructor;
+import jakarta.persistence.Convert;
+import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
+import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
+import lombok.NonNull;
+import com.imaee.propinq.users.data.enums.Role;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
-import lombok.NonNull;
-import jakarta.persistence.OneToMany;
-import jakarta.persistence.Convert;
-import jakarta.persistence.EnumType;
-import jakarta.persistence.Enumerated;
-
-import com.imaee.propinq.users.data.enums.Role;
-
-
+import lombok.NoArgsConstructor;
 import java.util.Collections;
 import java.util.List;
 import java.util.UUID;
 
-@Entity(name="users")
+
+@Entity(name = "users")
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
@@ -31,7 +28,8 @@ import java.util.UUID;
 public class User {
 
     @Id
-    private UUID userId = UUID.randomUUID();
+
+    private final UUID userId = UUID.randomUUID();
 
     @NonNull
     @Column(unique = true)
@@ -48,21 +46,28 @@ public class User {
 
     @NonNull
     private String email;
+    
+    @NotNull
+    private String address;
 
     @NonNull
     @Convert(converter = PhoneNumberConverter.class)
     private String phoneNumber;
-
-    @OneToMany(mappedBy = "user")
-    private List<Building> buildings = Collections.emptyList();
-
-    @OneToMany(mappedBy = "user")
-    private List<Property> properties = Collections.emptyList();
+ 
+    private String cuit;
 
     @Enumerated(EnumType.STRING)
     @Builder.Default
     private Role role = Role.TENANT;
 
+    @OneToMany(mappedBy = "user", cascade = {CascadeType.ALL})
+    @Builder.Default
+    private List<Token> tokens = Collections.emptyList();
+  
+    @Builder.Default
+    private Boolean activated = false;
+  
+    @Builder.Default
     private Boolean deleted = false;
-
+  
 }

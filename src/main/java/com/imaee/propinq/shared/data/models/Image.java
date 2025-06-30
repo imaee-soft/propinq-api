@@ -22,4 +22,5 @@ public class Image {
     private String fileName;
 
     private Boolean deleted = false;
+
 }

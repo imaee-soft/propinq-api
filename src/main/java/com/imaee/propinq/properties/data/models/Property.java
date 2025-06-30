@@ -1,7 +1,6 @@
 package com.imaee.propinq.properties.data.models;
 
 import com.imaee.propinq.buildings.data.models.Building;
-import com.imaee.propinq.shared.data.models.Review;
 import com.imaee.propinq.users.data.models.User;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
@@ -15,8 +14,6 @@ import lombok.Data;
 import lombok.NonNull;
 import com.imaee.propinq.shared.data.models.Image;
 import com.imaee.propinq.shared.data.models.Locatable;
-
-
 import java.util.Collections;
 import java.util.List;
 import java.util.UUID;
@@ -50,4 +47,5 @@ public class Property extends Locatable {
     private User user;
 
     private Boolean deleted = false;
+
 }

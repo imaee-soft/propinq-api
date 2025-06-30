@@ -8,6 +8,7 @@ import com.imaee.propinq.exceptions.custom_exceptions.PhoneNumberParseException;
 
 
 public class PhoneNumberConversion {
+  
     private PhoneNumberConversion() {
     }
 
@@ -17,6 +18,7 @@ public class PhoneNumberConversion {
         }
         PhoneNumberUtil phoneUtil = PhoneNumberUtil.getInstance();
         try {
+
             PhoneNumber numberProto = phoneUtil.parse(phoneNumber, "AR");
             return phoneUtil.format(numberProto, PhoneNumberFormat.E164);
         } catch (NumberParseException e) {

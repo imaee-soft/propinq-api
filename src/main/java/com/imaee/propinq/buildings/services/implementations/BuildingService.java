@@ -9,7 +9,6 @@ import com.imaee.propinq.buildings.services.interfaces.IBuildingService;
 import com.imaee.propinq.shared.data.models.Image;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
-
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.UUID;

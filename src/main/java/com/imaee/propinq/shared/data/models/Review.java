@@ -1,6 +1,5 @@
 package com.imaee.propinq.shared.data.models;
 
-
 import com.imaee.propinq.buildings.data.models.Building;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
@@ -24,6 +23,7 @@ public class Review {
     @Id
     private final UUID reviewId = UUID.randomUUID();
 
+
     @NonNull
     private String content;
 
@@ -31,6 +31,7 @@ public class Review {
     private Integer rating;
 
     @NonNull
+
     @ManyToOne
     private User author;
 
@@ -41,4 +42,5 @@ public class Review {
     private Building building;
 
     private Boolean deleted = false;
+
 }

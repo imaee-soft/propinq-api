@@ -1,22 +1,29 @@
 -- Insertar usuario de prueba
-INSERT INTO users (user_id,
-                   username,
-                   password,
-                   first_name,
-                   last_name,
-                   email,
-                   phone_number,
-                   role,
-                   deleted)
-VALUES (UNHEX('11111111111111111111111111111111'),
-        'demo_owner',
-        'demo_password',
-        'Juan',
-        'Pérez',
-        'juan.perez@ejemplo.com',
-        '+5493534123456',
-        'OWNER',
-        0);
+INSERT INTO users (
+    user_id,
+    username,
+    password,
+    first_name,
+    last_name,
+    email,
+    phone_number,
+    role,
+    deleted,
+    activated,
+    address
+) VALUES (
+    UNHEX('11111111111111111111111111111111'),
+    'demo_owner',
+    'demo_password',
+    'Juan',
+    'Pérez',
+    'juan.perez@ejemplo.com',
+    '+5493534123456',
+    'OWNER',
+    0,
+    1,
+    'Sin dirección'
+);
 
 -- Insertar tipo de edificio de prueba
 INSERT INTO building_types (building_type_id,

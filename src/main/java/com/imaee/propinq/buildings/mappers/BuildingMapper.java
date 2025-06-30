@@ -1,5 +1,6 @@
 package com.imaee.propinq.buildings.mappers;
 
+
 import com.imaee.propinq.buildings.controllers.responses.BuildingDetailsResponse;
 import com.imaee.propinq.buildings.controllers.responses.BuildingResponse;
 import com.imaee.propinq.buildings.data.models.Building;
