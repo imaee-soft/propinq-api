@@ -28,22 +28,12 @@ public class LocalityService implements ILocalityService {
 
     @Override
     public ResponseEntity<Void> createLocality(LocalityRequest localityRequest) {
-        Optional<Province> localityRequestProvince = provinceRepository.findById(localityRequest.provinceId());
-        if (localityRequestProvince.isEmpty()) {
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, IProvinceRepository.MSG_NOT_EXISTS);
-        }
+        final Province localityRequestProvince = getLocalityProvince(localityRequest);
+        throwExceptionIfLocalityExistsByNameAndProvince(localityRequest.name(), localityRequestProvince);
 
-        Optional<Locality> existingLocality = localityRepository.findByNameIgnoreCaseAndProvince(
+        final var locality = LocalityMapper.toLocality(
                 localityRequest.name(),
-                localityRequestProvince.get()
-        );
-        if (existingLocality.isPresent()) {
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, ILocalityRepository.MSG_ALREADY_EXISTS);
-        }
-
-        Locality locality = LocalityMapper.toLocality(
-                localityRequest.name(),
-                localityRequestProvince.get()
+                localityRequestProvince
         );
 
         localityRepository.save(locality);
@@ -64,30 +54,18 @@ public class LocalityService implements ILocalityService {
 
     @Override
     public ResponseEntity<LocalityResponse> getLocality(UUID id) {
-        Optional<Locality> existingLocality = localityRepository.findById(id);
-        if (existingLocality.isEmpty()) {
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, ILocalityRepository.MSG_NOT_EXISTS);
-        }
-
-        return ResponseEntity.ok(LocalityMapper.toLocalityResponse(existingLocality.get()));
+        return ResponseEntity.ok(LocalityMapper.toLocalityResponse(findByIdOrThrowException(id)));
     }
 
     @Override
     public  ResponseEntity<Void> updateLocality(UUID id, LocalityRequest localityRequest) {
-        Optional<Province> localityRequestProvince = provinceRepository.findById(localityRequest.provinceId());
-        if (localityRequestProvince.isEmpty()) {
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, IProvinceRepository.MSG_NOT_EXISTS);
-        }
+        Locality locality = findByIdOrThrowException(id);
 
-        Optional<Locality> existingLocality = localityRepository.findById(id);
-        if (existingLocality.isEmpty()) {
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, ILocalityRepository.MSG_NOT_EXISTS);
-        }
-
-        Locality locality = existingLocality.get();
+        final Province localityRequestProvince = getLocalityProvince(localityRequest);
+        throwExceptionIfLocalityExistsByNameAndProvince(localityRequest.name(), localityRequestProvince);
 
         locality.setName(localityRequest.name());
-        locality.setProvince(localityRequestProvince.get());
+        locality.setProvince(localityRequestProvince);
 
         localityRepository.save(locality);
 
@@ -96,13 +74,30 @@ public class LocalityService implements ILocalityService {
 
     @Override
     public ResponseEntity<Void> deleteLocality(UUID id) {
+        localityRepository.delete(findByIdOrThrowException(id));
+
+        return ResponseEntity.ok().build();
+    }
+
+    private Province getLocalityProvince(LocalityRequest localityRequest) {
+        Optional<Province> localityProvince = provinceRepository.findById(localityRequest.provinceId());
+        if (localityProvince.isEmpty()) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, IProvinceRepository.MSG_NOT_EXISTS);
+        }
+        return localityProvince.get();
+    }
+
+    private void throwExceptionIfLocalityExistsByNameAndProvince(String name, Province province) {
+        if (localityRepository.existsByNameIgnoreCaseAndProvince(name, province)) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, ILocalityRepository.MSG_ALREADY_EXISTS);
+        }
+    }
+
+    private Locality findByIdOrThrowException(UUID id) {
         Optional<Locality> existingLocality = localityRepository.findById(id);
         if (existingLocality.isEmpty()) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, ILocalityRepository.MSG_NOT_EXISTS);
         }
-
-        localityRepository.deleteById(id);
-
-        return ResponseEntity.ok().build();
+        return existingLocality.get();
     }
 }
