@@ -1,7 +1,6 @@
 package com.imaee.propinq.users.data.models;
 
 import com.imaee.propinq.users.data.pipes.PhoneNumberConverter;
-
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Convert;
@@ -10,17 +9,16 @@ import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
-import jakarta.validation.constraints.NotNull;
-
+import lombok.NonNull;
 import com.imaee.propinq.users.data.enums.Role;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-
 import java.util.Collections;
 import java.util.List;
 import java.util.UUID;
+
 
 @Entity(name = "users")
 @NoArgsConstructor
@@ -30,32 +28,32 @@ import java.util.UUID;
 public class User {
 
     @Id
+
     private final UUID userId = UUID.randomUUID();
 
-    @NotNull
+    @NonNull
     @Column(unique = true)
     private String username;
 
-    @NotNull
+    @NonNull
     private String password;
 
-    @NotNull
+    @NonNull
     private String firstName;
 
-    @NotNull
+    @NonNull
     private String lastName;
 
-    @NotNull
-    @Column(unique = true)
+    @NonNull
     private String email;
-
+    
     @NotNull
     private String address;
 
-    @NotNull
+    @NonNull
     @Convert(converter = PhoneNumberConverter.class)
     private String phoneNumber;
-
+ 
     private String cuit;
 
     @Enumerated(EnumType.STRING)
@@ -65,9 +63,11 @@ public class User {
     @OneToMany(mappedBy = "user", cascade = {CascadeType.ALL})
     @Builder.Default
     private List<Token> tokens = Collections.emptyList();
+  
     @Builder.Default
-    private boolean activated = false;
+    private Boolean activated = false;
+  
     @Builder.Default
-    private boolean deleted = false;
-
+    private Boolean deleted = false;
+  
 }

@@ -17,11 +17,10 @@ public class PhoneNumberValidator implements
 
     @Override
     public boolean isValid(String phoneNumber, ConstraintValidatorContext constraintValidatorContext) {
-
-        if(phoneNumber == null || phoneNumber.trim().isEmpty()) {
+        if (phoneNumber == null || phoneNumber.trim().isEmpty()) {
             return true;
         }
-
+      
         PhoneNumberUtil phoneUtil = PhoneNumberUtil.getInstance();
 
         try{
@@ -29,6 +28,5 @@ public class PhoneNumberValidator implements
             return phoneUtil.isValidNumberForRegion(arNumberProto, isoCode);
         } catch (NumberParseException e) { return false; }
     }
-
 
 }

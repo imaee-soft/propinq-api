@@ -1,18 +1,16 @@
 package com.imaee.propinq.shared.data.models;
 
 import com.imaee.propinq.buildings.data.models.Building;
-import com.imaee.propinq.properties.data.models.Property;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.ManyToOne;
-import jakarta.validation.constraints.NotNull;
+import com.imaee.propinq.users.data.models.User;
+import lombok.NoArgsConstructor;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
-import lombok.NoArgsConstructor;
-
-import com.imaee.propinq.users.data.models.User;
-
+import lombok.NonNull;
+import com.imaee.propinq.properties.data.models.Property;
 import java.util.UUID;
 
 @Entity
@@ -25,19 +23,24 @@ public class Review {
     @Id
     private final UUID reviewId = UUID.randomUUID();
 
-    @NotNull
+
+    @NonNull
     private String content;
 
-    @NotNull
+    @NonNull
     private Integer rating;
 
-    @NotNull
+    @NonNull
+
     @ManyToOne
     private User author;
 
     @ManyToOne
-    private Building building;
+    private Property property;
 
     @ManyToOne
-    private Property property;
+    private Building building;
+
+    private Boolean deleted = false;
+
 }

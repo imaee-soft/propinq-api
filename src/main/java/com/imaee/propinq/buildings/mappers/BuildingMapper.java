@@ -1,5 +1,7 @@
 package com.imaee.propinq.buildings.mappers;
 
+
+import com.imaee.propinq.buildings.controllers.responses.BuildingDetailsResponse;
 import com.imaee.propinq.buildings.controllers.responses.BuildingResponse;
 import com.imaee.propinq.buildings.data.models.Building;
 import com.imaee.propinq.buildings.data.models.BuildingType;
@@ -16,23 +18,23 @@ public class BuildingMapper {
     private BuildingMapper() {}
 
     public static BuildingResponse toBuildingResponse(Building building) {
-        List<String> imagesURLS = getImagesURLs(building);
-        UUID userId = building.getUser().getUserId();
-        UUID buildingTypeId = building.getBuildingType().getBuildingTypeId();
         return new BuildingResponse(
                 building.getBuildingId(),
+                building.getLatitude(),
+                building.getLongitude()
+        );
+    }
+
+    public static BuildingDetailsResponse toBuildingDetailsResponse(Building building, List<String>imagesURLS, UUID userId, String userFullName, String buildingTypeName) {
+        return new BuildingDetailsResponse(
                 building.getName(),
                 building.getDescription(),
                 building.getAddress(),
                 imagesURLS,
                 userId,
-                buildingTypeId
+                userFullName,
+                buildingTypeName
         );
-    }
-    private static List<String> getImagesURLs(Building building) {
-        return building.getImages().stream()
-                .map(image -> image.getUrl())
-                .toList();
     }
 
     public static Building toBuilding(UUID buildingId, String description, String address, List<Image> images, List<Property> properties,
@@ -45,7 +47,6 @@ public class BuildingMapper {
                 .properties(properties)
                 .user(user)
                 .buildingType(buildingType)
-                .reviews(reviews)
                 .build();
     }
 

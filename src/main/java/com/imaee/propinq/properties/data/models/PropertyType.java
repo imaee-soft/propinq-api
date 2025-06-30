@@ -1,16 +1,13 @@
 package com.imaee.propinq.properties.data.models;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
-import jakarta.persistence.OneToMany;
-import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
-import lombok.NoArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
-
-
-import java.util.List;
+import lombok.NoArgsConstructor;
+import lombok.NonNull;
 import java.util.UUID;
 
 @Entity(name="property_types")
@@ -20,13 +17,16 @@ import java.util.UUID;
 @Data
 public class PropertyType {
     @Id
-    @Builder.Default
+
     private UUID propertyTypeId = UUID.randomUUID();
 
-    @NotNull
+    @NonNull
+    @Column(unique = true)
     private String name;
 
-    @OneToMany
-    private List<Property> properties;
+    @NonNull
+    private String description;
 
+    private Boolean deleted = false;
+  
 }
