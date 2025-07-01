@@ -10,7 +10,6 @@ import com.imaee.propinq.neighborhood.mappers.NeighborhoodMapper;
 import com.imaee.propinq.neighborhood.services.interfaces.INeighborhoodService;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
@@ -27,7 +26,7 @@ public class NeighborhoodService implements INeighborhoodService {
     private ILocalityRepository localityRepository;
 
     @Override
-    public ResponseEntity<Void> createNeighborhood(NeighborhoodRequest neighborhoodRequest) {
+    public void createNeighborhood(NeighborhoodRequest neighborhoodRequest) {
         final Locality neighborhoodRequestLocality = getNeighborhoodLocality(neighborhoodRequest);
         throwExceptionIfNeighborhoodExistsByNameAndLocality(neighborhoodRequest.name(), neighborhoodRequestLocality);
 
@@ -37,28 +36,24 @@ public class NeighborhoodService implements INeighborhoodService {
         );
 
        neighborhoodRepository.save(neighborhood);
-
-        return ResponseEntity.ok().build();
     }
 
     @Override
-    public ResponseEntity<List<NeighborhoodResponse>> getNeighborhoods() {
-        return ResponseEntity.ok(
-                neighborhoodRepository
-                        .findAll()
-                        .stream()
-                        .map(NeighborhoodMapper::toNeighborhoodResponse)
-                        .collect(Collectors.toList())
-        );
+    public List<NeighborhoodResponse> getNeighborhoods() {
+        return neighborhoodRepository
+                .findAll()
+                .stream()
+                .map(NeighborhoodMapper::toNeighborhoodResponse)
+                .collect(Collectors.toList());
     }
 
     @Override
-    public ResponseEntity<NeighborhoodResponse> getNeighborhood(UUID id) {
-        return ResponseEntity.ok(NeighborhoodMapper.toNeighborhoodResponse(findByIdOrThrowException(id)));
+    public NeighborhoodResponse getNeighborhood(UUID id) {
+        return NeighborhoodMapper.toNeighborhoodResponse(findByIdOrThrowException(id));
     }
 
     @Override
-    public  ResponseEntity<Void> updateNeighborhood(UUID id, NeighborhoodRequest neighborhoodRequest) {
+    public  void updateNeighborhood(UUID id, NeighborhoodRequest neighborhoodRequest) {
         Neighborhood neighborhood = findByIdOrThrowException(id);
 
         final Locality neighborhoodRequestLocality = getNeighborhoodLocality(neighborhoodRequest);
@@ -68,15 +63,11 @@ public class NeighborhoodService implements INeighborhoodService {
         neighborhood.setLocality(neighborhoodRequestLocality);
 
         neighborhoodRepository.save(neighborhood);
-
-        return ResponseEntity.ok().build();
     }
 
     @Override
-    public ResponseEntity<Void> deleteNeighborhood(UUID id) {
+    public void deleteNeighborhood(UUID id) {
         neighborhoodRepository.delete(findByIdOrThrowException(id));
-
-        return ResponseEntity.ok().build();
     }
 
     private Locality getNeighborhoodLocality(NeighborhoodRequest neighborhoodRequest) {

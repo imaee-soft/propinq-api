@@ -4,8 +4,14 @@ import com.imaee.propinq.neighborhood.controllers.requests.LocalityRequest;
 import com.imaee.propinq.neighborhood.controllers.responses.LocalityResponse;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseStatus;
 
 import java.util.List;
 import java.util.UUID;
@@ -14,22 +20,22 @@ import java.util.UUID;
 public interface ILocalityController {
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    ResponseEntity<Void> createLocality(@RequestBody @Valid LocalityRequest localityRequest);
+    void createLocality(@RequestBody @Valid LocalityRequest localityRequest);
 
     @GetMapping
     @ResponseStatus(HttpStatus.OK)
-    ResponseEntity<List<LocalityResponse>> getLocalities();
+    List<LocalityResponse> getLocalities();
 
     @GetMapping("/{id}")
     @ResponseStatus(HttpStatus.OK)
-    ResponseEntity<LocalityResponse> getLocality(@PathVariable UUID id);
+    LocalityResponse getLocality(@PathVariable UUID id);
 
     @PutMapping("/{id}")
     @ResponseStatus(HttpStatus.OK)
-    ResponseEntity<Void> updateLocality(@PathVariable UUID id,
-                                        @RequestBody @Valid LocalityRequest localityRequest);
+    void updateLocality(@PathVariable UUID id,
+                        @RequestBody @Valid LocalityRequest localityRequest);
 
     @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    ResponseEntity<Void> deleteLocality(@PathVariable UUID id);
+    void deleteLocality(@PathVariable UUID id);
 }

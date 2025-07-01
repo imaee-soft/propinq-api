@@ -4,8 +4,14 @@ import com.imaee.propinq.neighborhood.controllers.requests.NeighborhoodRequest;
 import com.imaee.propinq.neighborhood.controllers.responses.NeighborhoodResponse;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseStatus;
 
 import java.util.List;
 import java.util.UUID;
@@ -14,22 +20,22 @@ import java.util.UUID;
 public interface INeighborhoodController {
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    ResponseEntity<Void> createNeighborhood(@RequestBody @Valid NeighborhoodRequest neighborhoodRequest);
+    void createNeighborhood(@RequestBody @Valid NeighborhoodRequest neighborhoodRequest);
 
     @GetMapping
     @ResponseStatus(HttpStatus.OK)
-    ResponseEntity<List<NeighborhoodResponse>> getNeighborhoods();
+    List<NeighborhoodResponse> getNeighborhoods();
 
     @GetMapping("/{id}")
     @ResponseStatus(HttpStatus.OK)
-    ResponseEntity<NeighborhoodResponse> getNeighborhood(@PathVariable UUID id);
+    NeighborhoodResponse getNeighborhood(@PathVariable UUID id);
 
     @PutMapping("/{id}")
     @ResponseStatus(HttpStatus.OK)
-    ResponseEntity<Void> updateNeighborhood(@PathVariable UUID id,
-                                        @RequestBody @Valid NeighborhoodRequest neighborhoodRequest);
+    void updateNeighborhood(@PathVariable UUID id,
+                            @RequestBody @Valid NeighborhoodRequest neighborhoodRequest);
 
     @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    ResponseEntity<Void> deleteNeighborhood(@PathVariable UUID id);
+    void deleteNeighborhood(@PathVariable UUID id);
 }

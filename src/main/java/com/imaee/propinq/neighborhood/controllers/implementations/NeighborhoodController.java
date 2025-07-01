@@ -5,7 +5,6 @@ import com.imaee.propinq.neighborhood.controllers.requests.NeighborhoodRequest;
 import com.imaee.propinq.neighborhood.controllers.responses.NeighborhoodResponse;
 import com.imaee.propinq.neighborhood.services.interfaces.INeighborhoodService;
 import lombok.AllArgsConstructor;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
@@ -17,27 +16,27 @@ public class NeighborhoodController implements INeighborhoodController {
     private INeighborhoodService neighborhoodService;
 
     @Override
-    public ResponseEntity<Void> createNeighborhood(NeighborhoodRequest neighborhoodRequest) {
-        return neighborhoodService.createNeighborhood(neighborhoodRequest);
+    public void createNeighborhood(NeighborhoodRequest neighborhoodRequest) {
+        neighborhoodService.createNeighborhood(neighborhoodRequest);
     }
 
     @Override
-    public ResponseEntity<List<NeighborhoodResponse>> getNeighborhoods() {
+    public List<NeighborhoodResponse> getNeighborhoods() {
         return neighborhoodService.getNeighborhoods();
     }
 
     @Override
-    public ResponseEntity<NeighborhoodResponse> getNeighborhood(UUID id) {
+    public NeighborhoodResponse getNeighborhood(UUID id) {
         return neighborhoodService.getNeighborhood(id);
     }
 
     @Override
-    public ResponseEntity<Void> updateNeighborhood(UUID id, NeighborhoodRequest neighborhoodRequest) {
-        return neighborhoodService.updateNeighborhood(id, neighborhoodRequest);
+    public void updateNeighborhood(UUID id, NeighborhoodRequest neighborhoodRequest) {
+        neighborhoodService.updateNeighborhood(id, neighborhoodRequest);
     }
 
     @Override
-    public ResponseEntity<Void> deleteNeighborhood(UUID id) {
-        return neighborhoodService.deleteNeighborhood(id);
+    public void deleteNeighborhood(UUID id) {
+        neighborhoodService.deleteNeighborhood(id);
     }
 }

@@ -10,7 +10,6 @@ import com.imaee.propinq.neighborhood.mappers.LocalityMapper;
 import com.imaee.propinq.neighborhood.services.interfaces.ILocalityService;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
@@ -27,7 +26,7 @@ public class LocalityService implements ILocalityService {
     private IProvinceRepository provinceRepository;
 
     @Override
-    public ResponseEntity<Void> createLocality(LocalityRequest localityRequest) {
+    public void createLocality(LocalityRequest localityRequest) {
         final Province localityRequestProvince = getLocalityProvince(localityRequest);
         throwExceptionIfLocalityExistsByNameAndProvince(localityRequest.name(), localityRequestProvince);
 
@@ -37,28 +36,24 @@ public class LocalityService implements ILocalityService {
         );
 
         localityRepository.save(locality);
-
-        return ResponseEntity.ok().build();
     }
 
     @Override
-    public ResponseEntity<List<LocalityResponse>> getLocalities() {
-        return ResponseEntity.ok(
-                localityRepository
-                        .findAll()
-                        .stream()
-                        .map(LocalityMapper::toLocalityResponse)
-                        .collect(Collectors.toList())
-        );
+    public List<LocalityResponse> getLocalities() {
+        return localityRepository
+                .findAll()
+                .stream()
+                .map(LocalityMapper::toLocalityResponse)
+                .collect(Collectors.toList());
     }
 
     @Override
-    public ResponseEntity<LocalityResponse> getLocality(UUID id) {
-        return ResponseEntity.ok(LocalityMapper.toLocalityResponse(findByIdOrThrowException(id)));
+    public LocalityResponse getLocality(UUID id) {
+        return LocalityMapper.toLocalityResponse(findByIdOrThrowException(id));
     }
 
     @Override
-    public  ResponseEntity<Void> updateLocality(UUID id, LocalityRequest localityRequest) {
+    public  void updateLocality(UUID id, LocalityRequest localityRequest) {
         Locality locality = findByIdOrThrowException(id);
 
         final Province localityRequestProvince = getLocalityProvince(localityRequest);
@@ -68,15 +63,11 @@ public class LocalityService implements ILocalityService {
         locality.setProvince(localityRequestProvince);
 
         localityRepository.save(locality);
-
-        return ResponseEntity.ok().build();
     }
 
     @Override
-    public ResponseEntity<Void> deleteLocality(UUID id) {
+    public void deleteLocality(UUID id) {
         localityRepository.delete(findByIdOrThrowException(id));
-
-        return ResponseEntity.ok().build();
     }
 
     private Province getLocalityProvince(LocalityRequest localityRequest) {
