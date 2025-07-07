@@ -7,12 +7,10 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
-
-
 import java.util.List;
 import java.util.UUID;
 
-@RequestMapping("/api/v1/buildings")
+
 @Tag(
         name = "Buildings",
         description = "Operations for managing and querying buildings."

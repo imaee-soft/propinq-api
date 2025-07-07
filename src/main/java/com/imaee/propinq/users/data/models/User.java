@@ -28,12 +28,7 @@ import java.util.UUID;
 public class User {
 
     @Id
-
     private final UUID userId = UUID.randomUUID();
-
-    @NonNull
-    @Column(unique = true)
-    private String username;
 
     @NonNull
     private String password;
@@ -45,6 +40,7 @@ public class User {
     private String lastName;
 
     @NonNull
+    @Column(unique = true)
     private String email;
     
     @NonNull

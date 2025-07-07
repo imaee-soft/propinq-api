@@ -7,9 +7,6 @@ import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
 
 public record SignUpRequest(
-        @NotNull(message = "User username must not be null")
-        @Size(min = 3, max = 20, message = "User username must be between 3 and 20 characters")
-        String username,
 
         @NotNull(message = "User password must not be null")
         @Size(min = 6, max = 20, message = "User password must be between 6 and 20 characters")

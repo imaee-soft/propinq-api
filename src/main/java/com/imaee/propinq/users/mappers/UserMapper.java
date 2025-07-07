@@ -9,7 +9,6 @@ public class UserMapper {
 
     public static User toUser(SignUpRequest createUserRequest){
         return User.builder()
-                .username(createUserRequest.username())
                 .password(createUserRequest.password())
                 .firstName(createUserRequest.firstName())
                 .lastName(createUserRequest.lastName())

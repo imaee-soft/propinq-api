@@ -1,7 +1,6 @@
 -- Insertar usuario de prueba
 INSERT IGNORE INTO users (
     user_id,
-    username,
     password,
     first_name,
     last_name,
@@ -13,7 +12,6 @@ INSERT IGNORE INTO users (
     address
 ) VALUES (
     UNHEX('11111111111111111111111111111111'),
-    'demo_owner',
     'demo_password',
     'Juan',
     'Pérez',

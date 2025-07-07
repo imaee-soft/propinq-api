@@ -44,10 +44,6 @@ public class UserService implements IUserService {
             throw new DuplicateEmailException("Email already exists: " + createUserRequest.email());
         }
         
-        if (userRepository.existsByUsername(createUserRequest.username())) {
-            throw new DuplicateUserNameException("Username already exists: " + createUserRequest.username());
-        }
-        
         User newUser = createUser(createUserRequest);
         userRepository.save(newUser);
         
@@ -118,7 +114,7 @@ public class UserService implements IUserService {
     public void sendEmailToRecoverPassword(String email) {
         User user = findUserByEmailOrThrowException(email);
         Token recoverPasswordToken = tokenService.saveToken(user);
-        String emailContent = emailBuilder.buildRecoverPasswordEmail(user.getUsername(), recoverPasswordToken.getTokenId());
+        String emailContent = emailBuilder.buildRecoverPasswordEmail(user.getFirstName(), recoverPasswordToken.getTokenId());
 
         emailService.sendEmail(email, RECOVER_PASSWORD_EMAIL_SUBJECT, emailContent);
     }

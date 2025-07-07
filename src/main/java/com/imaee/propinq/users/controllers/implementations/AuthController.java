@@ -4,10 +4,12 @@ import com.imaee.propinq.users.controllers.interfaces.IAuthController;
 import com.imaee.propinq.users.controllers.requests.SignUpRequest;
 import com.imaee.propinq.users.services.interfaces.IAuthService;
 import lombok.AllArgsConstructor;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @AllArgsConstructor
+@RequestMapping("/api/v1/auth")
 public class AuthController implements IAuthController {
     private final IAuthService authService;
 
