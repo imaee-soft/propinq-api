@@ -47,7 +47,7 @@ public class User {
     @NonNull
     private String email;
     
-    @NotNull
+    @NonNull
     private String address;
 
     @NonNull
@@ -65,7 +65,7 @@ public class User {
     private List<Token> tokens = Collections.emptyList();
   
     @Builder.Default
-    private Boolean activated = false;
+    private boolean activated = false;
   
     @Builder.Default
     private Boolean deleted = false;

@@ -1,5 +1,5 @@
 -- Insertar usuario de prueba
-INSERT INTO users (
+INSERT IGNORE INTO users (
     user_id,
     username,
     password,
@@ -26,7 +26,7 @@ INSERT INTO users (
 );
 
 -- Insertar tipo de edificio de prueba
-INSERT INTO building_types (building_type_id,
+INSERT IGNORE INTO building_types (building_type_id,
                             name,
                             deleted)
 VALUES (UNHEX('22222222222222222222222222222222'),
@@ -34,7 +34,7 @@ VALUES (UNHEX('22222222222222222222222222222222'),
         0);
 
 -- Insertar tipo de propiedad de prueba
-INSERT INTO property_types (property_type_id,
+INSERT IGNORE INTO property_types (property_type_id,
                             name,
                             description,
                             deleted)
@@ -44,7 +44,7 @@ VALUES (UNHEX('33333333333333333333333333333333'),
         0);
 
 -- Insertar edificio en Villa María, Córdoba
-INSERT INTO buildings (building_id,
+INSERT IGNORE INTO buildings (building_id,
                        name,
                        description,
                        address,
@@ -63,17 +63,17 @@ VALUES (UNHEX('123e4567e89b12d3a456426614174000'),
         UNHEX('22222222222222222222222222222222'), -- building_type_id
         0);
 
-INSERT INTO images(url)
+INSERT IGNORE INTO images(url)
 VALUES('https://climalit.es/blog/wp-content/uploads/2018/05/edificios-eficientes-1280x1280.jpg'),
        ('https://img.freepik.com/foto-gratis/tiro-vertical-edificio-blanco-cielo-despejado_181624-4575.jpg?semt=ais_hybrid&w=740');
 -- Insertar propiedades asociadas al building y al tipo de propiedad
-INSERT INTO buildings_images (buildings_building_id, images_url)
+INSERT IGNORE INTO buildings_images (buildings_building_id, images_url)
 VALUES(UNHEX('123e4567e89b12d3a456426614174000'),'https://climalit.es/blog/wp-content/uploads/2018/05/edificios-eficientes-1280x1280.jpg');
 
-INSERT INTO buildings_images (buildings_building_id, images_url)
+INSERT IGNORE INTO buildings_images (buildings_building_id, images_url)
 VALUES (UNHEX('123e4567e89b12d3a456426614174000'),'https://img.freepik.com/foto-gratis/tiro-vertical-edificio-blanco-cielo-despejado_181624-4575.jpg?semt=ais_hybrid&w=740');
 
-INSERT INTO properties (property_id,
+INSERT IGNORE INTO properties (property_id,
                         address,
                         latitude,
                         longitude,
