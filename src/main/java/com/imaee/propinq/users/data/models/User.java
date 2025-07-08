@@ -15,6 +15,8 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+
+import java.time.LocalDate;
 import java.util.Collections;
 import java.util.List;
 import java.util.UUID;
@@ -36,6 +38,9 @@ public class User {
 
     @NonNull
     private String password;
+
+    @NonNull
+    private LocalDate birthDate;
 
     @NonNull
     private String firstName;
