@@ -40,11 +40,12 @@ public class SecurityConfig{
                 .cors(Customizer.withDefaults())
             .csrf(AbstractHttpConfigurer::disable)
             .authorizeHttpRequests(auth -> auth
-                .requestMatchers(HttpMethod.OPTIONS).permitAll()
+                .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
+                    .requestMatchers("/api/v1/auth/signup").permitAll()
                 .requestMatchers(DOC_ENDPOINTS).hasRole(Role.ADMIN.name())
                 .requestMatchers(AUTH_ENDPOINTS).permitAll()
                 .requestMatchers( "/api/v1/users/**").permitAll()
-                .anyRequest().authenticated()
+                    .anyRequest().authenticated()
             )
             .httpBasic(httpBasic -> {})
             .sessionManagement(sesion -> sesion
