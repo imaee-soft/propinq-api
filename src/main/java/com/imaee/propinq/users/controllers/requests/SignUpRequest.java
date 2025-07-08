@@ -8,6 +8,10 @@ import jakarta.validation.constraints.Size;
 
 public record SignUpRequest(
 
+        @NotNull(message = "User dni must not be null")
+        @Size(max = 8, message = "User DNI must be between 0 and 8 characters")
+        String dni,
+
         @NotNull(message = "User password must not be null")
         @Size(min = 6, max = 20, message = "User password must be between 6 and 20 characters")
         String password,
