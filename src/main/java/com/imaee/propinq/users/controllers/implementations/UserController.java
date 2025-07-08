@@ -9,12 +9,14 @@ import com.imaee.propinq.users.services.interfaces.IUserService;
 
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.UUID;
 
 @RestController
 @AllArgsConstructor
+@RequestMapping("/api/v1/users")
 public class UserController implements IUserController {
 
     private final IUserService userService;

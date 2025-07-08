@@ -43,6 +43,7 @@ public class SecurityConfig{
                 .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
                     .requestMatchers("/api/v1/auth/signup").permitAll()
                     .requestMatchers("/api/v1/buildings/**").permitAll()
+                    .requestMatchers("/api/v1/users/*/activate").permitAll()
                 .requestMatchers(DOC_ENDPOINTS).hasRole(Role.ADMIN.name())
                 .requestMatchers(AUTH_ENDPOINTS).permitAll()
                 .requestMatchers( "/api/v1/users/**").permitAll()
