@@ -45,7 +45,7 @@ public class BuildingService implements IBuildingService {
     }
 
     private Building findBuildingByIdOrThrowException(UUID buildingId) {
-        return buildingRepository.findById(buildingId)
+        return buildingRepository.findByIdWithImages(buildingId)
                 .orElseThrow(() -> new NoSuchElementException(NO_BUILDING_MESSAGE));
     }
 }
