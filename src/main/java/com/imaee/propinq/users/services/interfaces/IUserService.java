@@ -6,10 +6,11 @@ import com.imaee.propinq.users.controllers.requests.SendNewActivationTokenReques
 import com.imaee.propinq.users.controllers.requests.SignUpRequest;
 import com.imaee.propinq.users.data.models.User;
 
-import java.util.List;
 import java.util.UUID;
 
 public interface IUserService {
+
+    User findUserById(UUID id);
 
     void saveUser(SignUpRequest createUserRequest);
 

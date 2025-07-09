@@ -1,33 +1,41 @@
 package com.imaee.propinq.buildings.data.models;
 
-import com.imaee.propinq.shared.data.models.Image;
+import com.imaee.propinq.buildings.data.enums.BuildingType;
 import com.imaee.propinq.properties.data.models.Property;
+import com.imaee.propinq.shared.data.models.Image;
 import com.imaee.propinq.shared.data.models.Locatable;
 import com.imaee.propinq.users.data.models.User;
 import jakarta.persistence.Column;
-import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.Id;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.NonNull;
-import java.util.Collections;
+import lombok.experimental.SuperBuilder;
+
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
+import static com.imaee.propinq.buildings.data.enums.BuildingType.EDIFICIO;
+import static jakarta.persistence.CascadeType.ALL;
+import static jakarta.persistence.EnumType.STRING;
+import static java.util.UUID.randomUUID;
+import static lombok.AccessLevel.PROTECTED;
+
 @Entity(name = "buildings")
-@NoArgsConstructor
+@NoArgsConstructor(access = PROTECTED)
 @AllArgsConstructor
-@Builder
+@SuperBuilder
 @Data
 public class Building extends Locatable {
 
     @Id
-    private UUID buildingId = UUID.randomUUID();
+    private final UUID buildingId = randomUUID();
 
     @NonNull
     @Column(unique = true)
@@ -40,19 +48,18 @@ public class Building extends Locatable {
     private String address;
 
     @NonNull
-    @OneToMany(cascade = CascadeType.ALL)
-    private List<Image> images = Collections.emptyList();
+    @OneToMany(cascade = ALL)
+    private List<Image> images = new ArrayList<>();
 
-    @OneToMany(mappedBy = "building", cascade = CascadeType.ALL)
-    private List<Property> properties = Collections.emptyList();
+    @OneToMany(mappedBy = "building", cascade = ALL)
+    private List<Property> properties = new ArrayList<>();
 
     @NonNull
     @ManyToOne
     private User user;
 
-    @NonNull
-    @ManyToOne
-    private BuildingType buildingType;
+    @Enumerated(STRING)
+    private BuildingType buildingType = EDIFICIO;
 
-    private Boolean deleted = false;
+    private boolean deleted = false;
 }

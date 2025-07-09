@@ -1,5 +1,7 @@
 package com.imaee.propinq.users.services.implementations;
 
+import com.imaee.propinq.exceptions.custom_exceptions.DuplicateEmailException;
+import com.imaee.propinq.exceptions.custom_exceptions.DuplicateUserNameException;
 import com.imaee.propinq.users.controllers.requests.RecoverPasswordRequest;
 import com.imaee.propinq.users.controllers.requests.SendEmailRequest;
 import com.imaee.propinq.users.controllers.requests.SendNewActivationTokenRequest;
@@ -15,16 +17,16 @@ import com.imaee.propinq.users.utils.EmailBuilder;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
-import org.springframework.security.crypto.password.PasswordEncoder;
+
 import java.time.LocalDateTime;
-import java.util.List;
 import java.util.UUID;
 
+import static com.imaee.propinq.users.Constants.USER_NOT_FOUND;
 import static com.imaee.propinq.users.utils.Constants.*;
-import com.imaee.propinq.exceptions.custom_exceptions.DuplicateEmailException;
-import com.imaee.propinq.exceptions.custom_exceptions.DuplicateUserNameException;
+import static org.springframework.http.HttpStatus.NOT_FOUND;
 
 @Service
 @AllArgsConstructor
@@ -36,6 +38,12 @@ public class UserService implements IUserService {
     private final EmailBuilder emailBuilder;
     private final PasswordEncoder passwordEncoder;
     private final IEmailService emailService;
+
+    @Override
+    public User findUserById(UUID id) {
+        return userRepository.findById(id)
+                .orElseThrow(() -> new ResponseStatusException(NOT_FOUND, USER_NOT_FOUND));
+    }
 
     @Override
     public void saveUser(SignUpRequest createUserRequest) {
@@ -110,7 +118,7 @@ public class UserService implements IUserService {
     }
 
     private void ifUserIsActivatedThrowException(User user) {
-        if (user.isActivated())
+        if (user.getActivated())
             throw new IllegalArgumentException(USER_ALREADY_ACTIVATED_MESSAGE);
     }
 
