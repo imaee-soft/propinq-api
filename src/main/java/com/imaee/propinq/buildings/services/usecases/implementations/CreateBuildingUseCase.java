@@ -4,7 +4,7 @@ import com.imaee.propinq.buildings.controllers.requests.BuildingRequest;
 import com.imaee.propinq.buildings.data.models.Building;
 import com.imaee.propinq.buildings.data.repositories.IBuildingRepository;
 import com.imaee.propinq.buildings.services.usecases.interfaces.ICreateBuildingUseCase;
-import com.imaee.propinq.shared.services.interfaces.IFileUploadService;
+import com.imaee.propinq.shared.services.interfaces.IImageUploadService;
 import com.imaee.propinq.users.services.interfaces.IUserService;
 import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
@@ -27,7 +27,7 @@ public class CreateBuildingUseCase implements ICreateBuildingUseCase {
 
     private final IBuildingRepository buildingRepository;
     private final IUserService userService;
-    private final IFileUploadService fileUploadService;
+    private final IImageUploadService fileUploadService;
 
     @Override
     @Transactional
