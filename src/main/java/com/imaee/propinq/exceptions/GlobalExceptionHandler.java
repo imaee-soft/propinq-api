@@ -1,76 +1,45 @@
 package com.imaee.propinq.exceptions;
 
+import com.imaee.propinq.exceptions.custom_exceptions.DuplicateEmailException;
+import com.imaee.propinq.exceptions.custom_exceptions.DuplicateUserNameException;
+import com.imaee.propinq.exceptions.custom_exceptions.EmailSendingException;
+import com.imaee.propinq.exceptions.custom_exceptions.PhoneNumberParseException;
+import com.imaee.propinq.exceptions.data.ExceptionMessage;
+import org.springframework.web.bind.MethodArgumentNotValidException;
+import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.bind.annotation.ResponseStatus;
+import org.springframework.web.bind.annotation.RestControllerAdvice;
+
+import static com.imaee.propinq.exceptions.data.ExceptionMessage.of;
+import static org.springframework.http.HttpStatus.BAD_REQUEST;
+import static org.springframework.http.HttpStatus.SERVICE_UNAVAILABLE;
+
+@RestControllerAdvice
 public class GlobalExceptionHandler {
 
-//    @ExceptionHandler(DuplicateEmailException.class)
-//    public ResponseEntity<Map<String, Object>> handleDuplicateEmail(DuplicateEmailException e) {
-//        Map<String, Object> response = new HashMap<>();
-//        response.put("error", "Email already exists");
-//        response.put("message", e.getMessage());
-//        response.put("status", HttpStatus.CONFLICT.value());
-//        return ResponseEntity.status(HttpStatus.CONFLICT).body(response);
-//    }
-//
-//    @ExceptionHandler(DuplicateUserNameException.class)
-//    public ResponseEntity<Map<String, Object>> handleDuplicateUserName(DuplicateUserNameException e) {
-//        Map<String, Object> response = new HashMap<>();
-//        response.put("error", "user name already exists");
-//        response.put("message", e.getMessage());
-//        response.put("status", HttpStatus.CONFLICT.value());
-//        return ResponseEntity.status(HttpStatus.CONFLICT).body(response);
-//    }
-//
-//    @ExceptionHandler(IllegalArgumentException.class)
-//    public ResponseEntity<Map<String, Object>> handleIllegalArgument(IllegalArgumentException e) {
-//        Map<String, Object> response = new HashMap<>();
-//        response.put("error", "Invalid input");
-//        response.put("message", e.getMessage());
-//        response.put("status", HttpStatus.BAD_REQUEST.value());
-//        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response);
-//    }
-//
-//    @ExceptionHandler(EmailSendingException.class)
-//    public ResponseEntity<Map<String, Object>> handleEmailSending(EmailSendingException e) {
-//        Map<String, Object> response = new HashMap<>();
-//        response.put("error", "Email service unavailable");
-//        response.put("message", "User registered but activation email could not be sent. Please contact support.");
-//        response.put("status", HttpStatus.PARTIAL_CONTENT.value());
-//        return ResponseEntity.status(HttpStatus.PARTIAL_CONTENT).body(response);
-//    }
-//
-//    @ExceptionHandler(MethodArgumentNotValidException.class)
-//    public ResponseEntity<Map<String, Object>> handleValidationErrors(MethodArgumentNotValidException e) {
-//        Map<String, Object> response = new HashMap<>();
-//        Map<String, String> fieldErrors = new HashMap<>();
-//
-//        e.getBindingResult().getAllErrors().forEach(error -> {
-//            String fieldName = ((FieldError) error).getField();
-//            String message = error.getDefaultMessage();
-//            fieldErrors.put(fieldName, message);
-//        });
-//
-//        response.put("error", "Validation failed");
-//        response.put("message", "Invalid input data");
-//        response.put("fieldErrors", fieldErrors);
-//        response.put("status", HttpStatus.BAD_REQUEST.value());
-//        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response);
-//    }
-//
-//    @ExceptionHandler(PhoneNumberParseException.class)
-//    public ResponseEntity<Map<String, Object>> handlePhoneNumberParse(PhoneNumberParseException e) {
-//        Map<String, Object> response = new HashMap<>();
-//        response.put("error", "Invalid phone number format");
-//        response.put("message", e.getMessage());
-//        response.put("status", HttpStatus.BAD_REQUEST.value());
-//        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response);
-//    }
-//
-//    @ExceptionHandler(Exception.class)
-//    public ResponseEntity<Map<String, Object>> handleGenericException(Exception e) {
-//        Map<String, Object> response = new HashMap<>();
-//        response.put("error", "Internal server error");
-//        response.put("message", "An unexpected error occurred. Please try again later.");
-//        response.put("status", HttpStatus.INTERNAL_SERVER_ERROR.value());
-//        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(response);
-//    }
+    private static final String EMAIL_SENDING_EXCEPTION_MESSAGE =
+            "User registered but activation email could not be sent. Please contact support.";
+
+    @ExceptionHandler({
+            DuplicateEmailException.class,
+            DuplicateUserNameException.class,
+            PhoneNumberParseException.class,
+            IllegalArgumentException.class
+    })
+    @ResponseStatus(BAD_REQUEST)
+    public ExceptionMessage handleUserInputExceptions(RuntimeException ex) {
+        return of(ex.getMessage(), 400);
+    }
+
+    @ExceptionHandler(EmailSendingException.class)
+    @ResponseStatus(SERVICE_UNAVAILABLE)
+    public ExceptionMessage handleEmailSendingException() {
+        return of(EMAIL_SENDING_EXCEPTION_MESSAGE, 503);
+    }
+
+    @ExceptionHandler(MethodArgumentNotValidException.class)
+    @ResponseStatus(BAD_REQUEST)
+    public ExceptionMessage handleJakartaValidationsException(MethodArgumentNotValidException ex) {
+        return of(ex.getBindingResult().getAllErrors().getFirst().getDefaultMessage(), 400);
+    }
 }
