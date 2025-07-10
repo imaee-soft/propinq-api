@@ -25,10 +25,7 @@ public class CloudinaryImageUploadService implements IFileUploadService {
 
     @Override
     public Image uploadImage(MultipartFile file) {
-        return runCatching(
-                () -> uploadCloudinaryImage(file),
-                SERVICE_UNAVAILABLE
-        );
+        return runCatching(() -> uploadCloudinaryImage(file), SERVICE_UNAVAILABLE);
     }
 
     @Override
@@ -43,7 +40,6 @@ public class CloudinaryImageUploadService implements IFileUploadService {
                 .upload(file.getBytes(), emptyMap())
                 .get(URL_KEY)
                 .toString();
-        System.out.println("URL DE LA IMAGEN: " + url);
         return new Image(url, file.getName(), false);
     }
 }
