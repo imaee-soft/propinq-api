@@ -2,7 +2,11 @@ package com.imaee.propinq.shared.data.models;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+import lombok.NonNull;
 
 @Entity(name="images")
 @NoArgsConstructor
