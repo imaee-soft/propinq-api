@@ -24,6 +24,7 @@ import java.util.UUID;
 import static com.imaee.propinq.buildings.data.enums.BuildingType.EDIFICIO;
 import static jakarta.persistence.CascadeType.ALL;
 import static jakarta.persistence.EnumType.STRING;
+import static jakarta.persistence.FetchType.EAGER;
 import static java.util.UUID.randomUUID;
 import static lombok.AccessLevel.PROTECTED;
 
@@ -48,8 +49,8 @@ public class Building extends Locatable {
     private String address;
 
     @NonNull
-    @OneToMany(cascade = ALL)
-    private List<Image> images = new ArrayList<>();
+    @OneToMany(cascade = ALL, fetch = EAGER)
+    private List<Image> images;
 
     @OneToMany(mappedBy = "building", cascade = ALL)
     private List<Property> properties = new ArrayList<>();

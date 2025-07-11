@@ -21,5 +21,5 @@ public class Image {
     @NonNull
     private String fileName;
 
-    private Boolean deleted = false;
+    private boolean deleted = false;
 }
