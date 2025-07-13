@@ -73,6 +73,6 @@ public class User {
     private boolean activated = false;
   
     @Builder.Default
-    private Boolean deleted = false;
+    private boolean deleted = false;
   
 }

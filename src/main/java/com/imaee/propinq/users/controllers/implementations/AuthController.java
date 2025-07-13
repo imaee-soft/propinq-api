@@ -9,7 +9,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @AllArgsConstructor
-@RequestMapping("/api/v1/auth")
 public class AuthController implements IAuthController {
     private final IAuthService authService;
 

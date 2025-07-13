@@ -15,6 +15,7 @@ import java.util.UUID;
         name = "Buildings",
         description = "Operations for managing and querying buildings."
 )
+@RequestMapping("/api/v1/buildings")
 public interface IBuildingController {
 
     @GetMapping

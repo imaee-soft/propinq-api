@@ -12,7 +12,6 @@ import java.util.UUID;
 
 @RestController
 @AllArgsConstructor
-@RequestMapping("/api/v1/buildings")
 public class BuildingController implements IBuildingController {
 
     private final IBuildingService buildingService;
