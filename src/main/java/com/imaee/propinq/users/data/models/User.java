@@ -1,5 +1,6 @@
 package com.imaee.propinq.users.data.models;
 
+import com.imaee.propinq.users.data.enums.Role;
 import com.imaee.propinq.users.data.pipes.PhoneNumberConverter;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
@@ -9,16 +10,17 @@ import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
-import lombok.NonNull;
-import com.imaee.propinq.users.data.enums.Role;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import java.util.Collections;
+import lombok.NonNull;
+
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
+import static java.util.UUID.randomUUID;
 
 @Entity(name = "users")
 @NoArgsConstructor
@@ -28,8 +30,7 @@ import java.util.UUID;
 public class User {
 
     @Id
-
-    private final UUID userId = UUID.randomUUID();
+    private final UUID userId = randomUUID();
 
     @NonNull
     @Column(unique = true)
@@ -47,7 +48,7 @@ public class User {
     @NonNull
     private String email;
     
-    @NotNull
+    @NonNull
     private String address;
 
     @NonNull
@@ -62,12 +63,13 @@ public class User {
 
     @OneToMany(mappedBy = "user", cascade = {CascadeType.ALL})
     @Builder.Default
-    private List<Token> tokens = Collections.emptyList();
+    private List<Token> tokens = new ArrayList<>();
   
     @Builder.Default
     private Boolean activated = false;
   
     @Builder.Default
     private Boolean deleted = false;
-  
+
+    public String getFullName() { return firstName + " " + lastName; }
 }
