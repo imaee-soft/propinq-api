@@ -1,17 +1,15 @@
 package com.imaee.propinq.buildings.mappers;
 
-
+import com.imaee.propinq.buildings.controllers.requests.BuildingRequest;
 import com.imaee.propinq.buildings.controllers.responses.BuildingDetailsResponse;
 import com.imaee.propinq.buildings.controllers.responses.BuildingResponse;
 import com.imaee.propinq.buildings.data.models.Building;
-import com.imaee.propinq.buildings.data.models.BuildingType;
-import com.imaee.propinq.shared.data.models.Review;
 import com.imaee.propinq.shared.data.models.Image;
-import com.imaee.propinq.properties.data.models.Property;
 import com.imaee.propinq.users.data.models.User;
 
 import java.util.List;
-import java.util.UUID;
+
+import static com.imaee.propinq.buildings.data.enums.BuildingType.valueOf;
 
 public class BuildingMapper {
 
@@ -25,29 +23,32 @@ public class BuildingMapper {
         );
     }
 
-    public static BuildingDetailsResponse toBuildingDetailsResponse(Building building, List<String>imagesURLS, UUID userId, String userFullName, String buildingTypeName) {
+    public static BuildingDetailsResponse toBuildingDetailsResponse(Building building, List<String> imagesURLS) {
         return new BuildingDetailsResponse(
                 building.getName(),
                 building.getDescription(),
                 building.getAddress(),
                 imagesURLS,
-                userId,
-                userFullName,
-                buildingTypeName
+                building.getUser().getUserId(),
+                building.getUser().getFullName(),
+                building.getBuildingType().name()
         );
     }
 
-    public static Building toBuilding(UUID buildingId, String description, String address, List<Image> images, List<Property> properties,
-                                      User user, BuildingType buildingType, List<Review> reviews) {
+    public static Building toBuilding(
+            BuildingRequest buildingRequest,
+            User user,
+            List<Image> images
+    ) {
         return Building.builder()
-                .buildingId(buildingId)
-                .description(description)
-                .address(address)
-                .images(images)
-                .properties(properties)
+                .name(buildingRequest.name())
+                .description(buildingRequest.description())
+                .address(buildingRequest.address())
+                .latitude(buildingRequest.latitude())
+                .longitude(buildingRequest.longitude())
                 .user(user)
-                .buildingType(buildingType)
+                .images(images)
+                .buildingType(valueOf(buildingRequest.type()))
                 .build();
     }
-
 }

@@ -16,24 +16,21 @@ spring:
     properties:
       hibernate:
         format_sql: true
-  sql:
-    init:
-      mode: always
   datasource:
-    url: jdbc:mysql://${MYSQL_HOST:mysql}:${MYSQL_PORT:3306}/propinq?createDatabaseIfNotExist=true
+    url: jdbc:mysql://${MYSQL_HOST:localhost}:${MYSQL_PORT:3306}/propinq?createDatabaseIfNotExist=true
     username: ${DB_USERNAME:root}
     password: ${DB_PASSWORD:password}
     driver-class-name: com.mysql.cj.jdbc.Driver
   data:
     mongodb:
-      uri: mongodb://mongo-user:secret@${MONGODB_HOST:mongodb}:27017/propinq?authSource=admin
+      uri: mongodb://${MONGODB_HOST:localhost}:27017/propinq
       username: mongo-user
       password: secret
   mail:
     host: ${MAIL_HOST:smtp.gmail.com}
     port: ${MAIL_PORT:587}
-    username: ${MAIL_USERNAME:propinq.enterprise@gmail.com}
-    password: ${MAIL_PASSWORD:mdro ysng snki etif}
+    username: ${MAIL_USERNAME}
+    password: ${MAIL_PASSWORD}
     properties:
       mail:
         smtp:
@@ -53,3 +50,13 @@ cors:
 
 frontend:
   url: ${FRONTEND_URL:http://localhost:4200}
+
+cloudinary:
+  cloud-name: ${CLOUD_NAME}
+  api-key: ${CLOUD_API_KEY}
+  api-secret: ${CLOUD_API_SECRET}
+
+springdoc:
+  swagger-ui:
+    disable-swagger-default-url: true
+    path: /

@@ -2,10 +2,10 @@ package com.imaee.propinq.shared.data.models;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
-import lombok.NoArgsConstructor;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import lombok.NonNull;
 
 @Entity(name="images")
@@ -21,6 +21,5 @@ public class Image {
     @NonNull
     private String fileName;
 
-    private Boolean deleted = false;
-
+    private boolean deleted = false;
 }

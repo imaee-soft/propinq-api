@@ -33,7 +33,7 @@ public record SignUpRequest(
         String email,
 
         @NotNull(message = "User address must not be null")
-        @Size(min = 3, max = 20, message = "User address must be between 3 and 20 characters")
+        @Size(min = 3, max = 50, message = "User address must be between 3 and 50 characters")
         String address,
 
         @NotBlank(message = "User phone number must not be blank")
