@@ -7,6 +7,7 @@ import com.imaee.propinq.buildings.services.interfaces.IBuildingService;
 import com.imaee.propinq.buildings.services.usecases.interfaces.ICreateBuildingUseCase;
 import com.imaee.propinq.buildings.services.usecases.interfaces.IGetBuildingUseCase;
 import com.imaee.propinq.buildings.services.usecases.interfaces.IGetBuildingsUseCase;
+import com.imaee.propinq.buildings.services.usecases.interfaces.IUpdateBuildingsUseCase;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -21,6 +22,7 @@ public class BuildingService implements IBuildingService {
     private final ICreateBuildingUseCase createBuildingUseCase;
     private final IGetBuildingsUseCase getBuildingsUseCase;
     private final IGetBuildingUseCase getBuildingUseCase;
+    private final IUpdateBuildingsUseCase updateBuildingsUseCase;
 
     @Override
     public void createBuilding(BuildingRequest buildingRequest, MultipartFile[] imageFiles) {
@@ -36,4 +38,10 @@ public class BuildingService implements IBuildingService {
     public BuildingDetailsResponse getBuilding(UUID buildingId) {
         return getBuildingUseCase.getBuilding(buildingId);
     }
+
+    @Override
+    public BuildingDetailsResponse updateBuilding(UUID buildingId, BuildingRequest buildingRequest, MultipartFile[] images) {
+        return updateBuildingsUseCase.updateBuilding(buildingId, buildingRequest, images);
+    }
+
 }

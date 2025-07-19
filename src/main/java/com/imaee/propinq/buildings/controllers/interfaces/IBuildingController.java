@@ -18,7 +18,6 @@ import static org.springframework.http.HttpStatus.OK;
         name = "Buildings",
         description = "Operations for managing and querying buildings."
 )
-@RequestMapping("/api/v1/buildings")
 public interface IBuildingController {
 
     @PostMapping
@@ -38,4 +37,13 @@ public interface IBuildingController {
     @ResponseStatus(OK)
     @Operation(summary = "Retrieves detailed information about a specific building by its ID.")
     BuildingDetailsResponse getBuilding(@PathVariable UUID buildingId);
+
+    @PatchMapping("/{buildingId}")
+    @ResponseStatus(OK)
+    @Operation(summary = "Updates the details of an existing building by its ID.")
+    BuildingDetailsResponse updateBuilding(
+            @PathVariable UUID buildingId,
+            @RequestPart("building") @Valid BuildingRequest buildingRequest,
+            @RequestPart("images") MultipartFile[] images
+    );
 }

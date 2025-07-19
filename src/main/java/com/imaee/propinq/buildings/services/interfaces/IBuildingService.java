@@ -12,4 +12,5 @@ public interface IBuildingService {
     void createBuilding(BuildingRequest buildingRequest, MultipartFile[] images);
     List<BuildingResponse> getBuildings();
     BuildingDetailsResponse getBuilding(UUID buildingId);
+    BuildingDetailsResponse updateBuilding(UUID buildingId, BuildingRequest buildingRequest, MultipartFile[] images);
 }

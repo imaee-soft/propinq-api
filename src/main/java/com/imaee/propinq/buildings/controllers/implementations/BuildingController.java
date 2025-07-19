@@ -6,7 +6,6 @@ import com.imaee.propinq.buildings.controllers.responses.BuildingDetailsResponse
 import com.imaee.propinq.buildings.controllers.responses.BuildingResponse;
 import com.imaee.propinq.buildings.services.interfaces.IBuildingService;
 import lombok.AllArgsConstructor;
-import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -32,5 +31,10 @@ public class BuildingController implements IBuildingController {
     @Override
     public BuildingDetailsResponse getBuilding(UUID buildingId) {
         return buildingService.getBuilding(buildingId);
+    }
+
+    @Override
+    public BuildingResponse updateBuilding (UUID buildingId, BuildingRequest buildingRequest, MultipartFile[] images) {
+        return buildingService.updateBuilding(buildingId, buildingRequest, images);
     }
 }
