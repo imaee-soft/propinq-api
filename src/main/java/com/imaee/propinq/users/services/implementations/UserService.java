@@ -173,17 +173,4 @@ public class UserService implements IUserService {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, TOKEN_NOT_EXPIRED_MESSAGE);
     }
 
-    @Override
-    public void sendNewActivationToken(SendNewActivationTokenRequest sendNewActivationTokenRequest) {
-        throwExceptionIfTokenIsNotExpired(sendNewActivationTokenRequest.activationToken());
-        User user = tokenService.findUserByTokenId(sendNewActivationTokenRequest.activationToken());
-        Token token = tokenService.saveToken(user);
-        sendNewActivationEmail(user,token.getTokenId());
-    }
-
-    private void throwExceptionIfTokenIsNotExpired(UUID activationTokenId) {
-        if(!isTokenExpired(activationTokenId)) {
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "token is not expired yet.");
-        }
-    }
 }
