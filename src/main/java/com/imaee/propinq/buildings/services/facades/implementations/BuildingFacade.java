@@ -13,7 +13,9 @@ import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
 
-import static com.imaee.propinq.buildings.Constants.*;
+import static com.imaee.propinq.buildings.Constants.EXISTING_NAME_MESSAGE;
+import static com.imaee.propinq.buildings.Constants.MAXIMUM_IMAGE_SIZE_MESSAGE;
+import static com.imaee.propinq.buildings.Constants.WRONG_IMAGE_FORMAT_MESSAGE;
 import static com.imaee.propinq.shared.Constants.ALLOWED_IMAGE_FORMATS;
 import static com.imaee.propinq.shared.Constants.MAXIMUM_FILE_SIZE;
 import static java.util.Arrays.stream;
