@@ -32,7 +32,6 @@ public class User {
     @Id
     private final UUID userId = UUID.randomUUID();
 
-
     @NonNull
     @Column(unique = true)
     private String dni;
@@ -75,5 +74,7 @@ public class User {
   
     @Builder.Default
     private boolean deleted = false;
+
+    public String getFullName() { return firstName + " " + lastName; }
 }
 

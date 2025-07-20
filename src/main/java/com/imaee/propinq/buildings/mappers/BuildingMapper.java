@@ -1,6 +1,7 @@
 package com.imaee.propinq.buildings.mappers;
 
-import com.imaee.propinq.buildings.controllers.requests.BuildingRequest;
+import com.imaee.propinq.buildings.controllers.requests.CreateBuildingRequest;
+import com.imaee.propinq.buildings.controllers.requests.UpdateBuildingRequest;
 import com.imaee.propinq.buildings.controllers.responses.BuildingDetailsResponse;
 import com.imaee.propinq.buildings.controllers.responses.BuildingResponse;
 import com.imaee.propinq.buildings.data.models.Building;
@@ -36,19 +37,31 @@ public class BuildingMapper {
     }
 
     public static Building toBuilding(
-            BuildingRequest buildingRequest,
+            CreateBuildingRequest createBuildingRequest,
             User user,
             List<Image> images
     ) {
         return Building.builder()
-                .name(buildingRequest.name())
-                .description(buildingRequest.description())
-                .address(buildingRequest.address())
-                .latitude(buildingRequest.latitude())
-                .longitude(buildingRequest.longitude())
+                .name(createBuildingRequest.name())
+                .description(createBuildingRequest.description())
+                .address(createBuildingRequest.address())
+                .latitude(createBuildingRequest.latitude())
+                .longitude(createBuildingRequest.longitude())
                 .user(user)
                 .images(images)
-                .buildingType(valueOf(buildingRequest.type()))
+                .buildingType(valueOf(createBuildingRequest.type()))
+                .build();
+    }
+
+    public static Building toBuilding(
+            UpdateBuildingRequest updateBuildingRequest,
+            List<Image> images
+    ) {
+        return Building.builder()
+                .name(updateBuildingRequest.name())
+                .description(updateBuildingRequest.description())
+                .images(images)
+                .buildingType(valueOf(updateBuildingRequest.type()))
                 .build();
     }
 }
