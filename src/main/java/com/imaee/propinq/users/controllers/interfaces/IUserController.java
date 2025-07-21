@@ -22,8 +22,8 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 
 import java.util.UUID;
 
-@RequestMapping("/api/v1/users")
 @Tag(name = "Users", description = "Operaciones relacionadas con la gestión de usuarios")
+@RequestMapping("/api/v1/users")
 public interface IUserController {
 
 

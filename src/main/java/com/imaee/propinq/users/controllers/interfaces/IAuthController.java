@@ -1,7 +1,5 @@
 package com.imaee.propinq.users.controllers.interfaces;
 
-import com.imaee.propinq.users.controllers.requests.RecoverPasswordRequest;
-import com.imaee.propinq.users.controllers.requests.SendEmailRequest;
 import com.imaee.propinq.users.controllers.requests.SignUpRequest;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -15,8 +13,9 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
-@RequestMapping("/auth")
+
 @Tag(name = "Authentication", description = "Operaciones relacionadas con autenticación y registro")
+@RequestMapping("/auth")
 public interface IAuthController {
 
     @Operation(

@@ -4,6 +4,7 @@ import com.imaee.propinq.users.controllers.interfaces.IAuthController;
 import com.imaee.propinq.users.controllers.requests.SignUpRequest;
 import com.imaee.propinq.users.services.interfaces.IAuthService;
 import lombok.AllArgsConstructor;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController

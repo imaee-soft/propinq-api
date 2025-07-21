@@ -14,8 +14,8 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import java.time.LocalDate;
 import lombok.NonNull;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
@@ -30,14 +30,18 @@ import static java.util.UUID.randomUUID;
 public class User {
 
     @Id
-    private final UUID userId = randomUUID();
+    private final UUID userId = UUID.randomUUID();
+
 
     @NonNull
     @Column(unique = true)
-    private String username;
+    private String dni;
 
     @NonNull
     private String password;
+
+    @NonNull
+    private LocalDate birthDate;
 
     @NonNull
     private String firstName;
@@ -46,6 +50,7 @@ public class User {
     private String lastName;
 
     @NonNull
+    @Column(unique = true)
     private String email;
     
     @NonNull
@@ -66,10 +71,9 @@ public class User {
     private List<Token> tokens = new ArrayList<>();
   
     @Builder.Default
-    private Boolean activated = false;
+    private boolean activated = false;
   
     @Builder.Default
-    private Boolean deleted = false;
-
-    public String getFullName() { return firstName + " " + lastName; }
+    private boolean deleted = false;
 }
+
