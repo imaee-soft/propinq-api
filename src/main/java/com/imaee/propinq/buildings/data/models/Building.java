@@ -13,6 +13,7 @@ import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import lombok.NonNull;
 import lombok.experimental.SuperBuilder;
@@ -28,6 +29,7 @@ import static jakarta.persistence.FetchType.EAGER;
 import static java.util.UUID.randomUUID;
 import static lombok.AccessLevel.PROTECTED;
 
+@EqualsAndHashCode(callSuper = true)
 @Entity(name = "buildings")
 @NoArgsConstructor(access = PROTECTED)
 @AllArgsConstructor

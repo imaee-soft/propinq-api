@@ -17,9 +17,9 @@ spring:
       hibernate:
         format_sql: true
   datasource:
-    url: jdbc:mysql://${MYSQL_HOST:localhost}:${MYSQL_PORT:3306}/propinq?createDatabaseIfNotExist=true
-    username: ${DB_USERNAME:root}
-    password: ${DB_PASSWORD:password}
+    url: jdbc:mysql://${MYSQL_HOST:propinq-db-propinq.g.aivencloud.com}:${MYSQL_PORT:27890}/defaultdb
+    username: ${DB_USERNAME:avnadmin}
+    password: ${DB_PASSWORD:AVNS_n6pDCBLHi1T3Awsq004}
     driver-class-name: com.mysql.cj.jdbc.Driver
   data:
     mongodb:
@@ -29,8 +29,8 @@ spring:
   mail:
     host: ${MAIL_HOST:smtp.gmail.com}
     port: ${MAIL_PORT:587}
-    username: ${MAIL_USERNAME}
-    password: ${MAIL_PASSWORD}
+    username: ${MAIL_USERNAME:propinq.enterprise@gmail.com}
+    password: ${MAIL_PASSWORD:mdro ysng snki etif}
     properties:
       mail:
         smtp:
@@ -52,9 +52,9 @@ frontend:
   url: ${FRONTEND_URL:http://localhost:4200}
 
 cloudinary:
-  cloud-name: ${CLOUD_NAME}
-  api-key: ${CLOUD_API_KEY}
-  api-secret: ${CLOUD_API_SECRET}
+  cloud-name: ${CLOUD_NAME:dlomx8sc1}
+  api-key: ${CLOUD_API_KEY:363723365928819}
+  api-secret: ${CLOUD_API_SECRET:z1aLT2IRKpN97R8vMYNZAvFYG68}
 
 springdoc:
   swagger-ui:
