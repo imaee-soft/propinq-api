@@ -1,10 +1,10 @@
 package com.imaee.propinq.users.services.implementations;
 
+import com.imaee.propinq.auth.controllers.requests.SignUpRequest;
 import com.imaee.propinq.exceptions.custom_exceptions.DuplicateEmailException;
 import com.imaee.propinq.users.controllers.requests.RecoverPasswordRequest;
 import com.imaee.propinq.users.controllers.requests.SendEmailRequest;
 import com.imaee.propinq.users.controllers.requests.SendNewActivationTokenRequest;
-import com.imaee.propinq.users.controllers.requests.SignUpRequest;
 import com.imaee.propinq.users.data.models.Token;
 import com.imaee.propinq.users.data.models.User;
 import com.imaee.propinq.users.data.repositories.IUserRepository;

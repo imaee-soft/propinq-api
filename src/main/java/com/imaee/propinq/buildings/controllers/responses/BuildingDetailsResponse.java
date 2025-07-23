@@ -11,5 +11,4 @@ public record BuildingDetailsResponse(
         UUID userId,
         String userFullName,
         String buildingTypeName
-) {
-}
+) {}

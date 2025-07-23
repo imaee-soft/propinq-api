@@ -1,6 +1,6 @@
 package com.imaee.propinq.users.mappers;
 
-import com.imaee.propinq.users.controllers.requests.SignUpRequest;
+import com.imaee.propinq.auth.controllers.requests.SignUpRequest;
 import com.imaee.propinq.users.data.models.User;
 
 import java.time.LocalDate;

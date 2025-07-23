@@ -1,8 +1,10 @@
 package com.imaee.propinq.auth.controllers.interfaces;
 
 import com.imaee.propinq.auth.controllers.requests.CheckTokenRequest;
+import com.imaee.propinq.auth.controllers.requests.LoginRequest;
+import com.imaee.propinq.auth.controllers.requests.SignUpRequest;
+import com.imaee.propinq.auth.controllers.responses.AuthResponse;
 import com.imaee.propinq.auth.controllers.responses.UserAuthResponse;
-import com.imaee.propinq.users.controllers.requests.SignUpRequest;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -33,6 +35,14 @@ public interface IAuthController {
     @PostMapping("/signup")
     @ResponseStatus(CREATED)
     void signUp(@RequestBody @Valid SignUpRequest signUpRequest);
+
+    @Operation(
+            summary = "Iniciar sesión",
+            description = "Loguea al usuario y devuelve la respuesta de autenticación con el token correspondiente"
+    )
+    @PostMapping("/login")
+    @ResponseStatus(OK)
+    AuthResponse logIn(@RequestBody @Valid LoginRequest loginRequest);
 
     @Operation(
             summary = "Chequear token",

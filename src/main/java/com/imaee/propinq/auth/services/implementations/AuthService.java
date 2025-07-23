@@ -1,9 +1,11 @@
 package com.imaee.propinq.auth.services.implementations;
 
 import com.imaee.propinq.auth.controllers.requests.CheckTokenRequest;
+import com.imaee.propinq.auth.controllers.requests.LoginRequest;
+import com.imaee.propinq.auth.controllers.requests.SignUpRequest;
+import com.imaee.propinq.auth.controllers.responses.AuthResponse;
 import com.imaee.propinq.auth.controllers.responses.UserAuthResponse;
 import com.imaee.propinq.auth.services.interfaces.IAuthService;
-import com.imaee.propinq.users.controllers.requests.SignUpRequest;
 import com.imaee.propinq.users.services.interfaces.IUserService;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -20,6 +22,16 @@ public class AuthService implements IAuthService {
     @Override
     public void signUp(SignUpRequest signUpRequest) {
         userService.saveUser(signUpRequest);
+    }
+
+    // TODO: Implement actual JWT extraction logic. This should use AuthProvider to log in
+    @Override
+    public AuthResponse logIn(LoginRequest loginRequest) {
+        return new AuthResponse(
+                "ACCESS_TOKEN",
+                "REFRESH_TOKEN",
+                checkToken(null)
+        );
     }
 
     // TODO: Implement actual JWT extraction logic. This should use JWTService to validate the access token
