@@ -1,10 +1,12 @@
-package com.imaee.propinq.users.controllers.requests;
+package com.imaee.propinq.auth.controllers.requests;
 
 import com.imaee.propinq.users.data.pipes.PhoneNumber;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
+
+import static com.imaee.propinq.shared.Patterns.EMAIL_PATTERN;
 
 public record SignUpRequest(
 
@@ -29,7 +31,7 @@ public record SignUpRequest(
         String lastName,
 
         @NotNull(message = "User email must not be null")
-        @Pattern(regexp = "^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}", message = "User email must be a valid email")
+        @Pattern(regexp = EMAIL_PATTERN, message = "User email must be a valid email")
         String email,
 
         @NotNull(message = "User address must not be null")
@@ -39,5 +41,4 @@ public record SignUpRequest(
         @NotBlank(message = "User phone number must not be blank")
         @PhoneNumber(message = "User phone number must be a valid phone number")
         String phoneNumber
-) {
-}
+) {}
