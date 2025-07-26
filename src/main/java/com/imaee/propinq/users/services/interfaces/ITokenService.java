@@ -6,12 +6,10 @@ import com.imaee.propinq.users.data.models.User;
 import java.util.UUID;
 
 public interface ITokenService {
-
-    Token findTokenByIdOrThrowException(UUID tokenId);
-
+    Token findTokenById(UUID tokenId);
     User findUserByTokenId(UUID tokenId);
-
     Token saveToken(User user);
-
     Token findActiveTokenByUser(User user);
+    boolean isTokenExpired(UUID tokenId);
+    void throwExceptionIfTokenIsExpired(UUID tokenId);
 }

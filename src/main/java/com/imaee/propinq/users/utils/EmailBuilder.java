@@ -1,7 +1,5 @@
 package com.imaee.propinq.users.utils;
 
-
-
 import com.imaee.propinq.users.data.models.User;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;

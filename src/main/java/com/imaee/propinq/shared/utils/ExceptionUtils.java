@@ -16,6 +16,11 @@ public class ExceptionUtils {
         T get() throws Exception;
     }
 
+    @FunctionalInterface
+    public interface ThrowingRunnable {
+        void run() throws Exception;
+    }
+
     /**
      * Executes the given supplier and catches any exception, wrapping it in a ResponseStatusException
      * with the specified HTTP status.
@@ -49,5 +54,19 @@ public class ExceptionUtils {
     public static <T> T runCatching(ThrowingSupplier<T> supplier, HttpStatus status, String message) {
         try { return supplier.get(); }
         catch (Exception ex) { throw new ResponseStatusException(status, message, ex); }
+    }
+
+    /**
+     * Executes the given runnable and catches any exception, wrapping it in a ResponseStatusException
+     * with the specified HTTP status.
+     *
+     * @param runnable the operation to execute
+     * @param status   the HTTP status to use if an exception occurs
+     *
+     * @throws ResponseStatusException if any exception occurs during execution
+     */
+    public static void runCatching(ThrowingRunnable runnable, HttpStatus status) {
+        try { runnable.run(); }
+        catch (Exception ex) { throw new ResponseStatusException(status, ex.getMessage(), ex); }
     }
 }
