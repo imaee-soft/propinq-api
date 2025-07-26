@@ -5,11 +5,10 @@ import com.imaee.propinq.users.controllers.requests.ActivateUserRequest;
 import com.imaee.propinq.users.controllers.requests.RecoverPasswordRequest;
 import com.imaee.propinq.users.controllers.requests.SendEmailRequest;
 import com.imaee.propinq.users.controllers.requests.SendNewActivationTokenRequest;
+import com.imaee.propinq.users.services.interfaces.IUserActivationService;
 import com.imaee.propinq.users.services.interfaces.IUserService;
-
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
-import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.UUID;
@@ -19,11 +18,7 @@ import java.util.UUID;
 public class UserController implements IUserController {
 
     private final IUserService userService;
-
-    @Override
-    public void activateUser(UUID userId, @Valid ActivateUserRequest activateUserRequest){
-        userService.activateUser(userId, activateUserRequest.activationToken());
-    }
+    private final IUserActivationService userActivationService;
 
     @Override
     public void sendEmailToRecoverPassword(@Valid SendEmailRequest sendEmailRequest) {
@@ -36,13 +31,17 @@ public class UserController implements IUserController {
     }
 
     @Override
+    public void activateUser(UUID userId, @Valid ActivateUserRequest activateUserRequest) {
+        userActivationService.activateUser(userId, activateUserRequest.activationToken());
+    }
+
+    @Override
     public void resendActivationEmail(@Valid SendEmailRequest sendEmailRequest) {
-        userService.resendActivationEmail(sendEmailRequest);
+        userActivationService.resendActivationEmail(sendEmailRequest);
     }
 
     @Override
     public void sendNewActivationToken(@Valid SendNewActivationTokenRequest sendNewActivationTokenRequest) {
-        userService.sendNewActivationToken(sendNewActivationTokenRequest);
+        userActivationService.sendNewActivationToken(sendNewActivationTokenRequest);
     }
-
 }

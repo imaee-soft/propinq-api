@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.server.ResponseStatusException;
 
+import java.time.format.DateTimeParseException;
 import java.util.NoSuchElementException;
 
 import static com.imaee.propinq.exceptions.data.ExceptionMessage.of;
@@ -23,14 +24,16 @@ import static org.springframework.http.ResponseEntity.status;
 public class GlobalExceptionHandler {
 
     private static final String EMAIL_SENDING_EXCEPTION_MESSAGE =
-            "User registered but activation email could not be sent. Please contact support.";
+            "No fue posible enviar el correo electrónico. Contacte a un administrador";
+    private static final String DATE_FORMATTING_EXCEPTION_MESSAGE =
+            "El formato de fecha ingresado es incorrecto. La fecha debe ingresarse en formato AAAA-MM-DD";
 
     @ExceptionHandler({
             DuplicateEmailException.class,
             DuplicateUserNameException.class,
             PhoneNumberParseException.class,
             IllegalArgumentException.class,
-            NoSuchElementException.class
+            NoSuchElementException.class,
     })
     @ResponseStatus(BAD_REQUEST)
     public ExceptionMessage handleUserInputExceptions(RuntimeException ex) {
@@ -41,6 +44,12 @@ public class GlobalExceptionHandler {
     @ResponseStatus(SERVICE_UNAVAILABLE)
     public ExceptionMessage handleEmailSendingException() {
         return of(EMAIL_SENDING_EXCEPTION_MESSAGE, 503);
+    }
+
+    @ExceptionHandler(DateTimeParseException.class)
+    @ResponseStatus(BAD_REQUEST)
+    public ExceptionMessage handleDateTimeParseException() {
+        return of(DATE_FORMATTING_EXCEPTION_MESSAGE, 400);
     }
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
