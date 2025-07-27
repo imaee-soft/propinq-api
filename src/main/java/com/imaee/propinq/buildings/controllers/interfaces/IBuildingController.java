@@ -18,7 +18,6 @@ import static org.springframework.http.HttpStatus.OK;
         name = "Buildings",
         description = "Operations for managing and querying buildings."
 )
-@RequestMapping("/api/v1/buildings")
 public interface IBuildingController {
 
     @PostMapping
