@@ -69,12 +69,10 @@ public class User {
     private List<Token> tokens = new ArrayList<>();
   
     @Builder.Default
-    private boolean activated = false;
+    private Boolean activated = false;
   
     @Builder.Default
     private boolean deleted = false;
 
-    public String getFullName() {
-        return  firstName + " " + lastName;
-    }
+    public String getFullName() { return firstName + " " + lastName; }
 }
