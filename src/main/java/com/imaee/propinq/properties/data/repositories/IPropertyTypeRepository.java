@@ -13,5 +13,4 @@ public interface IPropertyTypeRepository extends JpaRepository<PropertyType, UUI
     Optional<PropertyType> findByName(String name);
     Optional<PropertyType> findByDescription(String description);
     Optional<PropertyType> findById(UUID id);
-
 }

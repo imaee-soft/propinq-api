@@ -9,6 +9,7 @@ import java.util.UUID;
 
 public interface IPropertyTypeService {
     List<PropertyTypeResponse> getPropertyType();
+    List<PropertyTypeResponse> getPropertyTypeAll();
     PropertyTypeResponse createPropertyType(PropertyTypeRequest propertyTypeRequest);
     PropertyTypeResponse updatePropertyType(PropertyTypeRequest propertyTypeRequest, UUID id);
     void deletePropertyType(UUID id);

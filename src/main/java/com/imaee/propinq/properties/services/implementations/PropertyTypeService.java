@@ -35,6 +35,13 @@ public class PropertyTypeService implements IPropertyTypeService {
     }
 
     @Override
+    public List<PropertyTypeResponse> getPropertyTypeAll() {
+        return propertyTypeRepository.findAll().stream()
+                .map(PropertyTypeMapper::toPropertyTypeResponse)
+                .toList();
+    }
+
+    @Override
     public PropertyTypeResponse createPropertyType(PropertyTypeRequest propertyTypeRequest) {
         throwExceptionIfPropertyTypeAlreadyExists(propertyTypeRequest.name());
         final var propertyType = PropertyTypeMapper.toPropertyType(propertyTypeRequest);

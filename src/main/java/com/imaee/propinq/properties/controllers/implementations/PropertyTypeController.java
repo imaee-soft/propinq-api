@@ -26,6 +26,11 @@ public class PropertyTypeController implements IPropertyTypeController {
     }
 
     @Override
+    public List<PropertyTypeResponse> getPropertyTypeAll() {
+        return propertyTypeService.getPropertyTypeAll();
+    }
+
+    @Override
     public PropertyTypeResponse createPropertyType(PropertyTypeRequest propertyTypeRequest) {
         return propertyTypeService.createPropertyType(propertyTypeRequest);
     }

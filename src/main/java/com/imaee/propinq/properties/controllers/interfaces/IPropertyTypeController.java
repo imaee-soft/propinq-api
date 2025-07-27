@@ -18,6 +18,10 @@ public interface IPropertyTypeController {
     @ResponseStatus(HttpStatus.OK)
     List<PropertyTypeResponse> getPropertyTypes();
 
+    @GetMapping("/all")
+    @ResponseStatus(HttpStatus.OK)
+    List<PropertyTypeResponse> getPropertyTypeAll();
+
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     PropertyTypeResponse createPropertyType(@RequestBody @Valid PropertyTypeRequest propertyTypeRequest);
