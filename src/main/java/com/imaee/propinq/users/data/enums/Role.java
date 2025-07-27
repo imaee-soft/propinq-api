@@ -17,7 +17,8 @@ public enum Role {
     }
 
     public List<String> getAuthorities() {
-        return getPermissions().stream()
+        return getPermissions()
+                .stream()
                 .map(Permission::name)
                 .toList();
     }
