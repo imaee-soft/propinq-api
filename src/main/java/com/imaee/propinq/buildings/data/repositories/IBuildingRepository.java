@@ -20,4 +20,5 @@ public interface IBuildingRepository extends JpaRepository<Building, UUID> {
     List<Building> findAllByDeletedFalse();
 
     Page<Building> findAllByDeletedFalse(Pageable pageable);
+
 }

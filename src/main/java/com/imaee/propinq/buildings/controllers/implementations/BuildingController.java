@@ -44,4 +44,14 @@ public class BuildingController implements IBuildingController {
     public BuildingDetailsResponse updateBuilding (UUID buildingId, UpdateBuildingRequest updateBuildingRequest, MultipartFile[] imageFiles) {
         return buildingService.updateBuilding(buildingId, updateBuildingRequest, imageFiles);
     }
+
+    @Override
+    public void deleteBuilding(UUID buildingId) {
+        buildingService.deleteBuilding(buildingId);
+    }
+
+    @Override
+    public BuildingDetailsResponse restoreBuilding(UUID buildingId) {
+        return buildingService.restoreBuilding(buildingId);
+    }
 }

@@ -16,7 +16,8 @@ services:
       SPRING_PROFILES_ACTIVE: dev
       SPRING_DATASOURCE_URL: jdbc:mysql://mysql-db:3306/propinq
       SPRING_DATASOURCE_USERNAME: root
-      SPRING_DATASOURCE_PASSWORD: password
+      SPRING_DATASOURCE_PASSWORD: ${DB_PASSWORD}
+      SPRING_DATA_MONGODB_URI: mongodb://mongo-user:${MONGODB_PASSWORD}@mongodb:27017/propinq?authSource=admin
     networks:
       - app-network
     stdin_open: true
@@ -34,12 +35,14 @@ services:
     image: mysql:8
     container_name: mysql-db
     environment:
-      MYSQL_ROOT_PASSWORD: password
+      MYSQL_ROOT_PASSWORD: ${DB_PASSWORD:}
       MYSQL_DATABASE: propinq
     volumes:
       - mysql-data:/var/lib/mysql
     networks:
       - app-network
+    ports:
+      - "3306:3306"
 
   mongodb:
     image: mongo:6
@@ -48,7 +51,7 @@ services:
       - "27017:27017"
     environment:
       MONGO_INITDB_ROOT_USERNAME: mongo-user
-      MONGO_INITDB_ROOT_PASSWORD: secret
+      MONGO_INITDB_ROOT_PASSWORD: ${MONGODB_PASSWORD}
       MONGO_INITDB_DATABASE: propinq
     volumes:
       - mongo-data:/data/db

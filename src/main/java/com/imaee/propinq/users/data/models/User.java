@@ -70,7 +70,7 @@ public class User {
     private List<Token> tokens = new ArrayList<>();
   
     @Builder.Default
-    private boolean activated = false;
+    private Boolean activated = false;
   
     @Builder.Default
     private boolean deleted = false;

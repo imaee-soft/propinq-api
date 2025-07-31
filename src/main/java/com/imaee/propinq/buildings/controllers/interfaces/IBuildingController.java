@@ -14,7 +14,7 @@ import java.util.List;
 import java.util.UUID;
 import static org.springframework.http.HttpStatus.CREATED;
 import static org.springframework.http.HttpStatus.OK;
-
+import static org.springframework.http.HttpStatus.NO_CONTENT;
 @RequestMapping("/api/v1/buildings")
 @Tag(
         name = "Buildings",
@@ -54,6 +54,16 @@ public interface IBuildingController {
     BuildingDetailsResponse updateBuilding(
             @PathVariable UUID buildingId,
             @RequestPart("building") @Valid UpdateBuildingRequest updateBuildingRequest,
-            @RequestPart("images") MultipartFile[] imageFiles
+            @RequestPart(value = "images", required = false) MultipartFile[] imageFiles
     );
+
+    @DeleteMapping("/{buildingId}")
+    @ResponseStatus(NO_CONTENT)
+    @Operation(summary = "Deletes a building by its ID.")
+    void deleteBuilding(@PathVariable UUID buildingId);
+
+    @PatchMapping("/{buildingId}/restore")
+    @ResponseStatus(OK)
+    @Operation(summary = "Restores a deleted building by its ID.")
+    BuildingDetailsResponse restoreBuilding(@PathVariable UUID buildingId);
 }

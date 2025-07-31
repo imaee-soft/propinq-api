@@ -26,13 +26,15 @@ public class BuildingMapper {
 
     public static BuildingDetailsResponse toBuildingDetailsResponse(Building building, List<String> imagesURLS) {
         return new BuildingDetailsResponse(
+                building.getBuildingId().toString(),
                 building.getName(),
                 building.getDescription(),
                 building.getAddress(),
                 imagesURLS,
                 building.getUser().getUserId(),
                 building.getUser().getFullName(),
-                building.getBuildingType().name()
+                building.getBuildingType().name(),
+                building.isDeleted()
         );
     }
 
