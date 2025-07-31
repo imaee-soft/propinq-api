@@ -15,7 +15,7 @@ import java.util.UUID;
 public class DeleteBuildingUseCase implements IDeleteBuildingUseCase {
 
     private final IBuildingRepository buildingRepository;
-    private final FindBuildingByIdUseCase findBuildingByIdUseCase;
+    private final IFindBuildingByIdUseCase findBuildingByIdUseCase;
 
     @Override
     public void deleteBuilding(UUID buildingId) {
