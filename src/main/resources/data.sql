@@ -29,6 +29,7 @@ INSERT IGNORE INTO users (
              0                                       -- deleted (false)
          );
 
+
 -- Insertar tipo de propiedad de prueba
 INSERT IGNORE INTO property_types (property_type_id,
                             name,
@@ -59,9 +60,11 @@ VALUES (UNHEX('123e4567e89b12d3a456426614174000'),
         'EDIFICIO',
         0);
 
+
 INSERT IGNORE INTO images(url,deleted)
 VALUES('https://climalit.es/blog/wp-content/uploads/2018/05/edificios-eficientes-1280x1280.jpg',0),
        ('https://img.freepik.com/foto-gratis/tiro-vertical-edificio-blanco-cielo-despejado_181624-4575.jpg?semt=ais_hybrid&w=740',0);
+
 -- Insertar propiedades asociadas al building y al tipo de propiedad
 INSERT IGNORE INTO buildings_images (buildings_building_id, images_url)
 VALUES(UNHEX('123e4567e89b12d3a456426614174000'),'https://climalit.es/blog/wp-content/uploads/2018/05/edificios-eficientes-1280x1280.jpg');

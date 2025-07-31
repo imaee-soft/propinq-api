@@ -172,4 +172,5 @@ public class UserService implements IUserService {
         if (!isTokenExpired(activationTokenId))
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, TOKEN_NOT_EXPIRED_MESSAGE);
     }
+
 }
