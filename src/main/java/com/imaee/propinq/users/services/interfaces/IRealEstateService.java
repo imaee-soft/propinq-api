@@ -5,4 +5,5 @@ import com.imaee.propinq.users.controllers.responses.RealEstateResponse;
 
 public interface IRealEstateService {
     RealEstateResponse registerRealEstate(RealEstateRequest realEstateRequest);
+
 }

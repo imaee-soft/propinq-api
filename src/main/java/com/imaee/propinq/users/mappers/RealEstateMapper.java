@@ -22,7 +22,6 @@ public class RealEstateMapper {
                 .role(Role.REAL_ESTATE.name())
                 .build();
     }
-    //record --> entidad
     public static RealEstate toRealEstateEntity(RealEstateRequest realEstateRequest) {
         return RealEstate.builder()
                 .username(realEstateRequest.username())

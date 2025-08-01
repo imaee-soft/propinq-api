@@ -20,11 +20,9 @@ public class RealEstateService implements IRealEstateService {
     @Override
     public RealEstateResponse registerRealEstate(RealEstateRequest realEstateRequest) {
 
-        //Valido si existe alguna REALESTATE con el mismo nombre de compañia o con el mismo CUIT
-        if(realEstateRepository.findByCompanyName(realEstateRequest.companyName()).isPresent()
-            && realEstateRepository.findByCuit(realEstateRequest.cuit()).isPresent()) {
-
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, COMPANY_NAME_EXISTS);
+        //Valido si existe alguna REALESTATE con el mismo nombre de compañia y con el mismo CUIT
+        if(realEstateRepository.existsByCompanyNameAndCuit(realEstateRequest.companyName(), realEstateRequest.cuit())) {
+            throw new ResponseStatusException(HttpStatus.CONFLICT, COMPANY_NAME_EXISTS);
         }
         //Creo la REALESTATE
         RealEstate realEstate = RealEstateMapper.toRealEstateEntity(realEstateRequest);

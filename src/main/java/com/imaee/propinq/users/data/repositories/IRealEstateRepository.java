@@ -7,6 +7,5 @@ import java.util.Optional;
 import java.util.UUID;
 
 public interface IRealEstateRepository extends JpaRepository<RealEstate, UUID> {
-    Optional<RealEstate> findByCompanyName(String companyName);
-    Optional<RealEstate> findByCuit(String cuit);
+    boolean existsByCompanyNameAndCuit(String companyName, String cuit);
 }

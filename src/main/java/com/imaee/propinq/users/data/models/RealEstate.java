@@ -19,6 +19,7 @@ public class RealEstate extends User{
     private String address;
 
     @NonNull
+    @Column(unique = true)
     private String companyName;
 
     @NonNull
