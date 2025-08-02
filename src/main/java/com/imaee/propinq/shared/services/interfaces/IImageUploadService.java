@@ -8,4 +8,6 @@ import java.util.List;
 public interface IImageUploadService {
     Image uploadImage(MultipartFile file);
     List<Image> uploadImages(MultipartFile[] files);
+    void deleteImages(List<Image> images);
+
 }

@@ -4,12 +4,14 @@ import java.util.List;
 import java.util.UUID;
 
 public record BuildingDetailsResponse(
+        String buildingId,
         String name,
         String description,
         String address,
         List<String> imagesURL,
         UUID userId,
         String userFullName,
-        String buildingTypeName
+        String buildingTypeName,
+        boolean deleted
 ) {
 }

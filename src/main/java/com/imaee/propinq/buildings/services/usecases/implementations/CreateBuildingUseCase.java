@@ -1,8 +1,9 @@
 package com.imaee.propinq.buildings.services.usecases.implementations;
 
-import com.imaee.propinq.buildings.controllers.requests.BuildingRequest;
+import com.imaee.propinq.buildings.controllers.requests.CreateBuildingRequest;
 import com.imaee.propinq.buildings.data.models.Building;
 import com.imaee.propinq.buildings.data.repositories.IBuildingRepository;
+import com.imaee.propinq.buildings.services.facades.interfaces.IBuildingFacade;
 import com.imaee.propinq.buildings.services.usecases.interfaces.ICreateBuildingUseCase;
 import com.imaee.propinq.shared.services.interfaces.IImageUploadService;
 import com.imaee.propinq.users.services.interfaces.IUserService;
@@ -28,41 +29,19 @@ public class CreateBuildingUseCase implements ICreateBuildingUseCase {
     private final IBuildingRepository buildingRepository;
     private final IUserService userService;
     private final IImageUploadService fileUploadService;
+    private final IBuildingFacade buildingFacade;
 
     @Override
     @Transactional
-    public void createBuilding(BuildingRequest buildingRequest, MultipartFile[] imageFiles) {
-        throwExceptionIfBuildingExistsByName(buildingRequest);
-        validateBuildingImages(imageFiles);
-        buildingRepository.save(buildBuildingEntity(buildingRequest, imageFiles));
+    public void createBuilding(CreateBuildingRequest createBuildingRequest, MultipartFile[] imageFiles) {
+        buildingFacade.throwExceptionIfBuildingExistsByName(createBuildingRequest);
+        buildingFacade.validateBuildingImages(imageFiles);
+        buildingRepository.save(buildBuildingEntity(createBuildingRequest, imageFiles));
     }
 
-    private void throwExceptionIfBuildingExistsByName(BuildingRequest buildingRequest) {
-        if (buildingRepository.existsByName(buildingRequest.name()))
-            throw new ResponseStatusException(BAD_REQUEST, EXISTING_NAME_MESSAGE);
-    }
-
-    private void validateBuildingImages(MultipartFile[] imageFiles) {
-        stream(imageFiles).forEach(imageFile -> {
-            throwExceptionIfImageExceedsMaximumSize(imageFile);
-            throwExceptionIfImageHasBadFormat(imageFile);
-        });
-    }
-
-    private void throwExceptionIfImageExceedsMaximumSize(MultipartFile imageFile) {
-        if (imageFile.getSize() > MAXIMUM_FILE_SIZE)
-            throw new ResponseStatusException(BAD_REQUEST, MAXIMUM_IMAGE_SIZE_MESSAGE);
-    }
-
-    private void throwExceptionIfImageHasBadFormat(MultipartFile imageFile) {
-        final var contentType = imageFile.getContentType();
-        if (contentType == null || !ALLOWED_IMAGE_FORMATS.contains(contentType))
-            throw new ResponseStatusException(BAD_REQUEST, WRONG_IMAGE_FORMAT_MESSAGE);
-    }
-
-    private Building buildBuildingEntity(BuildingRequest request, MultipartFile[] imageFiles) {
-        final var user = userService.findUserById(request.userId());
+    private Building buildBuildingEntity(CreateBuildingRequest createBuildingRequest, MultipartFile[] imageFiles) {
+        final var user = userService.findUserById(createBuildingRequest.userId());
         final var images = fileUploadService.uploadImages(imageFiles);
-        return toBuilding(request, user, images);
+        return toBuilding(createBuildingRequest, user, images);
     }
 }

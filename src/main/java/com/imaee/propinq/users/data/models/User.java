@@ -32,7 +32,6 @@ public class User {
     @Id
     private final UUID userId = UUID.randomUUID();
 
-
     @NonNull
     @Column(unique = true)
     private String dni;
