@@ -63,7 +63,7 @@ public interface IBuildingController {
     void deleteBuilding(@PathVariable UUID buildingId);
 
     @PatchMapping("/{buildingId}/restore")
-    @ResponseStatus(OK)
+    @ResponseStatus(CREATED)
     @Operation(summary = "Restores a deleted building by its ID.")
-    BuildingDetailsResponse restoreBuilding(@PathVariable UUID buildingId);
+    void restoreBuilding(@PathVariable UUID buildingId);
 }

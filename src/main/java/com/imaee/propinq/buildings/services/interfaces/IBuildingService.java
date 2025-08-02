@@ -16,5 +16,5 @@ public interface IBuildingService {
     BuildingDetailsResponse getBuildingDetails(UUID buildingId);
     BuildingDetailsResponse updateBuilding(UUID buildingId, UpdateBuildingRequest updateBuildingRequest, MultipartFile[] imageFiles);
     void deleteBuilding(UUID buildingId);
-    BuildingDetailsResponse restoreBuilding(UUID buildingId);
+    void restoreBuilding(UUID buildingId);
 }

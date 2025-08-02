@@ -14,8 +14,6 @@ public interface IBuildingFacade {
 
     void throwExceptionIfBuildingExistsByName(CreateBuildingRequest request);
 
-    void throwExceptionIfBuildingExistsByName(UpdateBuildingRequest request);
-
     List<String> getImagesURLs(Building building);
 
     List<String> getImagesURLs(List<Image> images);

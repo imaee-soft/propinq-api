@@ -33,7 +33,7 @@ public class UpdateBuildingUseCase implements IUpdateBuildingUseCase {
     @Transactional
     public BuildingDetailsResponse updateBuilding(UUID buildingId, UpdateBuildingRequest updateBuildingRequest, MultipartFile[] imageFiles) {
         Building building = findBuildingByIdUseCase.findBuilding(buildingId);
-        if (imageFiles != null) {
+        if (isNonNullAndNotEmpty(imageFiles)) {
             buildingFacade.validateBuildingImages(imageFiles);
         }
 
@@ -54,7 +54,7 @@ public class UpdateBuildingUseCase implements IUpdateBuildingUseCase {
         }
 
         List<Image> newUploadedImages = Collections.emptyList();
-        if (imageFiles != null && imageFiles.length > 0) {
+        if (isNonNullAndNotEmpty(imageFiles)) {
             newUploadedImages = fileUploadService.uploadImages(imageFiles);
         }
         List<Image> finalImages = new ArrayList<>(remainingImages);
@@ -67,5 +67,9 @@ public class UpdateBuildingUseCase implements IUpdateBuildingUseCase {
         Building updatedBuilding = buildingRepository.save(building);
         List<String> finalImageUrls = buildingFacade.getImagesURLs(updatedBuilding.getImages());
         return BuildingMapper.toBuildingDetailsResponse(updatedBuilding, finalImageUrls);
+    }
+
+    private boolean isNonNullAndNotEmpty(MultipartFile[] imageFiles) {
+        return imageFiles != null && imageFiles.length > 0;
     }
 }

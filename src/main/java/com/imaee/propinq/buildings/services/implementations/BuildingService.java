@@ -56,7 +56,7 @@ public class BuildingService implements IBuildingService {
     }
 
     @Override
-    public BuildingDetailsResponse restoreBuilding(UUID buildingId) {
+    public void restoreBuilding(UUID buildingId) {
         return restoreBuildingUseCase.restoreBuilding(buildingId);
     }
 

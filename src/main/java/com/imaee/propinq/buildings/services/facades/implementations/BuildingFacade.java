@@ -1,7 +1,6 @@
 package com.imaee.propinq.buildings.services.facades.implementations;
 
 import com.imaee.propinq.buildings.controllers.requests.CreateBuildingRequest;
-import com.imaee.propinq.buildings.controllers.requests.UpdateBuildingRequest;
 import com.imaee.propinq.buildings.data.models.Building;
 import com.imaee.propinq.buildings.data.repositories.IBuildingRepository;
 import com.imaee.propinq.buildings.services.facades.interfaces.IBuildingFacade;
@@ -53,16 +52,8 @@ public class BuildingFacade implements IBuildingFacade {
     }
 
     @Override
-    public void throwExceptionIfBuildingExistsByName(UpdateBuildingRequest request) {
-        if (buildingRepository.existsByName(request.name()))
-            throw new ResponseStatusException(BAD_REQUEST, EXISTING_NAME_MESSAGE);
-    }
-
-    @Override
     public List<String> getImagesURLs(Building building) {
-        return building.getImages().stream()
-                .map(Image::getUrl)
-                .toList();
+        return getImagesURLs(building.getImages());
     }
 
     @Override

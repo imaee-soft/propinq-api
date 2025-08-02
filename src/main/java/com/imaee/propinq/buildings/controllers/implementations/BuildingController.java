@@ -51,7 +51,7 @@ public class BuildingController implements IBuildingController {
     }
 
     @Override
-    public BuildingDetailsResponse restoreBuilding(UUID buildingId) {
+    public void restoreBuilding(UUID buildingId) {
         return buildingService.restoreBuilding(buildingId);
     }
 }
