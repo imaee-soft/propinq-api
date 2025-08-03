@@ -6,13 +6,13 @@ import com.imaee.propinq.users.data.repositories.IUserRepository;
 import com.imaee.propinq.users.services.usecases.interfaces.IFindUserUseCase;
 import com.imaee.propinq.users.services.usecases.interfaces.IUpdateUserUseCase;
 import lombok.AllArgsConstructor;
-import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Component;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.util.UUID;
 
 import static com.imaee.propinq.users.Constants.EXISTENT_DNI;
+import static org.springframework.http.HttpStatus.BAD_REQUEST;
 
 @Component
 @AllArgsConstructor
@@ -30,7 +30,7 @@ public class UpdateUserUseCase implements IUpdateUserUseCase {
 
     private void throwExceptionIfUserExistsByDni(String currentDni, String newDni) {
         if (!currentDni.equals(newDni) && userRepository.existsByDni(newDni))
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, EXISTENT_DNI);
+            throw new ResponseStatusException(BAD_REQUEST, EXISTENT_DNI);
     }
 
     private void updateUser(User user, UpdateUserRequest updateUserRequest) {

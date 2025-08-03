@@ -8,7 +8,7 @@ import jakarta.validation.constraints.Size;
 public record UpdateUserRequest(
 
         @NotNull(message = "El DNI del usuario no debe ser nulo")
-        @Size(max = 8, message = "El DNI del usuario debe tener entre 0 y 8 caracteres")
+        @Size(min = 1, max = 8, message = "El DNI del usuario debe tener entre 1 y 8 caracteres")
         String dni,
 
         @NotNull(message = "El nombre del usuario no debe ser nulo")
