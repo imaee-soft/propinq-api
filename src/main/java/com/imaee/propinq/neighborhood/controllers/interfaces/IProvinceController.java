@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 
 import java.util.List;
 
-@RequestMapping("/provinces")
+@RequestMapping("/api/v1/provinces")
 public interface IProvinceController {
     @GetMapping
     @ResponseStatus(HttpStatus.OK)

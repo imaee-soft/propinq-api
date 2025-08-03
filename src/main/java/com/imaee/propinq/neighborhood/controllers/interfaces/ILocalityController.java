@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import java.util.List;
 import java.util.UUID;
 
-@RequestMapping("/localities")
+@RequestMapping("/api/v1/localities")
 public interface ILocalityController {
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
