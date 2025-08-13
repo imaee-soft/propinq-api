@@ -13,5 +13,4 @@ public record BuildingDetailsResponse(
         String userFullName,
         String buildingTypeName,
         boolean deleted
-) {
-}
+) {}

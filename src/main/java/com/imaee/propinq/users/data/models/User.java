@@ -14,13 +14,12 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import java.time.LocalDate;
 import lombok.NonNull;
+
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
-
-import static java.util.UUID.randomUUID;
 
 @Entity(name = "users")
 @NoArgsConstructor
@@ -70,11 +69,10 @@ public class User {
     private List<Token> tokens = new ArrayList<>();
   
     @Builder.Default
-    private Boolean activated = false;
+    private boolean activated = false;
   
     @Builder.Default
     private boolean deleted = false;
 
     public String getFullName() { return firstName + " " + lastName; }
 }
-

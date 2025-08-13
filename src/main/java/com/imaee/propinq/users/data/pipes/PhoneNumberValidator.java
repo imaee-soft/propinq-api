@@ -2,7 +2,6 @@ package com.imaee.propinq.users.data.pipes;
 
 import com.google.i18n.phonenumbers.NumberParseException;
 import com.google.i18n.phonenumbers.PhoneNumberUtil;
-import com.google.i18n.phonenumbers.Phonenumber.PhoneNumber;
 import jakarta.validation.ConstraintValidator;
 import jakarta.validation.ConstraintValidatorContext;
 
@@ -17,16 +16,12 @@ public class PhoneNumberValidator implements
 
     @Override
     public boolean isValid(String phoneNumber, ConstraintValidatorContext constraintValidatorContext) {
-        if (phoneNumber == null || phoneNumber.trim().isEmpty()) {
+        if (phoneNumber == null || phoneNumber.trim().isEmpty())
             return true;
-        }
-      
-        PhoneNumberUtil phoneUtil = PhoneNumberUtil.getInstance();
 
-        try{
-            PhoneNumber arNumberProto = phoneUtil.parse(phoneNumber, isoCode);
-            return phoneUtil.isValidNumberForRegion(arNumberProto, isoCode);
+        final var phoneUtil = PhoneNumberUtil.getInstance();
+        try {
+            return phoneUtil.isValidNumberForRegion(phoneUtil.parse(phoneNumber, isoCode), isoCode);
         } catch (NumberParseException e) { return false; }
     }
-
 }
