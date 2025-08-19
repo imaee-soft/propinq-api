@@ -27,8 +27,8 @@ spring:
   mail:
     host: ${MAIL_HOST}
     port: ${MAIL_PORT}
-    username: ${MAIL_USERNAME:propinq.enterprise@gmail.com}
-    password: ${MAIL_PASSWORD:mdro ysng snki etif}
+    username: ${MAIL_USERNAME:}
+    password: ${MAIL_PASSWORD:}
     properties:
       mail:
         smtp:

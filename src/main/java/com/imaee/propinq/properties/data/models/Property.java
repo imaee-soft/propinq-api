@@ -43,9 +43,34 @@ public class Property extends Locatable {
     private PropertyType propertyType;
 
     @NonNull
+    private Double price;
+
+    @NonNull
+    private String description;
+
+    @NonNull
+    private String title;
+
+    private Integer floor;
+
+    @NonNull
+    private Integer bedrooms;
+
+    @NonNull
+    private Integer bathrooms;
+
+    @NonNull
+    private boolean petsAllowed = false;
+
+    @NonNull
+    private Double area;
+
+    private String apartmentNumber;
+
+    @NonNull
     @ManyToOne
     private User user;
 
-    private Boolean deleted = false;
+    private boolean deleted = false;
 
 }
