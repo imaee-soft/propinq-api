@@ -2,6 +2,7 @@ package com.imaee.propinq.users.services.implementations;
 
 import com.imaee.propinq.users.controllers.requests.RealEstateRequest;
 import com.imaee.propinq.users.controllers.responses.RealEstateResponse;
+import com.imaee.propinq.users.data.enums.Role;
 import com.imaee.propinq.users.data.models.RealEstate;
 import com.imaee.propinq.users.data.repositories.IRealEstateRepository;
 import com.imaee.propinq.users.mappers.RealEstateMapper;
@@ -26,7 +27,8 @@ public class RealEstateService implements IRealEstateService {
         }
         //Creo la REALESTATE
         RealEstate realEstate = RealEstateMapper.toRealEstateEntity(realEstateRequest);
-
+        realEstate.setActive(false);
+        realEstate.setRole(Role.REAL_ESTATE);
         realEstateRepository.save(realEstate);
         return RealEstateMapper.toRealEstateResponse(realEstate);
     }

@@ -27,4 +27,7 @@ public class RealEstate extends User{
 
     @NonNull
     private String legalName;
+
+    @NonNull
+    private boolean active;
 }
