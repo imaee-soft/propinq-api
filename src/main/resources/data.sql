@@ -1,5 +1,6 @@
--- Insertar usuario de prueba
-INSERT IGNORE INTO users (
+-- Actualizar usuario existente o insertar si no existe
+DELETE FROM users WHERE email = 'admin@propinq.com';
+INSERT INTO users (
     user_id,
     password,
     first_name,
@@ -11,13 +12,14 @@ INSERT IGNORE INTO users (
     activated,
     address
 ) VALUES (
-    UNHEX('11111111111111111111111111111111'),
-    'demo_password',
-    'Juan',
-    'Pérez',
-    'juan.perez@ejemplo.com',
+    UNHEX('AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA'),
+    --admin123 (fuerza de 10)
+    '$2a$10$XuN33pdjkfpv3SfA8I.jm.hQHV3aempTZquspVNsBSCUkxmKzydjS',
+    'PROP',
+    'INQ',
+    'admin@propinq.com',
     '+5493534123456',
-    'OWNER',
+    'ADMIN',
     0,
     1,
     'Sin dirección'

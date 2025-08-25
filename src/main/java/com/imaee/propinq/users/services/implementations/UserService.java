@@ -26,6 +26,11 @@ public class UserService implements IUserService {
     }
 
     @Override
+    public User findUserByEmail(String email) {
+        return findUserUseCase.findUserByEmail(email);
+    }
+
+    @Override
     public void saveUser(SignUpRequest createUserRequest) {
         saveUserUseCase.saveUser(createUserRequest);
     }

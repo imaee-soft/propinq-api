@@ -11,13 +11,14 @@ spring:
   jpa:
     show-sql: true
     hibernate:
-        ddl-auto: ${DDL_AUTO:update}
+        ddl-auto: ${DDL_AUTO:create-drop}
     defer-datasource-initialization: true
     properties:
       hibernate:
         format_sql: true
   datasource:
-    url: jdbc:mysql://${MYSQL_HOST}:${MYSQL_PORT:27890}/defaultdb
+    url: jdbc:mysql://${MYSQL_HOST:localhost}:${MYSQL_PORT:3306}/${MYSQL_DATABASE:propinq_db}?createDatabaseIfNotExist=true
+
     username: ${DB_USERNAME}
     password: ${DB_PASSWORD}
     driver-class-name: com.mysql.cj.jdbc.Driver

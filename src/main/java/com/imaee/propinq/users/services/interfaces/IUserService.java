@@ -8,6 +8,7 @@ import java.util.UUID;
 
 public interface IUserService {
     User findUserById(UUID userId);
+    User findUserByEmail(String email);
     void saveUser(SignUpRequest createUserRequest);
     void sendEmailToRecoverPassword(String email);
     void recoverPassword(RecoverPasswordRequest recoverPasswordRequest);

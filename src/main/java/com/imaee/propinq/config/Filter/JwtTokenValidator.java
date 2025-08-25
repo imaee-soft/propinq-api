@@ -37,25 +37,27 @@ public class JwtTokenValidator extends OncePerRequestFilter{
 
         String jwtToken = request.getHeader(HttpHeaders.AUTHORIZATION);
 
-        if(jwtToken != null){
+        if(jwtToken != null && jwtToken.startsWith("Bearer ")){
             jwtToken = jwtToken.substring(7);
 
-            jwtUtils.validatetoken(jwtToken);
+            try {
+                DecodedJWT decodedJwt = jwtUtils.validatetoken(jwtToken);
 
-            DecodedJWT decodedJwt = jwtUtils.validatetoken(jwtToken);
+                String username = jwtUtils.extractUserName(decodedJwt); 
+                String stringAutorities = jwtUtils.getSpecificClaim(decodedJwt, "authorities").asString();
 
-            String username = jwtUtils.extractUserName(decodedJwt); 
-            String stringAutorities = jwtUtils.getSpecificClaim(decodedJwt, "authorities").asString();
+                Collection<? extends GrantedAuthority> authorities = AuthorityUtils.commaSeparatedStringToAuthorityList(stringAutorities);
 
-            Collection<? extends GrantedAuthority> authorities = AuthorityUtils.commaSeparatedStringToAuthorityList(stringAutorities);
+                SecurityContext context = SecurityContextHolder.getContext();
 
-            SecurityContext context = SecurityContextHolder.getContext();
+                Authentication authentication = new UsernamePasswordAuthenticationToken(username, null, authorities); 
 
-            Authentication authentication = new UsernamePasswordAuthenticationToken(username, null, authorities); 
-
-            context.setAuthentication(authentication);
-
-            SecurityContextHolder.setContext(context);
+                context.setAuthentication(authentication);
+                
+            } catch (Exception e) {
+                // Token inválido, limpiar contexto de seguridad
+                SecurityContextHolder.clearContext();
+            }
         }    
 
         filterChain.doFilter(request, response);
