@@ -4,6 +4,8 @@ import com.imaee.propinq.buildings.controllers.requests.CreateBuildingRequest;
 import com.imaee.propinq.buildings.controllers.requests.UpdateBuildingRequest;
 import com.imaee.propinq.buildings.controllers.responses.BuildingDetailsResponse;
 import com.imaee.propinq.buildings.controllers.responses.BuildingResponse;
+import com.imaee.propinq.properties.controllers.responses.PropertyDetailsResponse;
+import com.imaee.propinq.properties.data.models.Property;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
@@ -76,4 +78,9 @@ public interface IBuildingController {
     @ResponseStatus(CREATED)
     @Operation(summary = "Restores a deleted building by its ID.")
     void restoreBuilding(@PathVariable UUID buildingId);
+
+    @GetMapping("/{buildingId}/properties")
+    @ResponseStatus(OK)
+    @Operation(summary = "Retrieves a list of properties associated with a specific building by its ID.")
+    List<PropertyDetailsResponse> getBuildingProperties(@PathVariable UUID buildingId);
 }

@@ -4,6 +4,7 @@ import com.imaee.propinq.buildings.controllers.requests.CreateBuildingRequest;
 import com.imaee.propinq.buildings.controllers.requests.UpdateBuildingRequest;
 import com.imaee.propinq.buildings.controllers.responses.BuildingDetailsResponse;
 import com.imaee.propinq.buildings.controllers.responses.BuildingResponse;
+import com.imaee.propinq.properties.controllers.responses.PropertyDetailsResponse;
 import org.springframework.data.domain.Page;
 import org.springframework.web.multipart.MultipartFile;
 import java.util.List;
@@ -17,4 +18,5 @@ public interface IBuildingService {
     BuildingDetailsResponse updateBuilding(UUID buildingId, UpdateBuildingRequest updateBuildingRequest, MultipartFile[] imageFiles);
     void deleteBuilding(UUID buildingId);
     void restoreBuilding(UUID buildingId);
+    List<PropertyDetailsResponse> getBuildingProperties(UUID buildingId);
 }

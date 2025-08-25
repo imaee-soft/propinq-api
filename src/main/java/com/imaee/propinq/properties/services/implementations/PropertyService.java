@@ -26,4 +26,9 @@ public class PropertyService implements IPropertyService {
     public PropertyDetailsResponse getPropertyDetails(UUID propertyId) {
         return getPropertyUseCase.getPropertyDetails(propertyId);
     }
+
+    @Override
+    public List<PropertyDetailsResponse> getBuildingProperties(UUID buildingId) {
+        return getPropertiesUseCase.getBuildingProperties(buildingId);
+    }
 }

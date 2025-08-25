@@ -19,10 +19,11 @@ public class PropertyMapper {
     }
 
     public static PropertyDetailsResponse toPropertyDetailsResponse(Property property, List<String> imagesURLS){
+        UUID buildingId = property.getBuilding() != null ? property.getBuilding().getBuildingId() : null;
         return new PropertyDetailsResponse(
                 property.getPropertyId(),
                 property.getAddress(),
-                property.getBuilding().getBuildingId(),
+                buildingId,
                 imagesURLS,
                 property.getPrice(),
                 property.getDescription(),
@@ -32,7 +33,8 @@ public class PropertyMapper {
                 property.getBathrooms(),
                 property.isPetsAllowed(),
                 property.getArea(),
-                property.getApartmentNumber()
+                property.getApartmentNumber(),
+                property.isDeleted()
         );
     }
 }

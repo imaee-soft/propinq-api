@@ -6,11 +6,12 @@ import com.imaee.propinq.properties.controllers.responses.PropertyResponse;
 import com.imaee.propinq.properties.services.interfaces.IPropertyService;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 import java.util.UUID;
 
-@Controller
+@RestController
 @AllArgsConstructor
 public class PropertyController implements IPropertyController {
     private final IPropertyService propertyService;

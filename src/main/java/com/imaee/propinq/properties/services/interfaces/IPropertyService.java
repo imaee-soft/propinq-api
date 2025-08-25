@@ -12,4 +12,6 @@ public interface IPropertyService {
 
     PropertyDetailsResponse getPropertyDetails(UUID propertyId);
 
+    List<PropertyDetailsResponse> getBuildingProperties(UUID buildingId);
+
 }

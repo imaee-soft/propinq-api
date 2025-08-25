@@ -14,9 +14,13 @@ import lombok.Data;
 import lombok.NonNull;
 import com.imaee.propinq.shared.data.models.Image;
 import com.imaee.propinq.shared.data.models.Locatable;
+import org.springframework.data.repository.cdi.Eager;
+
 import java.util.Collections;
 import java.util.List;
 import java.util.UUID;
+
+import static jakarta.persistence.FetchType.EAGER;
 
 @Entity(name="properties")
 @NoArgsConstructor
@@ -35,7 +39,7 @@ public class Property extends Locatable {
     private Building building;
 
     @NonNull
-    @OneToMany(cascade = CascadeType.ALL)
+    @OneToMany(cascade = CascadeType.ALL, fetch = EAGER)
     private List<Image> images = Collections.emptyList();
 
     @NonNull
