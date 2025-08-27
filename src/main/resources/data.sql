@@ -2,15 +2,18 @@
 DELETE FROM users WHERE email = 'admin@propinq.com';
 INSERT INTO users (
     user_id,
+    dni,
     password,
+    birth_date,
     first_name,
     last_name,
     email,
+    address,
     phone_number,
+    cuit,
     role,
-    deleted,
     activated,
-    address
+    deleted
 ) VALUES (
     UNHEX('AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA'),
     --admin123 (fuerza de 10)
@@ -51,7 +54,7 @@ INSERT IGNORE INTO buildings (building_id,
                        latitude,
                        longitude,
                        user_user_id,
-                       building_type_building_type_id,
+                       building_type,
                        deleted)
 VALUES (UNHEX('123e4567e89b12d3a456426614174000'),
         'Torre Villa María',
@@ -60,12 +63,14 @@ VALUES (UNHEX('123e4567e89b12d3a456426614174000'),
         -32.4094,
         -63.2432,
         UNHEX('11111111111111111111111111111111'), -- user_id
-        UNHEX('22222222222222222222222222222222'), -- building_type_id
+        'EDIFICIO',
         0);
 
-INSERT IGNORE INTO images(url)
-VALUES('https://climalit.es/blog/wp-content/uploads/2018/05/edificios-eficientes-1280x1280.jpg'),
-       ('https://img.freepik.com/foto-gratis/tiro-vertical-edificio-blanco-cielo-despejado_181624-4575.jpg?semt=ais_hybrid&w=740');
+
+INSERT IGNORE INTO images(url,deleted)
+VALUES('https://climalit.es/blog/wp-content/uploads/2018/05/edificios-eficientes-1280x1280.jpg',0),
+       ('https://img.freepik.com/foto-gratis/tiro-vertical-edificio-blanco-cielo-despejado_181624-4575.jpg?semt=ais_hybrid&w=740',0);
+
 -- Insertar propiedades asociadas al building y al tipo de propiedad
 INSERT IGNORE INTO buildings_images (buildings_building_id, images_url)
 VALUES(UNHEX('123e4567e89b12d3a456426614174000'),'https://climalit.es/blog/wp-content/uploads/2018/05/edificios-eficientes-1280x1280.jpg');

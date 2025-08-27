@@ -1,12 +1,17 @@
 package com.imaee.propinq.buildings.services.usecases.implementations;
 
+import com.imaee.propinq.buildings.controllers.responses.BuildingDetailsResponse;
 import com.imaee.propinq.buildings.controllers.responses.BuildingResponse;
+import com.imaee.propinq.buildings.data.models.Building;
 import com.imaee.propinq.buildings.data.repositories.IBuildingRepository;
 import com.imaee.propinq.buildings.mappers.BuildingMapper;
+import com.imaee.propinq.buildings.services.facades.interfaces.IBuildingFacade;
 import com.imaee.propinq.buildings.services.usecases.interfaces.IGetBuildingsUseCase;
 import lombok.AllArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Component;
-
 import java.util.List;
 
 @AllArgsConstructor
@@ -14,12 +19,20 @@ import java.util.List;
 public class GetBuildingsUseCase implements IGetBuildingsUseCase {
 
     private final IBuildingRepository buildingRepository;
+    private final IBuildingFacade buildingFacade;
 
     @Override
     public List<BuildingResponse> getBuildings() {
-        return buildingRepository.findAll()
+        return buildingRepository.findAllByDeletedFalse()
                 .stream()
                 .map(BuildingMapper::toBuildingResponse)
                 .toList();
+    }
+
+    @Override
+    public Page<BuildingDetailsResponse> getBuildingsDetails(int page, int size) {
+        Pageable pageable = PageRequest.of(page, size);
+        Page<Building> buildingsPage = buildingRepository.findAllByDeletedFalse(pageable);
+        return buildingsPage.map(building -> BuildingMapper.toBuildingDetailsResponse(building, buildingFacade.getImagesURLs(building)));
     }
 }

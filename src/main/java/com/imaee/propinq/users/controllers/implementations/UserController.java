@@ -5,6 +5,7 @@ import com.imaee.propinq.users.controllers.requests.ActivateUserRequest;
 import com.imaee.propinq.users.controllers.requests.RecoverPasswordRequest;
 import com.imaee.propinq.users.controllers.requests.SendEmailRequest;
 import com.imaee.propinq.users.controllers.requests.SendNewActivationTokenRequest;
+import com.imaee.propinq.users.controllers.requests.UpdateUserRequest;
 import com.imaee.propinq.users.services.interfaces.IUserActivationService;
 import com.imaee.propinq.users.services.interfaces.IUserService;
 import jakarta.validation.Valid;
@@ -28,6 +29,11 @@ public class UserController implements IUserController {
     @Override
     public void recoverPassword(@Valid RecoverPasswordRequest recoverPasswordRequest) {
         userService.recoverPassword(recoverPasswordRequest);
+    }
+
+    @Override
+    public void updateUser(UUID userId, UpdateUserRequest updateUserRequest) {
+        userService.updateUser(userId, updateUserRequest);
     }
 
     @Override

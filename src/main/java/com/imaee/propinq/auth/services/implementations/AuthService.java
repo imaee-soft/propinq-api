@@ -37,7 +37,6 @@ public class AuthService implements IAuthService {
     @Override
     public AuthResponse logIn(LoginRequest loginRequest) {
         try {
-            // Crear token de autenticación con email y password
             UsernamePasswordAuthenticationToken authToken = 
                 new UsernamePasswordAuthenticationToken(
                     loginRequest.email(), 
@@ -48,13 +47,11 @@ public class AuthService implements IAuthService {
 
             String accessToken = jwtUtils.createToken(authentication);
 
-            // Buscar usuario para obtener información adicional
             User user = userService.findUserByEmail(loginRequest.email());
 
-            // Crear respuesta
             return new AuthResponse(
                 accessToken,
-                "REFRESH_TOKEN", // Por ahora hardcodeado, se puede implementar después
+                "REFRESH_TOKEN",
                 new UserAuthResponse(
                     user.getUserId(),
                     user.getEmail(),
@@ -76,7 +73,7 @@ public class AuthService implements IAuthService {
             
             User user = userService.findUserByEmail(email);
             
-            if (!user.getActivated()) {
+            if (!user.isActivated()) {
                 throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "La cuenta del usuario esta desactivada");
             }
             

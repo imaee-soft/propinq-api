@@ -11,7 +11,7 @@ spring:
   jpa:
     show-sql: true
     hibernate:
-        ddl-auto: ${DDL_AUTO:create-drop}
+      ddl-auto: ${DDL_AUTO:update}
     defer-datasource-initialization: true
     properties:
       hibernate:
@@ -24,12 +24,10 @@ spring:
     driver-class-name: com.mysql.cj.jdbc.Driver
   data:
     mongodb:
-      uri: mongodb://${MONGODB_HOST:localhost}:27017/propinq
-      username: mongo-user
-      password: secret
+      uri: mongodb://mongo-user:${MONGODB_PASSWORD:}@mongodb:27017/propinq?authSource=admin
   mail:
-    host: ${MAIL_HOST}
-    port: ${MAIL_PORT}
+    host: ${MAIL_HOST:smtp.gmail.com}
+    port: ${MAIL_PORT:587}
     username: ${MAIL_USERNAME:propinq.enterprise@gmail.com}
     password: ${MAIL_PASSWORD:mdro ysng snki etif}
     properties:
@@ -45,7 +43,7 @@ logging:
     "[org.springframework.web]": DEBUG
     "[org.hibernate.SQL]": DEBUG
     "[org.hibernate.type.descriptor.sql.BasicBinder]": TRACE
- 
+
 cors:
   allowed-origins: ${CORS_ALLOWED_ORIGINS:http://localhost:4200}
 

@@ -32,7 +32,7 @@ public class ResendActivationEmailUseCase implements IResendActivationEmailUseCa
     }
 
     private void throwExceptionIfUserIsAlreadyActivated(User user) {
-        if (user.getActivated())
+        if (user.isActivated())
             throw new IllegalArgumentException(USER_ALREADY_ACTIVATED_MESSAGE);
     }
 

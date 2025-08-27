@@ -27,16 +27,14 @@ public class CustomUserDetailsService implements UserDetailsService {
         try {
             User user = userService.findUserByEmail(email);
             
-            if (!user.getActivated()) {
-                throw new UsernameNotFoundException("User account is not activated");
+            if (!user.isActivated()) {
+                throw new UsernameNotFoundException("La cuenta del usuario no está activada");
             }
             
-            // Crear autoridades basadas en el rol del usuario
             List<SimpleGrantedAuthority> authorities = Collections.singletonList(
                 new SimpleGrantedAuthority("ROLE_" + user.getRole().name())
             );
             
-            // Crear UserDetails usando Spring Security User builder
             var springUserBuilder = org.springframework.security.core.userdetails.User.builder();
             
             return springUserBuilder
@@ -46,11 +44,11 @@ public class CustomUserDetailsService implements UserDetailsService {
                 .accountExpired(false)
                 .accountLocked(false)
                 .credentialsExpired(false)
-                .disabled(!user.getActivated())
+                .disabled(!user.isActivated())
                 .build();
                 
         } catch (Exception e) {
-            throw new UsernameNotFoundException("User not found with email: " + email, e);
+            throw new UsernameNotFoundException("Usuario no encontrado con el mail: " + email, e);
         }
     }
 }

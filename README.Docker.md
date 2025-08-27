@@ -15,12 +15,12 @@ mvn wrapper:wrapper
 Build the backend image:
 ```bash
 docker build -f Dockerfile.dev -t propinq-api .
-```
+````
 
 Finally, start the application using Docker Compose:
 ```bash
 docker-compose -f docker-compose.dev.yaml up --build -d
-```
+````
 
 ## Importante sobre scripts y formato de fin de línea (LF)
 
