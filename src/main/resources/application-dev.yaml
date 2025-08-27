@@ -17,7 +17,8 @@ spring:
       hibernate:
         format_sql: true
   datasource:
-    url: jdbc:mysql://${MYSQL_HOST}:${MYSQL_PORT:27890}/defaultdb
+    url: jdbc:mysql://${MYSQL_HOST:localhost}:${MYSQL_PORT:3306}/${MYSQL_DATABASE:propinq_db}?createDatabaseIfNotExist=true
+
     username: ${DB_USERNAME}
     password: ${DB_PASSWORD}
     driver-class-name: com.mysql.cj.jdbc.Driver
@@ -25,8 +26,8 @@ spring:
     mongodb:
       uri: mongodb://mongo-user:${MONGODB_PASSWORD:}@mongodb:27017/propinq?authSource=admin
   mail:
-    host: ${MAIL_HOST}
-    port: ${MAIL_PORT}
+    host: ${MAIL_HOST:smtp.gmail.com}
+    port: ${MAIL_PORT:587}
     username: ${MAIL_USERNAME:propinq.enterprise@gmail.com}
     password: ${MAIL_PASSWORD:mdro ysng snki etif}
     properties:
@@ -58,3 +59,8 @@ springdoc:
   swagger-ui:
     disable-swagger-default-url: true
     path: /
+  
+security:
+  jwt:
+    key: ${SECURITY_JWT_KEY:03ac674216f3e15c761ee1a5e255f067953623c8b388b4459e13f978d7c846f4}
+    user: ${SECURITY_JWT_USER:AUTH0_USER}

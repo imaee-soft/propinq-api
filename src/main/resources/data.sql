@@ -1,5 +1,6 @@
--- Insertar usuario de prueba
-INSERT IGNORE INTO users (
+-- Actualizar usuario existente o insertar si no existe
+DELETE FROM users WHERE email = 'admin@propinq.com';
+INSERT INTO users (
     user_id,
     dni,
     password,
@@ -14,21 +15,26 @@ INSERT IGNORE INTO users (
     activated,
     deleted
 ) VALUES (
-             UNHEX('11111111111111111111111111111111'), -- user_id (UUID en hex)
-             '12345678',                             -- dni
-             'demo_password',                        -- password
-             '1990-05-15',                           -- birth_date (formato YYYY-MM-DD)
-             'Juan',                                 -- first_name
-             'Pérez',                                -- last_name
-             'juan.perez@ejemplo.com',               -- email
-             'Sin dirección',                        -- address
-             '+5493534123456',                       -- phone_number
-             NULL,                                   -- cuit (puede ir NULL o un string)
-             'OWNER',                                -- role (string, Enum)
-             1,                                      -- activated (true)
-             0                                       -- deleted (false)
-         );
+    UNHEX('AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA'),
+    --admin123 (fuerza de 10)
+    '$2a$10$XuN33pdjkfpv3SfA8I.jm.hQHV3aempTZquspVNsBSCUkxmKzydjS',
+    'PROP',
+    'INQ',
+    'admin@propinq.com',
+    '+5493534123456',
+    'ADMIN',
+    0,
+    1,
+    'Sin dirección'
+);
 
+-- Insertar tipo de edificio de prueba
+INSERT IGNORE INTO building_types (building_type_id,
+                            name,
+                            deleted)
+VALUES (UNHEX('22222222222222222222222222222222'),
+        'RESIDENTIAL',
+        0);
 
 -- Insertar tipo de propiedad de prueba
 INSERT IGNORE INTO property_types (property_type_id,
