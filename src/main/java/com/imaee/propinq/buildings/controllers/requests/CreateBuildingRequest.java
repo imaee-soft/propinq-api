@@ -14,7 +14,6 @@ public record CreateBuildingRequest(
         @Length(min = 5, message = "El nombre del edificio debe tener al menos 5 caracteres")
         String name,
 
-        @NotBlank(message = "La descripción del edificio no debe estar vacía")
         @Length(max = 125, message = "La descripción del edificio debe tener como máximo 125 caracteres")
         String description,
 

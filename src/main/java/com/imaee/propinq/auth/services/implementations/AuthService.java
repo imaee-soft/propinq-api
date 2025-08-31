@@ -39,7 +39,7 @@ public class AuthService implements IAuthService {
     public UserAuthResponse checkToken(CheckTokenRequest checkTokenRequest) {
         return new UserAuthResponse(
                 fromString("0362aba9-e4d9-4ff3-8b5a-886ee42ff468"),
-                "esosa",
+                "ezequielsosa423@gmail.com",
                 ADMIN
         );
     }
