@@ -8,7 +8,8 @@ import java.time.LocalDate;
 public record UserResponse(
         String dni,
         LocalDate birthDate,
-        String fullName,
+        String firstName,
+        String lastName,
         String email,
         String address,
         String phoneNumber,

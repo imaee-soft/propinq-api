@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.server.ResponseStatusException;
 
+import java.sql.SQLIntegrityConstraintViolationException;
 import java.time.format.DateTimeParseException;
 import java.util.NoSuchElementException;
 
@@ -27,6 +28,7 @@ public class GlobalExceptionHandler {
             "No fue posible enviar el correo electrónico. Contacte a un administrador";
     private static final String DATE_FORMATTING_EXCEPTION_MESSAGE =
             "El formato de fecha ingresado es incorrecto. La fecha debe ingresarse en formato AAAA-MM-DD";
+    private static final String SQL_INTEGRITY_VIOLATION_EXCEPTION_MESSAGE = "El nombre del edificio ya existe";
 
     @ExceptionHandler({
             DuplicateEmailException.class,
@@ -56,6 +58,12 @@ public class GlobalExceptionHandler {
     @ResponseStatus(BAD_REQUEST)
     public ExceptionMessage handleJakartaValidationsException(MethodArgumentNotValidException ex) {
         return of(ex.getBindingResult().getAllErrors().getFirst().getDefaultMessage(), 400);
+    }
+
+    @ExceptionHandler(SQLIntegrityConstraintViolationException.class)
+    @ResponseStatus(BAD_REQUEST)
+    public ExceptionMessage handleSQLIntegrityConstraintViolationException(SQLIntegrityConstraintViolationException ex) {
+        return of(SQL_INTEGRITY_VIOLATION_EXCEPTION_MESSAGE, 400);
     }
 
     @ExceptionHandler(ResponseStatusException.class)
