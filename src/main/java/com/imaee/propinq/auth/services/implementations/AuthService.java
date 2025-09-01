@@ -2,6 +2,7 @@ package com.imaee.propinq.auth.services.implementations;
 
 import com.imaee.propinq.auth.controllers.requests.CheckTokenRequest;
 import com.imaee.propinq.auth.controllers.requests.LoginRequest;
+import com.imaee.propinq.auth.controllers.requests.RefreshTokenRequest;
 import com.imaee.propinq.auth.controllers.requests.SignUpRequest;
 import com.imaee.propinq.auth.controllers.responses.AuthResponse;
 import com.imaee.propinq.auth.controllers.responses.UserAuthResponse;
@@ -46,12 +47,13 @@ public class AuthService implements IAuthService {
             Authentication authentication = authenticationManager.authenticate(authToken);
 
             String accessToken = jwtUtils.createToken(authentication);
+            String refreshToken = jwtUtils.createRefreshToken(authentication);
 
             User user = userService.findUserByEmail(loginRequest.email());
 
             return new AuthResponse(
                 accessToken,
-                "REFRESH_TOKEN",
+                refreshToken,
                 new UserAuthResponse(
                     user.getUserId(),
                     user.getEmail(),
@@ -60,7 +62,7 @@ public class AuthService implements IAuthService {
             );
 
         } catch (AuthenticationException e) {
-            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Invalid credentials");
+            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Credenciales Invalidas");
         }
     }
 
@@ -70,9 +72,7 @@ public class AuthService implements IAuthService {
             DecodedJWT decodedJWT = jwtUtils.validatetoken(checkTokenRequest.accessToken());
             
             String email = jwtUtils.extractUserName(decodedJWT);
-            
             User user = userService.findUserByEmail(email);
-            
             if (!user.isActivated()) {
                 throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "La cuenta del usuario esta desactivada");
             }
@@ -87,6 +87,44 @@ public class AuthService implements IAuthService {
             throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Token invalido o expirado");
         } catch (Exception e) {
             throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Validacion de token fallida");
+        }
+    }
+
+    @Override
+    public AuthResponse refreshToken(RefreshTokenRequest refreshTokenRequest) {
+        try {
+            // Validar el refresh token
+            DecodedJWT decodedRefreshToken = jwtUtils.validateRefreshToken(refreshTokenRequest.refreshToken());
+            String username = jwtUtils.extractUserName(decodedRefreshToken);
+            
+            // Buscar el usuario
+            User user = userService.findUserByEmail(username);
+            
+            // Crear nueva autenticación simple para generar nuevos tokens
+            UsernamePasswordAuthenticationToken authToken = 
+                new UsernamePasswordAuthenticationToken(
+                    user.getEmail(), 
+                    null
+                );
+
+            // Generar nuevos tokens
+            String newAccessToken = jwtUtils.createToken(authToken);
+            String newRefreshToken = jwtUtils.createRefreshToken(authToken);
+
+            return new AuthResponse(
+                newAccessToken,
+                newRefreshToken,
+                new UserAuthResponse(
+                    user.getUserId(),
+                    user.getEmail(),
+                    user.getRole()
+                )
+            );
+
+        } catch (JWTVerificationException e) {
+            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Refresh token inválido o expirado");
+        } catch (Exception e) {
+            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Error al refrescar token");
         }
     }
 }
