@@ -5,12 +5,16 @@ import com.imaee.propinq.users.controllers.requests.RecoverPasswordRequest;
 import com.imaee.propinq.users.controllers.requests.SendEmailRequest;
 import com.imaee.propinq.users.controllers.requests.SendNewActivationTokenRequest;
 import com.imaee.propinq.users.controllers.requests.UpdateUserRequest;
+import com.imaee.propinq.users.controllers.responses.UserResponse;
+
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
+
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -66,6 +70,18 @@ public interface IUserController {
             @Parameter(description = "ID del usuario a actualizar") @PathVariable UUID userId,
             @RequestBody @Valid UpdateUserRequest updateUserRequest
     );
+
+    @Operation(
+            summary = "Consultar usuario",
+            description = "Recupera la información del usuario registrado"
+    )
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Usuario recuperado exitosamente"),
+            @ApiResponse(responseCode = "400", description = "Usuario no encontrado, no activado o ID malformada"),
+    })
+    @GetMapping("/{userId}")
+    @ResponseStatus(OK)
+    UserResponse getUser(@Parameter(description = "ID del usuario a consultar") @PathVariable UUID userId);
 
     @Operation(
             summary = "Activar usuario",

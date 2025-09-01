@@ -17,16 +17,16 @@ spring:
       hibernate:
         format_sql: true
   datasource:
-    url: jdbc:mysql://${MYSQL_HOST:localhost}:${MYSQL_PORT:3306}/${MYSQL_DATABASE:propinq}?createDatabaseIfNotExist=true
-    username: ${DB_USERNAME:root}
-    password: ${DB_PASSWORD:password}
+    url: jdbc:mysql://${MYSQL_HOST}:${MYSQL_PORT:27890}/defaultdb
+    username: ${DB_USERNAME}
+    password: ${DB_PASSWORD}
     driver-class-name: com.mysql.cj.jdbc.Driver
   data:
     mongodb:
       uri: mongodb://mongo-user:secret@localhost:27017/propinq?authSource=admin
   mail:
-    host: ${MAIL_HOST:smtp.gmail.com}
-    port: ${MAIL_PORT:587}
+    host: ${MAIL_HOST}
+    port: ${MAIL_PORT}
     username: ${MAIL_USERNAME:propinq.enterprise@gmail.com}
     password: ${MAIL_PASSWORD:mdro ysng snki etif}
     properties:

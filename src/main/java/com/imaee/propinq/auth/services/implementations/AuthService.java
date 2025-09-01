@@ -10,6 +10,7 @@ import com.imaee.propinq.auth.services.interfaces.IAuthService;
 import com.imaee.propinq.config.utils.JwtUtils;
 import com.imaee.propinq.users.data.models.User;
 import com.imaee.propinq.users.services.interfaces.IUserService;
+
 import lombok.AllArgsConstructor;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -21,6 +22,8 @@ import org.springframework.web.server.ResponseStatusException;
 
 import com.auth0.jwt.interfaces.DecodedJWT;
 import com.auth0.jwt.exceptions.JWTVerificationException;
+import static com.imaee.propinq.users.data.enums.Role.ADMIN;
+import static java.util.UUID.fromString;
 
 @Service
 @AllArgsConstructor
@@ -29,6 +32,7 @@ public class AuthService implements IAuthService {
     private final IUserService userService;
     private final JwtUtils jwtUtils;
     private final AuthenticationManager authenticationManager;
+
 
     @Override
     public void signUp(SignUpRequest signUpRequest) {

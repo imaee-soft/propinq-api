@@ -31,7 +31,7 @@ public class AuthController implements IAuthController {
     public UserAuthResponse checkToken(CheckTokenRequest checkTokenRequest) {
         return authService.checkToken(checkTokenRequest);
     }
-
+  
     @Override
     public AuthResponse refreshToken(RefreshTokenRequest refreshTokenRequest) {
         return authService.refreshToken(refreshTokenRequest);
