@@ -11,6 +11,8 @@ import com.imaee.propinq.buildings.services.usecases.interfaces.IGetBuildingUseC
 import com.imaee.propinq.buildings.services.usecases.interfaces.IGetBuildingsUseCase;
 import com.imaee.propinq.buildings.services.usecases.interfaces.IRestoreBuildingUseCase;
 import com.imaee.propinq.buildings.services.usecases.interfaces.IUpdateBuildingUseCase;
+import com.imaee.propinq.properties.controllers.responses.PropertyDetailsResponse;
+import com.imaee.propinq.properties.services.interfaces.IPropertyService;
 import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
@@ -29,6 +31,7 @@ public class BuildingService implements IBuildingService {
     private final IUpdateBuildingUseCase updateBuildingUseCase;
     private final IDeleteBuildingUseCase deleteBuildingUseCase;
     private final IRestoreBuildingUseCase restoreBuildingUseCase;
+    private final IPropertyService propertyService;
 
     @Override
     public void createBuilding(CreateBuildingRequest createBuildingRequest, MultipartFile[] imageFiles) {
@@ -63,5 +66,10 @@ public class BuildingService implements IBuildingService {
     @Override
     public void restoreBuilding(UUID buildingId) {
         restoreBuildingUseCase.restoreBuilding(buildingId);
+    }
+
+    @Override
+    public List<PropertyDetailsResponse> getBuildingProperties(UUID buildingId) {
+        return propertyService.getBuildingProperties(buildingId);
     }
 }
