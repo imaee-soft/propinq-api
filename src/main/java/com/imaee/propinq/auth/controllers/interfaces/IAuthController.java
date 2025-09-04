@@ -2,6 +2,7 @@ package com.imaee.propinq.auth.controllers.interfaces;
 
 import com.imaee.propinq.auth.controllers.requests.CheckTokenRequest;
 import com.imaee.propinq.auth.controllers.requests.LoginRequest;
+import com.imaee.propinq.auth.controllers.requests.RefreshTokenRequest;
 import com.imaee.propinq.auth.controllers.requests.SignUpRequest;
 import com.imaee.propinq.auth.controllers.responses.AuthResponse;
 import com.imaee.propinq.auth.controllers.responses.UserAuthResponse;
@@ -51,4 +52,12 @@ public interface IAuthController {
     @PostMapping("/check-token")
     @ResponseStatus(OK)
     UserAuthResponse checkToken(@RequestBody @Valid CheckTokenRequest checkTokenRequest);
+
+    @Operation(
+            summary = "Refrescar token",
+            description = "Genera un nuevo access token y refresh token usando un refresh token válido"
+    )
+    @PostMapping("/refresh-token")
+    @ResponseStatus(OK)
+    AuthResponse refreshToken(@RequestBody @Valid RefreshTokenRequest refreshTokenRequest);
 }

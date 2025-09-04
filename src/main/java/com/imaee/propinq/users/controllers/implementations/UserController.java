@@ -7,6 +7,7 @@ import com.imaee.propinq.users.controllers.requests.SendEmailRequest;
 import com.imaee.propinq.users.controllers.requests.SendNewActivationTokenRequest;
 import com.imaee.propinq.users.controllers.requests.UpdateUserRequest;
 import com.imaee.propinq.users.controllers.responses.UserResponse;
+
 import com.imaee.propinq.users.services.interfaces.IUserActivationService;
 import com.imaee.propinq.users.services.interfaces.IUserService;
 import jakarta.validation.Valid;
