@@ -9,5 +9,4 @@ public class PropinqApplication {
 	public static void main(String[] args) {
 		SpringApplication.run(PropinqApplication.class, args);
 	}
-
 }

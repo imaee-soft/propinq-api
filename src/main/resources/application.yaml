@@ -7,13 +7,13 @@ spring:
     show-sql: true
     open-in-view: false
   datasource:
-    url: jdbc:mysql://${MYSQL_HOST:mysql}:${MYSQL_PORT:3306}/propinq?createDatabaseIfNotExist=true
-    username: ${DB_USERNAME:root}
-    password: ${DB_PASSWORD:password}
+    url: jdbc:mysql://localhost:3306/propinq?createDatabaseIfNotExist=true
+    username: root
+    password: password
     driver-class-name: com.mysql.cj.jdbc.Driver
   data:
     mongodb:
-      uri: mongodb://mongo-user:secret@${MONGODB_HOST:mongodb}:27017/propinq?authSource=admin
+      uri: mongodb://mongo-user:secret@localhost:27017/propinq?authSource=admin
       username: ${MONGODB_USER:mongo-user}
       password: ${MONGODB_PASSWORD:secret}
   mail:
@@ -46,3 +46,8 @@ cors:
 
 frontend:
   url: ${FRONTEND_URL:http://localhost:4200}
+
+cloudinary:
+  cloud-name: dsaxdhybb
+  api-key: 427491961443275
+  api-secret: apisecret
