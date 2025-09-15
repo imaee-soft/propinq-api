@@ -1,5 +1,6 @@
 package com.imaee.propinq.properties.services.interfaces;
 
+import com.imaee.propinq.properties.controllers.requests.PropertyFilterRequest;
 import com.imaee.propinq.properties.controllers.responses.PropertyDetailsResponse;
 import com.imaee.propinq.properties.controllers.responses.PropertyResponse;
 
@@ -14,4 +15,5 @@ public interface IPropertyService {
 
     List<PropertyDetailsResponse> getBuildingProperties(UUID buildingId);
 
+    List<PropertyDetailsResponse> filterProperties(PropertyFilterRequest filter);
 }
