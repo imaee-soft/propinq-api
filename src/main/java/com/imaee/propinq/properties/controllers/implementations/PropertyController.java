@@ -1,6 +1,7 @@
 package com.imaee.propinq.properties.controllers.implementations;
 
 import com.imaee.propinq.properties.controllers.interfaces.IPropertyController;
+import com.imaee.propinq.properties.controllers.requests.PropertyFilterRequest;
 import com.imaee.propinq.properties.controllers.responses.PropertyDetailsResponse;
 import com.imaee.propinq.properties.controllers.responses.PropertyResponse;
 import com.imaee.propinq.properties.services.interfaces.IPropertyService;
@@ -24,5 +25,10 @@ public class PropertyController implements IPropertyController {
     @Override
     public PropertyDetailsResponse getPropertyDetails(UUID propertyId) {
         return propertyService.getPropertyDetails(propertyId);
+    }
+
+    @Override
+    public List<PropertyDetailsResponse> filterProperties(PropertyFilterRequest filter) {
+        return propertyService.filterProperties(filter);
     }
 }
