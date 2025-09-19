@@ -23,15 +23,15 @@ spring:
   datasource:
     url: jdbc:mysql://${MYSQL_HOST:localhost}:${MYSQL_PORT:3306}/propinq?createDatabaseIfNotExist=true
     username: ${DB_USERNAME:root}
-    password: ${DB_PASSWORD:password}
+    password: ${DB_PASSWORD:}
   data:
     mongodb:
       uri: mongodb://mongo-user:secret@mongodb:27017/propinq?authSource=admin
   mail:
     host: ${MAIL_HOST:smtp.gmail.com}
     port: ${MAIL_PORT:587}
-    username: ${MAIL_USERNAME:propinq.enterprise@gmail.com}
-    password: ${MAIL_PASSWORD:mdroysngsnkietif}
+    username: ${MAIL_USERNAME:}
+    password: ${MAIL_PASSWORD:}
     properties:
       mail:
         smtp:
@@ -53,9 +53,9 @@ frontend:
   url: ${FRONTEND_URL:http://localhost:4200}
 
 cloudinary:
-  cloud-name: ${CLOUD_NAME:dlxjcrfie}
-  api-key: ${CLOUD_API_KEY:652931284422277}
-  api-secret: ${CLOUD_API_SECRET:AMR7X_QdwtjgM8mQ21otREwSRsE}
+  cloud-name: ${CLOUD_NAME:}
+  api-key: ${CLOUD_API_KEY:}
+  api-secret: ${CLOUD_API_SECRET:}
 
 springdoc:
   swagger-ui:
