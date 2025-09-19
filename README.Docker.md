@@ -17,9 +17,11 @@ Build the backend image:
 docker build -f Dockerfile.dev -t propinq-api .
 ````
 
-Finally, start the application using Docker Compose:
+Start the application using Docker Compose:
 ```bash
-docker-compose -f docker-compose.dev.yaml up --build -d
+docker compose -f docker-compose.dev.yaml up --build -d
+docker start propinq-api
+docker logs -f propinq-api
 ````
 
 ## Importante sobre scripts y formato de fin de línea (LF)

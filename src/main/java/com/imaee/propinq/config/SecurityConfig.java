@@ -45,7 +45,8 @@ public class SecurityConfig{
                 .requestMatchers(DOC_ENDPOINTS).hasRole(Role.ADMIN.name())
                 .requestMatchers(AUTH_ENDPOINTS).permitAll()
                 .requestMatchers("/api/v1/users/**").permitAll()
-                .anyRequest().authenticated()
+                    .requestMatchers(HttpMethod.GET, "/api/v1/pois/within").permitAll()
+                    .anyRequest().authenticated()
             )
             .sessionManagement(session -> session
                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS)

@@ -1,43 +1,50 @@
+-- ===============================
+-- 1. USERS (tabla padre) - PRIMERO
+-- ===============================
 -- Actualizar usuario existente o insertar si no existe
 DELETE FROM users WHERE email = 'admin@propinq.com';
 INSERT INTO users (
-    user_id,
-    dni,
-    password,
-    birth_date,
-    first_name,
-    last_name,
-    email,
-    address,
-    phone_number,
-    cuit,
-    role,
-    activated,
-    deleted
-) VALUES (
+    user_id, dni, password, birth_date, first_name, last_name, email, address, phone_number, cuit, role, activated, deleted
+)
+SELECT
     UNHEX('AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA'),
-    --admin123 (fuerza de 10)
+    '44244003',
     '$2a$10$XuN33pdjkfpv3SfA8I.jm.hQHV3aempTZquspVNsBSCUkxmKzydjS',
+    '1990-01-01',
     'PROP',
     'INQ',
     'admin@propinq.com',
+    'Sin dirección',
     '+5493534123456',
+    '20123456789',
     'ADMIN',
-    0,
     1,
-    'Sin dirección'
-);
+    0
+FROM DUAL
+WHERE NOT EXISTS (SELECT 1 FROM users WHERE email = 'admin@propinq.com');
 
--- Insertar tipo de edificio de prueba
-INSERT IGNORE INTO building_types (building_type_id,
-                            name,
-                            deleted)
-VALUES (UNHEX('22222222222222222222222222222222'),
-        'RESIDENTIAL',
-        0);
+-- ↓ CAMBIO: Insertar el usuario que será propietario de las propiedades
+INSERT IGNORE INTO users (
+    user_id, dni, password, birth_date, first_name, last_name, email, address, phone_number, cuit, role, activated, deleted
+) VALUES (
+             UNHEX('11111111111111111111111111111111'),
+             '12345678',
+             '$2a$10$XuN33pdjkfpv3SfA8I.jm.hQHV3aempTZquspVNsBSCUkxmKzydjS',
+             '1985-05-15',
+             'Juan',
+             'Propietario',
+             'propietario@propinq.com',
+             'Villa María, Córdoba',
+             '+5493534987654',
+             '20123456780',
+             'OWNER',
+             1,
+             0
+         );
 
-
--- Insertar tipo de propiedad de prueba
+-- ===============================
+-- 3. PROPERTY_TYPES (tabla padre)
+-- ===============================
 INSERT IGNORE INTO property_types (
     property_type_id,
     name,
@@ -50,30 +57,9 @@ INSERT IGNORE INTO property_types (
              0
          );
 
--- Insertar edificio en Villa María, Córdoba
-INSERT IGNORE INTO buildings (
-    building_id,
-    name,
-    description,
-    address,
-    latitude,
-    longitude,
-    user_user_id,
-    building_type,
-    deleted
-) VALUES (
-             UNHEX('123e4567e89b12d3a456426614174000'),
-             'Torre Villa María',
-             'Edificio de prueba en Villa María, Córdoba, para desarrollo frontend',
-             'Bv. España 1000, Villa María, Córdoba',
-             -32.4094,
-             -63.2432,
-             UNHEX('11111111111111111111111111111111'),
-             'EDIFICIO',
-             0
-         );
-
--- Insertar imágenes necesarias en la tabla images
+-- ===============================
+-- 4. IMAGES (tabla independiente)
+-- ===============================
 INSERT IGNORE INTO images (url, deleted, public_id) VALUES
                                                         ('https://climalit.es/blog/wp-content/uploads/2018/05/edificios-eficientes-1280x1280.jpg', 0, 'edificios-eficientes-1280x1280'),
                                                         ('https://img.freepik.com/foto-gratis/tiro-vertical-edificio-blanco-cielo-despejado_181624-4575.jpg?semt=ais_hybrid&w=740', 0, 'edificio-blanco-cielo-despejado'),
@@ -89,10 +75,41 @@ INSERT IGNORE INTO images (url, deleted, public_id) VALUES
                                                         ('https://images.homify.com/c_fill,f_auto,h_700,q_auto/v1453219892/p/photo/image/1255695/10.jpg', 0, 'homify-10'),
                                                         ('https://images.homify.com/c_fill,f_auto,h_700,q_auto/v1453219874/p/photo/image/1255691/05.jpg', 0, 'homify-05');
 
--- Insertar propiedades asociadas al building y al tipo de propiedad
+-- ===============================
+-- 5. BUILDINGS (depende de users y building_types)
+-- ===============================
+INSERT IGNORE INTO buildings (
+    building_id,
+    name,
+    description,
+    address,
+    latitude,
+    longitude,
+    user_user_id,
+    building_type,  -- ↓ CAMBIO: FK a la tabla building_types
+    deleted
+) VALUES (
+             UNHEX('123e4567e89b12d3a456426614174000'),
+             'Torre Villa María',
+             'Edificio de prueba en Villa María, Córdoba, para desarrollo frontend',
+             'Bv. España 1000, Villa María, Córdoba',
+             -32.4094,
+             -63.2432,
+             UNHEX('11111111111111111111111111111111'),  -- ↓ Usuario que existe
+             'EDIFICIO',  -- ↓ Building type EDIFICIO
+             0
+         );
+
+-- ===============================
+-- 6. BUILDINGS_IMAGES (depende de buildings)
+-- ===============================
 INSERT IGNORE INTO buildings_images (buildings_building_id, images_url) VALUES
                                                                             (UNHEX('123e4567e89b12d3a456426614174000'), 'https://climalit.es/blog/wp-content/uploads/2018/05/edificios-eficientes-1280x1280.jpg'),
                                                                             (UNHEX('123e4567e89b12d3a456426614174000'), 'https://img.freepik.com/foto-gratis/tiro-vertical-edificio-blanco-cielo-despejado_181624-4575.jpg?semt=ais_hybrid&w=740');
+
+-- ===============================
+-- 7. PROPERTIES (depende de buildings, users, property_types)
+-- ===============================
 
 -- Propiedad 1: en el building
 INSERT IGNORE INTO properties (
@@ -118,8 +135,8 @@ INSERT IGNORE INTO properties (
              'Bv. España 1000, Villa María, Córdoba, Piso 3, Depto C',
              -32.4092,
              -63.2434,
-             UNHEX('123e4567e89b12d3a456426614174000'),
-             UNHEX('33333333333333333333333333333333'),
+             UNHEX('123e4567e89b12d3a456426614174000'),  -- ↓ Building que existe
+             UNHEX('33333333333333333333333333333333'),  -- ↓ Property type que existe
              90000,
              'Departamento moderno con vista al parque.',
              'Depto 3 ambientes Premium',
@@ -129,14 +146,9 @@ INSERT IGNORE INTO properties (
              1,
              85.0,
              'C',
-             UNHEX('11111111111111111111111111111111'),
+             UNHEX('11111111111111111111111111111111'),  -- ↓ Usuario que existe
              0
          );
-
--- Imágenes propiedad 1
-INSERT IGNORE INTO properties_images (properties_property_id, images_url) VALUES
-                                                                              (UNHEX('AAAABBBBCCCCDDDDEEEEFFFF00000001'), 'https://images.adsttc.com/media/images/590c/93c8/e58e/ce1f/9800/004b/slideshow/17-03-02_425.jpg?1493996481'),
-                                                                              (UNHEX('AAAABBBBCCCCDDDDEEEEFFFF00000001'), 'https://images.adsttc.com/media/images/590c/945c/e58e/cee9/b200/0014/slideshow/17-03-02_359.jpg?1493996629');
 
 -- Propiedad 2: en el building
 INSERT IGNORE INTO properties (
@@ -177,12 +189,6 @@ INSERT IGNORE INTO properties (
              0
          );
 
--- Imágenes propiedad 2
-INSERT IGNORE INTO properties_images (properties_property_id, images_url) VALUES
-                                                                              (UNHEX('AAAABBBBCCCCDDDDEEEEFFFF00000002'), 'https://images.adsttc.com/media/images/590c/940d/e58e/ce1f/9800/004e/slideshow/17-03-02_397.jpg?1493996550'),
-                                                                              (UNHEX('AAAABBBBCCCCDDDDEEEEFFFF00000002'), 'https://images.adsttc.com/media/images/590c/932a/e58e/ce1f/9800/0041/slideshow/17-03-02_447.jpg?1493996326'),
-                                                                              (UNHEX('AAAABBBBCCCCDDDDEEEEFFFF00000002'), 'https://images.adsttc.com/media/images/590c/93f6/e58e/ce1f/9800/004d/slideshow/17-03-02_406.jpg?1493996527');
-
 -- Propiedad 3: en el building
 INSERT IGNORE INTO properties (
     property_id,
@@ -222,13 +228,7 @@ INSERT IGNORE INTO properties (
              0
          );
 
--- Imágenes propiedad 3
-INSERT IGNORE INTO properties_images (properties_property_id, images_url) VALUES
-                                                                              (UNHEX('AAAABBBBCCCCDDDDEEEEFFFF00000003'), 'https://images.adsttc.com/media/images/590d/2d63/e58e/ce34/8300/002f/slideshow/2016_10_METAFORMA_POZNAN-7055.jpg?1494035802'),
-                                                                              (UNHEX('AAAABBBBCCCCDDDDEEEEFFFF00000003'), 'https://images.adsttc.com/media/images/590d/2e3d/e58e/ce34/8300/0034/slideshow/2016_10_METAFORMA_POZNAN-7105.jpg?1494036012'),
-                                                                              (UNHEX('AAAABBBBCCCCDDDDEEEEFFFF00000003'), 'https://images.adsttc.com/media/images/590d/2da4/e58e/ce65/4200/01ce/slideshow/2016_10_METAFORMA_POZNAN-7066.jpg?1494035867');
-
--- Propiedad 4: SIN building
+-- Propiedad 4: SIN building (independiente)
 INSERT IGNORE INTO properties (
     property_id,
     address,
@@ -252,7 +252,7 @@ INSERT IGNORE INTO properties (
              'Bv. España 1500, Villa María, Córdoba, Piso 1, Depto A',
              -32.4097,
              -63.2428,
-             NULL,
+             NULL,  -- ↓ Sin building
              UNHEX('33333333333333333333333333333333'),
              130000,
              'Departamento independiente en zona céntrica.',
@@ -267,8 +267,38 @@ INSERT IGNORE INTO properties (
              0
          );
 
--- Imágenes propiedad 4 (SIN building)
+-- ===============================
+-- 8. PROPERTIES_IMAGES (depende de properties) - ÚLTIMO
+-- ===============================
+
+-- Imágenes propiedad 1
+INSERT IGNORE INTO properties_images (properties_property_id, images_url) VALUES
+                                                                              (UNHEX('AAAABBBBCCCCDDDDEEEEFFFF00000001'), 'https://images.adsttc.com/media/images/590c/93c8/e58e/ce1f/9800/004b/slideshow/17-03-02_425.jpg?1493996481'),
+                                                                              (UNHEX('AAAABBBBCCCCDDDDEEEEFFFF00000001'), 'https://images.adsttc.com/media/images/590c/945c/e58e/cee9/b200/0014/slideshow/17-03-02_359.jpg?1493996629');
+
+-- Imágenes propiedad 2
+INSERT IGNORE INTO properties_images (properties_property_id, images_url) VALUES
+                                                                              (UNHEX('AAAABBBBCCCCDDDDEEEEFFFF00000002'), 'https://images.adsttc.com/media/images/590c/940d/e58e/ce1f/9800/004e/slideshow/17-03-02_397.jpg?1493996550'),
+                                                                              (UNHEX('AAAABBBBCCCCDDDDEEEEFFFF00000002'), 'https://images.adsttc.com/media/images/590c/932a/e58e/ce1f/9800/0041/slideshow/17-03-02_447.jpg?1493996326'),
+                                                                              (UNHEX('AAAABBBBCCCCDDDDEEEEFFFF00000002'), 'https://images.adsttc.com/media/images/590c/93f6/e58e/ce1f/9800/004d/slideshow/17-03-02_406.jpg?1493996527');
+
+-- Imágenes propiedad 3
+INSERT IGNORE INTO properties_images (properties_property_id, images_url) VALUES
+                                                                              (UNHEX('AAAABBBBCCCCDDDDEEEEFFFF00000003'), 'https://images.adsttc.com/media/images/590d/2d63/e58e/ce34/8300/002f/slideshow/2016_10_METAFORMA_POZNAN-7055.jpg?1494035802'),
+                                                                              (UNHEX('AAAABBBBCCCCDDDDEEEEFFFF00000003'), 'https://images.adsttc.com/media/images/590d/2e3d/e58e/ce34/8300/0034/slideshow/2016_10_METAFORMA_POZNAN-7105.jpg?1494036012'),
+                                                                              (UNHEX('AAAABBBBCCCCDDDDEEEEFFFF00000003'), 'https://images.adsttc.com/media/images/590d/2da4/e58e/ce65/4200/01ce/slideshow/2016_10_METAFORMA_POZNAN-7066.jpg?1494035867');
+
+-- Imágenes propiedad 4 (independiente)
 INSERT IGNORE INTO properties_images (properties_property_id, images_url) VALUES
                                                                               (UNHEX('AAAABBBBCCCCDDDDEEEEFFFF00000004'), 'https://images.homify.com/c_fill,f_auto,h_700,q_auto/v1453219822/p/photo/image/1255680/Arquiteta_Camila_Castilho-84.jpg'),
                                                                               (UNHEX('AAAABBBBCCCCDDDDEEEEFFFF00000004'), 'https://images.homify.com/c_fill,f_auto,h_700,q_auto/v1453219892/p/photo/image/1255695/10.jpg'),
                                                                               (UNHEX('AAAABBBBCCCCDDDDEEEEFFFF00000004'), 'https://images.homify.com/c_fill,f_auto,h_700,q_auto/v1453219874/p/photo/image/1255691/05.jpg');
+
+
+
+
+-- Primero eliminar la foreign key constraint
+ALTER TABLE buildings DROP FOREIGN KEY FKimxm7vo78iiors2kf4ig619cv;
+
+-- Luego dropear la tabla
+DROP TABLE building_types;
