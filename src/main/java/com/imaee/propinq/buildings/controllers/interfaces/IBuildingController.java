@@ -54,7 +54,14 @@ public interface IBuildingController {
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "15") int size
     );
-
+    @GetMapping("/nearby")
+    @ResponseStatus(OK)
+    @Operation(summary = "Get buildings near a location within a radius in km")
+    List<BuildingResponse> getBuildingsNear(
+            @RequestParam Double latitude,
+            @RequestParam Double longitude,
+            @RequestParam Double radiusKm
+    );
     @GetMapping("/{buildingId}")
     @ResponseStatus(OK)
     @Operation(summary = "Retrieves detailed information about a specific building by its ID.")
@@ -68,7 +75,6 @@ public interface IBuildingController {
             @RequestPart("building") @Valid UpdateBuildingRequest updateBuildingRequest,
             @RequestPart(value = "images", required = false) MultipartFile[] imageFiles
     );
-
     @DeleteMapping("/{buildingId}")
     @ResponseStatus(NO_CONTENT)
     @Operation(summary = "Deletes a building by its ID.")
@@ -83,4 +89,7 @@ public interface IBuildingController {
     @ResponseStatus(OK)
     @Operation(summary = "Retrieves a list of properties associated with a specific building by its ID.")
     List<PropertyDetailsResponse> getBuildingProperties(@PathVariable UUID buildingId);
+
+
+
 }

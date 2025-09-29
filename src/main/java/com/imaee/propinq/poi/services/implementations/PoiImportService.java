@@ -36,7 +36,6 @@ public class PoiImportService {
         this.poiBulkRepository = poiBulkRepository;
     }
 
-    // Ahora no devuelve nada
     public long importToMySql() throws Exception {
         boolean replace = "REPLACE".equalsIgnoreCase(importMode);
         var rows = new ArrayList<PoiBulkRepository.Row>(batchSize);

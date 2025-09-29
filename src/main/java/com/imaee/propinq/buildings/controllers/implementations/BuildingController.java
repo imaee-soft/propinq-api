@@ -9,6 +9,7 @@ import com.imaee.propinq.buildings.services.interfaces.IBuildingService;
 import com.imaee.propinq.properties.controllers.responses.PropertyDetailsResponse;
 import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Page;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -60,4 +61,9 @@ public class BuildingController implements IBuildingController {
     public List<PropertyDetailsResponse> getBuildingProperties(UUID buildingId) {
         return buildingService.getBuildingProperties(buildingId);
     }
+
+    @Override
+    public List<BuildingResponse> getBuildingsNear(Double latitude, Double longitude,Double radiusKm) {
+        return buildingService.getBuildingsNear(latitude, longitude, radiusKm);
+    };
 }

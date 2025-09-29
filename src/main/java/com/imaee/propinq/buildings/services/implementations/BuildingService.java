@@ -5,12 +5,7 @@ import com.imaee.propinq.buildings.controllers.requests.UpdateBuildingRequest;
 import com.imaee.propinq.buildings.controllers.responses.BuildingDetailsResponse;
 import com.imaee.propinq.buildings.controllers.responses.BuildingResponse;
 import com.imaee.propinq.buildings.services.interfaces.IBuildingService;
-import com.imaee.propinq.buildings.services.usecases.interfaces.ICreateBuildingUseCase;
-import com.imaee.propinq.buildings.services.usecases.interfaces.IDeleteBuildingUseCase;
-import com.imaee.propinq.buildings.services.usecases.interfaces.IGetBuildingUseCase;
-import com.imaee.propinq.buildings.services.usecases.interfaces.IGetBuildingsUseCase;
-import com.imaee.propinq.buildings.services.usecases.interfaces.IRestoreBuildingUseCase;
-import com.imaee.propinq.buildings.services.usecases.interfaces.IUpdateBuildingUseCase;
+import com.imaee.propinq.buildings.services.usecases.interfaces.*;
 import com.imaee.propinq.properties.controllers.responses.PropertyDetailsResponse;
 import com.imaee.propinq.properties.services.interfaces.IPropertyService;
 import lombok.AllArgsConstructor;
@@ -31,6 +26,7 @@ public class BuildingService implements IBuildingService {
     private final IUpdateBuildingUseCase updateBuildingUseCase;
     private final IDeleteBuildingUseCase deleteBuildingUseCase;
     private final IRestoreBuildingUseCase restoreBuildingUseCase;
+    private final IGetBuildingsNearUseCase getBuildingsNearUseCase;
     private final IPropertyService propertyService;
 
     @Override
@@ -72,4 +68,10 @@ public class BuildingService implements IBuildingService {
     public List<PropertyDetailsResponse> getBuildingProperties(UUID buildingId) {
         return propertyService.getBuildingProperties(buildingId);
     }
+
+    @Override
+    public List<BuildingResponse> getBuildingsNear(Double latitude, Double longitude, Double radiusKm) {
+        return getBuildingsNearUseCase.getBuildingsNear(latitude, longitude, radiusKm);
+    }
+
 }

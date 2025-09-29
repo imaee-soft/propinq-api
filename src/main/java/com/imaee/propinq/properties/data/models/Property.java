@@ -74,6 +74,8 @@ public class Property extends Locatable {
     @ManyToOne
     private User user;
 
+    @NotNull
+    @Builder.Default
     private boolean deleted = false;
 
 }
