@@ -9,4 +9,5 @@ import java.util.UUID;
 public interface IPropertyRepository extends JpaRepository<Property, UUID> {
     List<Property> findAllByDeletedFalseAndBuildingIsNull();
     List<Property> findAllByDeletedFalseAndBuilding_BuildingId(UUID buildingId);
+    boolean existsByApartmentNumberAndBuildingBuildingId(String apartmentName, UUID buildingId);
 }

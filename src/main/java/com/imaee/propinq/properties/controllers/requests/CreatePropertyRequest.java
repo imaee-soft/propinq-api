@@ -1,0 +1,45 @@
+package com.imaee.propinq.properties.controllers.requests;
+
+import com.imaee.propinq.buildings.pipes.ValidEnum;
+import com.imaee.propinq.properties.data.enums.PropertyType;
+import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+import org.hibernate.validator.constraints.Length;
+
+import java.util.UUID;
+
+public record CreatePropertyRequest(
+
+        @Length(max = 125, message = "La descripción de la vivienda debe tener como máximo 125 caracteres")
+        String description,
+
+        @Min(value = 0, message = "El precio de la vivienda no puede ser negativo")
+        @NotNull(message = "El precio de la vivienda no debe ser nulo")
+        Double price,
+
+        @Min(value = 0, message = "La cantidad de habitaciones no puede ser negativa")
+        @NotNull(message = "La cantidad de habitaciones no puede ser nula")
+        Integer bedrooms,
+
+        @Min(value = 0, message = "La cantidad de baños no puede ser negativa")
+        @NotNull(message = "La cantidad de baños no puede ser nula")
+        Integer bathrooms,
+
+        @Min(value = 0, message = "El número de piso no puede ser negativo")
+        @NotNull(message = "El número de piso no puede ser nulo")
+        Integer floor,
+
+        @NotNull(message = "La aceptación de mascotas no puede ser nula")
+        Boolean petsAllowed,
+
+        @NotBlank(message = "El tipo de edificio no debe estar vacío")
+        @ValidEnum(enumClass = PropertyType.class, message = "El tipo de propiedad debe ser uno de los siguientes: APARTAMENTO, CASA")
+        String type,
+
+        Double area,
+        String number,
+        String address,
+        UUID buildingId,
+        UUID userId
+) {}

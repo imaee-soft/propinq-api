@@ -1,12 +1,15 @@
 package com.imaee.propinq.properties.services.implementations;
 
+import com.imaee.propinq.properties.controllers.requests.CreatePropertyRequest;
 import com.imaee.propinq.properties.controllers.responses.PropertyDetailsResponse;
 import com.imaee.propinq.properties.controllers.responses.PropertyResponse;
+import com.imaee.propinq.properties.services.factory.ICreatePropertyFactory;
 import com.imaee.propinq.properties.services.interfaces.IPropertyService;
 import com.imaee.propinq.properties.services.usecases.interfaces.IGetPropertiesUseCase;
 import com.imaee.propinq.properties.services.usecases.interfaces.IGetPropertyUseCase;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 import java.util.UUID;
@@ -14,8 +17,10 @@ import java.util.UUID;
 @Service
 @AllArgsConstructor
 public class PropertyService implements IPropertyService {
+
     private final IGetPropertiesUseCase getPropertiesUseCase;
     private final IGetPropertyUseCase getPropertyUseCase;
+    private final ICreatePropertyFactory createPropertyFactory;
 
     @Override
     public List<PropertyResponse> getProperties() {
@@ -30,5 +35,11 @@ public class PropertyService implements IPropertyService {
     @Override
     public List<PropertyDetailsResponse> getBuildingProperties(UUID buildingId) {
         return getPropertiesUseCase.getBuildingProperties(buildingId);
+    }
+
+    @Override
+    public void createProperty(CreatePropertyRequest request, MultipartFile[] imageFiles) {
+        createPropertyFactory.provideCreatePropertyUseCase(request)
+                .createProperty(request, imageFiles);
     }
 }

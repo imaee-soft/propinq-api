@@ -8,6 +8,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.NonNull;
+
 import java.util.UUID;
 
 @Entity(name="property_types")
@@ -17,7 +18,6 @@ import java.util.UUID;
 @Data
 public class PropertyType {
     @Id
-
     private UUID propertyTypeId = UUID.randomUUID();
 
     @NonNull
@@ -28,5 +28,4 @@ public class PropertyType {
     private String description;
 
     private Boolean deleted = false;
-  
 }

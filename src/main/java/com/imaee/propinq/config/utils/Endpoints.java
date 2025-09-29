@@ -6,9 +6,20 @@ public class Endpoints {
 
     public static final String AUTH_ENDPOINTS = "/auth/**";
 
+    public static final String[] USER_ACTIVATION_ENDPOINTS = {
+            "/api/v1/users/*/activate",
+            "/resend-activation-email",
+            "/send-new-activation-token",
+    };
+
     public static final String[] DOC_ENDPOINTS = {
             "/swagger-ui/**",
             "/v3/api-docs/**",
             "/swagger-ui.html",
+    };
+
+    public static final String[] RETRIEVE_ENDPOINTS = {
+            "/api/v1/buildings/**",
+            "/api/v1/properties/**",
     };
 }
