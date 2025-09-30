@@ -60,4 +60,9 @@ public class BuildingController implements IBuildingController {
     public List<PropertyDetailsResponse> getBuildingProperties(UUID buildingId) {
         return buildingService.getBuildingProperties(buildingId);
     }
+
+    @Override
+    public boolean hasApartment(UUID buildingId, String number) {
+        return buildingService.hasApartment(buildingId, number);
+    }
 }

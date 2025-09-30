@@ -5,7 +5,6 @@ import com.imaee.propinq.buildings.controllers.requests.UpdateBuildingRequest;
 import com.imaee.propinq.buildings.controllers.responses.BuildingDetailsResponse;
 import com.imaee.propinq.buildings.controllers.responses.BuildingResponse;
 import com.imaee.propinq.properties.controllers.responses.PropertyDetailsResponse;
-import com.imaee.propinq.properties.data.models.Property;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
@@ -83,4 +82,12 @@ public interface IBuildingController {
     @ResponseStatus(OK)
     @Operation(summary = "Retrieves a list of properties associated with a specific building by its ID.")
     List<PropertyDetailsResponse> getBuildingProperties(@PathVariable UUID buildingId);
+
+    @GetMapping("/{buildingId}/has-apartment")
+    @ResponseStatus(OK)
+    @Operation(summary = "Verifies that the given apartment number exists for the given building.")
+    boolean hasApartment(
+            @PathVariable UUID buildingId,
+            @RequestParam(value = "number", required = true) String number
+    );
 }

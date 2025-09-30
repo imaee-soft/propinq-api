@@ -7,6 +7,7 @@ import com.imaee.propinq.buildings.controllers.responses.BuildingResponse;
 import com.imaee.propinq.buildings.services.interfaces.IBuildingService;
 import com.imaee.propinq.buildings.services.usecases.interfaces.ICreateBuildingUseCase;
 import com.imaee.propinq.buildings.services.usecases.interfaces.IDeleteBuildingUseCase;
+import com.imaee.propinq.buildings.services.usecases.interfaces.IExistsApartmentNumberUseCase;
 import com.imaee.propinq.buildings.services.usecases.interfaces.IGetBuildingUseCase;
 import com.imaee.propinq.buildings.services.usecases.interfaces.IGetBuildingsUseCase;
 import com.imaee.propinq.buildings.services.usecases.interfaces.IRestoreBuildingUseCase;
@@ -32,6 +33,7 @@ public class BuildingService implements IBuildingService {
     private final IDeleteBuildingUseCase deleteBuildingUseCase;
     private final IRestoreBuildingUseCase restoreBuildingUseCase;
     private final IPropertyService propertyService;
+    private final IExistsApartmentNumberUseCase existsApartmentNumberUseCase;
 
     @Override
     public void createBuilding(CreateBuildingRequest createBuildingRequest, MultipartFile[] imageFiles) {
@@ -71,5 +73,10 @@ public class BuildingService implements IBuildingService {
     @Override
     public List<PropertyDetailsResponse> getBuildingProperties(UUID buildingId) {
         return propertyService.getBuildingProperties(buildingId);
+    }
+
+    @Override
+    public boolean hasApartment(UUID buildingId, String name) {
+        return existsApartmentNumberUseCase.existsApartmentNumber(buildingId, name);
     }
 }
