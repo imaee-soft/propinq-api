@@ -5,6 +5,7 @@ import com.imaee.propinq.buildings.controllers.requests.UpdateBuildingRequest;
 import com.imaee.propinq.buildings.controllers.responses.BuildingDetailsResponse;
 import com.imaee.propinq.buildings.controllers.responses.BuildingResponse;
 import com.imaee.propinq.properties.controllers.responses.PropertyDetailsResponse;
+import com.imaee.propinq.properties.controllers.responses.PropertyResponse;
 import com.imaee.propinq.properties.data.models.Property;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -54,7 +55,26 @@ public interface IBuildingController {
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "15") int size
     );
-
+    @GetMapping("/nearby")
+    @ResponseStatus(OK)
+    @Operation(summary = "Get buildings near a location within a radius in km")
+    List<BuildingResponse> getBuildingsNear(
+            @RequestParam Double latitude,
+            @RequestParam Double longitude,
+            @RequestParam Double radiusKm
+    );
+    @GetMapping("/nearby/poi")
+    @ResponseStatus(OK)
+    @Operation(summary = "Get properties near POIs of a given type within viewport and radius in km")
+    List<BuildingResponse> getBuildingsNearPoi(
+            @RequestParam String poiType,
+            @RequestParam Double radiusKm,
+            @RequestParam Double north,
+            @RequestParam Double south,
+            @RequestParam Double east,
+            @RequestParam Double west,
+            @RequestParam(required = false) Integer limit
+    );
     @GetMapping("/{buildingId}")
     @ResponseStatus(OK)
     @Operation(summary = "Retrieves detailed information about a specific building by its ID.")
@@ -68,7 +88,6 @@ public interface IBuildingController {
             @RequestPart("building") @Valid UpdateBuildingRequest updateBuildingRequest,
             @RequestPart(value = "images", required = false) MultipartFile[] imageFiles
     );
-
     @DeleteMapping("/{buildingId}")
     @ResponseStatus(NO_CONTENT)
     @Operation(summary = "Deletes a building by its ID.")
@@ -83,4 +102,6 @@ public interface IBuildingController {
     @ResponseStatus(OK)
     @Operation(summary = "Retrieves a list of properties associated with a specific building by its ID.")
     List<PropertyDetailsResponse> getBuildingProperties(@PathVariable UUID buildingId);
+
+
 }

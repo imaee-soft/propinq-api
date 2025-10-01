@@ -10,11 +10,11 @@ import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
+import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import lombok.NonNull;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -31,30 +31,30 @@ public class User {
     @Id
     private final UUID userId = UUID.randomUUID();
 
-    @NonNull
+    @NotNull
     @Column(unique = true)
     private String dni;
 
-    @NonNull
+    @NotNull
     private String password;
 
-    @NonNull
+    @NotNull
     private LocalDate birthDate;
 
-    @NonNull
+    @NotNull
     private String firstName;
 
-    @NonNull
+    @NotNull
     private String lastName;
 
-    @NonNull
+    @NotNull
     @Column(unique = true)
     private String email;
     
-    @NonNull
+    @NotNull
     private String address;
 
-    @NonNull
+    @NotNull
     @Convert(converter = PhoneNumberConverter.class)
     private String phoneNumber;
  

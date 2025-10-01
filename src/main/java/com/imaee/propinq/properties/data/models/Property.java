@@ -7,14 +7,13 @@ import jakarta.persistence.Id;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.CascadeType;
+import jakarta.validation.constraints.NotNull;
 import lombok.NoArgsConstructor;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
-import lombok.NonNull;
 import com.imaee.propinq.shared.data.models.Image;
 import com.imaee.propinq.shared.data.models.Locatable;
-import org.springframework.data.repository.cdi.Eager;
 
 import java.util.Collections;
 import java.util.List;
@@ -32,49 +31,51 @@ public class Property extends Locatable {
     @Id
     private final UUID propertyId = UUID.randomUUID();
 
-    @NonNull
+    @NotNull
     private String address;
 
     @ManyToOne
     private Building building;
 
-    @NonNull
+    @NotNull
     @OneToMany(cascade = CascadeType.ALL, fetch = EAGER)
     private List<Image> images = Collections.emptyList();
 
-    @NonNull
+    @NotNull
     @ManyToOne
     private PropertyType propertyType;
 
-    @NonNull
+    @NotNull
     private Double price;
 
-    @NonNull
+    @NotNull
     private String description;
 
-    @NonNull
+    @NotNull
     private String title;
 
     private Integer floor;
 
-    @NonNull
+    @NotNull
     private Integer bedrooms;
 
-    @NonNull
+    @NotNull
     private Integer bathrooms;
 
-    @NonNull
+    @NotNull
     private boolean petsAllowed = false;
 
-    @NonNull
+    @NotNull
     private Double area;
 
     private String apartmentNumber;
 
-    @NonNull
+    @NotNull
     @ManyToOne
     private User user;
 
+    @NotNull
+    @Builder.Default
     private boolean deleted = false;
 
 }

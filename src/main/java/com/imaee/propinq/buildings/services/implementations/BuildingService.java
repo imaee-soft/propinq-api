@@ -5,13 +5,9 @@ import com.imaee.propinq.buildings.controllers.requests.UpdateBuildingRequest;
 import com.imaee.propinq.buildings.controllers.responses.BuildingDetailsResponse;
 import com.imaee.propinq.buildings.controllers.responses.BuildingResponse;
 import com.imaee.propinq.buildings.services.interfaces.IBuildingService;
-import com.imaee.propinq.buildings.services.usecases.interfaces.ICreateBuildingUseCase;
-import com.imaee.propinq.buildings.services.usecases.interfaces.IDeleteBuildingUseCase;
-import com.imaee.propinq.buildings.services.usecases.interfaces.IGetBuildingUseCase;
-import com.imaee.propinq.buildings.services.usecases.interfaces.IGetBuildingsUseCase;
-import com.imaee.propinq.buildings.services.usecases.interfaces.IRestoreBuildingUseCase;
-import com.imaee.propinq.buildings.services.usecases.interfaces.IUpdateBuildingUseCase;
+import com.imaee.propinq.buildings.services.usecases.interfaces.*;
 import com.imaee.propinq.properties.controllers.responses.PropertyDetailsResponse;
+import com.imaee.propinq.properties.controllers.responses.PropertyResponse;
 import com.imaee.propinq.properties.services.interfaces.IPropertyService;
 import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -31,7 +27,9 @@ public class BuildingService implements IBuildingService {
     private final IUpdateBuildingUseCase updateBuildingUseCase;
     private final IDeleteBuildingUseCase deleteBuildingUseCase;
     private final IRestoreBuildingUseCase restoreBuildingUseCase;
+    private final IGetBuildingsNearUseCase getBuildingsNearUseCase;
     private final IPropertyService propertyService;
+    private final IGetBuildingsNearPoiUseCase getBuildingsNearPoiUseCase;
 
     @Override
     public void createBuilding(CreateBuildingRequest createBuildingRequest, MultipartFile[] imageFiles) {
@@ -71,5 +69,15 @@ public class BuildingService implements IBuildingService {
     @Override
     public List<PropertyDetailsResponse> getBuildingProperties(UUID buildingId) {
         return propertyService.getBuildingProperties(buildingId);
+    }
+
+    @Override
+    public List<BuildingResponse> getBuildingsNear(Double latitude, Double longitude, Double radiusKm) {
+        return getBuildingsNearUseCase.getBuildingsNear(latitude, longitude, radiusKm);
+    }
+
+    @Override
+    public List<BuildingResponse> getBuildingsNearPoi(String poiType, Double radiusKm, Double north, Double south, Double east, Double west, Integer limit) {
+        return getBuildingsNearPoiUseCase.getBuildingsNearPoi(poiType, radiusKm, north, south, east, west, limit);
     }
 }
