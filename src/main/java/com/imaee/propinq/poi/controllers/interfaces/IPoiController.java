@@ -33,8 +33,8 @@ public interface IPoiController {
                     @Parameter(name = "east", description = "Longitud este (derecha). Rango [-180, 180].", required = true, in = ParameterIn.QUERY),
                     @Parameter(name = "west", description = "Longitud oeste (izquierda). Rango [-180, 180].", required = true, in = ParameterIn.QUERY),
                     @Parameter(name = "limit", description = "Límite máximo de POIs a devolver (opcional). Se ajusta a un tope de servidor.", required = false, in = ParameterIn.QUERY),
-                    @Parameter(name = "types", description = "Tipos de POI separados por coma (opcional). Ej: AMENITY,SHOP", required = false, in = ParameterIn.QUERY),
-                    @Parameter(name = "zoom", description = "Nivel de zoom actual (opcional, reservado para clustering futuro).", required = false, in = ParameterIn.QUERY)
+                    @Parameter(name = "types", description = "Tipo de POI (opcional). Ej: AMENITY", required = false, in = ParameterIn.QUERY),
+                    @Parameter(name = "zoom", description = "Nivel de zoom actual (opcional, reservado para clustering futuro).", required = false, in = ParameterIn.QUERY),
             }
     )
     PoiViewportResult getPoisWithin(

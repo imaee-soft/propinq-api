@@ -8,6 +8,8 @@ import com.imaee.propinq.properties.data.models.Property;
 import com.imaee.propinq.properties.data.repositories.IPropertyRepository;
 import com.imaee.propinq.properties.data.repositories.specifications.PropertySpecifications;
 import com.imaee.propinq.properties.services.interfaces.IPropertyService;
+import com.imaee.propinq.properties.services.usecases.interfaces.IGetPropertiesNearPoiUseCase;
+import com.imaee.propinq.properties.services.usecases.interfaces.IGetPropertiesNearUseCase;
 import com.imaee.propinq.properties.services.usecases.interfaces.IGetPropertiesUseCase;
 import com.imaee.propinq.properties.services.usecases.interfaces.IGetPropertyUseCase;
 import com.imaee.propinq.properties.services.facades.interfaces.IPropertyFacade;
@@ -23,8 +25,10 @@ public class PropertyService implements IPropertyService {
     private final IGetPropertiesUseCase getPropertiesUseCase;
     private final IGetPropertyUseCase getPropertyUseCase;
     private final IPropertyRepository propertyRepository;
-    private final IPropertyFacade propertyFacade;
 
+    private final IGetPropertiesNearUseCase getPropertiesNearUseCase;
+    private final IGetPropertiesNearPoiUseCase getPropertiesNearPoiUseCase;
+    private final IPropertyFacade propertyFacade;
     @Override
     public List<PropertyResponse> getProperties() {
         return getPropertiesUseCase.getProperties();
@@ -38,6 +42,17 @@ public class PropertyService implements IPropertyService {
     @Override
     public List<PropertyDetailsResponse> getBuildingProperties(UUID buildingId) {
         return getPropertiesUseCase.getBuildingProperties(buildingId);
+    }
+
+    @Override
+    public List<PropertyResponse> getPropertiesNear( Double latitude,  Double longitude, Double radiusKm) {
+        return getPropertiesNearUseCase.getPropertiesNear(latitude, longitude, radiusKm);
+    }
+
+    @Override
+    public List<PropertyResponse> getPropertiesNearPoi(String poiType,Double radiusKm, Double north,
+                                                Double south, Double east, Double west, Integer limit) {
+        return getPropertiesNearPoiUseCase.getPropertiesNearPoi(poiType, radiusKm, north, south, east, west, limit);
     }
 
     @Override

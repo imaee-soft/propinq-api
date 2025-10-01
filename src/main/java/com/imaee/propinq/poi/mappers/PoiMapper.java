@@ -1,14 +1,12 @@
 package com.imaee.propinq.poi.mappers;
 
 import com.fasterxml.jackson.databind.JsonNode;
-import com.imaee.propinq.buildings.controllers.responses.BuildingDetailsResponse;
-import com.imaee.propinq.buildings.data.models.Building;
+
 import com.imaee.propinq.poi.controllers.responses.PoiViewportResponse;
 import com.imaee.propinq.poi.data.enums.PoiType;
 import com.imaee.propinq.poi.data.models.Poi;
 
-import java.nio.charset.StandardCharsets;
-import java.util.UUID;
+
 
 public final class PoiMapper {
     private PoiMapper() {}

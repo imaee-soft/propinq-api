@@ -47,7 +47,7 @@ public class PoiBulkRepository {
             var chunk = rows.subList(i, Math.min(i + chunkSize, rows.size()));
             jdbc.batchUpdate(sql, chunk, chunk.size(), (ps, r) -> {
                 ps.setString(1, r.id());
-                ps.setString(2, r.type());      // <- tipo string, no ordinal
+                ps.setString(2, r.type());
                 ps.setString(3, r.name());
                 ps.setDouble(4, r.latitude());
                 ps.setDouble(5, r.longitude());

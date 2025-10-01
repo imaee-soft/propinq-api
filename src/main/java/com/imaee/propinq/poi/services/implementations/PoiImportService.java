@@ -5,7 +5,6 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.imaee.propinq.poi.data.enums.PoiType;
 import com.imaee.propinq.poi.mappers.PoiMapper;
 import com.imaee.propinq.poi.data.repositories.PoiBulkRepository;
-import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
@@ -36,7 +35,6 @@ public class PoiImportService {
         this.poiBulkRepository = poiBulkRepository;
     }
 
-    // Ahora no devuelve nada
     public long importToMySql() throws Exception {
         boolean replace = "REPLACE".equalsIgnoreCase(importMode);
         var rows = new ArrayList<PoiBulkRepository.Row>(batchSize);

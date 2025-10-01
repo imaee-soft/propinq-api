@@ -28,8 +28,8 @@ spring:
     mongodb:
       uri: mongodb://mongo-user:secret@mongodb:27017/propinq?authSource=admin
   mail:
-    host: ${MAIL_HOST:smtp.gmail.com}
-    port: ${MAIL_PORT:587}
+    host: ${MAIL_HOST:}
+    port: ${MAIL_PORT:}
     username: ${MAIL_USERNAME:}
     password: ${MAIL_PASSWORD:}
     properties:
@@ -64,5 +64,5 @@ springdoc:
 
 security:
   jwt:
-    key: ${SECURITY_JWT_KEY:03ac674216f3e15c761ee1a5e255f067953623c8b388b4459e13f978d7c846f4}
-    user: ${SECURITY_JWT_USER:AUTH0_USER}
+    key: ${SECURITY_JWT_KEY:}
+    user: ${SECURITY_JWT_USER:}

@@ -20,4 +20,34 @@ public interface IBuildingRepository extends JpaRepository<Building, UUID> {
 
     Page<Building> findAllByDeletedFalse(Pageable pageable);
 
+    @Query("""
+           SELECT b FROM buildings b
+           WHERE b.latitude BETWEEN :south AND :north
+             AND (
+                   (:crossesDateline = FALSE AND b.longitude BETWEEN :west AND :east)
+                   OR
+                   (:crossesDateline = TRUE AND (b.longitude >= :west OR b.longitude <= :east))
+                 )
+             AND (
+                    6371 * 2 * ASIN(
+                        SQRT(
+                            POWER(SIN(RADIANS(:centerLat - b.latitude) / 2), 2) +
+                            COS(RADIANS(b.latitude)) * COS(RADIANS(:centerLat)) *
+                            POWER(SIN(RADIANS(:centerLng - b.longitude) / 2), 2)
+                        )
+                    ) <= :radiusKm
+                 )
+             AND b.deleted = FALSE
+           """)
+    List<Building> findWithinRadiusAndBounds(
+            @Param("centerLat") double centerLat,
+            @Param("centerLng") double centerLng,
+            @Param("radiusKm") double radiusKm,
+            @Param("south") double south,
+            @Param("north") double north,
+            @Param("west") double west,
+            @Param("east") double east,
+            @Param("crossesDateline") boolean crossesDateline,
+            Pageable pageable
+    );
 }

@@ -15,5 +15,9 @@ public interface IPropertyService {
 
     List<PropertyDetailsResponse> getBuildingProperties(UUID buildingId);
 
+    List<PropertyResponse> getPropertiesNear( Double latitude,  Double longitude, Double radiusKm);
+
+    List<PropertyResponse> getPropertiesNearPoi(String poiType,Double radiusKm, Double north,
+                                                Double south, Double east, Double west, Integer limit);
     List<PropertyDetailsResponse> filterProperties(PropertyFilterRequest filter);
 }
