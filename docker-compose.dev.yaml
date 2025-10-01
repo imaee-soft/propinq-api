@@ -49,7 +49,7 @@ services:
       # MySQL
       SPRING_DATASOURCE_URL: jdbc:mysql://mysql-db:3306/propinq?createDatabaseIfNotExist=true
       SPRING_DATASOURCE_USERNAME: root
-      SPRING_DATASOURCE_PASSWORD: password
+      SPRING_DATASOURCE_PASSWORD:
 
       # Mongo
       SPRING_DATA_MONGODB_URI: mongodb://mongo-user:secret@mongodb:27017/propinq?authSource=admin
@@ -105,7 +105,7 @@ services:
       - "27017:27017"
     environment:
       MONGO_INITDB_ROOT_USERNAME: mongo-user
-      MONGO_INITDB_ROOT_PASSWORD: secret
+      MONGO_INITDB_ROOT_PASSWORD:
       MONGO_INITDB_DATABASE: propinq
     volumes:
       - mongo-data:/data/db

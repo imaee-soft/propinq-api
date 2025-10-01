@@ -30,6 +30,18 @@ public interface IPropertyController {
             @RequestParam Double longitude,
             @RequestParam Double radiusKm
     );
+    @GetMapping("/nearby/poi")
+    @ResponseStatus(OK)
+    @Operation(summary = "Get properties near POIs of a given type within viewport and radius in km")
+    List<PropertyResponse> getPropertiesNearPoi(
+            @RequestParam String poiType,
+            @RequestParam Double radiusKm,
+            @RequestParam Double north,
+            @RequestParam Double south,
+            @RequestParam Double east,
+            @RequestParam Double west,
+            @RequestParam(required = false) Integer limit
+    );
 
     @GetMapping("/{propertyId}")
     @ResponseStatus(OK)

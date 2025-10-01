@@ -19,7 +19,7 @@ import java.util.UUID;
 @Data
 public class Poi extends Locatable {
     @Id
-    @Column(name = "id") // Agrega esta anotación para mapear a la columna id
+    @Column(name = "id")
     private UUID poiId = UUID.randomUUID();
 
     @NotNull

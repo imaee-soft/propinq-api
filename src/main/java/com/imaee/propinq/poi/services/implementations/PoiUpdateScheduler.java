@@ -18,7 +18,6 @@ public class PoiUpdateScheduler {
     @Value("${poi.scheduler.enabled:true}")
     private boolean enabled;
 
-    // Conservamos flags por compatibilidad, pero delegamos la lógica al orquestador.
     @Value("${poi.scheduler.region:south-america/argentina-latest}")
     private String region;
 
@@ -35,13 +34,10 @@ public class PoiUpdateScheduler {
         this.importService = importService;
     }
 
-    // Podés dejarlo diario; el throttle evitará trabajo innecesario.
-    // Si preferís una vez por año: "0 30 3 1 1 *"
     @Scheduled(cron = "${poi.scheduler.cron:0 30 3 * * *}")
     public void run() throws Exception {
         if (!enabled) return;
 
-        // Llamamos al orquestador idempotente (respeta MD5 y throttle anual).
         int code = new ProcessBuilder("bash", "/app/scripts/update-argentina.sh", "/app/data", outDir, region)
                 .inheritIO()
                 .start()

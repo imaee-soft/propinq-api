@@ -19,7 +19,7 @@ public class GetPropertiesNearUseCase implements IGetPropertiesNearUseCase {
 
     @Override
     public List<PropertyResponse> getPropertiesNear(Double latitude, Double longitude, Double radiusKm) {
-        List<Property> allProperties = propertyRepository.findAll();
+        List<Property> allProperties = propertyRepository.findAllByDeletedFalseAndBuildingIsNull();
         return allProperties.stream()
                 .filter(property -> {
                     double dist = haversineDistance(latitude, longitude, property.getLatitude(), property.getLongitude());
