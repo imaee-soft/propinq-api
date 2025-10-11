@@ -33,11 +33,16 @@ public record CreatePropertyRequest(
         @NotNull(message = "La aceptación de mascotas no puede ser nula")
         Boolean petsAllowed,
 
-        @NotBlank(message = "El tipo de edificio no debe estar vacío")
+        @NotNull(message = "La aceptación de mascotas no puede ser nula")
+        Boolean hasFurniture,
+
+        @NotNull(message = "La aceptación de mascotas no puede ser nula")
+        Boolean paysExpenses,
+
+        @NotBlank(message = "El tipo de propiedad no debe estar vacío")
         @ValidEnum(enumClass = PropertyType.class, message = "El tipo de propiedad debe ser uno de los siguientes: APARTAMENTO, CASA")
         String type,
 
-        Double area,
         String number,
         String address,
         UUID buildingId,

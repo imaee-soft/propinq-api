@@ -68,7 +68,7 @@ public class Property extends Locatable {
     private boolean furnishing = false;
 
     @NotNull
-    private Double area;
+    private boolean expenses = false;
 
     private String apartmentNumber;
 

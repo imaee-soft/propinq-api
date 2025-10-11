@@ -35,7 +35,6 @@ public class PropertyMapper {
                 property.getBedrooms(),
                 property.getBathrooms(),
                 property.isPetsAllowed(),
-                property.getArea(),
                 property.getApartmentNumber(),
                 property.isDeleted()
         );
@@ -53,8 +52,9 @@ public class PropertyMapper {
                 .bedrooms(request.bedrooms())
                 .bathrooms(request.bathrooms())
                 .petsAllowed(request.petsAllowed())
+                .furnishing(request.hasFurniture())
+                .expenses(request.paysExpenses())
                 .apartmentNumber(request.number())
-                .area(request.area())
                 .title(buildApartmentName(request.number(), request.floor()))
                 .build();
     }
