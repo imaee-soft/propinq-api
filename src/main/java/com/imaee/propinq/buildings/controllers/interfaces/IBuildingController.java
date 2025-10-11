@@ -54,6 +54,28 @@ public interface IBuildingController {
             @RequestParam(defaultValue = "15") int size
     );
 
+    @GetMapping("/nearby")
+    @ResponseStatus(OK)
+    @Operation(summary = "Get buildings near a location within a radius in km")
+    List<BuildingResponse> getBuildingsNear(
+            @RequestParam Double latitude,
+            @RequestParam Double longitude,
+            @RequestParam Double radiusKm
+    );
+
+    @GetMapping("/nearby/poi")
+    @ResponseStatus(OK)
+    @Operation(summary = "Get properties near POIs of a given type within viewport and radius in km")
+    List<BuildingResponse> getBuildingsNearPoi(
+            @RequestParam String poiType,
+            @RequestParam Double radiusKm,
+            @RequestParam Double north,
+            @RequestParam Double south,
+            @RequestParam Double east,
+            @RequestParam Double west,
+            @RequestParam(required = false) Integer limit
+    );
+
     @GetMapping("/{buildingId}")
     @ResponseStatus(OK)
     @Operation(summary = "Retrieves detailed information about a specific building by its ID.")

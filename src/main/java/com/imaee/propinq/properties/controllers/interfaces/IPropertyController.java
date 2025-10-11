@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.multipart.MultipartFile;
@@ -31,6 +32,27 @@ public interface IPropertyController {
     @ResponseStatus(OK)
     @Operation(summary = "Retrieves a list of all properties with basic information.")
     List<PropertyResponse> getProperties();
+
+    @GetMapping("/nearby")
+    @ResponseStatus(OK)
+    @Operation(summary = "Get properties near a location within a radius in km")
+    List<PropertyResponse> getPropertiesNear(
+            @RequestParam Double latitude,
+            @RequestParam Double longitude,
+            @RequestParam Double radiusKm
+    );
+    @GetMapping("/nearby/poi")
+    @ResponseStatus(OK)
+    @Operation(summary = "Get properties near POIs of a given type within viewport and radius in km")
+    List<PropertyResponse> getPropertiesNearPoi(
+            @RequestParam String poiType,
+            @RequestParam Double radiusKm,
+            @RequestParam Double north,
+            @RequestParam Double south,
+            @RequestParam Double east,
+            @RequestParam Double west,
+            @RequestParam(required = false) Integer limit
+    );
 
     @GetMapping("/{propertyId}")
     @ResponseStatus(OK)

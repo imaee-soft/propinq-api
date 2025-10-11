@@ -32,4 +32,15 @@ public class PropertyController implements IPropertyController {
     public void createProperty(CreatePropertyRequest createPropertyRequest, MultipartFile[] imageFiles) {
         propertyService.createProperty(createPropertyRequest, imageFiles);
     }
+
+    @Override
+    public List<PropertyResponse> getPropertiesNear( Double latitude,  Double longitude, Double radiusKm) {
+           return propertyService.getPropertiesNear(latitude, longitude, radiusKm);
+    }
+
+    @Override
+    public List<PropertyResponse> getPropertiesNearPoi(String poiType,Double radiusKm, Double north,
+                                                       Double south, Double east, Double west, Integer limit) {
+        return propertyService.getPropertiesNearPoi(poiType, radiusKm, north, south, east, west, limit);
+    }
 }

@@ -9,6 +9,8 @@ import com.imaee.propinq.buildings.services.usecases.interfaces.ICreateBuildingU
 import com.imaee.propinq.buildings.services.usecases.interfaces.IDeleteBuildingUseCase;
 import com.imaee.propinq.buildings.services.usecases.interfaces.IExistsApartmentNumberUseCase;
 import com.imaee.propinq.buildings.services.usecases.interfaces.IGetBuildingUseCase;
+import com.imaee.propinq.buildings.services.usecases.interfaces.IGetBuildingsNearPoiUseCase;
+import com.imaee.propinq.buildings.services.usecases.interfaces.IGetBuildingsNearUseCase;
 import com.imaee.propinq.buildings.services.usecases.interfaces.IGetBuildingsUseCase;
 import com.imaee.propinq.buildings.services.usecases.interfaces.IRestoreBuildingUseCase;
 import com.imaee.propinq.buildings.services.usecases.interfaces.IUpdateBuildingUseCase;
@@ -33,6 +35,8 @@ public class BuildingService implements IBuildingService {
     private final IDeleteBuildingUseCase deleteBuildingUseCase;
     private final IRestoreBuildingUseCase restoreBuildingUseCase;
     private final IPropertyService propertyService;
+    private final IGetBuildingsNearUseCase getBuildingsNearUseCase;
+    private final IGetBuildingsNearPoiUseCase getBuildingsNearPoiUseCase;
     private final IExistsApartmentNumberUseCase existsApartmentNumberUseCase;
 
     @Override
@@ -78,5 +82,16 @@ public class BuildingService implements IBuildingService {
     @Override
     public boolean hasApartment(UUID buildingId, String name) {
         return existsApartmentNumberUseCase.existsApartmentNumber(buildingId, name);
+    }
+
+    @Override
+    public List<BuildingResponse> getBuildingsNear(Double latitude, Double longitude, Double radiusKm) {
+        return getBuildingsNearUseCase.getBuildingsNear(latitude, longitude, radiusKm);
+    }
+
+    @Override
+    public List<BuildingResponse> getBuildingsNearPoi(String poiType, Double radiusKm, Double north, Double south,
+                                                      Double east, Double west, Integer limit) {
+        return getBuildingsNearPoiUseCase.getBuildingsNearPoi(poiType, radiusKm, north, south, east, west, limit);
     }
 }

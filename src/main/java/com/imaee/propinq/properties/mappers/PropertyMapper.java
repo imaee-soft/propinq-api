@@ -11,6 +11,8 @@ import com.imaee.propinq.shared.data.models.Image;
 import java.util.List;
 import java.util.UUID;
 
+import static com.imaee.propinq.properties.data.enums.PropertyType.APARTAMENTO;
+
 public class PropertyMapper {
 
     public static PropertyResponse toPropertyResponse(Property property) {
@@ -43,6 +45,7 @@ public class PropertyMapper {
     public static Property toApartment(CreatePropertyRequest request, List<Image> images, Building building) {
         return Property.builder()
                 .building(building)
+                .propertyType(APARTAMENTO)
                 .user(building.getUser())
                 .address(building.getAddress())
                 .images(images)
