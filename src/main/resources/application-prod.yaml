@@ -1,5 +1,4 @@
 spring:
-
   devtools:
     restart:
       enabled: ${DEVTOOLS_RESTART_ENABLED:true}
@@ -55,9 +54,9 @@ frontend:
   url: ${FRONTEND_URL:http://localhost:4200}
 
 cloudinary:
-  cloud-name: ${CLOUD_NAME:}
-  api-key: ${CLOUD_API_KEY:}
-  api-secret: ${CLOUD_API_SECRET:}
+  cloud-name: ${CLOUD_NAME}
+  api-key: ${CLOUD_API_KEY}
+  api-secret: ${CLOUD_API_SECRET}
 
 springdoc:
   swagger-ui:

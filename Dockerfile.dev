@@ -1,8 +1,14 @@
 # syntax=docker/dockerfile:1
 
 ################################################################################
-# Etapa deps
-FROM eclipse-temurin:21-jdk-jammy as deps
+
+# Create a stage for resolving and downloading dependencies.
+# Etapa deps: 
+# Descarga las dependencias del proyecto utilizando Maven.
+# Aprovecha la caché de Docker para evitar descargas repetidas en futuras construcciones.
+# Para ejecutar esta etapa:
+# docker build --target deps -t propinq-api-deps .
+FROM eclipse-temurin:21-jdk-jammy AS deps
 
 WORKDIR /build
 
@@ -16,8 +22,12 @@ RUN --mount=type=bind,source=pom.xml,target=pom.xml \
     ./mvnw dependency:go-offline -DskipTests
 
 ################################################################################
-# Etapa package
-FROM deps as package
+
+# Etapa package:
+# Compila el código fuente y genera un archivo JAR empaquetado (uber jar) con todas las dependencias necesarias.
+# Para ejecutar esta etapa:
+# docker build --target package -t propinq-api-package .
+FROM deps AS package
 
 WORKDIR /build
 
@@ -28,8 +38,13 @@ RUN --mount=type=bind,source=pom.xml,target=pom.xml \
     mv target/$(./mvnw help:evaluate -Dexpression=project.artifactId -q -DforceStdout)-$(./mvnw help:evaluate -Dexpression=project.version -q -DforceStdout).jar target/app.jar
 
 ################################################################################
-# Etapa extract
-FROM package as extract
+
+# Etapa extract:
+# Utiliza herramientas de Spring Boot para dividir el JAR empaquetado en capas (dependencias, loader, etc.).
+# Esto optimiza la imagen para producción al permitir que Docker reutilice capas.
+# Para ejecutar esta etapa:
+# docker build --target extract -t propinq-api-extract .
+FROM package AS extract
 
 WORKDIR /build
 RUN java -Djarmode=layertools -jar target/app.jar extract --destination target/extracted
@@ -38,10 +53,12 @@ RUN java -Djarmode=layertools -jar target/app.jar extract --destination target/e
 # Etapa final (dev con inotify + osmium)
 FROM eclipse-temurin:21-jdk-jammy AS final
 
-# Herramientas necesarias: bash, inotify para hot-reload, curl + certs + osmium para scripts
-RUN apt-get update && apt-get install -y --no-install-recommends \
-      bash inotify-tools curl ca-certificates osmium-tool \
-    && rm -rf /var/lib/apt/lists/*
+# Add live reload tools and entrypoint script.
+RUN apt-get update && apt-get install -y bash && \
+    apt-get install -y inotify-tools && \
+    rm -rf /var/lib/apt/lists/*
+COPY --chmod=0755 docker-entrypoint.dev.sh ./docker-entrypoint.dev.sh
+RUN apt-get update && apt-get install -y dos2unix && dos2unix ./docker-entrypoint.dev.sh
 
 # Usuario no root con UID parametrizable (igualamos al host para que los volúmenes queden con tus permisos)
 ARG UID=1000
@@ -52,6 +69,11 @@ RUN groupadd -g "${GID}" appgroup || true \
 # EntryPoint
 COPY --chmod=0755 docker-entrypoint.dev.sh /docker-entrypoint.sh
 
+# Create a non-privileged user that the app will run under.
+# See https://docs.docker.com/go/dockerfile-user-best-practices/
+ARG UID=10001
+RUN useradd -ms /bin/bash -u "${UID}" appuser
+COPY docker-entrypoint.dev.sh /docker-entrypoint.sh
 USER appuser
 WORKDIR /app
 ENV HOME=/home/appuser
@@ -73,4 +95,4 @@ RUN chmod +x /app/scripts/*.sh || true
 EXPOSE 8080
 EXPOSE 35729
 
-ENTRYPOINT ["/docker-entrypoint.sh"]
+ENTRYPOINT ["/docker-entrypoint.dev.sh"]

@@ -42,36 +42,20 @@ services:
       - mysql-db
       - mongodb
     environment:
-      OSM_STATE_DIR: /app/state
-      SPRING_PROFILES_ACTIVE: dev
-      SPRING_SQL_INIT_MODE: always
+      SPRING_PROFILES_ACTIVE: ${SPRING_PROFILES_ACTIVE} # .env
+      SPRING_DATASOURCE_URL: jdbc:mysql://mysql-db:3306/propinq
+      SPRING_DATASOURCE_USERNAME: ${MYSQL_USERNAME}
+      SPRING_DATASOURCE_PASSWORD: ${MYSQL_PASSWORD} # .env
+      SPRING_DATA_MONGODB_URI: mongodb://${MONGO_USER}:${MONGO_PASSWORD}@mongodb:27017/propinq?authSource=admin
+      SECURITY_JWT_KEY: ${SECURITY_JWT_KEY}
+      SECURITY_JWT_USER: ${SECURITY_JWT_USER}
+      MAIL_HOST: ${MAIL_HOST}
+      MAIL_USERNAME: ${MAIL_USERNAME}
+      MAIL_PASSWORD: ${MAIL_PASSWORD}
+      CLOUDINARY_API_KEY: ${CLOUD_API_KEY}
+      CLOUDINARY_API_SECRET: ${CLOUD_API_SECRET}
+      CLOUDINARY_CLOUD_NAME: ${CLOUD_NAME}
 
-      # MySQL
-      SPRING_DATASOURCE_URL: jdbc:mysql://mysql-db:3306/propinq?createDatabaseIfNotExist=true
-      SPRING_DATASOURCE_USERNAME: root
-      SPRING_DATASOURCE_PASSWORD:
-
-      # Mongo
-      SPRING_DATA_MONGODB_URI: mongodb://mongo-user:secret@mongodb:27017/propinq?authSource=admin
-
-      # Scheduler de POIs
-      POI_SCHEDULER_ENABLED: "true"
-      POI_SCHEDULER_CRON: "0 30 3 * * *"
-      POI_SCHEDULER_RUN_DOWNLOAD: "true"
-      POI_SCHEDULER_RUN_EXTRACTION: "true"
-      POI_SCHEDULER_REGION: "south-america/argentina-latest"
-      POI_SCHEDULER_PBF_PATH: "/app/data/argentina-latest.osm.pbf"
-      POI_SCHEDULER_OUT_DIR: "/app/out"
-
-      # Import a DB
-      POI_IMPORT_FILE: "/app/out/pois.geojsonseq"
-      POI_IMPORT_BATCH_SIZE: "8000"
-      POI_IMPORT_MODE: "REPLACE"
-      POI_IMPORT_ID_STRATEGY: "RANDOM"
-
-      # Otros
-      CORS_ALLOWED_ORIGINS: http://localhost:4200
-      FRONTEND_URL: http://localhost:4200
     networks:
       - app-network
     stdin_open: true
@@ -88,9 +72,11 @@ services:
   mysql-db:
     image: mysql:8
     container_name: mysql-db
+    ports:
+      - "${MYSQL_PORT}:3306"
     environment:
-      MYSQL_ROOT_PASSWORD: password
-      MYSQL_DATABASE: propinq
+      MYSQL_ROOT_PASSWORD: ${MYSQL_PASSWORD} # .env
+      MYSQL_DATABASE: ${MYSQL_DATABASE}
     volumes:
       - mysql-data:/var/lib/mysql
     networks:
@@ -102,11 +88,11 @@ services:
     image: mongo:6
     container_name: mongodb
     ports:
-      - "27017:27017"
+      - "${MONGO_PORT}:27017"
     environment:
-      MONGO_INITDB_ROOT_USERNAME: mongo-user
-      MONGO_INITDB_ROOT_PASSWORD:
-      MONGO_INITDB_DATABASE: propinq
+      MONGO_INITDB_ROOT_USERNAME: ${MONGO_USER}
+      MONGO_INITDB_ROOT_PASSWORD: ${MONGO_PASSWORD}
+      MONGO_INITDB_DATABASE: ${MONGO_DATABASE}
     volumes:
       - mongo-data:/data/db
     networks:

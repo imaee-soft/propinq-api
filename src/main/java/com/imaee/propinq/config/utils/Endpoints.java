@@ -7,8 +7,9 @@ public class Endpoints {
     public static final String AUTH_ENDPOINTS = "/auth/**";
 
     public static final String[] DOC_ENDPOINTS = {
-            "/swagger-ui/**",
-            "/v3/api-docs/**",
-            "/swagger-ui.html",
+        "/docs",
+        "/api-docs/**",
+        "/swagger-ui/**",
+        "/swagger-ui.html"
     };
 }
