@@ -21,5 +21,8 @@ public class Endpoints {
     public static final String[] RETRIEVE_ENDPOINTS = {
             "/api/v1/buildings/**",
             "/api/v1/properties/**",
+            "/api/v1/provinces/**",
+            "/api/v1/localities/**",
+            "/api/v1/pois/**",
     };
 }
