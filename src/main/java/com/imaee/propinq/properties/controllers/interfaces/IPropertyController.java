@@ -1,14 +1,24 @@
 package com.imaee.propinq.properties.controllers.interfaces;
 
+import com.imaee.propinq.properties.controllers.requests.CreatePropertyRequest;
 import com.imaee.propinq.properties.controllers.responses.PropertyDetailsResponse;
 import com.imaee.propinq.properties.controllers.responses.PropertyResponse;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
-import org.springframework.web.bind.annotation.*;
+import jakarta.validation.Valid;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RequestPart;
+import org.springframework.web.bind.annotation.ResponseStatus;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 import java.util.UUID;
 
+import static org.springframework.http.HttpStatus.CREATED;
 import static org.springframework.http.HttpStatus.OK;
 
 @RequestMapping("/api/v1/properties")
@@ -17,6 +27,7 @@ import static org.springframework.http.HttpStatus.OK;
         description = "Operations for managing and querying properties."
 )
 public interface IPropertyController {
+
     @GetMapping
     @ResponseStatus(OK)
     @Operation(summary = "Retrieves a list of all properties with basic information.")
@@ -48,4 +59,11 @@ public interface IPropertyController {
     @Operation(summary = "Retrieves detailed information about a specific building by its ID.")
     PropertyDetailsResponse getPropertyDetails(@PathVariable UUID propertyId);
 
+    @PostMapping
+    @ResponseStatus(CREATED)
+    @Operation(summary = "Saves a new property.")
+    void createProperty(
+            @RequestPart("property") @Valid CreatePropertyRequest createPropertyRequest,
+            @RequestPart("images") MultipartFile[] imageFiles
+    );
 }

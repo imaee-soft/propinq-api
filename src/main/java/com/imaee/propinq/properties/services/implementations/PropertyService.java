@@ -1,7 +1,9 @@
 package com.imaee.propinq.properties.services.implementations;
 
+import com.imaee.propinq.properties.controllers.requests.CreatePropertyRequest;
 import com.imaee.propinq.properties.controllers.responses.PropertyDetailsResponse;
 import com.imaee.propinq.properties.controllers.responses.PropertyResponse;
+import com.imaee.propinq.properties.services.factory.ICreatePropertyFactory;
 import com.imaee.propinq.properties.services.interfaces.IPropertyService;
 import com.imaee.propinq.properties.services.usecases.interfaces.IGetPropertiesNearPoiUseCase;
 import com.imaee.propinq.properties.services.usecases.interfaces.IGetPropertiesNearUseCase;
@@ -9,6 +11,7 @@ import com.imaee.propinq.properties.services.usecases.interfaces.IGetPropertiesU
 import com.imaee.propinq.properties.services.usecases.interfaces.IGetPropertyUseCase;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 import java.util.UUID;
@@ -18,6 +21,7 @@ import java.util.UUID;
 public class PropertyService implements IPropertyService {
     private final IGetPropertiesUseCase getPropertiesUseCase;
     private final IGetPropertyUseCase getPropertyUseCase;
+    private final ICreatePropertyFactory createPropertyFactory;
     private final IGetPropertiesNearUseCase getPropertiesNearUseCase;
     private final IGetPropertiesNearPoiUseCase getPropertiesNearPoiUseCase;
 
@@ -37,13 +41,19 @@ public class PropertyService implements IPropertyService {
     }
 
     @Override
-    public List<PropertyResponse> getPropertiesNear( Double latitude,  Double longitude, Double radiusKm) {
+    public void createProperty(CreatePropertyRequest request, MultipartFile[] imageFiles) {
+        createPropertyFactory.provideCreatePropertyUseCase(request)
+                .createProperty(request, imageFiles);
+    }
+
+    @Override
+    public List<PropertyResponse> getPropertiesNear(Double latitude, Double longitude, Double radiusKm) {
         return getPropertiesNearUseCase.getPropertiesNear(latitude, longitude, radiusKm);
     }
 
     @Override
-    public List<PropertyResponse> getPropertiesNearPoi(String poiType,Double radiusKm, Double north,
-                                                Double south, Double east, Double west, Integer limit) {
+    public List<PropertyResponse> getPropertiesNearPoi(String poiType, Double radiusKm, Double north,
+                                                       Double south, Double east, Double west, Integer limit) {
         return getPropertiesNearPoiUseCase.getPropertiesNearPoi(poiType, radiusKm, north, south, east, west, limit);
     }
 }

@@ -1,26 +1,29 @@
 package com.imaee.propinq.properties.data.models;
 
 import com.imaee.propinq.buildings.data.models.Building;
+import com.imaee.propinq.properties.data.enums.PropertyType;
+import com.imaee.propinq.shared.data.models.Image;
+import com.imaee.propinq.shared.data.models.Locatable;
 import com.imaee.propinq.users.data.models.User;
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
-import jakarta.persistence.CascadeType;
 import jakarta.validation.constraints.NotNull;
-import lombok.NoArgsConstructor;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
-import com.imaee.propinq.shared.data.models.Image;
-import com.imaee.propinq.shared.data.models.Locatable;
+import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
 
-import java.util.Collections;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
 import static jakarta.persistence.FetchType.EAGER;
 
+@EqualsAndHashCode(callSuper = true)
 @Entity(name="properties")
 @NoArgsConstructor
 @AllArgsConstructor
@@ -39,10 +42,9 @@ public class Property extends Locatable {
 
     @NotNull
     @OneToMany(cascade = CascadeType.ALL, fetch = EAGER)
-    private List<Image> images = Collections.emptyList();
+    private List<Image> images = new ArrayList<>();
 
     @NotNull
-    @ManyToOne
     private PropertyType propertyType;
 
     @NotNull
@@ -66,7 +68,10 @@ public class Property extends Locatable {
     private boolean petsAllowed = false;
 
     @NotNull
-    private Double area;
+    private boolean furnishing = false;
+
+    @NotNull
+    private boolean expenses = false;
 
     private String apartmentNumber;
 
@@ -75,7 +80,5 @@ public class Property extends Locatable {
     private User user;
 
     @NotNull
-    @Builder.Default
     private boolean deleted = false;
-
 }

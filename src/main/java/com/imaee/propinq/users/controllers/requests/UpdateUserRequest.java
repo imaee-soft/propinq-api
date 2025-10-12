@@ -12,6 +12,7 @@ public record UpdateUserRequest(
         String dni,
 
         @NotNull(message = "El nombre del usuario no debe ser nulo")
+
         @Size(min = 3, max = 20, message = "El nombre del usuario debe tener entre 3 y 20 caracteres")
         String firstName,
 
