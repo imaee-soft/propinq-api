@@ -8,7 +8,6 @@ public class PropertyFilterRequest {
     private BuildingType buildingType;
     private Double priceMin;
     private Double priceMax;
-    private Integer floor;
     private Integer bedrooms;
     private Integer bathrooms;
     private Boolean petsAllowed;

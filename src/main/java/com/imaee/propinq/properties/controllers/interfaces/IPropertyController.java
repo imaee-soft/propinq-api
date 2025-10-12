@@ -18,10 +18,16 @@ import static org.springframework.http.HttpStatus.OK;
         description = "Operations for managing and querying properties."
 )
 @CrossOrigin(origins = "http://localhost:4200")public interface IPropertyController {
+    
     @GetMapping
     @ResponseStatus(OK)
-    @Operation(summary = "Retrieves a list of all properties with basic information.")
+    @Operation(summary = "Retrieves all properties without any filters.")
     List<PropertyResponse> getProperties();
+
+    @GetMapping
+    @ResponseStatus(OK)
+    @Operation(summary = "Retrieves properties filtered by the provided criteria.")
+    List<PropertyResponse> getProperties(@ModelAttribute PropertyFilterRequest filter);
 
     @GetMapping("/nearby")
     @ResponseStatus(OK)
@@ -31,6 +37,7 @@ import static org.springframework.http.HttpStatus.OK;
             @RequestParam Double longitude,
             @RequestParam Double radiusKm
     );
+    
     @GetMapping("/nearby/poi")
     @ResponseStatus(OK)
     @Operation(summary = "Get properties near POIs of a given type within viewport and radius in km")
@@ -48,9 +55,4 @@ import static org.springframework.http.HttpStatus.OK;
     @ResponseStatus(OK)
     @Operation(summary = "Retrieves detailed information about a specific building by its ID.")
     PropertyDetailsResponse getPropertyDetails(@PathVariable UUID propertyId);
-
-    @GetMapping("/filter")
-    @ResponseStatus(OK)
-    @Operation(summary = "Retrieves a list of properties filtered by various criteria.")
-    List<PropertyDetailsResponse> filterProperties(@ModelAttribute PropertyFilterRequest filter);
     }

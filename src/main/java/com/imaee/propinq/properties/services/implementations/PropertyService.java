@@ -25,8 +25,14 @@ public class PropertyService implements IPropertyService {
     private final IGetPropertiesNearUseCase getPropertiesNearUseCase;
     private final IGetPropertiesNearPoiUseCase getPropertiesNearPoiUseCase;
     @Override
-    public List<PropertyResponse> getProperties() {
+    public List<PropertyResponse> getAllProperties() {
         return getPropertiesUseCase.getProperties();
+    }
+
+    @Override
+    public List<PropertyResponse> getProperties(PropertyFilterRequest filter) {
+        // Siempre usar el caso de uso de filtrado, incluso si el filtro está vacío
+        return getPropertiesByAttributesUseCase.getPropertiesByAttributes(filter);
     }
 
     @Override
@@ -48,10 +54,5 @@ public class PropertyService implements IPropertyService {
     public List<PropertyResponse> getPropertiesNearPoi(String poiType,Double radiusKm, Double north,
                                                 Double south, Double east, Double west, Integer limit) {
         return getPropertiesNearPoiUseCase.getPropertiesNearPoi(poiType, radiusKm, north, south, east, west, limit);
-    }
-
-    @Override
-    public List<PropertyResponse> filterProperties(PropertyFilterRequest filter) {
-        return getPropertiesByAttributesUseCase.getPropertiesByAttributes(filter);
     }
 }

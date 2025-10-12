@@ -9,7 +9,9 @@ import java.util.UUID;
 
 public interface IPropertyService {
 
-    List<PropertyResponse> getProperties();
+    List<PropertyResponse> getAllProperties();
+
+    List<PropertyResponse> getProperties(PropertyFilterRequest filter);
 
     PropertyDetailsResponse getPropertyDetails(UUID propertyId);
 
@@ -19,5 +21,4 @@ public interface IPropertyService {
 
     List<PropertyResponse> getPropertiesNearPoi(String poiType,Double radiusKm, Double north,
                                                 Double south, Double east, Double west, Integer limit);
-    List<PropertyResponse> filterProperties(PropertyFilterRequest filter);
 }

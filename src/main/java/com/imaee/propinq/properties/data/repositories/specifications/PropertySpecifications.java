@@ -22,9 +22,6 @@ public class PropertySpecifications {
             if (filter.getPriceMax() != null) {
                 predicate = criteriaBuilder.and(predicate, criteriaBuilder.lessThanOrEqualTo(root.get("price"), filter.getPriceMax()));
             }
-            if (filter.getFloor() != null) {
-                predicate = criteriaBuilder.and(predicate, criteriaBuilder.equal(root.get("floor"), filter.getFloor()));
-            }
             if (filter.getBedrooms() != null) {
                 predicate = criteriaBuilder.and(predicate, criteriaBuilder.equal(root.get("bedrooms"), filter.getBedrooms()));
             }
