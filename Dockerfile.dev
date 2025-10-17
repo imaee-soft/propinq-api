@@ -1,9 +1,5 @@
 # syntax=docker/dockerfile:1
 
-# Comments are provided throughout this file to help you get started.
-# If you need more help, visit the Dockerfile reference guide at
-# https://docs.docker.com/go/dockerfile-reference/
-
 ################################################################################
 
 # Create a stage for resolving and downloading dependencies.
@@ -20,11 +16,10 @@ WORKDIR /build
 COPY --chmod=0755 mvnw mvnw
 COPY .mvn/ .mvn/
 
-# Download dependencies as a separate step to take advantage of Docker's caching.
-# Leverage a cache mount to /root/.m2 so that subsequent builds don't have to
-# re-download packages.
+# Descargar dependencias (cachea ~/.m2)
 RUN --mount=type=bind,source=pom.xml,target=pom.xml \
-    --mount=type=cache,target=/root/.m2 ./mvnw dependency:go-offline -DskipTests
+    --mount=type=cache,target=/root/.m2 \
+    ./mvnw dependency:go-offline -DskipTests
 
 ################################################################################
 
@@ -52,18 +47,10 @@ RUN --mount=type=bind,source=pom.xml,target=pom.xml \
 FROM package AS extract
 
 WORKDIR /build
-
 RUN java -Djarmode=layertools -jar target/app.jar extract --destination target/extracted
 
 ################################################################################
-
-# Etapa final:
-# Combina las ventajas del Dockerfile pequeño (live reload y herramientas de desarrollo) con las optimizaciones del grande.
-# Crea una imagen mínima basada en JRE para ejecutar la aplicación.
-# Configura un usuario no privilegiado (appuser) para mayor seguridad.
-# Copia las capas extraídas desde la etapa extract y establece el punto de entrada.
-# Para ejecutar esta etapa:
-# docker build -t propinq-api-final .
+# Etapa final (dev con inotify + osmium)
 FROM eclipse-temurin:21-jdk-jammy AS final
 
 # Add live reload tools and entrypoint script.
@@ -73,31 +60,34 @@ RUN apt-get update && apt-get install -y bash && \
 COPY --chmod=0755 docker-entrypoint.dev.sh ./docker-entrypoint.dev.sh
 RUN apt-get update && apt-get install -y dos2unix && dos2unix ./docker-entrypoint.dev.sh
 
-# Add live reload tools and entrypoint script.
-RUN apt-get update || (sleep 5 && apt-get update) && \
-    apt-get install -y inotify-tools && \
-    rm -rf /var/lib/apt/lists/*
+# Usuario no root con UID parametrizable (igualamos al host para que los volúmenes queden con tus permisos)
+ARG UID=1000
+ARG GID=1000
+# Crear grupo/usuario sólo si no existen para que la capa sea idempotente
+RUN getent group appgroup >/dev/null || groupadd -g "${GID}" appgroup ; \
+    id -u appuser >/dev/null 2>&1 || useradd -ms /bin/bash -u "${UID}" -g "${GID}" appuser
 
-# Create a non-privileged user that the app will run under.
-# See https://docs.docker.com/go/dockerfile-user-best-practices/
-ARG UID=10001
-RUN useradd -ms /bin/bash -u "${UID}" appuser
-COPY docker-entrypoint.dev.sh /docker-entrypoint.sh
+# EntryPoint (ya copiado arriba a /docker-entrypoint.dev.sh)
+# Asegurar que /app pertenezca a appuser para poder crear subdirectorios (p.ej. ./out)
+RUN mkdir -p /app /app/data /app/out && chown -R appuser:appgroup /app
+# No duplicamos creación de usuario; sólo establecemos el usuario a utilizar
 USER appuser
 WORKDIR /app
 ENV HOME=/home/appuser
 
-WORKDIR /app
+# Capas extraídas (si querés usar JarLauncher después)
+COPY --from=extract /build/target/extracted/dependencies/ ./
+COPY --from=extract /build/target/extracted/snapshot-dependencies/ ./
+COPY --from=extract /build/target/extracted/spring-boot-loader/ ./
+COPY --from=extract /build/target/extracted/application/ ./
 
-# Copy the executable from the "package" stage.
-COPY --from=extract build/target/extracted/dependencies/ ./
-COPY --from=extract build/target/extracted/spring-boot-loader/ ./
-COPY --from=extract build/target/extracted/snapshot-dependencies/ ./
-COPY --from=extract build/target/extracted/application/ ./
-
-# Copy maven dependencies to execute maven in entrypoint.
+# Maven Wrapper para entrypoint (spring-boot:run)
 COPY --chmod=0755 mvnw ./mvnw
 COPY .mvn/ .mvn/
+
+# Copiar scripts dentro de la imagen y asegurar +x (en dev los podés bind-montar igual)
+COPY scripts/ /app/scripts/
+RUN chmod +x /app/scripts/*.sh || true
 
 EXPOSE 8080
 EXPOSE 35729

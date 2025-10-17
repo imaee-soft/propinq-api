@@ -1,4 +1,5 @@
 spring:
+
   devtools:
     restart:
       enabled: ${DEVTOOLS_RESTART_ENABLED:true}
@@ -54,9 +55,26 @@ frontend:
   url: ${FRONTEND_URL:http://localhost:4200}
 
 cloudinary:
-  cloud-name: ${CLOUD_NAME}
-  api-key: ${CLOUD_API_KEY}
-  api-secret: ${CLOUD_API_SECRET}
+  cloud-name: ${CLOUD_NAME:}
+  api-key: ${CLOUD_API_KEY:}
+  api-secret: ${CLOUD_API_SECRET:}
+
+# POI configuration for development - unified via scheduler
+poi:
+  scheduler:
+    enabled: ${POI_SCHEDULER_ENABLED:false}  # DISABLED by default in development
+    run-on-startup: ${POI_RUN_ON_STARTUP:false}  # Optional one-time run when app starts
+    cron: ${POI_SCHEDULER_CRON:0 30 3 * * *}  # Daily at 3:30 AM (if enabled)
+    run-download: ${POI_RUN_DOWNLOAD:true}
+    run-extraction: ${POI_RUN_EXTRACTION:true}
+    region: ${POI_REGION:south-america/argentina-latest}
+    throttle-days: ${OSM_DOWNLOAD_THROTTLE_DAYS:7}  # Only download if > 7 days old
+    scripts-dir: ${POI_SCRIPTS_DIR:/app/scripts}
+    data-dir: ${POI_DATA_DIR:/app/data}
+    pbf-path: ${POI_PBF_PATH:/app/data/argentina-latest.osm.pbf}
+    out-dir: ${POI_OUT_DIR:/app/out}
+  import:
+    file: ${POI_IMPORT_FILE:/app/out/pois.geojsonseq}
 
 springdoc:
   swagger-ui:
