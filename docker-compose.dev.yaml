@@ -55,6 +55,13 @@ services:
       CLOUDINARY_API_KEY: ${CLOUD_API_KEY}
       CLOUDINARY_API_SECRET: ${CLOUD_API_SECRET}
       CLOUDINARY_CLOUD_NAME: ${CLOUD_NAME}
+      # --- POI: delegar TODO al Scheduler ---
+      # Desactivar prefetch del entrypoint
+      POI_SCHEDULER_RUN_DOWNLOAD: "false"
+      POI_SCHEDULER_RUN_EXTRACTION: "false"
+      # Habilitar Scheduler y ejecutar una vez al arrancar
+      POI_SCHEDULER_ENABLED: "true"
+      POI_RUN_ON_STARTUP: "true"
 
     networks:
       - app-network
@@ -81,8 +88,6 @@ services:
       - mysql-data:/var/lib/mysql
     networks:
       - app-network
-    ports:
-      - "3306:3306"
 
   mongodb:
     image: mongo:6

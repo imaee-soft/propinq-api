@@ -17,42 +17,16 @@ import static org.springframework.http.HttpStatus.OK;
         name = "Properties",
         description = "Operations for managing and querying properties."
 )
-@CrossOrigin(origins = "http://localhost:4200")public interface IPropertyController {
+@CrossOrigin(origins = "http://localhost:4200")
+public interface IPropertyController {
     
     @GetMapping
     @ResponseStatus(OK)
-    @Operation(summary = "Retrieves all properties without any filters.")
-    List<PropertyResponse> getProperties();
-
-    @GetMapping
-    @ResponseStatus(OK)
-    @Operation(summary = "Retrieves properties filtered by the provided criteria.")
+    @Operation(summary = "Retrieves properties with optional filters. Supports attribute filters (buildingType, price, etc.), location filters (latitude, longitude, radius), and POI filters (poiType, viewport). If no filters are provided, returns all properties.")
     List<PropertyResponse> getProperties(@ModelAttribute PropertyFilterRequest filter);
-
-    @GetMapping("/nearby")
-    @ResponseStatus(OK)
-    @Operation(summary = "Get properties near a location within a radius in km")
-    List<PropertyResponse> getPropertiesNear(
-            @RequestParam Double latitude,
-            @RequestParam Double longitude,
-            @RequestParam Double radiusKm
-    );
-    
-    @GetMapping("/nearby/poi")
-    @ResponseStatus(OK)
-    @Operation(summary = "Get properties near POIs of a given type within viewport and radius in km")
-    List<PropertyResponse> getPropertiesNearPoi(
-            @RequestParam String poiType,
-            @RequestParam Double radiusKm,
-            @RequestParam Double north,
-            @RequestParam Double south,
-            @RequestParam Double east,
-            @RequestParam Double west,
-            @RequestParam(required = false) Integer limit
-    );
 
     @GetMapping("/{propertyId}")
     @ResponseStatus(OK)
-    @Operation(summary = "Retrieves detailed information about a specific building by its ID.")
+    @Operation(summary = "Retrieves detailed information about a specific property by its ID.")
     PropertyDetailsResponse getPropertyDetails(@PathVariable UUID propertyId);
-    }
+}

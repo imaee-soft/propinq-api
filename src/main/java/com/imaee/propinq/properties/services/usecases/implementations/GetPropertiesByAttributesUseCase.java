@@ -4,7 +4,7 @@ import java.util.List;
 
 import org.springframework.stereotype.Component;
 
-import com.imaee.propinq.properties.controllers.requests.PropertyFilterRequest;
+import com.imaee.propinq.properties.controllers.requests.AttributeFilterRequest;
 import com.imaee.propinq.properties.controllers.responses.PropertyResponse;
 import com.imaee.propinq.properties.mappers.PropertyMapper;
 import com.imaee.propinq.properties.data.repositories.IPropertyRepository;
@@ -19,13 +19,13 @@ public class GetPropertiesByAttributesUseCase implements IGetPropertiesByAttribu
     
     private final IPropertyRepository propertyRepository;
     
-@Override
-        public List<PropertyResponse> getPropertiesByAttributes(PropertyFilterRequest filter) {
-            return propertyRepository.findAll(
-                PropertySpecifications.propertyFilter(filter)
-            ).stream()
-             .map(PropertyMapper::toPropertyResponse)
-             .toList();
-        }
+    @Override
+    public List<PropertyResponse> getPropertiesByAttributes(AttributeFilterRequest attributeFilter) {
+        return propertyRepository.findAll(
+            PropertySpecifications.attributeFilter(attributeFilter)
+        ).stream()
+         .map(PropertyMapper::toPropertyResponse)
+         .toList();
+    }
 
 }

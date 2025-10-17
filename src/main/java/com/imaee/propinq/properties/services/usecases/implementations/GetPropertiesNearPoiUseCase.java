@@ -3,6 +3,7 @@ package com.imaee.propinq.properties.services.usecases.implementations;
 import com.imaee.propinq.poi.data.enums.PoiType;
 import com.imaee.propinq.poi.data.models.Poi;
 import com.imaee.propinq.poi.data.repositories.IPoiRepository;
+import com.imaee.propinq.properties.controllers.requests.PoiFilterRequest;
 import com.imaee.propinq.properties.controllers.responses.PropertyResponse;
 import com.imaee.propinq.properties.data.models.Property;
 import com.imaee.propinq.properties.data.repositories.IPropertyRepository;
@@ -23,21 +24,26 @@ public class GetPropertiesNearPoiUseCase implements IGetPropertiesNearPoiUseCase
     private final IPoiRepository poiRepository;
     private static final int DEFAULT_LIMIT = 500;
     private static final int MAX_LIMIT = 1000;
+    private static final double DEFAULT_RADIUS_KM = 0.8;
 
     @Override
-    public List<PropertyResponse> getPropertiesNearPoi(String poiType, Double radiusKm, Double north,
-                                                Double south, Double east, Double west, Integer limit) {
-        validateBounds(north, south, east, west);
-        boolean crossesDateline = west > east;
-        int requestedLimit = limit != null ? limit : DEFAULT_LIMIT;
+    public List<PropertyResponse> getPropertiesNearPoi(PoiFilterRequest poiFilter) {
+        validateBounds(poiFilter.getNorth(), poiFilter.getSouth(), poiFilter.getEast(), poiFilter.getWest());
+        boolean crossesDateline = poiFilter.getWest() > poiFilter.getEast();
+        int requestedLimit = poiFilter.getLimit() != null ? poiFilter.getLimit() : DEFAULT_LIMIT;
         int maxResults = Math.max(1, Math.min(requestedLimit, MAX_LIMIT));
 
-        Set<PoiType> types = (poiType == null || poiType.isEmpty())
+    // Fijar un radio por defecto si no viene informado o es inválido
+        double effectiveRadiusKm = (poiFilter.getRadiusKm() != null && poiFilter.getRadiusKm() > 0)
+            ? poiFilter.getRadiusKm()
+            : DEFAULT_RADIUS_KM;
+
+        Set<PoiType> types = (poiFilter.getPoiType() == null || poiFilter.getPoiType().isEmpty())
                 ? null
-                : Set.of(PoiType.valueOf(poiType));
+                : Set.of(PoiType.valueOf(poiFilter.getPoiType()));
 
         List<Poi> pois = poiRepository.findWithinViewportAndTypes(
-                south, north, west, east, crossesDateline, types,
+                poiFilter.getSouth(), poiFilter.getNorth(), poiFilter.getWest(), poiFilter.getEast(), crossesDateline, types,
                 PageRequest.of(0, MAX_LIMIT)
         );
 
@@ -45,7 +51,7 @@ public class GetPropertiesNearPoiUseCase implements IGetPropertiesNearPoiUseCase
         for (Poi poi : pois) {
             List<Property> properties = propertyRepository.findWithinRadiusAndBounds(
                     poi.getLatitude(), poi.getLongitude(),
-                    radiusKm, south, north, west, east, crossesDateline,
+                    effectiveRadiusKm, poiFilter.getSouth(), poiFilter.getNorth(), poiFilter.getWest(), poiFilter.getEast(), crossesDateline,
                     PageRequest.of(0, maxResults)
             );
             result.addAll(properties);

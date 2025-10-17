@@ -47,6 +47,22 @@ logging:
     "[org.hibernate.SQL]": ${LOG_HIBERNATE_SQL_LEVEL:DEBUG}
     "[org.hibernate.type.descriptor.sql.BasicBinder]": ${LOG_HIBERNATE_BINDER_LEVEL:TRACE}
 
+# POI configuration for production environment
+poi:
+  startup:
+    enabled: ${POI_STARTUP_ENABLED:true}  # Enable POI import in production
+  scheduler:
+    enabled: ${POI_SCHEDULER_ENABLED:true}  # ENABLED by default in production
+    cron: ${POI_SCHEDULER_CRON:0 30 3 * * *}  # Daily at 3:30 AM
+    run-download: ${POI_RUN_DOWNLOAD:true}
+    run-extraction: ${POI_RUN_EXTRACTION:true}
+    region: ${POI_REGION:south-america/argentina-latest}
+    throttle-days: ${OSM_DOWNLOAD_THROTTLE_DAYS:1}  # Only download if > 1 day old
+    scripts-dir: ${POI_SCRIPTS_DIR:/app/scripts}  # Production server path for scripts
+    data-dir: ${POI_DATA_DIR:/app/data}  # Production server path for data
+    pbf-path: ${POI_PBF_PATH:/app/data/argentina-latest.osm.pbf}  # Production server path
+    out-dir: ${POI_OUT_DIR:/app/out}  # Production server path
+
 cors:
   allowed-origins: ${CORS_ALLOWED_ORIGINS:http://localhost:4200}
 

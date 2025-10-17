@@ -17,11 +17,6 @@ public class PropertyController implements IPropertyController {
     private final IPropertyService propertyService;
 
     @Override
-    public List<PropertyResponse> getProperties() {
-        return propertyService.getAllProperties();
-    }
-
-    @Override
     public List<PropertyResponse> getProperties(PropertyFilterRequest filter) {
         return propertyService.getProperties(filter);
     }
@@ -29,16 +24,5 @@ public class PropertyController implements IPropertyController {
     @Override
     public PropertyDetailsResponse getPropertyDetails(UUID propertyId) {
         return propertyService.getPropertyDetails(propertyId);
-    }
-
-    @Override
-    public List<PropertyResponse> getPropertiesNear( Double latitude,  Double longitude, Double radiusKm) {
-           return propertyService.getPropertiesNear(latitude, longitude, radiusKm);
-    }
-
-    @Override
-    public List<PropertyResponse> getPropertiesNearPoi(String poiType,Double radiusKm, Double north,
-                                                       Double south, Double east, Double west, Integer limit) {
-        return propertyService.getPropertiesNearPoi(poiType, radiusKm, north, south, east, west, limit);
     }
 }

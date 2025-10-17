@@ -63,17 +63,14 @@ RUN apt-get update && apt-get install -y dos2unix && dos2unix ./docker-entrypoin
 # Usuario no root con UID parametrizable (igualamos al host para que los volúmenes queden con tus permisos)
 ARG UID=1000
 ARG GID=1000
-RUN groupadd -g "${GID}" appgroup || true \
- && useradd -ms /bin/bash -u "${UID}" -g "${GID}" appuser
+# Crear grupo/usuario sólo si no existen para que la capa sea idempotente
+RUN getent group appgroup >/dev/null || groupadd -g "${GID}" appgroup ; \
+    id -u appuser >/dev/null 2>&1 || useradd -ms /bin/bash -u "${UID}" -g "${GID}" appuser
 
-# EntryPoint
-COPY --chmod=0755 docker-entrypoint.dev.sh /docker-entrypoint.sh
-
-# Create a non-privileged user that the app will run under.
-# See https://docs.docker.com/go/dockerfile-user-best-practices/
-ARG UID=10001
-RUN useradd -ms /bin/bash -u "${UID}" appuser
-COPY docker-entrypoint.dev.sh /docker-entrypoint.sh
+# EntryPoint (ya copiado arriba a /docker-entrypoint.dev.sh)
+# Asegurar que /app pertenezca a appuser para poder crear subdirectorios (p.ej. ./out)
+RUN mkdir -p /app /app/data /app/out && chown -R appuser:appgroup /app
+# No duplicamos creación de usuario; sólo establecemos el usuario a utilizar
 USER appuser
 WORKDIR /app
 ENV HOME=/home/appuser
