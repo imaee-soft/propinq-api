@@ -22,7 +22,8 @@ public class DeleteBuildingUseCase implements IDeleteBuildingUseCase {
 
     @Override
     public void deleteBuilding(UUID buildingId) {
-        Building building = findBuildingByIdUseCase.findBuilding(buildingId);
+        Building building = buildingRepository.findByIdWithProperties(buildingId)
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Building not found"));
         throwExceptionIfBuildingHasProperties(building);
         building.setDeleted(true);
         buildingRepository.save(building);

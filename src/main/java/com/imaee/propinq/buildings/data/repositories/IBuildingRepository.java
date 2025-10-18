@@ -12,6 +12,9 @@ import java.util.Optional;
 import java.util.UUID;
 
 public interface IBuildingRepository extends JpaRepository<Building, UUID> {
+    @Query("SELECT b FROM buildings b LEFT JOIN FETCH b.properties WHERE b.buildingId = :id")
+    Optional<Building> findByIdWithProperties(@Param("id") UUID id);
+
     @Query("SELECT b FROM buildings b LEFT JOIN FETCH b.images WHERE b.buildingId = :id")
     Optional<Building> findByIdWithImages(@Param("id") UUID id);
   
