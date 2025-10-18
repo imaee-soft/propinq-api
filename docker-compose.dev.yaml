@@ -89,7 +89,7 @@ services:
     image: mysql:8
     container_name: mysql-db
     environment:
-      MYSQL_ROOT_PASSWORD: password
+      MYSQL_ROOT_PASSWORD:
       MYSQL_DATABASE: propinq
     volumes:
       - mysql-data:/var/lib/mysql

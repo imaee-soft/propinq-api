@@ -6,6 +6,7 @@ import com.imaee.propinq.properties.controllers.responses.PropertyDetailsRespons
 import com.imaee.propinq.properties.controllers.responses.PropertyResponse;
 import com.imaee.propinq.properties.services.interfaces.IPropertyService;
 import lombok.AllArgsConstructor;
+import org.springframework.data.domain.Page;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -29,6 +30,10 @@ public class PropertyController implements IPropertyController {
     }
 
     @Override
+    public Page<PropertyDetailsResponse> getPropertiesDetails(int page, int size) {
+        return propertyService.getPropertiesDetails(page, size);
+    }
+    @Override
     public void createProperty(CreatePropertyRequest createPropertyRequest, MultipartFile[] imageFiles) {
         propertyService.createProperty(createPropertyRequest, imageFiles);
     }
@@ -43,4 +48,15 @@ public class PropertyController implements IPropertyController {
                                                        Double south, Double east, Double west, Integer limit) {
         return propertyService.getPropertiesNearPoi(poiType, radiusKm, north, south, east, west, limit);
     }
+
+    @Override
+    public void deleteProperty(UUID propertyId) {
+        propertyService.deleteProperty(propertyId);
+    }
+
+    @Override
+    public void restoreProperty( UUID propertyId){
+        propertyService.restoreProperty(propertyId);
+    }
+
 }
