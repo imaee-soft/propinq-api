@@ -1,6 +1,7 @@
 package com.imaee.propinq.buildings.data.repositories;
 
 import com.imaee.propinq.buildings.data.models.Building;
+import com.imaee.propinq.users.data.models.User;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -18,7 +19,7 @@ public interface IBuildingRepository extends JpaRepository<Building, UUID> {
 
     List<Building> findAllByDeletedFalse();
 
-    Page<Building> findAllByDeletedFalse(Pageable pageable);
+    Page<Building> findAllByUser(User user, Pageable pageable);
 
     @Query("""
            SELECT b FROM buildings b

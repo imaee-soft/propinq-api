@@ -37,6 +37,8 @@ public class PropertyMapper {
                 property.getBedrooms(),
                 property.getBathrooms(),
                 property.isPetsAllowed(),
+                property.isFurnishing(),
+                property.isExpenses(),
                 property.getApartmentNumber(),
                 property.isDeleted()
         );

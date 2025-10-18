@@ -9,7 +9,7 @@ INSERT INTO users (
 SELECT
     UNHEX('AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA'),
     '44244003',
-    '$2a$10$XuN33pdjkfpv3SfA8I.jm.hQHV3aempTZquspVNsBSCUkxmKzydjS',
+    '$2b$12$Wvia6lMDfBWcHlDKlrzCR.tr.HkUkSNFYiuhQc0CyB/zPVW8VGbLO',
     '1990-01-01',
     'PROP',
     'INQ',
@@ -29,7 +29,7 @@ INSERT IGNORE INTO users (
 ) VALUES (
              UNHEX('11111111111111111111111111111111'),
              '12345678',
-             '$2a$10$XuN33pdjkfpv3SfA8I.jm.hQHV3aempTZquspVNsBSCUkxmKzydjS',
+             '$2b$12$Wvia6lMDfBWcHlDKlrzCR.tr.HkUkSNFYiuhQc0CyB/zPVW8VGbLO',
              '1985-05-15',
              'Juan',
              'Propietario',
@@ -41,22 +41,6 @@ INSERT IGNORE INTO users (
              1,
              0
          );
-
--- ===============================
--- 3. PROPERTY_TYPES (tabla padre)
--- ===============================
-INSERT IGNORE INTO property_types (
-    property_type_id,
-    name,
-    description,
-    deleted
-) VALUES (
-             UNHEX('33333333333333333333333333333333'),
-             'APARTMENT',
-             'Apartamento de dos habitaciones.',
-             0
-         );
-
 -- ===============================
 -- 4. IMAGES (tabla independiente)
 -- ===============================
@@ -118,7 +102,7 @@ INSERT IGNORE INTO properties (
     latitude,
     longitude,
     building_building_id,
-    property_type_property_type_id,
+    property_type,
     price,
     description,
     title,
@@ -126,7 +110,8 @@ INSERT IGNORE INTO properties (
     bedrooms,
     bathrooms,
     pets_allowed,
-    area,
+    furnishing,
+    expenses,
     apartment_number,
     user_user_id,
     deleted
@@ -136,7 +121,7 @@ INSERT IGNORE INTO properties (
              -32.4092,
              -63.2434,
              UNHEX('123e4567e89b12d3a456426614174000'),  -- ↓ Building que existe
-             UNHEX('33333333333333333333333333333333'),  -- ↓ Property type que existe
+             'APARTMENTO',  -- ↓ Property type que existe
              90000,
              'Departamento moderno con vista al parque.',
              'Depto 3 ambientes Premium',
@@ -144,7 +129,8 @@ INSERT IGNORE INTO properties (
              2,
              2,
              1,
-             85.0,
+             1,
+             1,
              'C',
              UNHEX('11111111111111111111111111111111'),  -- ↓ Usuario que existe
              0
@@ -157,7 +143,7 @@ INSERT IGNORE INTO properties (
     latitude,
     longitude,
     building_building_id,
-    property_type_property_type_id,
+    property_type,
     price,
     description,
     title,
@@ -165,7 +151,8 @@ INSERT IGNORE INTO properties (
     bedrooms,
     bathrooms,
     pets_allowed,
-    area,
+    furnishing,
+    expenses,
     apartment_number,
     user_user_id,
     deleted
@@ -175,7 +162,7 @@ INSERT IGNORE INTO properties (
              -32.4091,
              -63.2435,
              UNHEX('123e4567e89b12d3a456426614174000'),
-             UNHEX('33333333333333333333333333333333'),
+             'APARTAMENTO',
              110000,
              'Departamento familiar con balcón aterrazado.',
              'Depto 4 ambientes con balcón',
@@ -183,7 +170,8 @@ INSERT IGNORE INTO properties (
              3,
              2,
              0,
-             120.0,
+             1,
+             1,
              'D',
              UNHEX('11111111111111111111111111111111'),
              0
@@ -196,7 +184,7 @@ INSERT IGNORE INTO properties (
     latitude,
     longitude,
     building_building_id,
-    property_type_property_type_id,
+    property_type,
     price,
     description,
     title,
@@ -204,7 +192,8 @@ INSERT IGNORE INTO properties (
     bedrooms,
     bathrooms,
     pets_allowed,
-    area,
+    furnishing,
+    expenses,
     apartment_number,
     user_user_id,
     deleted
@@ -214,7 +203,7 @@ INSERT IGNORE INTO properties (
              -32.4090,
              -63.2436,
              UNHEX('123e4567e89b12d3a456426614174000'),
-             UNHEX('33333333333333333333333333333333'),
+             'APARTAMENTO',
              140000,
              'Departamento de lujo con terraza propia.',
              'Penthouse con terraza',
@@ -222,7 +211,8 @@ INSERT IGNORE INTO properties (
              4,
              3,
              1,
-             180.0,
+             1,
+             1,
              'E',
              UNHEX('11111111111111111111111111111111'),
              0
@@ -235,7 +225,7 @@ INSERT IGNORE INTO properties (
     latitude,
     longitude,
     building_building_id,
-    property_type_property_type_id,
+    property_typE,
     price,
     description,
     title,
@@ -243,7 +233,8 @@ INSERT IGNORE INTO properties (
     bedrooms,
     bathrooms,
     pets_allowed,
-    area,
+    furnishing,
+    expenses,
     apartment_number,
     user_user_id,
     deleted
@@ -253,7 +244,7 @@ INSERT IGNORE INTO properties (
              -32.4097,
              -63.2428,
              NULL,  -- ↓ Sin building
-             UNHEX('33333333333333333333333333333333'),
+             'CASA',
              130000,
              'Departamento independiente en zona céntrica.',
              'Depto independiente 2 ambientes',
@@ -261,7 +252,8 @@ INSERT IGNORE INTO properties (
              2,
              1,
              1,
-             65.0,
+             1,
+             1,
              'A',
              UNHEX('11111111111111111111111111111111'),
              0

@@ -5,11 +5,9 @@ import com.imaee.propinq.properties.controllers.responses.PropertyDetailsRespons
 import com.imaee.propinq.properties.controllers.responses.PropertyResponse;
 import com.imaee.propinq.properties.services.factory.ICreatePropertyFactory;
 import com.imaee.propinq.properties.services.interfaces.IPropertyService;
-import com.imaee.propinq.properties.services.usecases.interfaces.IGetPropertiesNearPoiUseCase;
-import com.imaee.propinq.properties.services.usecases.interfaces.IGetPropertiesNearUseCase;
-import com.imaee.propinq.properties.services.usecases.interfaces.IGetPropertiesUseCase;
-import com.imaee.propinq.properties.services.usecases.interfaces.IGetPropertyUseCase;
+import com.imaee.propinq.properties.services.usecases.interfaces.*;
 import lombok.AllArgsConstructor;
+import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -24,6 +22,8 @@ public class PropertyService implements IPropertyService {
     private final ICreatePropertyFactory createPropertyFactory;
     private final IGetPropertiesNearUseCase getPropertiesNearUseCase;
     private final IGetPropertiesNearPoiUseCase getPropertiesNearPoiUseCase;
+    private final IDeletePropertyUseCase deletePropertyUseCase;
+    private final IRestorePropertyUseCase restorePropertyUsecase;
 
     @Override
     public List<PropertyResponse> getProperties() {
@@ -41,6 +41,11 @@ public class PropertyService implements IPropertyService {
     }
 
     @Override
+    public Page<PropertyDetailsResponse> getPropertiesDetails(int page, int size) {
+        return getPropertiesUseCase.getPropertiesDetails(page, size);
+    }
+
+    @Override
     public void createProperty(CreatePropertyRequest request, MultipartFile[] imageFiles) {
         createPropertyFactory.provideCreatePropertyUseCase(request)
                 .createProperty(request, imageFiles);
@@ -55,5 +60,15 @@ public class PropertyService implements IPropertyService {
     public List<PropertyResponse> getPropertiesNearPoi(String poiType, Double radiusKm, Double north,
                                                        Double south, Double east, Double west, Integer limit) {
         return getPropertiesNearPoiUseCase.getPropertiesNearPoi(poiType, radiusKm, north, south, east, west, limit);
+    }
+
+    @Override
+    public void deleteProperty(UUID propertyId) {
+        deletePropertyUseCase.deleteProperty(propertyId);
+    }
+
+    @Override
+    public void restoreProperty(UUID propertyId) {
+        restorePropertyUsecase.restoreProperty(propertyId);
     }
 }
