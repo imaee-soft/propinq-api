@@ -45,6 +45,9 @@ public record CreatePropertyRequest(
 
         String number,
         String address,
+        String name,
+        Double latitude,
+        Double longitude,
         UUID buildingId,
         UUID userId
 ) {}
