@@ -6,11 +6,11 @@ import com.imaee.propinq.buildings.controllers.requests.UpdateBuildingRequest;
 import com.imaee.propinq.buildings.controllers.responses.BuildingDetailsResponse;
 import com.imaee.propinq.buildings.controllers.responses.BuildingResponse;
 import com.imaee.propinq.buildings.services.interfaces.IBuildingService;
+import com.imaee.propinq.properties.controllers.requests.PropertyFilterRequest;
+import com.imaee.propinq.buildings.controllers.requests.BuildingPropertiesFilter;
 import com.imaee.propinq.properties.controllers.responses.PropertyDetailsResponse;
-import com.imaee.propinq.properties.controllers.responses.PropertyResponse;
 import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Page;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -29,8 +29,8 @@ public class BuildingController implements IBuildingController {
     }
 
     @Override
-    public List<BuildingResponse> getBuildings() {
-        return buildingService.getBuildings();
+    public List<BuildingResponse> getBuildings(PropertyFilterRequest filter, boolean includeProperties, Integer propertiesLimit) {
+        return buildingService.getBuildings(filter, includeProperties, propertiesLimit);
     }
 
     @Override
@@ -59,17 +59,7 @@ public class BuildingController implements IBuildingController {
     }
 
     @Override
-    public List<PropertyDetailsResponse> getBuildingProperties(UUID buildingId) {
-        return buildingService.getBuildingProperties(buildingId);
-    }
-
-    @Override
-    public List<BuildingResponse> getBuildingsNear(Double latitude, Double longitude,Double radiusKm) {
-        return buildingService.getBuildingsNear(latitude, longitude, radiusKm);
-    };
-
-    @Override
-    public List<BuildingResponse> getBuildingsNearPoi(String poiType, Double radiusKm, Double north, Double south, Double east, Double west,Integer limit) {
-        return buildingService.getBuildingsNearPoi(poiType, radiusKm, north, south, east, west, limit);
+    public List<PropertyDetailsResponse> getBuildingProperties(UUID buildingId, BuildingPropertiesFilter filter) {
+        return buildingService.getBuildingProperties(buildingId, filter.getAttributes());
     }
 }

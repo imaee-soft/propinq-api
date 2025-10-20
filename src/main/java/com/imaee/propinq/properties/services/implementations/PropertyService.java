@@ -1,6 +1,7 @@
 package com.imaee.propinq.properties.services.implementations;
 
 import com.imaee.propinq.properties.controllers.requests.PropertyFilterRequest;
+import com.imaee.propinq.properties.controllers.requests.AttributeFilterRequest;
 import com.imaee.propinq.properties.controllers.responses.PropertyDetailsResponse;
 import com.imaee.propinq.properties.controllers.responses.PropertyResponse;
 import com.imaee.propinq.properties.services.interfaces.IPropertyService;
@@ -31,5 +32,10 @@ public class PropertyService implements IPropertyService {
     @Override
     public List<PropertyDetailsResponse> getBuildingProperties(UUID buildingId) {
         return getPropertiesUseCase.getBuildingProperties(buildingId);
+    }
+
+    @Override
+    public List<PropertyDetailsResponse> getBuildingProperties(UUID buildingId, AttributeFilterRequest attributes) {
+        return getPropertiesUseCase.getBuildingProperties(buildingId, attributes);
     }
 }

@@ -23,6 +23,8 @@ public class GetPropertiesByAttributesUseCase implements IGetPropertiesByAttribu
     public List<PropertyResponse> getPropertiesByAttributes(AttributeFilterRequest attributeFilter) {
         return propertyRepository.findAll(
             PropertySpecifications.attributeFilter(attributeFilter)
+                .and(PropertySpecifications.notDeleted())
+                .and(PropertySpecifications.standalone())
         ).stream()
          .map(PropertyMapper::toPropertyResponse)
          .toList();

@@ -1,6 +1,5 @@
 package com.imaee.propinq.properties.services.usecases.strategies;
 
-import com.imaee.propinq.properties.controllers.requests.AttributeFilterRequest;
 import com.imaee.propinq.properties.controllers.requests.PropertyFilterRequest;
 import com.imaee.propinq.properties.controllers.responses.PropertyResponse;
 import com.imaee.propinq.properties.services.usecases.interfaces.IGetPropertiesByAttributesUseCase;
@@ -8,11 +7,9 @@ import com.imaee.propinq.properties.services.usecases.interfaces.IPropertyFilter
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Component;
 
-import java.lang.reflect.Field;
-import java.util.Arrays;
+import com.imaee.propinq.shared.filters.AttributeFilterSupport;
 import java.util.List;
 import java.util.Set;
-import java.util.stream.Collectors;
 
 @Component
 @AllArgsConstructor
@@ -22,7 +19,7 @@ public class AttributeFilterStrategy implements IPropertyFilterStrategy {
     
     @Override
     public boolean canHandle(PropertyFilterRequest filter) {
-        return hasAttributeFilters(filter);
+        return AttributeFilterSupport.hasAttributeFilters(filter);
     }
     
     @Override
@@ -37,27 +34,6 @@ public class AttributeFilterStrategy implements IPropertyFilterStrategy {
     
     @Override
     public Set<String> getHandledFields() {
-        // Obtener dinámicamente todos los campos de AttributeFilterRequest
-        return Arrays.stream(AttributeFilterRequest.class.getDeclaredFields())
-            .map(Field::getName)
-            .collect(Collectors.toSet());
-    }
-    
-    private boolean hasAttributeFilters(PropertyFilterRequest filter) {
-        if (filter.getAttributes() == null) {
-            return false;
-        }
-        
-        // Verificar dinámicamente si algún campo de AttributeFilterRequest tiene valor
-        return Arrays.stream(AttributeFilterRequest.class.getDeclaredFields())
-            .anyMatch(field -> {
-                try {
-                    field.setAccessible(true);
-                    Object value = field.get(filter.getAttributes());
-                    return value != null;
-                } catch (IllegalAccessException e) {
-                    return false;
-                }
-            });
+        return AttributeFilterSupport.handledFieldNames();
     }
 }

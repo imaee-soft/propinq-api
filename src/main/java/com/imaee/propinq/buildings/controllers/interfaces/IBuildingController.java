@@ -4,9 +4,9 @@ import com.imaee.propinq.buildings.controllers.requests.CreateBuildingRequest;
 import com.imaee.propinq.buildings.controllers.requests.UpdateBuildingRequest;
 import com.imaee.propinq.buildings.controllers.responses.BuildingDetailsResponse;
 import com.imaee.propinq.buildings.controllers.responses.BuildingResponse;
+import com.imaee.propinq.properties.controllers.requests.PropertyFilterRequest;
+import com.imaee.propinq.buildings.controllers.requests.BuildingPropertiesFilter;
 import com.imaee.propinq.properties.controllers.responses.PropertyDetailsResponse;
-import com.imaee.propinq.properties.controllers.responses.PropertyResponse;
-import com.imaee.propinq.properties.data.models.Property;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
@@ -45,8 +45,12 @@ public interface IBuildingController {
 
     @GetMapping
     @ResponseStatus(OK)
-    @Operation(summary = "Retrieves a list of all buildings with basic information.")
-    List<BuildingResponse> getBuildings();
+    @Operation(summary = "Retrieves buildings with optional property-like filters. Supports attribute filters (buildingType, price, etc.), location filters (latitude, longitude, radius), and POI filters (poiType, viewport). Optionally include filtered properties for each building.")
+    List<BuildingResponse> getBuildings(
+            @org.springframework.web.bind.annotation.ModelAttribute PropertyFilterRequest filter,
+            @RequestParam(name = "includeProperties", required = false, defaultValue = "false") boolean includeProperties,
+            @RequestParam(name = "propertiesLimit", required = false) Integer propertiesLimit
+    );
 
     @GetMapping("/details")
     @ResponseStatus(OK)
@@ -54,26 +58,6 @@ public interface IBuildingController {
     Page<BuildingDetailsResponse> getBuildingsDetails(
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "15") int size
-    );
-    @GetMapping("/nearby")
-    @ResponseStatus(OK)
-    @Operation(summary = "Get buildings near a location within a radius in km")
-    List<BuildingResponse> getBuildingsNear(
-            @RequestParam Double latitude,
-            @RequestParam Double longitude,
-            @RequestParam Double radiusKm
-    );
-    @GetMapping("/nearby/poi")
-    @ResponseStatus(OK)
-    @Operation(summary = "Get properties near POIs of a given type within viewport and radius in km")
-    List<BuildingResponse> getBuildingsNearPoi(
-            @RequestParam String poiType,
-            @RequestParam Double radiusKm,
-            @RequestParam Double north,
-            @RequestParam Double south,
-            @RequestParam Double east,
-            @RequestParam Double west,
-            @RequestParam(required = false) Integer limit
     );
     @GetMapping("/{buildingId}")
     @ResponseStatus(OK)
@@ -98,10 +82,11 @@ public interface IBuildingController {
     @Operation(summary = "Restores a deleted building by its ID.")
     void restoreBuilding(@PathVariable UUID buildingId);
 
-    @GetMapping("/{buildingId}/properties")
+        @GetMapping("/{buildingId}/properties")
     @ResponseStatus(OK)
     @Operation(summary = "Retrieves a list of properties associated with a specific building by its ID.")
-    List<PropertyDetailsResponse> getBuildingProperties(@PathVariable UUID buildingId);
+        List<PropertyDetailsResponse> getBuildingProperties(@PathVariable UUID buildingId,
+                                                                                                           @org.springframework.web.bind.annotation.ModelAttribute BuildingPropertiesFilter filter);
 
 
 }

@@ -10,4 +10,5 @@ import java.util.UUID;
 public interface  IGetPropertiesUseCase {
     List<PropertyResponse> getProperties(PropertyFilterRequest filter);
     List<PropertyDetailsResponse> getBuildingProperties(UUID buildingId);
+    List<PropertyDetailsResponse> getBuildingProperties(UUID buildingId, com.imaee.propinq.properties.controllers.requests.AttributeFilterRequest attributes);
 }
