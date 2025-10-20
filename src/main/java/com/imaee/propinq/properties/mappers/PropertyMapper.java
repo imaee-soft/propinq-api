@@ -63,8 +63,14 @@ public class PropertyMapper {
         final var house = toBasicProperty(request, images);
         house.setPropertyType(CASA);
         house.setUser(user);
-        house.setTitle(request.name());
+        house.setTitle(buildHouseName(request.address()));
+        house.setLatitude(request.latitude());
+        house.setLongitude(request.longitude());
         return house;
+    }
+
+    private static String buildHouseName(String address) {
+        return "Vivienda ubicada en " + address;
     }
 
     private static Property toBasicProperty(CreatePropertyRequest request, List<Image> images) {
