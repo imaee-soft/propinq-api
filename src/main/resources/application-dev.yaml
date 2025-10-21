@@ -19,8 +19,8 @@ spring:
         format_sql: true
   datasource:
     url: jdbc:mysql://${MYSQL_HOST}:${MYSQL_PORT:27890}/defaultdb
-    username: ${DB_USERNAME}
-    password: ${DB_PASSWORD}
+    username: ${DB_USERNAME:root}
+    password: ${DB_PASSWORD:password}
     driver-class-name: com.mysql.cj.jdbc.Driver
   data:
     mongodb:
@@ -59,4 +59,3 @@ springdoc:
   swagger-ui:
     disable-swagger-default-url: true
     path: /
-
