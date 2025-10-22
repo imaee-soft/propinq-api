@@ -37,8 +37,8 @@ public class PropertyService implements IPropertyService {
     }
 
     @Override
-    public List<PropertyDetailsResponse> getBuildingProperties(UUID buildingId) {
-        return getPropertiesUseCase.getBuildingProperties(buildingId);
+    public List<PropertyDetailsResponse> getBuildingProperties(UUID buildingId, AttributeFilterRequest attributes) {
+        return getPropertiesUseCase.getBuildingProperties(buildingId, attributes);
     }
 
     @Override

@@ -15,7 +15,6 @@ public interface IPropertyService {
     List<PropertyResponse> getProperties(PropertyFilterRequest filter);
 
     PropertyDetailsResponse getPropertyDetails(UUID propertyId);
-    List<PropertyDetailsResponse> getBuildingProperties(UUID buildingId);
 
     List<PropertyDetailsResponse> getBuildingProperties(UUID buildingId, AttributeFilterRequest attributes);
 

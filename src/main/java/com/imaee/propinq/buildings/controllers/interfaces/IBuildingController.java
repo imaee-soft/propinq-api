@@ -1,11 +1,11 @@
 package com.imaee.propinq.buildings.controllers.interfaces;
 
+import com.imaee.propinq.buildings.controllers.requests.BuildingPropertiesFilter;
 import com.imaee.propinq.buildings.controllers.requests.CreateBuildingRequest;
 import com.imaee.propinq.buildings.controllers.requests.UpdateBuildingRequest;
 import com.imaee.propinq.buildings.controllers.responses.BuildingDetailsResponse;
 import com.imaee.propinq.buildings.controllers.responses.BuildingResponse;
 import com.imaee.propinq.properties.controllers.requests.PropertyFilterRequest;
-import com.imaee.propinq.buildings.controllers.requests.BuildingPropertiesFilter;
 import com.imaee.propinq.properties.controllers.responses.PropertyDetailsResponse;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -48,18 +48,16 @@ public interface IBuildingController {
     @ResponseStatus(OK)
     @Operation(summary = "Retrieves buildings with optional property-like filters. Supports attribute filters (buildingType, price, etc.), location filters (latitude, longitude, radius), and POI filters (poiType, viewport). Optionally include filtered properties for each building.")
     List<BuildingResponse> getBuildings(
-            @ModelAttribute PropertyFilterRequest filter,
-            @RequestParam(name = "includeProperties", required = false, defaultValue = "false") boolean includeProperties,
-            @RequestParam(name = "propertiesLimit", required = false) Integer propertiesLimit
-    );
+            @ModelAttribute PropertyFilterRequest filter);
 
     @GetMapping("/details")
     @ResponseStatus(OK)
-    @Operation(summary = "Retrieves a paginated list of all buildings with detailed information.")
+    @Operation(summary = "Retrieves a paginated list of all user buildings with detailed information.")
     Page<BuildingDetailsResponse> getBuildingsDetails(
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "15") int size
     );
+
     @GetMapping("/{buildingId}")
     @ResponseStatus(OK)
     @Operation(summary = "Retrieves detailed information about a specific building by its ID.")
@@ -73,6 +71,7 @@ public interface IBuildingController {
             @RequestPart("building") @Valid UpdateBuildingRequest updateBuildingRequest,
             @RequestPart(value = "images", required = false) MultipartFile[] imageFiles
     );
+
     @DeleteMapping("/{buildingId}")
     @ResponseStatus(NO_CONTENT)
     @Operation(summary = "Deletes a building by its ID.")
@@ -83,13 +82,19 @@ public interface IBuildingController {
     @Operation(summary = "Restores a deleted building by its ID.")
     void restoreBuilding(@PathVariable UUID buildingId);
 
-        @GetMapping("/{buildingId}/properties")
-        @ResponseStatus(OK)
-        @Operation(summary = "Retrieves a list of properties associated with a specific building by its ID.")
-        List<PropertyDetailsResponse> getBuildingProperties(
-                        @PathVariable UUID buildingId,
-                        @ModelAttribute BuildingPropertiesFilter filter
+    @GetMapping("/{buildingId}/properties")
+    @ResponseStatus(OK)
+    @Operation(summary = "Retrieves a list of properties associated with a specific building by its ID.")
+    List<PropertyDetailsResponse> getBuildingProperties(
+            @PathVariable UUID buildingId,
+            @ModelAttribute BuildingPropertiesFilter filter
         );
 
-
+    @GetMapping("/{buildingId}/has-apartment")
+    @ResponseStatus(OK)
+    @Operation(summary = "Verifies that the given apartment number exists for the given building.")
+    boolean hasApartment(
+            @PathVariable UUID buildingId,
+            @RequestParam(value = "number", required = true) String number
+    );
 }

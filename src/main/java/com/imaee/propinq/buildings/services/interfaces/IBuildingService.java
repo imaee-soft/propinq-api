@@ -15,7 +15,7 @@ import java.util.UUID;
 
 public interface IBuildingService {
     void createBuilding(CreateBuildingRequest createBuildingRequest, MultipartFile[] images);
-    List<BuildingResponse> getBuildings(PropertyFilterRequest filter, boolean includeProperties, Integer propertiesLimit);
+    List<BuildingResponse> getBuildings(PropertyFilterRequest filter);
     Page<BuildingDetailsResponse> getBuildingsDetails(int page, int size);
     BuildingDetailsResponse getBuildingDetails(UUID buildingId);
     BuildingDetailsResponse updateBuilding(UUID buildingId, UpdateBuildingRequest updateBuildingRequest, MultipartFile[] imageFiles);
@@ -24,6 +24,5 @@ public interface IBuildingService {
 
     List<PropertyDetailsResponse> getBuildingProperties(UUID buildingId, AttributeFilterRequest attributes);
 
-    List<PropertyDetailsResponse> getBuildingProperties(UUID buildingId);
     boolean hasApartment(UUID buildingId, String name);
 }

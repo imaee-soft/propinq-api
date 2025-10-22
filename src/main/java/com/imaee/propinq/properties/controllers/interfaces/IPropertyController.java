@@ -32,12 +32,6 @@ public interface IPropertyController {
     @Operation(summary = "Retrieves properties with optional filters. Supports attribute filters (buildingType, price, etc.), location filters (latitude, longitude, radius), and POI filters (poiType, viewport). If no filters are provided, returns all properties.")
     List<PropertyResponse> getProperties(@ModelAttribute PropertyFilterRequest filter);
 
-    @GetMapping("/details")
-    @ResponseStatus(OK)
-    @Operation(summary = "Retrieves a paginated list of all user properties with detailed information.")
-    Page<PropertyDetailsResponse> getPropertiesDetails(@RequestParam(defaultValue = "0") int page,
-                                                       @RequestParam(defaultValue = "15") int size);
-
     @GetMapping("/{propertyId}")
     @ResponseStatus(OK)
     @Operation(summary = "Retrieves detailed information about a specific property by its ID.")
