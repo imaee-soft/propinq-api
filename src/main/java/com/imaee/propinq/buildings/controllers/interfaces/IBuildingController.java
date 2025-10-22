@@ -48,7 +48,7 @@ public interface IBuildingController {
 
     @GetMapping("/details")
     @ResponseStatus(OK)
-    @Operation(summary = "Retrieves a paginated list of all buildings with detailed information.")
+    @Operation(summary = "Retrieves a paginated list of all user buildings with detailed information.")
     Page<BuildingDetailsResponse> getBuildingsDetails(
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "15") int size

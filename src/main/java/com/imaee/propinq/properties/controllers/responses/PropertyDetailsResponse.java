@@ -15,6 +15,8 @@ public record PropertyDetailsResponse (
         Integer bedrooms,
         Integer bathrooms,
         boolean petsAllowed,
+        boolean furnishing,
+        boolean expenses,
         String apartmentNumber,
         boolean deleted
 ){}
