@@ -88,6 +88,8 @@ services:
       - mysql-data:/var/lib/mysql
     networks:
       - app-network
+    ports:
+      - "3306:3306"
 
   mongodb:
     image: mongo:6

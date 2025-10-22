@@ -1,27 +1,29 @@
 package com.imaee.propinq.properties.data.models;
 
 import com.imaee.propinq.buildings.data.models.Building;
+import com.imaee.propinq.properties.data.enums.PropertyType;
+import com.imaee.propinq.shared.data.models.Image;
+import com.imaee.propinq.shared.data.models.Locatable;
 import com.imaee.propinq.users.data.models.User;
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
-import jakarta.persistence.CascadeType;
-import lombok.NoArgsConstructor;
+import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
-import lombok.NonNull;
-import com.imaee.propinq.shared.data.models.Image;
-import com.imaee.propinq.shared.data.models.Locatable;
-import org.springframework.data.repository.cdi.Eager;
+import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
 
-import java.util.Collections;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
 import static jakarta.persistence.FetchType.EAGER;
 
+@EqualsAndHashCode(callSuper = true)
 @Entity(name="properties")
 @NoArgsConstructor
 @AllArgsConstructor
@@ -32,49 +34,51 @@ public class Property extends Locatable {
     @Id
     private final UUID propertyId = UUID.randomUUID();
 
-    @NonNull
+    @NotNull
     private String address;
 
     @ManyToOne
     private Building building;
 
-    @NonNull
+    @NotNull
     @OneToMany(cascade = CascadeType.ALL, fetch = EAGER)
-    private List<Image> images = Collections.emptyList();
+    private List<Image> images = new ArrayList<>();
 
-    @NonNull
-    @ManyToOne
+    @NotNull
     private PropertyType propertyType;
 
-    @NonNull
+    @NotNull
     private Double price;
 
-    @NonNull
+    @NotNull
     private String description;
 
-    @NonNull
+    @NotNull
     private String title;
 
     private Integer floor;
 
-    @NonNull
+    @NotNull
     private Integer bedrooms;
 
-    @NonNull
+    @NotNull
     private Integer bathrooms;
 
-    @NonNull
+    @NotNull
     private boolean petsAllowed = false;
 
-    @NonNull
-    private Double area;
+    @NotNull
+    private boolean furnishing = false;
+
+    @NotNull
+    private boolean expenses = false;
 
     private String apartmentNumber;
 
-    @NonNull
+    @NotNull
     @ManyToOne
     private User user;
 
+    @NotNull
     private boolean deleted = false;
-
 }

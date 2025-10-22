@@ -42,7 +42,7 @@ public class BuildingController implements IBuildingController {
     }
 
     @Override
-    public BuildingDetailsResponse updateBuilding (UUID buildingId, UpdateBuildingRequest updateBuildingRequest, MultipartFile[] imageFiles) {
+    public BuildingDetailsResponse updateBuilding(UUID buildingId, UpdateBuildingRequest updateBuildingRequest, MultipartFile[] imageFiles) {
         return buildingService.updateBuilding(buildingId, updateBuildingRequest, imageFiles);
     }
 
@@ -59,5 +59,23 @@ public class BuildingController implements IBuildingController {
     @Override
     public List<PropertyDetailsResponse> getBuildingProperties(UUID buildingId) {
         return buildingService.getBuildingProperties(buildingId);
+    }
+
+    @Override
+    public boolean hasApartment(UUID buildingId, String number) {
+        return buildingService.hasApartment(buildingId, number);
+    }
+
+    @Override
+    public List<BuildingResponse> getBuildingsNear(Double latitude, Double longitude, Double radiusKm) {
+        return buildingService.getBuildingsNear(latitude, longitude, radiusKm);
+    }
+
+    ;
+
+    @Override
+    public List<BuildingResponse> getBuildingsNearPoi(String poiType, Double radiusKm, Double north, Double south,
+                                                      Double east, Double west, Integer limit) {
+        return buildingService.getBuildingsNearPoi(poiType, radiusKm, north, south, east, west, limit);
     }
 }

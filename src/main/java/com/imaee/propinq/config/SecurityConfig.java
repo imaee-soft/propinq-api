@@ -1,9 +1,11 @@
 package com.imaee.propinq.config;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import com.imaee.propinq.config.Filter.JwtTokenValidator;
+import com.imaee.propinq.config.providers.IEndpointSecurityProvider;
+import com.imaee.propinq.config.utils.JwtUtils;
+import lombok.AllArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
@@ -12,29 +14,23 @@ import org.springframework.security.config.annotation.method.configuration.Enabl
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
-import org.springframework.security.config.http.SessionCreationPolicy;
+import org.springframework.security.config.annotation.web.configurers.SessionManagementConfigurer;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
 
-import static com.imaee.propinq.config.utils.Endpoints.AUTH_ENDPOINTS;
-import static com.imaee.propinq.config.utils.Endpoints.DOC_ENDPOINTS;
-
-import com.imaee.propinq.config.Filter.JwtTokenValidator;
-import com.imaee.propinq.config.utils.JwtUtils;
-import com.imaee.propinq.users.data.enums.Role;
+import static org.springframework.security.config.http.SessionCreationPolicy.STATELESS;
 
 @Configuration
 @EnableWebSecurity
 @EnableMethodSecurity
-public class SecurityConfig{
+@AllArgsConstructor
+public class SecurityConfig {
 
-    @Autowired
-    private JwtUtils jwtUtils;
-
-    @Autowired
-    private CustomUserDetailsService customUserDetailsService;
+    private final IEndpointSecurityProvider endpointSecurityProvider;
+    private final JwtUtils jwtUtils;
+    private final CustomUserDetailsService customUserDetailsService;
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception {
@@ -42,7 +38,7 @@ public class SecurityConfig{
             .csrf(AbstractHttpConfigurer::disable)
             .authorizeHttpRequests(auth -> auth
                 .requestMatchers(HttpMethod.OPTIONS).permitAll()
-                .requestMatchers(DOC_ENDPOINTS).permitAll()
+                .requestMatchers(DOC_ENDPOINTS).hasRole(Role.ADMIN.name())
                 .requestMatchers(AUTH_ENDPOINTS).permitAll()
                 .requestMatchers("/api/v1/users/**").permitAll()
                 .anyRequest().authenticated()
@@ -55,6 +51,10 @@ public class SecurityConfig{
             .build();
     }
 
+    private void configureSessionManagement(SessionManagementConfigurer<HttpSecurity> sessionManagementConfigurer) {
+        sessionManagementConfigurer.sessionCreationPolicy(STATELESS);
+    }
+
     @Bean
     public AuthenticationManager authenticationManager(AuthenticationConfiguration authenticationConfiguration) throws Exception {
         return authenticationConfiguration.getAuthenticationManager();
@@ -64,7 +64,7 @@ public class SecurityConfig{
     public AuthenticationProvider authenticationProvider() {
         DaoAuthenticationProvider provider = new DaoAuthenticationProvider();
         provider.setPasswordEncoder(passwordEncoder());
-        provider.setUserDetailsService(customUserDetailsService);    
+        provider.setUserDetailsService(customUserDetailsService);
         return provider;
     }
 

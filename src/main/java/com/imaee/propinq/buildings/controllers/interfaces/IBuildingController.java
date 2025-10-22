@@ -5,7 +5,6 @@ import com.imaee.propinq.buildings.controllers.requests.UpdateBuildingRequest;
 import com.imaee.propinq.buildings.controllers.responses.BuildingDetailsResponse;
 import com.imaee.propinq.buildings.controllers.responses.BuildingResponse;
 import com.imaee.propinq.properties.controllers.responses.PropertyDetailsResponse;
-import com.imaee.propinq.properties.data.models.Property;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
@@ -49,10 +48,32 @@ public interface IBuildingController {
 
     @GetMapping("/details")
     @ResponseStatus(OK)
-    @Operation(summary = "Retrieves a paginated list of all buildings with detailed information.")
+    @Operation(summary = "Retrieves a paginated list of all user buildings with detailed information.")
     Page<BuildingDetailsResponse> getBuildingsDetails(
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "15") int size
+    );
+
+    @GetMapping("/nearby")
+    @ResponseStatus(OK)
+    @Operation(summary = "Get buildings near a location within a radius in km")
+    List<BuildingResponse> getBuildingsNear(
+            @RequestParam Double latitude,
+            @RequestParam Double longitude,
+            @RequestParam Double radiusKm
+    );
+
+    @GetMapping("/nearby/poi")
+    @ResponseStatus(OK)
+    @Operation(summary = "Get properties near POIs of a given type within viewport and radius in km")
+    List<BuildingResponse> getBuildingsNearPoi(
+            @RequestParam String poiType,
+            @RequestParam Double radiusKm,
+            @RequestParam Double north,
+            @RequestParam Double south,
+            @RequestParam Double east,
+            @RequestParam Double west,
+            @RequestParam(required = false) Integer limit
     );
 
     @GetMapping("/{buildingId}")
@@ -83,4 +104,12 @@ public interface IBuildingController {
     @ResponseStatus(OK)
     @Operation(summary = "Retrieves a list of properties associated with a specific building by its ID.")
     List<PropertyDetailsResponse> getBuildingProperties(@PathVariable UUID buildingId);
+
+    @GetMapping("/{buildingId}/has-apartment")
+    @ResponseStatus(OK)
+    @Operation(summary = "Verifies that the given apartment number exists for the given building.")
+    boolean hasApartment(
+            @PathVariable UUID buildingId,
+            @RequestParam(value = "number", required = true) String number
+    );
 }

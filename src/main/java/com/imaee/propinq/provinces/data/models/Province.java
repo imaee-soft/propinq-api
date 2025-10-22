@@ -1,5 +1,8 @@
-package com.imaee.propinq.buildings.data.models;
+package com.imaee.propinq.provinces.data.models;
 
+import com.imaee.propinq.localities.data.models.Locality;
+import com.imaee.propinq.shared.data.models.Locatable;
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
@@ -12,22 +15,18 @@ import lombok.NoArgsConstructor;
 import java.util.List;
 import java.util.UUID;
 
-@Entity(name="building_types")
+@Entity
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
 @Data
-public class BuildingType {
+public class Province extends Locatable {
     @Id
-    private UUID buildingTypeId = UUID.randomUUID();
+    private UUID provinceId = UUID.randomUUID();
 
     @NotNull
     private String name;
 
     @OneToMany
-    private List<Building> buildings;
-    
-    @Builder.Default
-    private Boolean deleted = false;
-
+    private List<Locality> localities;
 }
