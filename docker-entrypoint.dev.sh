@@ -1,10 +1,6 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-# Normalizar fin de línea (CRLF->LF) si los scripts vinieran con CRLF (host Windows)
-if command -v dos2unix >/dev/null 2>&1; then
-  dos2unix /app/scripts/*.sh 2>/dev/null || true
-fi
 # Asegurar permisos de ejecución por si el bind mount viene sin +x
 chmod +x /app/scripts/*.sh 2>/dev/null || true
 

@@ -13,10 +13,9 @@ public class Endpoints {
     };
 
     public static final String[] DOC_ENDPOINTS = {
-        "/docs",
-        "/api-docs/**",
-        "/swagger-ui/**",
-        "/swagger-ui.html"
+            "/swagger-ui/**",
+            "/v3/api-docs/**",
+            "/swagger-ui.html",
     };
 
     public static final String[] RETRIEVE_ENDPOINTS = {

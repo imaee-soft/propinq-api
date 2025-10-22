@@ -1,14 +1,8 @@
 # syntax=docker/dockerfile:1
 
 ################################################################################
-
-# Create a stage for resolving and downloading dependencies.
-# Etapa deps: 
-# Descarga las dependencias del proyecto utilizando Maven.
-# Aprovecha la caché de Docker para evitar descargas repetidas en futuras construcciones.
-# Para ejecutar esta etapa:
-# docker build --target deps -t propinq-api-deps .
-FROM eclipse-temurin:21-jdk-jammy AS deps
+# Etapa deps
+FROM eclipse-temurin:21-jdk-jammy as deps
 
 WORKDIR /build
 
@@ -22,12 +16,8 @@ RUN --mount=type=bind,source=pom.xml,target=pom.xml \
     ./mvnw dependency:go-offline -DskipTests
 
 ################################################################################
-
-# Etapa package:
-# Compila el código fuente y genera un archivo JAR empaquetado (uber jar) con todas las dependencias necesarias.
-# Para ejecutar esta etapa:
-# docker build --target package -t propinq-api-package .
-FROM deps AS package
+# Etapa package
+FROM deps as package
 
 WORKDIR /build
 
@@ -38,42 +28,35 @@ RUN --mount=type=bind,source=pom.xml,target=pom.xml \
     mv target/$(./mvnw help:evaluate -Dexpression=project.artifactId -q -DforceStdout)-$(./mvnw help:evaluate -Dexpression=project.version -q -DforceStdout).jar target/app.jar
 
 ################################################################################
-
-# Etapa extract:
-# Utiliza herramientas de Spring Boot para dividir el JAR empaquetado en capas (dependencias, loader, etc.).
-# Esto optimiza la imagen para producción al permitir que Docker reutilice capas.
-# Para ejecutar esta etapa:
-# docker build --target extract -t propinq-api-extract .
-FROM package AS extract
+# Etapa extract
+FROM package as extract
 
 WORKDIR /build
 RUN java -Djarmode=layertools -jar target/app.jar extract --destination target/extracted
 
 ################################################################################
+# Etapa final (dev con inotify + osmium)
 FROM eclipse-temurin:21-jdk-jammy AS final
 
-# Add live reload tools and entrypoint script.
-RUN apt-get update && apt-get install -y bash && \
-    apt-get install -y inotify-tools && \
-    rm -rf /var/lib/apt/lists/*
-COPY --chmod=0755 docker-entrypoint.dev.sh ./docker-entrypoint.dev.sh
-RUN apt-get update && apt-get install -y dos2unix && dos2unix ./docker-entrypoint.dev.sh
+# Herramientas necesarias: bash, inotify para hot-reload, curl + certs + osmium para scripts
+RUN apt-get update && apt-get install -y --no-install-recommends \
+      bash inotify-tools curl ca-certificates osmium-tool \
+    && rm -rf /var/lib/apt/lists/*
 
-# Usuario no root con UID parametrizable
+# Usuario no root con UID parametrizable (igualamos al host para que los volúmenes queden con tus permisos)
 ARG UID=1000
 ARG GID=1000
-# Crear grupo/usuario sólo si no existen para que la capa sea idempotente
-RUN getent group appgroup >/dev/null || groupadd -g "${GID}" appgroup ; \
-    id -u appuser >/dev/null 2>&1 || useradd -ms /bin/bash -u "${UID}" -g "${GID}" appuser
+RUN groupadd -g "${GID}" appgroup || true \
+ && useradd -ms /bin/bash -u "${UID}" -g "${GID}" appuser
 
-# Asegurar que /app pertenezca a appuser para poder crear subdirectorios (p.ej. ./out)
-RUN mkdir -p /app /app/data /app/out && chown -R appuser:appgroup /app
-# No duplicamos creación de usuario; sólo establecemos el usuario a utilizar
+# EntryPoint
+COPY --chmod=0755 docker-entrypoint.dev.sh /docker-entrypoint.sh
+
 USER appuser
 WORKDIR /app
 ENV HOME=/home/appuser
 
-# Capas extraídas
+# Capas extraídas (si querés usar JarLauncher después)
 COPY --from=extract /build/target/extracted/dependencies/ ./
 COPY --from=extract /build/target/extracted/snapshot-dependencies/ ./
 COPY --from=extract /build/target/extracted/spring-boot-loader/ ./
@@ -83,11 +66,11 @@ COPY --from=extract /build/target/extracted/application/ ./
 COPY --chmod=0755 mvnw ./mvnw
 COPY .mvn/ .mvn/
 
-# Copiar scripts dentro de la imagen y asegurar +x
+# Copiar scripts dentro de la imagen y asegurar +x (en dev los podés bind-montar igual)
 COPY scripts/ /app/scripts/
 RUN chmod +x /app/scripts/*.sh || true
 
 EXPOSE 8080
 EXPOSE 35729
 
-ENTRYPOINT ["/docker-entrypoint.dev.sh"]
+ENTRYPOINT ["/docker-entrypoint.sh"]

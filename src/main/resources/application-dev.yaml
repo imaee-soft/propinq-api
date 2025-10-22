@@ -2,51 +2,49 @@ spring:
 
   devtools:
     restart:
-      enabled: ${DEVTOOLS_RESTART_ENABLED:true}
-      poll-interval: ${DEVTOOLS_POLL_INTERVAL:1000}
-      quiet-period: ${DEVTOOLS_QUIET_PERIOD:400}
-      additional-paths: ${DEVTOOLS_ADDITIONAL_PATHS:src/main}
+      enabled: true
+      poll-interval: 1000
+      quiet-period: 400
+      additional-paths: src/main
     livereload:
-      enabled: ${DEVTOOLS_LIVERELOAD_ENABLED:true}
-      port: ${DEVTOOLS_LIVERELOAD_PORT:35729}
-
+      enabled: true
+      port: 35729
   jpa:
-    show-sql: ${JPA_SHOW_SQL:true}
+    show-sql: true
     hibernate:
       ddl-auto: ${DDL_AUTO:update}
-    defer-datasource-initialization: ${JPA_DEFER_DATASOURCE_INITIALIZATION:true}
+    defer-datasource-initialization: true
     properties:
       hibernate:
-        format_sql: ${JPA_FORMAT_SQL:true}
-
+        format_sql: true
+  sql:
+    init:
+      mode: always
   datasource:
-    url: jdbc:mysql://localhost:${MYSQL_PORT:3306}/${MYSQL_DATABASE:propinq}?createDatabaseIfNotExist=true
-    username: ${MYSQL_USERNAME:root}
-    password: ${MYSQL_PASSWORD}
-    driver-class-name: com.mysql.cj.jdbc.Driver
-
+    url: jdbc:mysql://${MYSQL_HOST:localhost}:${MYSQL_PORT:3306}/propinq?createDatabaseIfNotExist=true
+    username: ${DB_USERNAME:root}
+    password: ${DB_PASSWORD:}
   data:
     mongodb:
-      uri: mongodb://${MONGO_USER}:${MONGO_PASSWORD}@localhost:${MONGO_PORT:27017}/${MONGO_DATABASE:propinq}?authSource=${MONGO_AUTH_SOURCE:admin}
-
+      uri: mongodb://mongo-user:secret@mongodb:27017/propinq?authSource=admin
   mail:
-    host: ${MAIL_HOST:smtp.gmail.com}
-    port: ${MAIL_PORT:587}
-    username: ${MAIL_USERNAME}
-    password: ${MAIL_PASSWORD}
+    host: ${MAIL_HOST:}
+    port: ${MAIL_PORT:}
+    username: ${MAIL_USERNAME:}
+    password: ${MAIL_PASSWORD:}
     properties:
       mail:
         smtp:
-          auth: ${MAIL_SMTP_AUTH:true}
+          auth: true
           starttls:
-            enable: ${MAIL_STARTTLS_ENABLE:true}
-          timeout: ${MAIL_TIMEOUT:2000}
+            enable: true
+          timeout: 2000
 
 logging:
   level:
-    "[org.springframework.web]": ${LOG_WEB_LEVEL:DEBUG}
-    "[org.hibernate.SQL]": ${LOG_HIBERNATE_SQL_LEVEL:DEBUG}
-    "[org.hibernate.type.descriptor.sql.BasicBinder]": ${LOG_HIBERNATE_BINDER_LEVEL:TRACE}
+    "[org.springframework.web]": DEBUG
+    "[org.hibernate.SQL]": DEBUG
+    "[org.hibernate.type.descriptor.sql.BasicBinder]": TRACE
 
 cors:
   allowed-origins: ${CORS_ALLOWED_ORIGINS:http://localhost:4200}
@@ -59,30 +57,12 @@ cloudinary:
   api-key: ${CLOUD_API_KEY:}
   api-secret: ${CLOUD_API_SECRET:}
 
-poi:
-  scheduler:
-    enabled: ${POI_SCHEDULER_ENABLED:false}  # DISABLED by default in development
-    run-on-startup: ${POI_RUN_ON_STARTUP:false}  # Optional one-time run when app starts
-    cron: ${POI_SCHEDULER_CRON:0 30 3 * * *}  # Daily at 3:30 AM (if enabled)
-    run-download: ${POI_RUN_DOWNLOAD:true}
-    run-extraction: ${POI_RUN_EXTRACTION:true}
-    region: ${POI_REGION:south-america/argentina-latest}
-    throttle-days: ${OSM_DOWNLOAD_THROTTLE_DAYS:7}  # Only download if > 7 days old
-    scripts-dir: ${POI_SCRIPTS_DIR:/app/scripts}
-    data-dir: ${POI_DATA_DIR:/app/data}
-    pbf-path: ${POI_PBF_PATH:/app/data/argentina-latest.osm.pbf}
-    out-dir: ${POI_OUT_DIR:/app/out}
-  import:
-    file: ${POI_IMPORT_FILE:/app/out/pois.geojsonseq}
-
 springdoc:
   swagger-ui:
-    disable-swagger-default-url: ${SWAGGER_DISABLE_DEFAULT_URL:true}
-    path: ${SWAGGER_PATH:/docs}
-  api-docs:
-    path: ${OPENAPI_PATH:/api-docs}
+    disable-swagger-default-url: true
+    path: /
 
 security:
   jwt:
-    key: ${SECURITY_JWT_KEY}
-    user: ${SECURITY_JWT_USER}
+    key: ${SECURITY_JWT_KEY:}
+    user: ${SECURITY_JWT_USER:}
