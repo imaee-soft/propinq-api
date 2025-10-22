@@ -20,7 +20,19 @@ docker build -f Dockerfile.dev -t propinq-api .
 Start the application using Docker Compose:
 ```bash
 docker-compose -f docker-compose.dev.yaml up --build -d
-````
+```
+
+## Perfiles y configuración de entorno
+
+- El archivo `.env` define la variable `SPRING_PROFILES_ACTIVE` para seleccionar el perfil de Spring Boot:
+  - `SPRING_PROFILES_ACTIVE=dev` para desarrollo local (usa `application-dev.yaml`).
+  - `SPRING_PROFILES_ACTIVE=docker` para ejecución en contenedor (usa `application-docker.yaml`).
+  - Si no defines la variable, se usa `application.yaml`.
+
+- Los archivos de configuración:
+  - `application.yaml`: configuración base y valor por defecto del perfil.
+  - `application-dev.yaml`: usa `localhost` como host de las bases de datos para desarrollo local.
+  - `application-docker.yaml`: usa los nombres de los servicios de Docker Compose (`mysql-db`, `mongodb`) como host de las bases de datos para ejecución en contenedor.
 
 ## Importante sobre scripts y formato de fin de línea (LF)
 
