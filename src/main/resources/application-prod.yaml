@@ -1,0 +1,53 @@
+spring:
+
+  jpa:
+    show-sql: false
+    hibernate:
+      ddl-auto: ${DDL_AUTO:update}
+    properties:
+      hibernate:
+        format_sql: false
+
+  datasource:
+    url: jdbc:mysql://${MYSQL_HOST:localhost}:${MYSQL_PORT:3306}/${MYSQL_DATABASE:propinq}
+    username: ${MYSQL_USERNAME}
+    password: ${MYSQL_PASSWORD}
+    driver-class-name: com.mysql.cj.jdbc.Driver
+
+  data:
+    mongodb:
+      uri: mongodb://${MONGO_USER}:${MONGO_PASSWORD}@${MONGO_HOST:localhost}:${MONGO_PORT:27017}/${MONGO_DATABASE:propinq}?authSource=${MONGO_AUTH_SOURCE:admin}
+
+  mail:
+    host: ${MAIL_HOST}
+    port: ${MAIL_PORT}
+    username: ${MAIL_USERNAME}
+    password: ${MAIL_PASSWORD}
+
+logging:
+  level:
+    root: INFO
+    "[org.springframework.web]": INFO
+
+poi:
+  scheduler:
+    enabled: ${POI_SCHEDULER_ENABLED:true}
+    cron: ${POI_SCHEDULER_CRON:0 30 3 * * *}
+    run-download: ${POI_RUN_DOWNLOAD:true}
+    run-extraction: ${POI_RUN_EXTRACTION:true}
+    region: ${POI_REGION:south-america/argentina-latest}
+    throttle-days: ${OSM_DOWNLOAD_THROTTLE_DAYS:1}
+    scripts-dir: ${POI_SCRIPTS_DIR:/app/scripts}
+    data-dir: ${POI_DATA_DIR:/app/data}
+    pbf-path: ${POI_PBF_PATH:/app/data/argentina-latest.osm.pbf}
+    out-dir: ${POI_OUT_DIR:/app/out}
+
+cloudinary:
+  cloud-name: ${CLOUD_NAME}
+  api-key: ${CLOUD_API_KEY}
+  api-secret: ${CLOUD_API_SECRET}
+
+security:
+  jwt:
+    key: ${SECURITY_JWT_KEY}
+    user: ${SECURITY_JWT_USER}
