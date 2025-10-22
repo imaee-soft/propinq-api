@@ -1,5 +1,4 @@
 spring:
-
   devtools:
     restart:
       enabled: ${DEVTOOLS_RESTART_ENABLED:true}
@@ -20,14 +19,15 @@ spring:
         format_sql: ${JPA_FORMAT_SQL:true}
 
   datasource:
-    url: jdbc:mysql://localhost:${MYSQL_PORT:3306}/${MYSQL_DATABASE:propinq}?createDatabaseIfNotExist=true
+    url: jdbc:mysql://mysql-db:${MYSQL_PORT:3306}/${MYSQL_DATABASE:propinq}?createDatabaseIfNotExist=true
+
     username: ${MYSQL_USERNAME:root}
     password: ${MYSQL_PASSWORD}
     driver-class-name: com.mysql.cj.jdbc.Driver
 
   data:
     mongodb:
-      uri: mongodb://${MONGO_USER}:${MONGO_PASSWORD}@localhost:${MONGO_PORT:27017}/${MONGO_DATABASE:propinq}?authSource=${MONGO_AUTH_SOURCE:admin}
+      uri: mongodb://${MONGO_USER}:${MONGO_PASSWORD}@mongodb:${MONGO_PORT:27017}/${MONGO_DATABASE:propinq}?authSource=${MONGO_AUTH_SOURCE:admin}
 
   mail:
     host: ${MAIL_HOST:smtp.gmail.com}
@@ -51,29 +51,28 @@ logging:
 cors:
   allowed-origins: ${CORS_ALLOWED_ORIGINS:http://localhost:4200}
 
+poi:
+  startup:
+    enabled: ${POI_STARTUP_ENABLED:true}  # Enable POI import in Docker
+  scheduler:
+    enabled: ${POI_SCHEDULER_ENABLED:true}  # ENABLED by default in production
+    cron: ${POI_SCHEDULER_CRON:0 30 3 * * *}  # Daily at 3:30 AM
+    run-download: ${POI_RUN_DOWNLOAD:true}
+    run-extraction: ${POI_RUN_EXTRACTION:true}
+    region: ${POI_REGION:south-america/argentina-latest}
+    throttle-days: ${OSM_DOWNLOAD_THROTTLE_DAYS:1}  # Only download if > 1 day old
+    scripts-dir: ${POI_SCRIPTS_DIR:/app/scripts}  # Docker container path for scripts
+    data-dir: ${POI_DATA_DIR:/app/data}  # Docker container path for data
+    pbf-path: ${POI_PBF_PATH:/app/data/argentina-latest.osm.pbf}  # Docker container path
+    out-dir: ${POI_OUT_DIR:/app/out}  # Docker container path
+
 frontend:
   url: ${FRONTEND_URL:http://localhost:4200}
 
 cloudinary:
-  cloud-name: ${CLOUD_NAME:}
-  api-key: ${CLOUD_API_KEY:}
-  api-secret: ${CLOUD_API_SECRET:}
-
-poi:
-  scheduler:
-    enabled: ${POI_SCHEDULER_ENABLED:false}  # DISABLED by default in development
-    run-on-startup: ${POI_RUN_ON_STARTUP:false}  # Optional one-time run when app starts
-    cron: ${POI_SCHEDULER_CRON:0 30 3 * * *}  # Daily at 3:30 AM (if enabled)
-    run-download: ${POI_RUN_DOWNLOAD:true}
-    run-extraction: ${POI_RUN_EXTRACTION:true}
-    region: ${POI_REGION:south-america/argentina-latest}
-    throttle-days: ${OSM_DOWNLOAD_THROTTLE_DAYS:7}  # Only download if > 7 days old
-    scripts-dir: ${POI_SCRIPTS_DIR:/app/scripts}
-    data-dir: ${POI_DATA_DIR:/app/data}
-    pbf-path: ${POI_PBF_PATH:/app/data/argentina-latest.osm.pbf}
-    out-dir: ${POI_OUT_DIR:/app/out}
-  import:
-    file: ${POI_IMPORT_FILE:/app/out/pois.geojsonseq}
+  cloud-name: ${CLOUD_NAME}
+  api-key: ${CLOUD_API_KEY}
+  api-secret: ${CLOUD_API_SECRET}
 
 springdoc:
   swagger-ui:
