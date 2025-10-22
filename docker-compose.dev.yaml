@@ -1,18 +1,18 @@
 name: propinq
 
 services:
-  fix-perms:
-    image: busybox:1.36
-    container_name: propinq-fix-perms
-    user: "0:0"
-    command: sh -lc "mkdir -p /app/data /app/out /app/state && chown -R ${HOST_UID:-1000}:${HOST_GID:-1000} /app/data /app/out /app/state && ls -ld /app/data /app/out /app/state"
-    volumes:
-      - data-volume:/app/data
-      - out-volume:/app/out
-      - state-volume:/app/state
-    networks:
-      - app-network
-    restart: "no"
+  # fix-perms:
+  #   image: busybox:1.36
+  #   container_name: propinq-fix-perms
+  #   user: "0:0"
+  #   command: sh -lc "mkdir -p /app/data /app/out /app/state && chown -R ${HOST_UID:-1000}:${HOST_GID:-1000} /app/data /app/out /app/state && ls -ld /app/data /app/out /app/state"
+  #   volumes:
+  #     - data-volume:/app/data
+  #     - out-volume:/app/out
+  #     - state-volume:/app/state
+  #   networks:
+  #     - app-network
+  #   restart: "no"
 
   api:
     build:
@@ -22,7 +22,6 @@ services:
       args:
         UID: "${HOST_UID:-1000}"
         GID: "${HOST_GID:-1000}"
-    # No sobreescribimos user aquí: el Dockerfile ya crea appuser con ese UID/GID
     image: propinq-api:latest
     container_name: propinq-api
     ports:
@@ -35,7 +34,6 @@ services:
       - data-volume:/app/data
       - out-volume:/app/out
       - state-volume:/app/state
-      # Cache de Maven para usuario no-root en $HOME
       - maven-cache:/home/appuser/.m2
     depends_on:
       - fix-perms
@@ -55,11 +53,8 @@ services:
       CLOUDINARY_API_KEY: ${CLOUD_API_KEY}
       CLOUDINARY_API_SECRET: ${CLOUD_API_SECRET}
       CLOUDINARY_CLOUD_NAME: ${CLOUD_NAME}
-      # --- POI: delegar TODO al Scheduler ---
-      # Desactivar prefetch del entrypoint
       POI_SCHEDULER_RUN_DOWNLOAD: "false"
       POI_SCHEDULER_RUN_EXTRACTION: "false"
-      # Habilitar Scheduler y ejecutar una vez al arrancar
       POI_SCHEDULER_ENABLED: "true"
       POI_RUN_ON_STARTUP: "true"
 
@@ -68,13 +63,13 @@ services:
     stdin_open: true
     tty: true
 
-  frontend:
-    image: propinq-frontend:latest
-    container_name: propinq-frontend
-    ports:
-      - "4200:4200"
-    networks:
-      - app-network
+  # frontend:
+  #   image: propinq-frontend:latest
+  #   container_name: propinq-frontend
+  #   ports:
+  #     - "4200:4200"
+  #   networks:
+  #     - app-network
 
   mysql-db:
     image: mysql:8

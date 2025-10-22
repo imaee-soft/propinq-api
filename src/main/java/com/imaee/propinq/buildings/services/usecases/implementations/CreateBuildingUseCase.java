@@ -11,16 +11,8 @@ import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.server.ResponseStatusException;
 
-import static com.imaee.propinq.buildings.Constants.EXISTING_NAME_MESSAGE;
-import static com.imaee.propinq.buildings.Constants.MAXIMUM_IMAGE_SIZE_MESSAGE;
-import static com.imaee.propinq.buildings.Constants.WRONG_IMAGE_FORMAT_MESSAGE;
 import static com.imaee.propinq.buildings.mappers.BuildingMapper.toBuilding;
-import static com.imaee.propinq.shared.Constants.ALLOWED_IMAGE_FORMATS;
-import static com.imaee.propinq.shared.Constants.MAXIMUM_FILE_SIZE;
-import static java.util.Arrays.stream;
-import static org.springframework.http.HttpStatus.BAD_REQUEST;
 
 @Component
 @AllArgsConstructor

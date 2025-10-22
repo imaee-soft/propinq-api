@@ -50,7 +50,6 @@ WORKDIR /build
 RUN java -Djarmode=layertools -jar target/app.jar extract --destination target/extracted
 
 ################################################################################
-# Etapa final (dev con inotify + osmium)
 FROM eclipse-temurin:21-jdk-jammy AS final
 
 # Add live reload tools and entrypoint script.
@@ -60,14 +59,13 @@ RUN apt-get update && apt-get install -y bash && \
 COPY --chmod=0755 docker-entrypoint.dev.sh ./docker-entrypoint.dev.sh
 RUN apt-get update && apt-get install -y dos2unix && dos2unix ./docker-entrypoint.dev.sh
 
-# Usuario no root con UID parametrizable (igualamos al host para que los volúmenes queden con tus permisos)
+# Usuario no root con UID parametrizable
 ARG UID=1000
 ARG GID=1000
 # Crear grupo/usuario sólo si no existen para que la capa sea idempotente
 RUN getent group appgroup >/dev/null || groupadd -g "${GID}" appgroup ; \
     id -u appuser >/dev/null 2>&1 || useradd -ms /bin/bash -u "${UID}" -g "${GID}" appuser
 
-# EntryPoint (ya copiado arriba a /docker-entrypoint.dev.sh)
 # Asegurar que /app pertenezca a appuser para poder crear subdirectorios (p.ej. ./out)
 RUN mkdir -p /app /app/data /app/out && chown -R appuser:appgroup /app
 # No duplicamos creación de usuario; sólo establecemos el usuario a utilizar
@@ -75,7 +73,7 @@ USER appuser
 WORKDIR /app
 ENV HOME=/home/appuser
 
-# Capas extraídas (si querés usar JarLauncher después)
+# Capas extraídas
 COPY --from=extract /build/target/extracted/dependencies/ ./
 COPY --from=extract /build/target/extracted/snapshot-dependencies/ ./
 COPY --from=extract /build/target/extracted/spring-boot-loader/ ./
@@ -85,7 +83,7 @@ COPY --from=extract /build/target/extracted/application/ ./
 COPY --chmod=0755 mvnw ./mvnw
 COPY .mvn/ .mvn/
 
-# Copiar scripts dentro de la imagen y asegurar +x (en dev los podés bind-montar igual)
+# Copiar scripts dentro de la imagen y asegurar +x
 COPY scripts/ /app/scripts/
 RUN chmod +x /app/scripts/*.sh || true
 

@@ -7,7 +7,10 @@ import com.imaee.propinq.buildings.controllers.responses.BuildingResponse;
 import com.imaee.propinq.buildings.services.interfaces.IBuildingService;
 import com.imaee.propinq.buildings.services.usecases.interfaces.ICreateBuildingUseCase;
 import com.imaee.propinq.buildings.services.usecases.interfaces.IDeleteBuildingUseCase;
+import com.imaee.propinq.buildings.services.usecases.interfaces.IExistsApartmentNumberUseCase;
 import com.imaee.propinq.buildings.services.usecases.interfaces.IGetBuildingUseCase;
+import com.imaee.propinq.buildings.services.usecases.interfaces.IGetBuildingsNearPoiUseCase;
+import com.imaee.propinq.buildings.services.usecases.interfaces.IGetBuildingsNearUseCase;
 import com.imaee.propinq.buildings.services.usecases.interfaces.IGetBuildingsUseCase;
 import com.imaee.propinq.buildings.services.usecases.interfaces.IRestoreBuildingUseCase;
 import com.imaee.propinq.buildings.services.usecases.interfaces.IUpdateBuildingUseCase;
@@ -36,6 +39,7 @@ public class BuildingService implements IBuildingService {
     private final IRestoreBuildingUseCase restoreBuildingUseCase;
     private final IPropertyService propertyService;
     private final IBuildingFilterManager buildingFilterManager;
+    private final IExistsApartmentNumberUseCase existsApartmentNumberUseCase;
 
     @Override
     public void createBuilding(CreateBuildingRequest createBuildingRequest, MultipartFile[] imageFiles) {
@@ -85,6 +89,8 @@ public class BuildingService implements IBuildingService {
         return propertyService.getBuildingProperties(buildingId, attributes);
     }
 
-    // Note: apartment existence checks moved to dedicated use case removed from service; reintroduce if needed via a new use case.
-
+    @Override
+    public boolean hasApartment(UUID buildingId, String name) {
+        return existsApartmentNumberUseCase.existsApartmentNumber(buildingId, name);
+    }
 }

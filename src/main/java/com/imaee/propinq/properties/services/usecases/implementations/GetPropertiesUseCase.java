@@ -38,16 +38,7 @@ public class GetPropertiesUseCase implements IGetPropertiesUseCase {
 
     @Override
     public List<PropertyDetailsResponse> getBuildingProperties(UUID buildingId, AttributeFilterRequest attributes) {
-        // If no attribute filters are provided, return all properties for the building (not deleted)
-        if (attributes == null
-                || (attributes.getBuildingType() == null
-                && attributes.getPriceMin() == null
-                && attributes.getPriceMax() == null
-                && attributes.getBedrooms() == null
-                && attributes.getBathrooms() == null
-                && attributes.getPetsAllowed() == null
-                && attributes.getAreaMin() == null
-                && attributes.getAreaMax() == null)) {
+        if (!com.imaee.propinq.shared.filters.AttributeFilterSupport.hasAttributeValues(attributes)) {
             return getBuildingProperties(buildingId);
         }
         return propertyRepository.findAll(

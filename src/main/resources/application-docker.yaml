@@ -22,7 +22,7 @@ spring:
     url: jdbc:mysql://mysql-db:${MYSQL_PORT:3306}/${MYSQL_DATABASE:propinq}?createDatabaseIfNotExist=true
 
     username: ${MYSQL_USERNAME:root}
-    password: ${MYSQL_PASSWORD}   # .env
+    password: ${MYSQL_PASSWORD}
     driver-class-name: com.mysql.cj.jdbc.Driver
 
   data:
@@ -32,8 +32,8 @@ spring:
   mail:
     host: ${MAIL_HOST:smtp.gmail.com}
     port: ${MAIL_PORT:587}
-    username: ${MAIL_USERNAME} # .env
-    password: ${MAIL_PASSWORD}  # .env
+    username: ${MAIL_USERNAME}
+    password: ${MAIL_PASSWORD}
     properties:
       mail:
         smtp:
@@ -51,7 +51,6 @@ logging:
 cors:
   allowed-origins: ${CORS_ALLOWED_ORIGINS:http://localhost:4200}
 
-# POI configuration for Docker environment
 poi:
   startup:
     enabled: ${POI_STARTUP_ENABLED:true}  # Enable POI import in Docker
@@ -84,5 +83,5 @@ springdoc:
 
 security:
   jwt:
-    key: ${SECURITY_JWT_KEY}   # .env
-    user: ${SECURITY_JWT_USER} # .env
+    key: ${SECURITY_JWT_KEY}
+    user: ${SECURITY_JWT_USER}

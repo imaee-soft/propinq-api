@@ -22,6 +22,17 @@ public final class AttributeFilterSupport {
         return false;
     }
 
+    public static boolean hasAttributeValues(AttributeFilterRequest attributes) {
+        if (attributes == null) return false;
+        for (Field f : AttributeFilterRequest.class.getDeclaredFields()) {
+            try {
+                f.setAccessible(true);
+                if (f.get(attributes) != null) return true;
+            } catch (IllegalAccessException ignored) {}
+        }
+        return false;
+    }
+
     public static Set<String> handledFieldNames() {
         return Arrays.stream(AttributeFilterRequest.class.getDeclaredFields())
                 .map(Field::getName)

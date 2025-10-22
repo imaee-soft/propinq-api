@@ -13,6 +13,7 @@ import jakarta.validation.Valid;
 import org.springframework.data.domain.Page;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -47,7 +48,7 @@ public interface IBuildingController {
     @ResponseStatus(OK)
     @Operation(summary = "Retrieves buildings with optional property-like filters. Supports attribute filters (buildingType, price, etc.), location filters (latitude, longitude, radius), and POI filters (poiType, viewport). Optionally include filtered properties for each building.")
     List<BuildingResponse> getBuildings(
-            @org.springframework.web.bind.annotation.ModelAttribute PropertyFilterRequest filter,
+            @ModelAttribute PropertyFilterRequest filter,
             @RequestParam(name = "includeProperties", required = false, defaultValue = "false") boolean includeProperties,
             @RequestParam(name = "propertiesLimit", required = false) Integer propertiesLimit
     );
@@ -83,10 +84,12 @@ public interface IBuildingController {
     void restoreBuilding(@PathVariable UUID buildingId);
 
         @GetMapping("/{buildingId}/properties")
-    @ResponseStatus(OK)
-    @Operation(summary = "Retrieves a list of properties associated with a specific building by its ID.")
-        List<PropertyDetailsResponse> getBuildingProperties(@PathVariable UUID buildingId,
-                                                                                                           @org.springframework.web.bind.annotation.ModelAttribute BuildingPropertiesFilter filter);
+        @ResponseStatus(OK)
+        @Operation(summary = "Retrieves a list of properties associated with a specific building by its ID.")
+        List<PropertyDetailsResponse> getBuildingProperties(
+                        @PathVariable UUID buildingId,
+                        @ModelAttribute BuildingPropertiesFilter filter
+        );
 
 
 }

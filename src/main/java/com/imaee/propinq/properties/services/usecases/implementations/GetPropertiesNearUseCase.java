@@ -1,6 +1,5 @@
 package com.imaee.propinq.properties.services.usecases.implementations;
 
-import com.imaee.propinq.properties.controllers.requests.LocationFilterRequest;
 import com.imaee.propinq.properties.controllers.responses.PropertyResponse;
 import com.imaee.propinq.properties.data.models.Property;
 import com.imaee.propinq.properties.data.repositories.IPropertyRepository;
@@ -19,17 +18,12 @@ public class GetPropertiesNearUseCase implements IGetPropertiesNearUseCase {
     private final IPropertyRepository propertyRepository;
 
     @Override
-    public List<PropertyResponse> getPropertiesNear(LocationFilterRequest locationFilter) {
+    public List<PropertyResponse> getPropertiesNear(Double latitude, Double longitude, Double radiusKm) {
         List<Property> allProperties = propertyRepository.findAllByDeletedFalseAndBuildingIsNull();
         return allProperties.stream()
                 .filter(property -> {
-                    double dist = haversineDistance(
-                        locationFilter.getLatitude(), 
-                        locationFilter.getLongitude(), 
-                        property.getLatitude(), 
-                        property.getLongitude()
-                    );
-                    return dist <= locationFilter.getRadiusKm();
+                    double dist = haversineDistance(latitude, longitude, property.getLatitude(), property.getLongitude());
+                    return dist <= radiusKm;
                 })
                 .map(PropertyMapper::toPropertyResponse)
                 .collect(Collectors.toList());
