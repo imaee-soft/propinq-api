@@ -35,20 +35,12 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception {
         return httpSecurity
-            .csrf(AbstractHttpConfigurer::disable)
-            .authorizeHttpRequests(auth -> auth
-                .requestMatchers(HttpMethod.OPTIONS).permitAll()
-                .requestMatchers(DOC_ENDPOINTS).hasRole(Role.ADMIN.name())
-                .requestMatchers(AUTH_ENDPOINTS).permitAll()
-                .requestMatchers("/api/v1/users/**").permitAll()
-                .anyRequest().authenticated()
-            )
-            .sessionManagement(session -> session
-                .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-            )
-            .authenticationProvider(authenticationProvider())
-            .addFilterBefore(new JwtTokenValidator(jwtUtils), BasicAuthenticationFilter.class)
-            .build();
+                .csrf(AbstractHttpConfigurer::disable)
+                .authorizeHttpRequests(endpointSecurityProvider::configureEndpointSecurity)
+                .sessionManagement(this::configureSessionManagement)
+                .authenticationProvider(authenticationProvider())
+                .addFilterBefore(new JwtTokenValidator(jwtUtils), BasicAuthenticationFilter.class)
+                .build();
     }
 
     private void configureSessionManagement(SessionManagementConfigurer<HttpSecurity> sessionManagementConfigurer) {
