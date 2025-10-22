@@ -36,7 +36,6 @@ services:
       - state-volume:/app/state
       - maven-cache:/home/appuser/.m2
     depends_on:
-      - fix-perms
       - mysql-db
       - mongodb
     environment:
