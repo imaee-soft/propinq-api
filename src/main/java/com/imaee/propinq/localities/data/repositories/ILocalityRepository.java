@@ -12,6 +12,6 @@ import java.util.UUID;
 public interface ILocalityRepository extends JpaRepository<Locality, UUID> {
 
     boolean existsByNameIgnoreCaseAndProvince(String name, Province province);
-    List<Locality> findAllByProvince_ProvinceId(UUID provinceId);
+    List<Locality> findAllByProvince_ProvinceIdOrderByNameAsc(UUID provinceId);
 
 }
