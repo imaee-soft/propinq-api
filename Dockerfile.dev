@@ -66,9 +66,8 @@ ARG GID=1000
 RUN getent group appgroup >/dev/null || groupadd -g "${GID}" appgroup ; \
     id -u appuser >/dev/null 2>&1 || useradd -ms /bin/bash -u "${UID}" -g "${GID}" appuser
 
-# Asegurar que /app pertenezca a appuser para poder crear subdirectorios (p.ej. ./out)
-RUN mkdir -p /app /app/data /app/out && chown -R appuser:appgroup /app
-# No duplicamos creación de usuario; sólo establecemos el usuario a utilizar
+RUN mkdir -p /app /app/data /app/out /home/appuser/.m2 && chown -R appuser:appgroup /app /home/appuser/.m2
+
 USER appuser
 WORKDIR /app
 ENV HOME=/home/appuser

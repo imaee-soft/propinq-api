@@ -47,7 +47,7 @@ public class BuildingService implements IBuildingService {
     }
 
     @Override
-    public List<BuildingResponse> getBuildings(PropertyFilterRequest filter, boolean includeProperties, Integer propertiesLimit) {
+    public List<BuildingResponse> getBuildings(PropertyFilterRequest filter) {
         boolean hasFilters = filter != null && (
                 (filter.getAttributes() != null) ||
                 (filter.getLocation() != null) ||
