@@ -7,7 +7,6 @@ import com.imaee.propinq.properties.controllers.responses.PropertyDetailsRespons
 import com.imaee.propinq.properties.controllers.responses.PropertyResponse;
 import com.imaee.propinq.properties.services.interfaces.IPropertyService;
 import lombok.AllArgsConstructor;
-import org.springframework.data.domain.Page;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 

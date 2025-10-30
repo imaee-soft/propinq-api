@@ -2,7 +2,6 @@ package com.imaee.propinq.poi.data.repositories;
 
 import com.imaee.propinq.poi.data.enums.PoiType;
 import com.imaee.propinq.poi.data.models.Poi;
-import com.imaee.propinq.properties.data.models.Property;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;

@@ -9,8 +9,6 @@ import com.imaee.propinq.buildings.services.usecases.interfaces.ICreateBuildingU
 import com.imaee.propinq.buildings.services.usecases.interfaces.IDeleteBuildingUseCase;
 import com.imaee.propinq.buildings.services.usecases.interfaces.IExistsApartmentNumberUseCase;
 import com.imaee.propinq.buildings.services.usecases.interfaces.IGetBuildingUseCase;
-import com.imaee.propinq.buildings.services.usecases.interfaces.IGetBuildingsNearPoiUseCase;
-import com.imaee.propinq.buildings.services.usecases.interfaces.IGetBuildingsNearUseCase;
 import com.imaee.propinq.buildings.services.usecases.interfaces.IGetBuildingsUseCase;
 import com.imaee.propinq.buildings.services.usecases.interfaces.IRestoreBuildingUseCase;
 import com.imaee.propinq.buildings.services.usecases.interfaces.IUpdateBuildingUseCase;
