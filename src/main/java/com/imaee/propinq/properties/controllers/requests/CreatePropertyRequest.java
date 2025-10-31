@@ -26,10 +26,6 @@ public record CreatePropertyRequest(
         @NotNull(message = "La cantidad de baños no puede ser nula")
         Integer bathrooms,
 
-        @Min(value = 0, message = "El número de piso no puede ser negativo")
-        @NotNull(message = "El número de piso no puede ser nulo")
-        Integer floor,
-
         @NotNull(message = "La aceptación de mascotas no puede ser nula")
         Boolean petsAllowed,
 
@@ -43,8 +39,11 @@ public record CreatePropertyRequest(
         @ValidEnum(enumClass = PropertyType.class, message = "El tipo de propiedad debe ser uno de los siguientes: APARTAMENTO, CASA")
         String type,
 
+        Integer floor,
         String number,
         String address,
+        Double latitude,
+        Double longitude,
         UUID buildingId,
         UUID userId
 ) {}
