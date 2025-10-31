@@ -1,27 +1,15 @@
 package com.imaee.propinq.favorites.controllers.implementations;
 
-import com.imaee.propinq.buildings.data.models.Building;
-import com.imaee.propinq.buildings.data.repositories.IBuildingRepository;
-import com.imaee.propinq.buildings.services.interfaces.IBuildingService;
 import com.imaee.propinq.favorites.controllers.interfaces.IFavoriteController;
 import com.imaee.propinq.favorites.controllers.requests.FavoriteRequest;
 import com.imaee.propinq.favorites.controllers.responses.FavoriteResponse;
 import com.imaee.propinq.favorites.data.models.Favorite;
 import com.imaee.propinq.favorites.mappers.FavoriteMapper;
 import com.imaee.propinq.favorites.services.interfaces.IFavoriteService;
-import com.imaee.propinq.properties.data.models.Property;
-import com.imaee.propinq.properties.data.repositories.IPropertyRepository;
-import com.imaee.propinq.properties.services.interfaces.IPropertyService;
-import com.imaee.propinq.users.data.models.User;
-import com.imaee.propinq.users.data.repositories.IUserRepository;
-import com.imaee.propinq.users.services.interfaces.IUserService;
-import lombok.AllArgsConstructor;
 
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
 import java.util.UUID;

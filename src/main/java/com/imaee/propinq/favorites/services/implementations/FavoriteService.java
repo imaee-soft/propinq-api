@@ -26,42 +26,7 @@ public class FavoriteService implements IFavoriteService {
     private final IPropertyRepository propertyRepository;
     private final IBuildingRepository buildingRepository;
 
-/*    @Override
-    public Favorite addPropertyToFavorites(UUID userId, UUID propertyId) {
-        User user = userRepository.findById(userId)
-                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND,"User not found"));
 
-        Property property = propertyRepository.findById(propertyId)
-                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND,"Property not found"));
-
-        if (favoriteRepository.existsByUserIDAndPropertyID(user, property)) {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND,"Property already favorited");
-        }
-        Favorite fav = new Favorite();
-        fav.setUserID(user);
-        fav.setPropertyID(property);
-        fav.setBuildingID(null);
-        return favoriteRepository.save(fav);
-    }
-
-    @Override
-    public Favorite addBuildingToFavorites(UUID userId, UUID buildingId) {
-        User user = userRepository.findById(userId)
-                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND,"User not found"));
-
-        Building building = buildingRepository.findById(buildingId)
-                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND,"Building not found"));
-
-        if (favoriteRepository.existsByUserIDAndBuildingID(user, building)) {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND,"Building already favorited");
-        }
-
-        Favorite fav = new Favorite();
-        fav.setUserID(user);
-        fav.setBuildingID(building);
-        fav.setPropertyID(null);
-        return favoriteRepository.save(fav);
-    }*/
     @Override
     public Favorite addFavorite(UUID userId, UUID propertyId, UUID buildingId) {
         User user = userRepository.findById(userId)
