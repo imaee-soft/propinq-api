@@ -2,6 +2,7 @@ package com.imaee.propinq.properties.controllers.implementations;
 
 import com.imaee.propinq.properties.controllers.interfaces.IPropertyController;
 import com.imaee.propinq.properties.controllers.requests.CreatePropertyRequest;
+import com.imaee.propinq.properties.controllers.requests.UpdatePropertyRequest;
 import com.imaee.propinq.properties.controllers.responses.PropertyDetailsResponse;
 import com.imaee.propinq.properties.controllers.responses.PropertyResponse;
 import com.imaee.propinq.properties.services.interfaces.IPropertyService;
@@ -47,6 +48,11 @@ public class PropertyController implements IPropertyController {
     public List<PropertyResponse> getPropertiesNearPoi(String poiType,Double radiusKm, Double north,
                                                        Double south, Double east, Double west, Integer limit) {
         return propertyService.getPropertiesNearPoi(poiType, radiusKm, north, south, east, west, limit);
+    }
+
+    @Override
+    public PropertyDetailsResponse updateProperty(UUID propertyId, UpdatePropertyRequest updatePropertyRequest, MultipartFile[] imageFiles){
+        return propertyService.updateProperty(propertyId, updatePropertyRequest, imageFiles);
     }
 
     @Override
