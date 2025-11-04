@@ -1,6 +1,7 @@
 package com.imaee.propinq.properties.services.interfaces;
 
 import com.imaee.propinq.properties.controllers.requests.CreatePropertyRequest;
+import com.imaee.propinq.properties.controllers.requests.UpdatePropertyRequest;
 import com.imaee.propinq.properties.controllers.responses.PropertyDetailsResponse;
 import com.imaee.propinq.properties.controllers.responses.PropertyResponse;
 import org.springframework.data.domain.Page;
@@ -18,6 +19,7 @@ public interface IPropertyService {
     List<PropertyResponse> getPropertiesNear(Double latitude, Double longitude, Double radiusKm);
     List<PropertyResponse> getPropertiesNearPoi(String poiType, Double radiusKm, Double north,
                                                 Double south, Double east, Double west, Integer limit);
+    PropertyDetailsResponse updateProperty(UUID propertyId, UpdatePropertyRequest updatePropertyRequest, MultipartFile[] imageFiles);
     void restoreProperty(UUID propertyId);
     void deleteProperty(UUID propertyId);
 }

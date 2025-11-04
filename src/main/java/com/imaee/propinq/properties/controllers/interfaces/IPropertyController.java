@@ -2,6 +2,7 @@ package com.imaee.propinq.properties.controllers.interfaces;
 
 import com.imaee.propinq.buildings.controllers.responses.BuildingDetailsResponse;
 import com.imaee.propinq.properties.controllers.requests.CreatePropertyRequest;
+import com.imaee.propinq.properties.controllers.requests.UpdatePropertyRequest;
 import com.imaee.propinq.properties.controllers.responses.PropertyDetailsResponse;
 import com.imaee.propinq.properties.controllers.responses.PropertyResponse;
 import io.swagger.v3.oas.annotations.Operation;
@@ -68,6 +69,14 @@ public interface IPropertyController {
             @RequestPart("images") MultipartFile[] imageFiles
     );
 
+    @PatchMapping("/{propertyId}")
+    @ResponseStatus(OK)
+    @Operation(summary = "Updates the details of an existing property by its ID.")
+    PropertyDetailsResponse updateProperty(
+            @PathVariable UUID propertyId,
+            @RequestPart("property") @Valid UpdatePropertyRequest updatePropertyRequest,
+            @RequestPart(value = "images", required = false) MultipartFile[] imageFiles
+    );
     @DeleteMapping("/{propertyId}")
     @ResponseStatus(NO_CONTENT)
     @Operation(summary = "Deletes a property by its ID.")
