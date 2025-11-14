@@ -10,13 +10,14 @@ import org.springframework.stereotype.Component;
 
 import static com.imaee.propinq.properties.Constants.UNSUPPORTED_PROPERTY_TYPE;
 import static com.imaee.propinq.properties.data.enums.PropertyType.APARTAMENTO;
+import static com.imaee.propinq.properties.data.enums.PropertyType.CASA;
 
 @Component
 @AllArgsConstructor
 public class CreatePropertyFactory implements ICreatePropertyFactory {
 
     private static final String APARTMENT_TYPE = APARTAMENTO.name();
-    private static final String HOUSE_TYPE = APARTAMENTO.name();
+    private static final String HOUSE_TYPE = CASA.name();
     private final ApplicationContext applicationContext;
 
     @Override

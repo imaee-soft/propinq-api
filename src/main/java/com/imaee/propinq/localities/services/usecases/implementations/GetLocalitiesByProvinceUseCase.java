@@ -19,8 +19,7 @@ public class GetLocalitiesByProvinceUseCase implements IGetLocalitiesByProvinceU
 
     @Override
     public List<LocalityResponse> getLocalitiesByProvince(UUID provinceId) {
-
-        return localityRepository.findAllByProvince_ProvinceId(provinceId)
+        return localityRepository.findAllByProvince_ProvinceIdOrderByNameAsc(provinceId)
                 .stream()
                 .map(LocalityMapper::toLocalityResponse)
                 .collect(Collectors.toList());

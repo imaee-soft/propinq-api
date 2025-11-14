@@ -3,6 +3,7 @@ package com.imaee.propinq.properties.controllers.implementations;
 import com.imaee.propinq.properties.controllers.interfaces.IPropertyController;
 import com.imaee.propinq.properties.controllers.requests.PropertyFilterRequest;
 import com.imaee.propinq.properties.controllers.requests.CreatePropertyRequest;
+import com.imaee.propinq.properties.controllers.requests.UpdatePropertyRequest;
 import com.imaee.propinq.properties.controllers.responses.PropertyDetailsResponse;
 import com.imaee.propinq.properties.controllers.responses.PropertyResponse;
 import com.imaee.propinq.properties.services.interfaces.IPropertyService;
@@ -32,6 +33,11 @@ public class PropertyController implements IPropertyController {
     @Override
     public void createProperty(CreatePropertyRequest createPropertyRequest, MultipartFile[] imageFiles) {
         propertyService.createProperty(createPropertyRequest, imageFiles);
+    }
+
+    @Override
+    public PropertyDetailsResponse updateProperty(UUID propertyId, UpdatePropertyRequest updatePropertyRequest, MultipartFile[] imageFiles){
+        return propertyService.updateProperty(propertyId, updatePropertyRequest, imageFiles);
     }
 
     @Override

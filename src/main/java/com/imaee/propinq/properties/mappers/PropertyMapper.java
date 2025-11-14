@@ -1,17 +1,18 @@
 package com.imaee.propinq.properties.mappers;
 
-
 import com.imaee.propinq.buildings.data.models.Building;
 import com.imaee.propinq.properties.controllers.requests.CreatePropertyRequest;
 import com.imaee.propinq.properties.controllers.responses.PropertyDetailsResponse;
 import com.imaee.propinq.properties.controllers.responses.PropertyResponse;
 import com.imaee.propinq.properties.data.models.Property;
 import com.imaee.propinq.shared.data.models.Image;
+import com.imaee.propinq.users.data.models.User;
 
 import java.util.List;
 import java.util.UUID;
 
 import static com.imaee.propinq.properties.data.enums.PropertyType.APARTAMENTO;
+import static com.imaee.propinq.properties.data.enums.PropertyType.CASA;
 
 public class PropertyMapper {
 
@@ -45,26 +46,44 @@ public class PropertyMapper {
     }
 
     public static Property toApartment(CreatePropertyRequest request, List<Image> images, Building building) {
+        final var apartment = toBasicProperty(request, images);
+        apartment.setPropertyType(APARTAMENTO);
+        apartment.setBuilding(building);
+        apartment.setUser(building.getUser());
+        apartment.setTitle(buildApartmentName(request.number(), request.floor()));
+        apartment.setApartmentNumber(request.number());
+        return apartment;
+    }
+
+    private static String buildApartmentName(String number, int floor) {
+        return "Dpto. " + number + ", Piso " + floor;
+    }
+
+    public static Property toHouse(CreatePropertyRequest request, List<Image> images, User user) {
+        final var house = toBasicProperty(request, images);
+        house.setPropertyType(CASA);
+        house.setUser(user);
+        house.setTitle(buildHouseName(request.address()));
+        house.setLatitude(request.latitude());
+        house.setLongitude(request.longitude());
+        return house;
+    }
+
+    private static String buildHouseName(String address) {
+        return "Vivienda ubicada en " + address;
+    }
+
+    private static Property toBasicProperty(CreatePropertyRequest request, List<Image> images) {
         return Property.builder()
-                .building(building)
-                .propertyType(APARTAMENTO)
-                .user(building.getUser())
-                .address(building.getAddress())
-                .images(images)
+                .address(request.address())
                 .price(request.price())
                 .description(request.description())
-                .floor(request.floor())
                 .bedrooms(request.bedrooms())
                 .bathrooms(request.bathrooms())
                 .petsAllowed(request.petsAllowed())
                 .furnishing(request.hasFurniture())
                 .expenses(request.paysExpenses())
-                .apartmentNumber(request.number())
-                .title(buildApartmentName(request.number(), request.floor()))
+                .images(images)
                 .build();
-    }
-
-    private static String buildApartmentName(String number, int floor) {
-        return "Dpto. " + number + ", Piso " + floor;
     }
 }

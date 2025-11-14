@@ -17,7 +17,7 @@ public class GetProvincesUseCase implements IGetProvincesUseCase {
     @Override
     public List<ProvinceResponse> getProvinces() {
         return provinceRepository
-                .findAll()
+                .findAllByOrderByNameAsc()
                 .stream()
                 .map(ProvinceMapper::toProvinceResponse)
                 .collect(Collectors.toList());

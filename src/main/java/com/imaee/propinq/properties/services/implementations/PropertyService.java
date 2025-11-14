@@ -3,6 +3,7 @@ package com.imaee.propinq.properties.services.implementations;
 import com.imaee.propinq.properties.controllers.requests.PropertyFilterRequest;
 import com.imaee.propinq.properties.controllers.requests.AttributeFilterRequest;
 import com.imaee.propinq.properties.controllers.requests.CreatePropertyRequest;
+import com.imaee.propinq.properties.controllers.requests.UpdatePropertyRequest;
 import com.imaee.propinq.properties.controllers.responses.PropertyDetailsResponse;
 import com.imaee.propinq.properties.controllers.responses.PropertyResponse;
 import com.imaee.propinq.properties.services.factory.ICreatePropertyFactory;
@@ -23,6 +24,7 @@ public class PropertyService implements IPropertyService {
     private final IGetPropertyUseCase getPropertyUseCase;
 
     private final ICreatePropertyFactory createPropertyFactory;
+    private final IUpdatePropertyUseCase updatePropertyUseCase;
     private final IDeletePropertyUseCase deletePropertyUseCase;
     private final IRestorePropertyUseCase restorePropertyUsecase;
 
@@ -45,6 +47,11 @@ public class PropertyService implements IPropertyService {
     public void createProperty(CreatePropertyRequest request, MultipartFile[] imageFiles) {
         createPropertyFactory.provideCreatePropertyUseCase(request)
                 .createProperty(request, imageFiles);
+    }
+
+    @Override
+    public PropertyDetailsResponse updateProperty(UUID propertyId, UpdatePropertyRequest updatePropertyRequest, MultipartFile[] imageFiles) {
+        return updatePropertyUseCase.updateProperty(propertyId, updatePropertyRequest, imageFiles);
     }
 
     @Override

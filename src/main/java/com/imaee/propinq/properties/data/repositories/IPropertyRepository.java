@@ -17,6 +17,7 @@ public interface IPropertyRepository extends JpaRepository<Property, UUID>, JpaS
     List<Property> findAllByDeletedFalseAndBuildingIsNull();
     List<Property> findAllByDeletedFalseAndBuilding_BuildingId(UUID buildingId);
     boolean existsByApartmentNumberAndBuildingBuildingId(String apartmentName, UUID buildingId);
+    boolean existsByLatitudeAndLongitude(Double latitude, Double longitude);
     Page<Property> findAllByUser_UserId(UUID userId, Pageable pageable);
     @Query("""
            SELECT pr FROM properties pr
