@@ -28,6 +28,7 @@ import static jakarta.persistence.EnumType.STRING;
 import static jakarta.persistence.FetchType.EAGER;
 import static java.util.UUID.randomUUID;
 import static lombok.AccessLevel.PROTECTED;
+import static lombok.AccessLevel.PUBLIC;
 
 @EqualsAndHashCode(callSuper = true)
 @Entity(name = "buildings")

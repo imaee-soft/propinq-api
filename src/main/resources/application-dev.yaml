@@ -25,9 +25,9 @@ spring:
       data-locations: ${SPRING_SQL_INIT_DATA_LOCATIONS:classpath:/sql/01_users.sql,classpath:/sql/02_images.sql,classpath:/sql/03_provinces.sql,classpath:/sql/04_localities.sql,classpath:/sql/05_buildings.sql,classpath:/sql/06_buildings_images.sql,classpath:/sql/07_properties.sql,classpath:/sql/08_properties_images.sql,classpath:/sql/09_poi.sql}
 
   datasource:
-    url: jdbc:mysql://localhost:${MYSQL_PORT:3306}/${MYSQL_DATABASE:propinq}?createDatabaseIfNotExist=true
+    url: jdbc:mysql://${MYSQL_HOST:localhost}:${MYSQL_PORT:3306}/${MYSQL_DATABASE:propinq}?createDatabaseIfNotExist=true
     username: ${MYSQL_USERNAME:root}
-    password: ${MYSQL_PASSWORD}
+    password: ${MYSQL_PASSWORD:password}
     driver-class-name: com.mysql.cj.jdbc.Driver
 
   data:
@@ -66,13 +66,13 @@ cloudinary:
 
 poi:
   scheduler:
-    enabled: ${POI_SCHEDULER_ENABLED:false}  # DISABLED by default in development
-    run-on-startup: ${POI_RUN_ON_STARTUP:false}  # Optional one-time run when app starts
-    cron: ${POI_SCHEDULER_CRON:0 30 3 * * *}  # Daily at 3:30 AM (if enabled)
+    enabled: ${POI_SCHEDULER_ENABLED:false}
+    run-on-startup: ${POI_RUN_ON_STARTUP:false}
+    cron: ${POI_SCHEDULER_CRON:0 30 3 * * *}
     run-download: ${POI_RUN_DOWNLOAD:true}
     run-extraction: ${POI_RUN_EXTRACTION:true}
     region: ${POI_REGION:south-america/argentina-latest}
-    throttle-days: ${OSM_DOWNLOAD_THROTTLE_DAYS:7}  # Only download if > 7 days old
+    throttle-days: ${OSM_DOWNLOAD_THROTTLE_DAYS:7}
     scripts-dir: ${POI_SCRIPTS_DIR:/app/scripts}
     data-dir: ${POI_DATA_DIR:/app/data}
     pbf-path: ${POI_PBF_PATH:/app/data/argentina-latest.osm.pbf}
