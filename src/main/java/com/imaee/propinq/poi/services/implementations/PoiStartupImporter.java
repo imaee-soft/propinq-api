@@ -4,7 +4,8 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
 import org.springframework.stereotype.Component;
-/*
+import java.nio.file.Files;
+import java.nio.file.Path;
 @Component
 public class PoiStartupImporter implements ApplicationRunner {
 
@@ -43,8 +44,14 @@ public class PoiStartupImporter implements ApplicationRunner {
         if (runExtraction) {
             runScript("bash", "/app/scripts/extract_pois.sh", pbfPath, outDir);
         }
-        long n = importService.importToMySql();
-        System.out.println("[POI] Startup import completo. Registros = " + n);
+        // Only run the importer if the extracted GeoJSON file exists
+        var importPath = Path.of(outDir, "pois.geojsonseq");
+        if (Files.exists(importPath)) {
+            long n = importService.importToMySql();
+            System.out.println("[POI] Startup import completo. Registros = " + n);
+        } else {
+            System.out.println("[POI] Archivo de importación no encontrado: " + importPath + " - saltando import en startup.");
+        }
     }
 
     private static void runScript(String... cmd) throws Exception {
@@ -54,4 +61,3 @@ public class PoiStartupImporter implements ApplicationRunner {
         }
     }
 }
-*/

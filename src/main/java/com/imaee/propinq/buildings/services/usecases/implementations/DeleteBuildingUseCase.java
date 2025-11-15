@@ -3,7 +3,6 @@ package com.imaee.propinq.buildings.services.usecases.implementations;
 import com.imaee.propinq.buildings.data.models.Building;
 import com.imaee.propinq.buildings.data.repositories.IBuildingRepository;
 import com.imaee.propinq.buildings.services.usecases.interfaces.IDeleteBuildingUseCase;
-import com.imaee.propinq.buildings.services.usecases.interfaces.IFindBuildingByIdUseCase;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Component;
@@ -18,7 +17,6 @@ import static com.imaee.propinq.buildings.Constants.CANNOT_DELETE_BUILDING_WITH_
 public class DeleteBuildingUseCase implements IDeleteBuildingUseCase {
 
     private final IBuildingRepository buildingRepository;
-    private final IFindBuildingByIdUseCase findBuildingByIdUseCase;
 
     @Override
     public void deleteBuilding(UUID buildingId) {

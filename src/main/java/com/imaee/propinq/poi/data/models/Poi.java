@@ -19,7 +19,8 @@ import java.util.UUID;
 @Data
 public class Poi extends Locatable {
     @Id
-    @Column(name = "id")
+    @Column(name = "id", length = 100)
+    @Builder.Default
     private UUID poiId = UUID.randomUUID();
 
     @NotNull

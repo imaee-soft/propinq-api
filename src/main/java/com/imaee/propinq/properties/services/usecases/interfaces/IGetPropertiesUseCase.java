@@ -1,14 +1,14 @@
 package com.imaee.propinq.properties.services.usecases.interfaces;
 
+import com.imaee.propinq.properties.controllers.requests.PropertyFilterRequest;
 import com.imaee.propinq.properties.controllers.responses.PropertyDetailsResponse;
 import com.imaee.propinq.properties.controllers.responses.PropertyResponse;
-import org.springframework.data.domain.Page;
-
+import com.imaee.propinq.properties.controllers.requests.AttributeFilterRequest;
 import java.util.List;
 import java.util.UUID;
 
 public interface  IGetPropertiesUseCase {
-    List<PropertyResponse> getProperties();
+    List<PropertyResponse> getProperties(PropertyFilterRequest filter);
     List<PropertyDetailsResponse> getBuildingProperties(UUID buildingId);
-    Page<PropertyDetailsResponse> getPropertiesDetails(int page, int size);
+    List<PropertyDetailsResponse> getBuildingProperties(UUID buildingId, AttributeFilterRequest attributes);
 }

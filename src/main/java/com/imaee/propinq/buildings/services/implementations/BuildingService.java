@@ -9,11 +9,12 @@ import com.imaee.propinq.buildings.services.usecases.interfaces.ICreateBuildingU
 import com.imaee.propinq.buildings.services.usecases.interfaces.IDeleteBuildingUseCase;
 import com.imaee.propinq.buildings.services.usecases.interfaces.IExistsApartmentNumberUseCase;
 import com.imaee.propinq.buildings.services.usecases.interfaces.IGetBuildingUseCase;
-import com.imaee.propinq.buildings.services.usecases.interfaces.IGetBuildingsNearPoiUseCase;
-import com.imaee.propinq.buildings.services.usecases.interfaces.IGetBuildingsNearUseCase;
 import com.imaee.propinq.buildings.services.usecases.interfaces.IGetBuildingsUseCase;
 import com.imaee.propinq.buildings.services.usecases.interfaces.IRestoreBuildingUseCase;
 import com.imaee.propinq.buildings.services.usecases.interfaces.IUpdateBuildingUseCase;
+import com.imaee.propinq.buildings.services.usecases.managers.interfaces.IBuildingFilterManager;
+import com.imaee.propinq.properties.controllers.requests.PropertyFilterRequest;
+import com.imaee.propinq.properties.controllers.requests.AttributeFilterRequest;
 import com.imaee.propinq.properties.controllers.responses.PropertyDetailsResponse;
 import com.imaee.propinq.properties.services.interfaces.IPropertyService;
 import lombok.AllArgsConstructor;
@@ -35,8 +36,7 @@ public class BuildingService implements IBuildingService {
     private final IDeleteBuildingUseCase deleteBuildingUseCase;
     private final IRestoreBuildingUseCase restoreBuildingUseCase;
     private final IPropertyService propertyService;
-    private final IGetBuildingsNearUseCase getBuildingsNearUseCase;
-    private final IGetBuildingsNearPoiUseCase getBuildingsNearPoiUseCase;
+    private final IBuildingFilterManager buildingFilterManager;
     private final IExistsApartmentNumberUseCase existsApartmentNumberUseCase;
 
     @Override
@@ -45,8 +45,16 @@ public class BuildingService implements IBuildingService {
     }
 
     @Override
-    public List<BuildingResponse> getBuildings() {
-        return getBuildingsUseCase.getBuildings();
+    public List<BuildingResponse> getBuildings(PropertyFilterRequest filter) {
+        boolean hasFilters = filter != null && (
+                (filter.getAttributes() != null) ||
+                (filter.getLocation() != null) ||
+                (filter.getPoi() != null)
+        );
+        if (!hasFilters) {
+            return getBuildingsUseCase.getBuildings();
+        }
+        return buildingFilterManager.applyFilters(filter);
     }
 
     @Override
@@ -75,23 +83,12 @@ public class BuildingService implements IBuildingService {
     }
 
     @Override
-    public List<PropertyDetailsResponse> getBuildingProperties(UUID buildingId) {
-        return propertyService.getBuildingProperties(buildingId);
+    public List<PropertyDetailsResponse> getBuildingProperties(UUID buildingId, AttributeFilterRequest attributes) {
+        return propertyService.getBuildingProperties(buildingId, attributes);
     }
 
     @Override
     public boolean hasApartment(UUID buildingId, String name) {
         return existsApartmentNumberUseCase.existsApartmentNumber(buildingId, name);
-    }
-
-    @Override
-    public List<BuildingResponse> getBuildingsNear(Double latitude, Double longitude, Double radiusKm) {
-        return getBuildingsNearUseCase.getBuildingsNear(latitude, longitude, radiusKm);
-    }
-
-    @Override
-    public List<BuildingResponse> getBuildingsNearPoi(String poiType, Double radiusKm, Double north, Double south,
-                                                      Double east, Double west, Integer limit) {
-        return getBuildingsNearPoiUseCase.getBuildingsNearPoi(poiType, radiusKm, north, south, east, west, limit);
     }
 }
