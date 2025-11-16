@@ -63,8 +63,8 @@ poi:
     enabled: ${POI_SCHEDULER_ENABLED:false}
     run-on-startup: ${POI_RUN_ON_STARTUP:false}
     cron: ${POI_SCHEDULER_CRON:0 30 3 * * *}
-    run-download: ${POI_RUN_DOWNLOAD:true}
-    run-extraction: ${POI_RUN_EXTRACTION:true}
+    run-download: ${POI_RUN_DOWNLOAD:false}
+    run-extraction: ${POI_RUN_EXTRACTION:false}
     region: ${POI_REGION:south-america/argentina-latest}
     throttle-days: ${OSM_DOWNLOAD_THROTTLE_DAYS:7}  # Only download if > 7 days old
     scripts-dir: ${POI_SCRIPTS_DIR:/app/scripts}
