@@ -41,7 +41,9 @@ public class PropertyMapper {
                 property.isFurnishing(),
                 property.isExpenses(),
                 property.getApartmentNumber(),
-                property.isDeleted()
+                property.isDeleted(),
+                property.getUser().getFullName(),
+                property.getUser().getUserId()
         );
     }
 

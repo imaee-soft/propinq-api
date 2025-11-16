@@ -18,5 +18,7 @@ public record PropertyDetailsResponse (
         boolean furnishing,
         boolean expenses,
         String apartmentNumber,
-        boolean deleted
-){}
+        boolean deleted,
+        String ownerFullName,
+        UUID ownerId
+) {}

@@ -11,34 +11,28 @@ spring:
       port: ${DEVTOOLS_LIVERELOAD_PORT:35729}
 
   jpa:
-    show-sql: ${JPA_SHOW_SQL:true}
+    show-sql: true
     hibernate:
-      ddl-auto: ${DDL_AUTO:update}
-    defer-datasource-initialization: ${JPA_DEFER_DATASOURCE_INITIALIZATION:true}
+      ddl-auto: update
+    defer-datasource-initialization: true
     properties:
       hibernate:
         format_sql: ${JPA_FORMAT_SQL:true}
-  sql:
-    init:
-      mode: ${SPRING_SQL_INIT_MODE:always}
-
-      data-locations: ${SPRING_SQL_INIT_DATA_LOCATIONS:classpath:/sql/01_users.sql,classpath:/sql/02_images.sql,classpath:/sql/03_provinces.sql,classpath:/sql/04_localities.sql,classpath:/sql/05_buildings.sql,classpath:/sql/06_buildings_images.sql,classpath:/sql/07_properties.sql,classpath:/sql/08_properties_images.sql,classpath:/sql/09_poi.sql}
 
   datasource:
-    url: jdbc:mysql://${MYSQL_HOST:localhost}:${MYSQL_PORT:3306}/${MYSQL_DATABASE:propinq}?createDatabaseIfNotExist=true
+    url: jdbc:mysql://localhost:${MYSQL_PORT:3306}/${MYSQL_DATABASE:propinq}?createDatabaseIfNotExist=true
     username: ${MYSQL_USERNAME:root}
     password: ${MYSQL_PASSWORD:password}
     driver-class-name: com.mysql.cj.jdbc.Driver
 
   data:
     mongodb:
-      uri: mongodb://${MONGO_USER}:${MONGO_PASSWORD}@localhost:${MONGO_PORT:27017}/${MONGO_DATABASE:propinq}?authSource=${MONGO_AUTH_SOURCE:admin}
-
+      uri: {MONGO_URL:mongodb://localhost:27017/megastore_logs}
   mail:
     host: ${MAIL_HOST:smtp.gmail.com}
     port: ${MAIL_PORT:587}
-    username: ${MAIL_USERNAME}
-    password: ${MAIL_PASSWORD}
+    username: ${MAIL_USERNAME:7up.megastore@gmail.com}
+    password: ${MAIL_PASSWORD:kemb pmbj helh ikvn}
     properties:
       mail:
         smtp:
@@ -54,15 +48,15 @@ logging:
     "[org.hibernate.type.descriptor.sql.BasicBinder]": ${LOG_HIBERNATE_BINDER_LEVEL:TRACE}
 
 cors:
-  allowed-origins: ${CORS_ALLOWED_ORIGINS:http://localhost:4200}
+  allowed-origins: ${CORS_ALLOWED_ORIGINS:*}
 
 frontend:
   url: ${FRONTEND_URL:http://localhost:4200}
 
 cloudinary:
-  cloud-name: ${CLOUD_NAME:}
-  api-key: ${CLOUD_API_KEY:}
-  api-secret: ${CLOUD_API_SECRET:}
+  cloud-name: ${CLOUDINARY_NAME:dlomx8sc1}
+  api-key: ${CLOUDINARY_API_KEY:363723365928819}
+  api-secret: ${CLOUDINARY_API_SECRET:z1aLT2IRKpN97R8vMYNZAvFYG68}
 
 poi:
   scheduler:
@@ -72,7 +66,7 @@ poi:
     run-download: ${POI_RUN_DOWNLOAD:true}
     run-extraction: ${POI_RUN_EXTRACTION:true}
     region: ${POI_REGION:south-america/argentina-latest}
-    throttle-days: ${OSM_DOWNLOAD_THROTTLE_DAYS:7}
+    throttle-days: ${OSM_DOWNLOAD_THROTTLE_DAYS:7}  # Only download if > 7 days old
     scripts-dir: ${POI_SCRIPTS_DIR:/app/scripts}
     data-dir: ${POI_DATA_DIR:/app/data}
     pbf-path: ${POI_PBF_PATH:/app/data/argentina-latest.osm.pbf}
@@ -89,20 +83,5 @@ springdoc:
 
 security:
   jwt:
-    key: ${SECURITY_JWT_KEY}
-    user: ${SECURITY_JWT_USER}
-
-# Ejemplo de estilo por entidad (ordenado por dependencias):
-# spring:
-#   sql:
-#     init:
-#       data-locations: 
-#         classpath:/sql/01_users.sql,
-#         classpath:/sql/02_property_types.sql,
-#         classpath:/sql/03_images.sql,
-#         classpath:/sql/04_provinces.sql,
-#         classpath:/sql/05_localities.sql,
-#         classpath:/sql/06_buildings.sql,
-#         classpath:/sql/07_buildings_images.sql,
-#         classpath:/sql/08_properties.sql,
-#         classpath:/sql/09_properties_images.sql
+    key: ${JWT_KEY:SgHeAYlgQ+JozW6vY7xxsPQXuvvqSDL+6PiBkpr1KvA=}
+    user: ${SECURITY_JWT_USER:hola}

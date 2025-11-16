@@ -11,8 +11,7 @@ public class PoiStartupImporter implements ApplicationRunner {
 
     private final PoiImportService importService;
 
-    @Value("${poi.startup.enabled:true}")
-    private boolean startupEnabled;
+    private boolean startupEnabled = false;
 
     // Scripts
     @Value("${poi.scheduler.run-download:true}")
