@@ -56,12 +56,12 @@ cors:
 
 poi:
   startup:
-    enabled: ${POI_STARTUP_ENABLED:true}  # Enable POI import in Docker
+    enabled: ${POI_STARTUP_ENABLED:false}  # Enable POI import in Docker
   scheduler:
-    enabled: ${POI_SCHEDULER_ENABLED:true}  # ENABLED by default in production
+    enabled: ${POI_SCHEDULER_ENABLED:false}  # ENABLED by default in production
     cron: ${POI_SCHEDULER_CRON:0 30 3 * * *}  # Daily at 3:30 AM
-    run-download: ${POI_RUN_DOWNLOAD:true}
-    run-extraction: ${POI_RUN_EXTRACTION:true}
+    run-download: ${POI_RUN_DOWNLOAD:false}
+    run-extraction: ${POI_RUN_EXTRACTION:false}
     region: ${POI_REGION:south-america/argentina-latest}
     throttle-days: ${OSM_DOWNLOAD_THROTTLE_DAYS:1}  # Only download if > 1 day old
     scripts-dir: ${POI_SCRIPTS_DIR:/app/scripts}  # Docker container path for scripts
