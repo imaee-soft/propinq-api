@@ -59,6 +59,10 @@ cloudinary:
   api-key: ${CLOUD_API_KEY:}
   api-secret: ${CLOUD_API_SECRET:}
 
+google:
+  recaptcha:
+    secret: ${GOOGLE_RECAPTCHA_SECRET:}
+
 poi:
   scheduler:
     enabled: ${POI_SCHEDULER_ENABLED:false}
