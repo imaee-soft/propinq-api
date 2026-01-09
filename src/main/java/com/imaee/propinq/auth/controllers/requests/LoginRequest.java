@@ -12,5 +12,7 @@ public record LoginRequest(
         String email,
 
         @NotBlank(message = "La contraseña no debe estar vacía")
-        String password
+        String password,
+
+        String recaptchaToken
 ) {}
