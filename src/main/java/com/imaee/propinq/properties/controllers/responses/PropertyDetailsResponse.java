@@ -18,5 +18,8 @@ public record PropertyDetailsResponse (
         boolean furnishing,
         boolean expenses,
         String apartmentNumber,
-        boolean deleted
+        boolean deleted,
+        Double latitude,
+        Double longitude
+
 ){}

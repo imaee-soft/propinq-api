@@ -12,6 +12,7 @@ import com.imaee.propinq.properties.services.usecases.interfaces.*;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.data.domain.Page;
 
 import java.util.List;
 import java.util.UUID;
@@ -37,6 +38,10 @@ public class PropertyService implements IPropertyService {
         return getPropertyUseCase.getPropertyDetails(propertyId);
     }
 
+    @Override
+    public Page<PropertyDetailsResponse> getPropertiesDetails(int page, int size) {
+        return getPropertiesUseCase.getPropertiesDetails(page, size);
+    }
     @Override
     public List<PropertyDetailsResponse> getBuildingProperties(UUID buildingId, AttributeFilterRequest attributes) {
         return getPropertiesUseCase.getBuildingProperties(buildingId, attributes);
