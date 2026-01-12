@@ -10,6 +10,7 @@ import com.imaee.propinq.properties.services.interfaces.IPropertyService;
 import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.data.domain.Page;
 
 import java.util.List;
 import java.util.UUID;
@@ -28,6 +29,11 @@ public class PropertyController implements IPropertyController {
     @Override
     public PropertyDetailsResponse getPropertyDetails(UUID propertyId) {
         return propertyService.getPropertyDetails(propertyId);
+    }
+
+    @Override
+    public Page<PropertyDetailsResponse> getPropertiesDetails(int page, int size) {
+        return propertyService.getPropertiesDetails(page, size);
     }
 
     @Override

@@ -34,7 +34,9 @@ public class BuildingMapper {
                 building.getUser().getUserId(),
                 building.getUser().getFullName(),
                 building.getBuildingType().name(),
-                building.isDeleted()
+                building.isDeleted(),
+                building.getLatitude(),
+                building.getLongitude()
         );
     }
 
