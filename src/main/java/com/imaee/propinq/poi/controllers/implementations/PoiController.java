@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @AllArgsConstructor
 public class PoiController implements IPoiController {
+
     private final IPoiService poiService;
 
     @Override

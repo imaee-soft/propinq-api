@@ -23,7 +23,8 @@ import org.springframework.web.server.ResponseStatusException;
 
 import com.auth0.jwt.interfaces.DecodedJWT;
 import com.auth0.jwt.exceptions.JWTVerificationException;
-
+import static com.imaee.propinq.users.data.enums.Role.ADMIN;
+import static java.util.UUID.fromString;
 
 @Service
 @AllArgsConstructor
@@ -32,7 +33,6 @@ public class AuthService implements IAuthService {
     private final IUserService userService;
     private final JwtUtils jwtUtils;
     private final AuthenticationManager authenticationManager;
-    private final IRecaptchaService recaptchaService;
 
 
     @Override

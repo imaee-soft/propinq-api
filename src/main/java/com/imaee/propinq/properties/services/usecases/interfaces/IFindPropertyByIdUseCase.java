@@ -6,5 +6,4 @@ import java.util.UUID;
 
 public interface IFindPropertyByIdUseCase {
     Property findProperty(UUID propertyId);
-
 }

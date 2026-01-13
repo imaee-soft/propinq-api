@@ -19,7 +19,10 @@ public record PropertyDetailsResponse (
         boolean expenses,
         String apartmentNumber,
         boolean deleted,
+        String ownerFullName,
+        UUID ownerId,
         Double latitude,
         Double longitude
 
 ){}
+

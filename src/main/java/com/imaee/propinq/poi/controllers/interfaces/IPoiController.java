@@ -20,6 +20,7 @@ import static org.springframework.http.HttpStatus.OK;
         description = "Operations for managing and querying Points of Interest."
 )
 public interface IPoiController {
+
     @GetMapping("/within")
     @ResponseStatus(OK)
     @Operation(
