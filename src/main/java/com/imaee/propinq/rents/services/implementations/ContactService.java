@@ -2,12 +2,12 @@ package com.imaee.propinq.rents.services.implementations;
 
 import com.imaee.propinq.rents.controllers.requests.AnswerContactRequest;
 import com.imaee.propinq.rents.controllers.requests.ContactRequest;
+import com.imaee.propinq.rents.controllers.responses.ContactDetailResponse;
 import com.imaee.propinq.rents.controllers.responses.ContactResponse;
 import com.imaee.propinq.rents.services.interfaces.IContactService;
-import com.imaee.propinq.rents.services.usecases.interfaces.IAnswerContactUseCase;
-import com.imaee.propinq.rents.services.usecases.interfaces.IGetContactUseCase;
-import com.imaee.propinq.rents.services.usecases.interfaces.ISaveContactUseCase;
+import com.imaee.propinq.rents.services.usecases.interfaces.*;
 import lombok.AllArgsConstructor;
+import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
 
 import java.util.UUID;
@@ -16,9 +16,16 @@ import java.util.UUID;
 @AllArgsConstructor
 public class ContactService implements IContactService {
 
+    private final IGetTenantContactsUseCase getTenantContactsUseCase;
     private final ISaveContactUseCase saveContactUseCase;
     private final IGetContactUseCase getContactUseCase;
     private final IAnswerContactUseCase answerContactUseCase;
+    private final IDeleteContactUseCase deleteContactUseCase;
+
+    @Override
+    public Page<ContactDetailResponse> getTenantContacts(Integer pageNumber, Integer pageSize) {
+        return getTenantContactsUseCase.getTenantContacts(pageNumber, pageSize);
+    }
 
     @Override
     public void saveContactRequest(ContactRequest contactRequest) {
@@ -33,5 +40,10 @@ public class ContactService implements IContactService {
     @Override
     public void answerContactRequest(UUID contactId, AnswerContactRequest answerContactRequest) {
         answerContactUseCase.answerContactRequest(contactId, answerContactRequest);
+    }
+
+    @Override
+    public void deleteContactRequest(UUID contactId) {
+        deleteContactUseCase.deleteContactRequest(contactId);
     }
 }
