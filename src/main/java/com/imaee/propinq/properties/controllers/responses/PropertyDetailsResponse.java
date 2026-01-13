@@ -20,5 +20,9 @@ public record PropertyDetailsResponse (
         String apartmentNumber,
         boolean deleted,
         String ownerFullName,
-        UUID ownerId
-) {}
+        UUID ownerId,
+        Double latitude,
+        Double longitude
+
+){}
+

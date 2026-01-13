@@ -12,5 +12,7 @@ public record BuildingDetailsResponse(
         UUID userId,
         String userFullName,
         String buildingTypeName,
-        boolean deleted
+        boolean deleted,
+        Double latitude,
+        Double longitude
 ) {}
