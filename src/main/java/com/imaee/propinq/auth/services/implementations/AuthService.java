@@ -33,7 +33,7 @@ public class AuthService implements IAuthService {
     private final IUserService userService;
     private final JwtUtils jwtUtils;
     private final AuthenticationManager authenticationManager;
-
+    private final IRecaptchaService recaptchaService;
 
     @Override
     public void signUp(SignUpRequest signUpRequest) {
