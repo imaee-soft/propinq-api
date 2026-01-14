@@ -17,6 +17,7 @@ import java.util.UUID;
 public class ContactService implements IContactService {
 
     private final IGetTenantContactsUseCase getTenantContactsUseCase;
+    private final IGetOwnerContactsUseCase getOwnerContactsUseCase;
     private final ISaveContactUseCase saveContactUseCase;
     private final IGetContactUseCase getContactUseCase;
     private final IAnswerContactUseCase answerContactUseCase;
@@ -25,6 +26,11 @@ public class ContactService implements IContactService {
     @Override
     public Page<ContactDetailResponse> getTenantContacts(Integer pageNumber, Integer pageSize) {
         return getTenantContactsUseCase.getTenantContacts(pageNumber, pageSize);
+    }
+
+    @Override
+    public Page<ContactDetailResponse> getOwnerContacts(Integer pageNumber, Integer pageSize) {
+        return getOwnerContactsUseCase.getOwnerContacts(pageNumber, pageSize);
     }
 
     @Override

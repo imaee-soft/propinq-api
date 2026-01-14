@@ -14,5 +14,6 @@ import java.util.UUID;
 public interface IContactRepository extends JpaRepository<Contact, UUID> {
     boolean existsByIssuerAndProperty(User issuer, Property property);
     Page<Contact> findAllByIssuer_Email(String issuerEmail, Pageable pageable);
+    Page<Contact> findAllByProperty_User_Email(String userEmail, Pageable pageable);
     boolean existsByContactIdAndIssuer_Email(UUID contactId, String issuerEmail);
 }
