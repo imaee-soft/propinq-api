@@ -23,8 +23,16 @@ public interface IContactController {
 
     @GetMapping("/tenant")
     @ResponseStatus(OK)
-    @Operation(summary = "Saves a new contact request for a property.")
+    @Operation(summary = "Retrieves all tenant's contact requests.")
     Page<ContactDetailResponse> getTenantContacts(
+            @RequestParam(defaultValue = "0", name = "page") Integer pageNumber,
+            @RequestParam(defaultValue = "8", name = "size") Integer pageSize
+    );
+
+    @GetMapping("/owner")
+    @ResponseStatus(OK)
+    @Operation(summary = "Retrieves all owner's contact requests.")
+    Page<ContactDetailResponse> getOwnerContacts(
             @RequestParam(defaultValue = "0", name = "page") Integer pageNumber,
             @RequestParam(defaultValue = "8", name = "size") Integer pageSize
     );
@@ -34,17 +42,17 @@ public interface IContactController {
     @Operation(summary = "Saves a new contact request for a property.")
     void saveContactRequest(@RequestBody @Valid ContactRequest contactRequest);
 
-    @GetMapping("/{contactId}")
+    @GetMapping("/{contactId:[0-9a-fA-F\\\\-]{36}}")
     @ResponseStatus(OK)
     @Operation(summary = "Retrieves an existing contact request by its ID.")
     ContactResponse getContactRequest(@PathVariable UUID contactId);
 
-    @PatchMapping("/{contactId}/answer")
+    @PatchMapping("/{contactId:[0-9a-fA-F\\\\-]{36}}/answer")
     @ResponseStatus(OK)
     @Operation(summary = "Answers a contact request. The owner can either accept it or reject it.")
     void answerContactRequest(@PathVariable UUID contactId, @RequestBody @Valid AnswerContactRequest answerContactRequest);
 
-    @DeleteMapping("/{contactId}")
+    @DeleteMapping("/{contactId:[0-9a-fA-F\\\\-]{36}}")
     @ResponseStatus(NO_CONTENT)
     @Operation(summary = "Deletes a contact request. That can be done only for issuers.")
     void deleteContactRequest(@PathVariable UUID contactId);
