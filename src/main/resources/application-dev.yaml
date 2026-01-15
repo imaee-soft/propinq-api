@@ -89,3 +89,7 @@ security:
   jwt:
     key: ${JWT_KEY:SgHeAYlgQ+JozW6vY7xxsPQXuvvqSDL+6PiBkpr1KvA=}
     user: ${SECURITY_JWT_USER:hola}
+
+metabase:
+  site-url: ${METABASE_SITE_URL:http://localhost:3000}
+  secret-key: ${METABASE_SECRET_KEY:dfa5cee57ced271e3892abf13c6ceed0c8b78702cb0a9cb9f130704a82516338}
