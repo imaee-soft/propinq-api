@@ -27,11 +27,20 @@ public class ContactMapper {
     }
 
     public static ContactDetailResponse buildContactDetailResponse(Contact contact) {
+        return buildContactDetailResponse(contact, false);
+    }
+
+    public static ContactDetailResponse buildContactDetailResponse(Contact contact, boolean showMessages) {
         return ContactDetailResponse.builder()
                 .contactId(contact.getContactId())
                 .propertyId(contact.getProperty().getPropertyId())
                 .contactDate(contact.getIssueDate())
                 .owner(contact.getProperty().getUser().getFullName())
+                .issuer(contact.getIssuer().getFullName())
+                .message(showMessages ? contact.getContactMessage() : null)
+                .answerDate(showMessages ? contact.getAnswerDate() : null)
+                .answer(showMessages ? contact.getContactAnswer() : null)
+                .ownerPhoneNumber(showMessages ? contact.getProperty().getUser().getPhoneNumber() : null)
                 .propertyAddress(contact.getProperty().getAddress())
                 .status(contact.getState().name())
                 .latitude(contact.getProperty().getLatitude())

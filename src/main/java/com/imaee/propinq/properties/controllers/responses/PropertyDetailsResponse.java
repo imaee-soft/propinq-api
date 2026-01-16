@@ -22,7 +22,7 @@ public record PropertyDetailsResponse (
         String ownerFullName,
         UUID ownerId,
         Double latitude,
-        Double longitude
-
+        Double longitude,
+        boolean isFavorite,
+        boolean isContacted
 ){}
-

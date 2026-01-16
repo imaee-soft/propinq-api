@@ -26,7 +26,6 @@ public class FavoriteService implements IFavoriteService {
     private final IPropertyRepository propertyRepository;
     private final IBuildingRepository buildingRepository;
 
-
     @Override
     public Favorite addFavorite(UUID userId, UUID propertyId, UUID buildingId) {
         User user = userRepository.findById(userId)
@@ -39,7 +38,7 @@ public class FavoriteService implements IFavoriteService {
         if (hasProperty) {
             Property property = propertyRepository.findById(propertyId)
                     .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Property not found"));
-            if (favoriteRepository.existsByUserIDAndPropertyID(user, property)) {
+            if (existsByUserAndProperty(user, property)) {
                 throw new ResponseStatusException(HttpStatus.CONFLICT, "Property already favorited");
             }
             Favorite fav = new Favorite();
@@ -92,4 +91,8 @@ public class FavoriteService implements IFavoriteService {
         favoriteRepository.deleteById(favoriteId);
     }
 
+    @Override
+    public boolean existsByUserAndProperty(User user, Property property) {
+        return favoriteRepository.existsByUserIDAndPropertyID(user, property);
+    }
 }

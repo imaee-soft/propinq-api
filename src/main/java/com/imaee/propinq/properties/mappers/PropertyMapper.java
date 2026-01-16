@@ -45,7 +45,9 @@ public class PropertyMapper {
                 property.getUser().getFullName(),
                 property.getUser().getUserId(),
                 property.getLatitude(),
-                property.getLongitude()
+                property.getLongitude(),
+                true,
+                true
         );
     }
 

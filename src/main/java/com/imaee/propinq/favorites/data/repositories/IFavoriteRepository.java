@@ -13,7 +13,6 @@ public interface IFavoriteRepository extends JpaRepository<Favorite, UUID>{
     List<Favorite> findByUserIDAndPropertyIDIsNotNull(User user);
     List<Favorite> findByUserIDAndBuildingIDIsNotNull(User user);
     List<Favorite> findByUserID(User user);
-
     boolean existsByUserIDAndPropertyID(User user, Property property);
     boolean existsByUserIDAndBuildingID(User user, Building building);
 }
