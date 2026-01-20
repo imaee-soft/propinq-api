@@ -47,6 +47,11 @@ public interface IContactController {
     @Operation(summary = "Retrieves an existing contact request by its ID.")
     ContactResponse getContactRequest(@PathVariable UUID contactId);
 
+    @GetMapping("/{contactId:[0-9a-fA-F\\\\-]{36}}/details")
+    @ResponseStatus(OK)
+    @Operation(summary = "Retrieves an existing contact details by its ID.")
+    ContactDetailResponse getContactDetails(@PathVariable UUID contactId);
+
     @PatchMapping("/{contactId:[0-9a-fA-F\\\\-]{36}}/answer")
     @ResponseStatus(OK)
     @Operation(summary = "Answers a contact request. The owner can either accept it or reject it.")

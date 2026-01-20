@@ -19,5 +19,6 @@ public record ContactDetailResponse(
         String propertyAddress,
         String status,
         Double latitude,
-        Double longitude
+        Double longitude,
+        boolean isOwnerRetrieving
 ) {}

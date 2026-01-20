@@ -39,6 +39,11 @@ public class ContactController implements IContactController {
     }
 
     @Override
+    public ContactDetailResponse getContactDetails(UUID contactId) {
+        return contactService.getContactDetails(contactId);
+    }
+
+    @Override
     public void answerContactRequest(UUID contactId, AnswerContactRequest answerContactRequest) {
         contactService.answerContactRequest(contactId, answerContactRequest);
     }

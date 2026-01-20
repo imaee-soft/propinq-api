@@ -27,10 +27,14 @@ public class ContactMapper {
     }
 
     public static ContactDetailResponse buildContactDetailResponse(Contact contact) {
-        return buildContactDetailResponse(contact, false);
+        return buildContactDetailResponse(contact, false, false);
     }
 
-    public static ContactDetailResponse buildContactDetailResponse(Contact contact, boolean showMessages) {
+    public static ContactDetailResponse buildContactDetailResponse(
+            Contact contact,
+            boolean showMessages,
+            boolean isOwnerRetrieving
+    ) {
         return ContactDetailResponse.builder()
                 .contactId(contact.getContactId())
                 .propertyId(contact.getProperty().getPropertyId())
@@ -45,6 +49,7 @@ public class ContactMapper {
                 .status(contact.getState().name())
                 .latitude(contact.getProperty().getLatitude())
                 .longitude(contact.getProperty().getLongitude())
+                .isOwnerRetrieving(isOwnerRetrieving)
                 .build();
     }
 }
