@@ -106,6 +106,10 @@ services:
       - app-network
     depends_on:
       - mysql-db
+    volumes:
+      - metabase-data:/metabase-data
+    environment:
+      MB_DB_FILE: /metabase-data/metabase.db
 
 volumes:
   mysql-data:
@@ -114,6 +118,8 @@ volumes:
   data-volume:
   out-volume:
   state-volume:
+  metabase-data:
+
 
 networks:
   app-network:

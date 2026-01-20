@@ -89,6 +89,9 @@ security:
     key: ${SECURITY_JWT_KEY}
     user: ${SECURITY_JWT_USER}
 
+metabase:
+  site-url: ${METABASE_SITE_URL:http://localhost:3000}
+  secret-key: ${METABASE_SECRET_KEY:491b968d9df38474b1165c234dcb992ca50000894f9a65ec6abb5b0e70bbc769}
 # Ejemplo por entidad (orden ordenado):
 # spring:
 #   sql:

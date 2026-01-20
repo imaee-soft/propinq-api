@@ -19,6 +19,8 @@ public class MetabaseEmbedService implements IMetabaseEmbedService {
 
     @Override
     public String getEmbedUrl(String type, Long resourceId, Map<String, Object> params) {
+        System.out.println("Embed: generando JWT :: type=" + type + " resourceId=" + resourceId + " params=" + params);
+
         Map<String, Object> resource = new HashMap<>();
         resource.put(type, resourceId); // type = "question" o "dashboard"
 
@@ -29,7 +31,8 @@ public class MetabaseEmbedService implements IMetabaseEmbedService {
                 .withClaim("params", params)
                 .withClaim("exp", expMillis / 1000) // en segundos UNIX
                 .sign(Algorithm.HMAC256(metabaseSecretKey));
-
+        System.out.println(token);
         return metabaseSiteUrl + "/embed/" + type + "/" + token + "#bordered=true&titled=true";
     }
+
 }

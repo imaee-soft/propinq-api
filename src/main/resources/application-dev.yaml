@@ -92,4 +92,4 @@ security:
 
 metabase:
   site-url: ${METABASE_SITE_URL:http://localhost:3000}
-  secret-key: ${METABASE_SECRET_KEY:dfa5cee57ced271e3892abf13c6ceed0c8b78702cb0a9cb9f130704a82516338}
+  secret-key: ${METABASE_SECRET_KEY:491b968d9df38474b1165c234dcb992ca50000894f9a65ec6abb5b0e70bbc769}
