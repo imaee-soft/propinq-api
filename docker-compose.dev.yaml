@@ -97,6 +97,20 @@ services:
     networks:
       - app-network
 
+  metabase:
+    image: metabase/metabase:latest
+    container_name: metabase
+    ports:
+      - "3000:3000"
+    networks:
+      - app-network
+    depends_on:
+      - mysql-db
+    volumes:
+      - metabase-data:/metabase-data
+    environment:
+      MB_DB_FILE: /metabase-data/metabase.db
+
 volumes:
   mysql-data:
   mongo-data:
@@ -104,7 +118,10 @@ volumes:
   data-volume:
   out-volume:
   state-volume:
+  metabase-data:
+
 
 networks:
   app-network:
     driver: bridge
+
