@@ -1,5 +1,7 @@
 package com.imaee.propinq.auth.services.implementations;
 
+import com.auth0.jwt.exceptions.JWTVerificationException;
+import com.auth0.jwt.interfaces.DecodedJWT;
 import com.imaee.propinq.auth.controllers.requests.CheckTokenRequest;
 import com.imaee.propinq.auth.controllers.requests.LoginRequest;
 import com.imaee.propinq.auth.controllers.requests.RefreshTokenRequest;
@@ -11,20 +13,14 @@ import com.imaee.propinq.auth.services.interfaces.IRecaptchaService;
 import com.imaee.propinq.config.utils.JwtUtils;
 import com.imaee.propinq.users.data.models.User;
 import com.imaee.propinq.users.services.interfaces.IUserService;
-
 import lombok.AllArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.stereotype.Service;
-import org.springframework.http.HttpStatus;
 import org.springframework.web.server.ResponseStatusException;
-
-import com.auth0.jwt.interfaces.DecodedJWT;
-import com.auth0.jwt.exceptions.JWTVerificationException;
-import static com.imaee.propinq.users.data.enums.Role.ADMIN;
-import static java.util.UUID.fromString;
 
 @Service
 @AllArgsConstructor
@@ -42,11 +38,11 @@ public class AuthService implements IAuthService {
 
     @Override
     public AuthResponse logIn(LoginRequest loginRequest) {
-        boolean isHuman = recaptchaService.validateToken(loginRequest.recaptchaToken());
-
-        if (!isHuman) {
-            throw new ResponseStatusException(HttpStatus.FORBIDDEN, "Verificación de seguridad fallida. Por favor recarga la página.");
-        }
+//        boolean isHuman = recaptchaService.validateToken(loginRequest.recaptchaToken());
+//
+//        if (!isHuman) {
+//            throw new ResponseStatusException(HttpStatus.FORBIDDEN, "Verificación de seguridad fallida. Por favor recarga la página.");
+//        }
 
         try {
             UsernamePasswordAuthenticationToken authToken = 

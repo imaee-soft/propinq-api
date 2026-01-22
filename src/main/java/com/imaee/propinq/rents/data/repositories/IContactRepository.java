@@ -8,6 +8,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
+import java.util.Optional;
 import java.util.UUID;
 
 @Repository
@@ -16,4 +17,5 @@ public interface IContactRepository extends JpaRepository<Contact, UUID> {
     Page<Contact> findAllByIssuer_Email(String issuerEmail, Pageable pageable);
     Page<Contact> findAllByProperty_User_Email(String userEmail, Pageable pageable);
     boolean existsByContactIdAndIssuer_Email(UUID contactId, String issuerEmail);
+    Optional<Contact> findByPropertyAndIssuer(Property property, User issuer);
 }

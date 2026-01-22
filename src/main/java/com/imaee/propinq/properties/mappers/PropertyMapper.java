@@ -24,7 +24,19 @@ public class PropertyMapper {
         );
     }
 
-    public static PropertyDetailsResponse toPropertyDetailsResponse(Property property, List<String> imagesURLS) {
+    public static PropertyDetailsResponse toPropertyDetailsResponse(
+            Property property,
+            List<String> imagesURLS
+    ) {
+        return toPropertyDetailsResponse(property, imagesURLS, false, null);
+    }
+
+    public static PropertyDetailsResponse toPropertyDetailsResponse(
+            Property property,
+            List<String> imagesURLS,
+            boolean isFavorite,
+            UUID contactId
+    ) {
         UUID buildingId = property.getBuilding() != null ? property.getBuilding().getBuildingId() : null;
         return new PropertyDetailsResponse(
                 property.getPropertyId(),
@@ -46,8 +58,8 @@ public class PropertyMapper {
                 property.getUser().getUserId(),
                 property.getLatitude(),
                 property.getLongitude(),
-                true,
-                true
+                isFavorite,
+                contactId
         );
     }
 

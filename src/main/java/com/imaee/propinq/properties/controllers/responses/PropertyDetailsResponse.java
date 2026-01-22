@@ -24,5 +24,5 @@ public record PropertyDetailsResponse (
         Double latitude,
         Double longitude,
         boolean isFavorite,
-        boolean isContacted
+        UUID contactId
 ){}
