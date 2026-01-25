@@ -15,7 +15,7 @@ public record UpdateBuildingRequest(
         String name,
 
         @NotBlank(message = "La descripción del edificio no debe estar vacía")
-        @Length(max = 125, message = "La descripción del edificio debe tener como máximo 125 caracteres")
+        @Length(max = 400, message = "La descripción del edificio debe tener como máximo 400 caracteres")
         String description,
 
         @NotBlank(message = "El tipo de edificio no debe estar vacío")

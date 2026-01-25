@@ -14,5 +14,6 @@ public record BuildingDetailsResponse(
         String buildingTypeName,
         boolean deleted,
         Double latitude,
-        Double longitude
+        Double longitude,
+        UUID favoriteId
 ) {}

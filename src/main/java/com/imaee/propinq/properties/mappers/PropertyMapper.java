@@ -28,13 +28,13 @@ public class PropertyMapper {
             Property property,
             List<String> imagesURLS
     ) {
-        return toPropertyDetailsResponse(property, imagesURLS, false, null);
+        return toPropertyDetailsResponse(property, imagesURLS, null, null);
     }
 
     public static PropertyDetailsResponse toPropertyDetailsResponse(
             Property property,
             List<String> imagesURLS,
-            boolean isFavorite,
+            UUID favoriteId,
             UUID contactId
     ) {
         UUID buildingId = property.getBuilding() != null ? property.getBuilding().getBuildingId() : null;
@@ -58,7 +58,7 @@ public class PropertyMapper {
                 property.getUser().getUserId(),
                 property.getLatitude(),
                 property.getLongitude(),
-                isFavorite,
+                favoriteId,
                 contactId
         );
     }

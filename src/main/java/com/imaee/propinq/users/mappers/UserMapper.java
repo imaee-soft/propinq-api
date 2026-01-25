@@ -12,7 +12,6 @@ public class UserMapper {
 
     public static User toUser(SignUpRequest createUserRequest, String encodedPassword) {
         return User.builder()
-                .dni(createUserRequest.dni())
                 .birthDate(LocalDate.parse(createUserRequest.birthDate()))
                 .password(encodedPassword)
                 .firstName(createUserRequest.firstName())
@@ -25,14 +24,12 @@ public class UserMapper {
 
     public static UserResponse toUserResponse(User user) {
         return UserResponse.builder()
-                .dni(user.getDni())
                 .birthDate(user.getBirthDate())
                 .firstName(user.getFirstName())
                 .lastName(user.getLastName())
                 .email(user.getEmail())
                 .address(user.getAddress())
                 .phoneNumber(user.getPhoneNumber())
-                .cuit(user.getCuit())
                 .build();
     }
 }

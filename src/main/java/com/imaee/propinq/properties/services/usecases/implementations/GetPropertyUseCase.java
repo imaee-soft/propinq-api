@@ -1,6 +1,7 @@
 package com.imaee.propinq.properties.services.usecases.implementations;
 
 import com.imaee.propinq.auth.services.interfaces.IAuthenticatedUserService;
+import com.imaee.propinq.favorites.data.models.Favorite;
 import com.imaee.propinq.favorites.data.repositories.IFavoriteRepository;
 import com.imaee.propinq.properties.controllers.responses.PropertyDetailsResponse;
 import com.imaee.propinq.properties.data.models.Property;
@@ -36,15 +37,16 @@ public class GetPropertyUseCase implements IGetPropertyUseCase {
         return toPropertyDetailsResponse(
                 property,
                 imagesURLS,
-                isFavorite(user, property),
+                getFavoriteId(user, property),
                 getContactId(user, property)
         );
     }
 
-    private boolean isFavorite(User user, Property property) {
+    private UUID getFavoriteId(User user, Property property) {
         return ofNullable(user)
-                .map(loggedUser -> favoriteRepository.existsByUserIDAndPropertyID(loggedUser, property))
-                .orElse(false);
+                .map(loggedUser -> favoriteRepository.findByUserIDAndPropertyID(loggedUser, property))
+                .map(Favorite::getFavoriteId)
+                .orElse(null);
     }
 
     private UUID getContactId(User user, Property property) {

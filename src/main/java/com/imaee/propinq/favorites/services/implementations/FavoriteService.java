@@ -1,5 +1,6 @@
 package com.imaee.propinq.favorites.services.implementations;
 
+import com.imaee.propinq.auth.services.interfaces.IAuthenticatedUserService;
 import com.imaee.propinq.buildings.data.models.Building;
 import com.imaee.propinq.buildings.data.repositories.IBuildingRepository;
 import com.imaee.propinq.favorites.data.models.Favorite;
@@ -10,6 +11,9 @@ import com.imaee.propinq.properties.data.repositories.IPropertyRepository;
 import com.imaee.propinq.users.data.models.User;
 import com.imaee.propinq.users.data.repositories.IUserRepository;
 import lombok.AllArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
@@ -21,6 +25,7 @@ import java.util.UUID;
 @AllArgsConstructor
 public class FavoriteService implements IFavoriteService {
 
+    private final IAuthenticatedUserService authenticatedUserService;
     private final IFavoriteRepository favoriteRepository;
     private final IUserRepository userRepository;
     private final IPropertyRepository propertyRepository;
@@ -61,26 +66,22 @@ public class FavoriteService implements IFavoriteService {
         }
     }
 
-
     @Override
-    public List<Favorite> getUserFavorites(UUID userId) {
-        User user = userRepository.findById(userId)
-                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND,"User not found"));
-        return favoriteRepository.findByUserID(user);
+    public Page<Favorite> getFavoriteBuildings(Integer pageNumber, Integer pageSize) {
+        final var loggedUser = authenticatedUserService.getLoggedUserOrThrowException();
+        return favoriteRepository.findByUserIDAndBuildingIDIsNotNull(
+                loggedUser,
+                PageRequest.of(pageNumber, pageSize)
+        );
     }
 
     @Override
-    public List<Favorite> getFavoritesByProperty(UUID userId) {
-        User user = userRepository.findById(userId)
-                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND,"User not found"));
-        return favoriteRepository.findByUserIDAndPropertyIDIsNotNull(user);
-    }
-
-    @Override
-    public List<Favorite> getFavoritesByBuilding(UUID userId) {
-        User user = userRepository.findById(userId)
-                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND,"User not found"));
-        return favoriteRepository.findByUserIDAndBuildingIDIsNotNull(user);
+    public Page<Favorite> getFavoriteProperties(Integer pageNumber, Integer pageSize) {
+        final var loggedUser = authenticatedUserService.getLoggedUserOrThrowException();
+        return favoriteRepository.findByUserIDAndPropertyIDIsNotNull(
+                loggedUser,
+                PageRequest.of(pageNumber, pageSize)
+        );
     }
 
     @Override

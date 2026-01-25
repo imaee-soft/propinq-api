@@ -7,8 +7,8 @@ import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import lombok.NonNull;
 
+import java.time.LocalDateTime;
 import java.util.UUID;
 
 @Entity
@@ -17,6 +17,7 @@ import java.util.UUID;
 @AllArgsConstructor
 @Data
 public class Favorite {
+
     @Id
     private final UUID favoriteId = java.util.UUID.randomUUID();
 
@@ -31,4 +32,6 @@ public class Favorite {
     @ManyToOne(optional = true)
     @JoinColumn(name = "builderId")
     private Building buildingID;
+
+    private LocalDateTime favoriteDate = LocalDateTime.now();
 }

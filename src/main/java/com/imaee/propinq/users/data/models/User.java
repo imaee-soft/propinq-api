@@ -32,10 +32,6 @@ public class User {
     private final UUID userId = UUID.randomUUID();
 
     @NotNull
-    @Column(unique = true)
-    private String dni;
-
-    @NotNull
     private String password;
 
     @NotNull
@@ -58,8 +54,6 @@ public class User {
     @Convert(converter = PhoneNumberConverter.class)
     private String phoneNumber;
  
-    private String cuit;
-
     @Enumerated(EnumType.STRING)
     @Builder.Default
     private Role role = Role.TENANT;

@@ -26,7 +26,7 @@ public interface IContactController {
     @Operation(summary = "Retrieves all tenant's contact requests.")
     Page<ContactDetailResponse> getTenantContacts(
             @RequestParam(defaultValue = "0", name = "page") Integer pageNumber,
-            @RequestParam(defaultValue = "8", name = "size") Integer pageSize
+            @RequestParam(defaultValue = "6", name = "size") Integer pageSize
     );
 
     @GetMapping("/owner")
@@ -34,7 +34,7 @@ public interface IContactController {
     @Operation(summary = "Retrieves all owner's contact requests.")
     Page<ContactDetailResponse> getOwnerContacts(
             @RequestParam(defaultValue = "0", name = "page") Integer pageNumber,
-            @RequestParam(defaultValue = "8", name = "size") Integer pageSize
+            @RequestParam(defaultValue = "6", name = "size") Integer pageSize
     );
 
     @PostMapping

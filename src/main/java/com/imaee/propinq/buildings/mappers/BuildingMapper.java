@@ -9,6 +9,7 @@ import com.imaee.propinq.shared.data.models.Image;
 import com.imaee.propinq.users.data.models.User;
 
 import java.util.List;
+import java.util.UUID;
 
 import static com.imaee.propinq.buildings.data.enums.BuildingType.valueOf;
 
@@ -24,7 +25,18 @@ public class BuildingMapper {
         );
     }
 
-    public static BuildingDetailsResponse toBuildingDetailsResponse(Building building, List<String> imagesURLS) {
+    public static BuildingDetailsResponse toBuildingDetailsResponse(
+            Building building,
+            List<String> imagesURLS
+    ) {
+        return toBuildingDetailsResponse(building, imagesURLS, null);
+    }
+
+    public static BuildingDetailsResponse toBuildingDetailsResponse(
+            Building building,
+            List<String> imagesURLS,
+            UUID favoriteId
+    ) {
         return new BuildingDetailsResponse(
                 building.getBuildingId().toString(),
                 building.getName(),
@@ -36,7 +48,8 @@ public class BuildingMapper {
                 building.getBuildingType().name(),
                 building.isDeleted(),
                 building.getLatitude(),
-                building.getLongitude()
+                building.getLongitude(),
+                favoriteId
         );
     }
 

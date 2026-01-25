@@ -24,13 +24,7 @@ public class UpdateUserUseCase implements IUpdateUserUseCase {
     @Override
     public void updateUser(UUID userId, UpdateUserRequest updateUserRequest) {
         final var user = findUserUseCase.findUserById(userId);
-        throwExceptionIfUserExistsByDni(user.getDni(), updateUserRequest.dni());
         updateUser(user, updateUserRequest);
-    }
-
-    private void throwExceptionIfUserExistsByDni(String currentDni, String newDni) {
-        if (!currentDni.equals(newDni) && userRepository.existsByDni(newDni))
-            throw new ResponseStatusException(BAD_REQUEST, EXISTENT_DNI);
     }
 
     private void updateUser(User user, UpdateUserRequest updateUserRequest) {
@@ -39,7 +33,6 @@ public class UpdateUserUseCase implements IUpdateUserUseCase {
     }
 
     private void updateUserInfo(User user, UpdateUserRequest updateUserRequest) {
-        user.setDni(updateUserRequest.dni());
         user.setFirstName(updateUserRequest.firstName());
         user.setLastName(updateUserRequest.lastName());
         user.setAddress(updateUserRequest.address());

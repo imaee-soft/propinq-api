@@ -23,6 +23,6 @@ public record PropertyDetailsResponse (
         UUID ownerId,
         Double latitude,
         Double longitude,
-        boolean isFavorite,
+        UUID favoriteId,
         UUID contactId
-){}
+) {}
