@@ -59,7 +59,8 @@ public class PropertyMapper {
                 property.getLatitude(),
                 property.getLongitude(),
                 favoriteId,
-                contactId
+                contactId,
+                property.getCreatedAt()
         );
     }
 
@@ -70,6 +71,7 @@ public class PropertyMapper {
         apartment.setUser(building.getUser());
         apartment.setTitle(buildApartmentName(request.number(), request.floor()));
         apartment.setApartmentNumber(request.number());
+        apartment.setAddress(building.getAddress());
         return apartment;
     }
 
@@ -84,6 +86,7 @@ public class PropertyMapper {
         house.setTitle(buildHouseName(request.address()));
         house.setLatitude(request.latitude());
         house.setLongitude(request.longitude());
+        house.setAddress(request.address());
         return house;
     }
 

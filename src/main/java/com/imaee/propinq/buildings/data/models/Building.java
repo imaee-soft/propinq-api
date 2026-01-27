@@ -12,12 +12,14 @@ import jakarta.persistence.Id;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import lombok.NonNull;
 import lombok.experimental.SuperBuilder;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
@@ -64,6 +66,9 @@ public class Building extends Locatable {
 
     @Enumerated(STRING)
     private BuildingType buildingType = EDIFICIO;
+
+    @Builder.Default
+    private LocalDateTime createdAt = LocalDateTime.now();
 
     private boolean deleted = false;
 }

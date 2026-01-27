@@ -17,6 +17,7 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
@@ -81,4 +82,7 @@ public class Property extends Locatable {
 
     @NotNull
     private boolean deleted = false;
+
+    @Builder.Default
+    private LocalDateTime createdAt = LocalDateTime.now();
 }

@@ -49,7 +49,8 @@ public class BuildingMapper {
                 building.isDeleted(),
                 building.getLatitude(),
                 building.getLongitude(),
-                favoriteId
+                favoriteId,
+                building.getCreatedAt()
         );
     }
 
