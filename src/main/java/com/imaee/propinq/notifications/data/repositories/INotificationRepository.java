@@ -9,6 +9,6 @@ import java.util.UUID;
 
 @Repository
 public interface INotificationRepository extends JpaRepository<Notification, UUID> {
-    List<Notification> findByNotifiedUserId(UUID notifiedUserId);
+    List<Notification> findByNotifiedUserIdAndSeenFalse(UUID notifiedUserId);
     void deleteByContact_ContactId(UUID contactContactId);
 }

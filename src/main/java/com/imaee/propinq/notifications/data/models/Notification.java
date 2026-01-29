@@ -42,6 +42,7 @@ public class Notification {
 
     private String title;
     private String description;
+    private String url;
 
     @Builder.Default
     private boolean seen = false;

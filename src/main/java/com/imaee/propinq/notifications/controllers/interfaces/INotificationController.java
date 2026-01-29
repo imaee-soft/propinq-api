@@ -4,6 +4,7 @@ import com.imaee.propinq.notifications.controllers.packages.NotificationResponse
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
@@ -24,4 +25,9 @@ public interface INotificationController {
     @ResponseStatus(OK)
     @Operation(summary = "Retrieves the specified user notifications.")
     List<NotificationResponse> getUserNotifications(@PathVariable UUID userId);
+
+    @PatchMapping("/{notificationId}")
+    @ResponseStatus(OK)
+    @Operation(summary = "Marks the notification as seen")
+    void markAsSeen(@PathVariable UUID notificationId);
 }

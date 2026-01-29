@@ -8,5 +8,6 @@ import java.util.UUID;
 
 public interface INotificationService {
     void saveNotification(Notification notification);
+    void markAsSeen(UUID notificationId);
     List<NotificationResponse> getUserNotifications(UUID userId);
 }

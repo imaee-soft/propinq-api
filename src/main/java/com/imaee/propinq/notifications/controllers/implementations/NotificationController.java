@@ -19,4 +19,9 @@ public class NotificationController implements INotificationController {
     public List<NotificationResponse> getUserNotifications(UUID userId) {
         return notificationService.getUserNotifications(userId);
     }
+
+    @Override
+    public void markAsSeen(UUID notificationId) {
+        notificationService.markAsSeen(notificationId);
+    }
 }
