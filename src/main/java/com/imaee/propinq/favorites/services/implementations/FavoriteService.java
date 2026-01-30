@@ -13,12 +13,11 @@ import com.imaee.propinq.users.data.repositories.IUserRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
-import java.util.List;
+import java.time.LocalDateTime;
 import java.util.UUID;
 
 @Service
@@ -50,6 +49,7 @@ public class FavoriteService implements IFavoriteService {
             fav.setUserID(user);
             fav.setPropertyID(property);
             fav.setBuildingID(null);
+            fav.setFavoriteDate(LocalDateTime.now());
             return favoriteRepository.save(fav);
         } else {
             Building building = buildingRepository.findById(buildingId)
@@ -62,6 +62,7 @@ public class FavoriteService implements IFavoriteService {
             fav.setUserID(user);
             fav.setBuildingID(building);
             fav.setPropertyID(null);
+            fav.setFavoriteDate(LocalDateTime.now());
             return favoriteRepository.save(fav);
         }
     }

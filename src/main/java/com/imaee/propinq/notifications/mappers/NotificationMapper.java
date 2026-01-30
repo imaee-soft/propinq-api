@@ -13,9 +13,10 @@ public class NotificationMapper {
             User notified,
             NotificationType notificationType,
             String title,
-            String description
+            String description,
+            String url
     ) {
-        return buildNotification(notifier, notified, null, notificationType, title, description);
+        return buildNotification(notifier, notified, null, notificationType, title, description, url);
     }
 
     public static Notification buildNotification(
@@ -24,7 +25,8 @@ public class NotificationMapper {
             Contact contact,
             NotificationType notificationType,
             String title,
-            String description
+            String description,
+            String url
     ) {
         return Notification.builder()
                 .notifier(notifier)
@@ -33,6 +35,7 @@ public class NotificationMapper {
                 .notificationType(notificationType)
                 .title(title)
                 .description(description)
+                .url(url)
                 .build();
     }
 
@@ -46,6 +49,8 @@ public class NotificationMapper {
                 .notifierFullName(notification.getNotifier().getFullName())
                 .notifierUserId(notification.getNotifier().getUserId())
                 .contactId(notification.getContact() != null ? notification.getContact().getContactId() : null)
+                .createdAt(notification.getCreatedAt())
+                .url(notification.getUrl())
                 .build();
     }
 }

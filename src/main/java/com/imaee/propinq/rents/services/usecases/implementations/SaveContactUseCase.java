@@ -49,6 +49,7 @@ public class SaveContactUseCase implements ISaveContactUseCase {
     }
 
     private void notifyOwner(User user, Property property, Contact contact) {
+        final var contactUrl = "/contact-details/" + contact.getContactId();
         notificationService.saveNotification(
                 buildNotification(
                         user,
@@ -56,7 +57,8 @@ public class SaveContactUseCase implements ISaveContactUseCase {
                         contact,
                         NEW_CONTACT_REQUEST,
                         NEW_CONTACT_NOTIFICATION_TITLE,
-                        property.getAddress()
+                        property.getAddress(),
+                        contactUrl
                 )
         );
     }
