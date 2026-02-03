@@ -48,6 +48,7 @@ public class AnswerContactUseCase implements IAnswerContactUseCase {
     }
 
     private void notifyContactIssuer(Contact contact, User subject) {
+        final var contactUrl = "/contact-details/" + contact.getContactId();
         notificationService.saveNotification(
                 buildNotification(
                         subject,
@@ -55,7 +56,8 @@ public class AnswerContactUseCase implements IAnswerContactUseCase {
                         contact,
                         contact.isAccepted() ? CONTACT_ACCEPTED : CONTACT_REJECTED,
                         contact.isAccepted() ? ACCEPT_CONTACT_NOTIFICATION_TITLE : REJECT_CONTACT_NOTIFICATION_TITLE,
-                        contact.getContactAnswer()
+                        contact.getContactAnswer(),
+                        contactUrl
                 )
         );
     }

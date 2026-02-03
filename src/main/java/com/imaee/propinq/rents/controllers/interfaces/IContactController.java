@@ -26,7 +26,7 @@ public interface IContactController {
     @Operation(summary = "Retrieves all tenant's contact requests.")
     Page<ContactDetailResponse> getTenantContacts(
             @RequestParam(defaultValue = "0", name = "page") Integer pageNumber,
-            @RequestParam(defaultValue = "8", name = "size") Integer pageSize
+            @RequestParam(defaultValue = "6", name = "size") Integer pageSize
     );
 
     @GetMapping("/owner")
@@ -34,7 +34,8 @@ public interface IContactController {
     @Operation(summary = "Retrieves all owner's contact requests.")
     Page<ContactDetailResponse> getOwnerContacts(
             @RequestParam(defaultValue = "0", name = "page") Integer pageNumber,
-            @RequestParam(defaultValue = "8", name = "size") Integer pageSize
+            @RequestParam(defaultValue = "6", name = "size") Integer pageSize,
+            @RequestParam(defaultValue = "all", name = "status") String status
     );
 
     @PostMapping
@@ -46,6 +47,11 @@ public interface IContactController {
     @ResponseStatus(OK)
     @Operation(summary = "Retrieves an existing contact request by its ID.")
     ContactResponse getContactRequest(@PathVariable UUID contactId);
+
+    @GetMapping("/{contactId:[0-9a-fA-F\\\\-]{36}}/details")
+    @ResponseStatus(OK)
+    @Operation(summary = "Retrieves an existing contact details by its ID.")
+    ContactDetailResponse getContactDetails(@PathVariable UUID contactId);
 
     @PatchMapping("/{contactId:[0-9a-fA-F\\\\-]{36}}/answer")
     @ResponseStatus(OK)

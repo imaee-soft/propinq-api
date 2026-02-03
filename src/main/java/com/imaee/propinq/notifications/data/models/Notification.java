@@ -13,6 +13,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDateTime;
 import java.util.UUID;
 
 import static jakarta.persistence.EnumType.STRING;
@@ -42,7 +43,11 @@ public class Notification {
 
     private String title;
     private String description;
+    private String url;
 
     @Builder.Default
     private boolean seen = false;
+
+    @Builder.Default
+    private LocalDateTime createdAt = LocalDateTime.now();
 }

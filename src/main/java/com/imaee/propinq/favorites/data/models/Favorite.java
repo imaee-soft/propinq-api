@@ -5,18 +5,21 @@ import com.imaee.propinq.properties.data.models.Property;
 import com.imaee.propinq.users.data.models.User;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import lombok.NonNull;
 
+import java.time.LocalDateTime;
 import java.util.UUID;
 
 @Entity
 @Table(name = "favorites")
 @NoArgsConstructor
 @AllArgsConstructor
+@Builder
 @Data
 public class Favorite {
+
     @Id
     private final UUID favoriteId = java.util.UUID.randomUUID();
 
@@ -31,4 +34,7 @@ public class Favorite {
     @ManyToOne(optional = true)
     @JoinColumn(name = "builderId")
     private Building buildingID;
+
+    @Builder.Default
+    private LocalDateTime favoriteDate = LocalDateTime.now();
 }

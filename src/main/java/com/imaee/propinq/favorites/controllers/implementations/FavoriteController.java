@@ -2,12 +2,14 @@ package com.imaee.propinq.favorites.controllers.implementations;
 
 import com.imaee.propinq.favorites.controllers.interfaces.IFavoriteController;
 import com.imaee.propinq.favorites.controllers.requests.FavoriteRequest;
+import com.imaee.propinq.favorites.controllers.responses.FavoriteEntity;
 import com.imaee.propinq.favorites.controllers.responses.FavoriteResponse;
 import com.imaee.propinq.favorites.data.models.Favorite;
 import com.imaee.propinq.favorites.mappers.FavoriteMapper;
 import com.imaee.propinq.favorites.services.interfaces.IFavoriteService;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -17,30 +19,26 @@ import java.util.UUID;
 @RestController
 @RequiredArgsConstructor
 public class FavoriteController implements IFavoriteController {
+
     private final IFavoriteService favoriteService;
     private final FavoriteMapper favoriteMapper;
 
     @Override
-    public void addFavorite(FavoriteRequest request) {
-        favoriteService.addFavorite(request.userID(), request.propertyID(), request.buildingID());
+    public FavoriteResponse addFavorite(FavoriteRequest request) {
+        final var favorite = favoriteService.addFavorite(request.userID(), request.propertyID(), request.buildingID());
+        return favoriteMapper.toResponse(favorite);
     }
 
     @Override
-    public List<FavoriteResponse> getUserFavorites(UUID userID) {
-        List<Favorite> favorites = favoriteService.getUserFavorites(userID);
-        return favoriteMapper.toResponseList(favorites);
+    public Page<FavoriteEntity> getFavoriteBuildings(Integer pageNumber, Integer pageSize) {
+        final var favoritesPage = favoriteService.getFavoriteBuildings(pageNumber, pageSize);
+        return favoritesPage.map(favoriteMapper::toBuilding);
     }
 
     @Override
-    public List<FavoriteResponse> getFavoritesByProperty(UUID userID) {
-        List<Favorite> favorites = favoriteService.getFavoritesByProperty(userID);
-        return favoriteMapper.toResponseList(favorites);
-    }
-
-    @Override
-    public List<FavoriteResponse> getFavoritesByBuilding(UUID userID) {
-        List<Favorite> favorites = favoriteService.getFavoritesByBuilding(userID);
-        return favoriteMapper.toResponseList(favorites);
+    public Page<FavoriteEntity> getFavoriteProperties(Integer pageNumber, Integer pageSize) {
+        final var favoritesPage = favoriteService.getFavoriteProperties(pageNumber, pageSize);
+        return favoritesPage.map(favoriteMapper::toProperty);
     }
 
     @Override
@@ -48,6 +46,4 @@ public class FavoriteController implements IFavoriteController {
         favoriteService.removeFavorite(favoriteID);
         return ResponseEntity.noContent().build();
     }
-
-
 }

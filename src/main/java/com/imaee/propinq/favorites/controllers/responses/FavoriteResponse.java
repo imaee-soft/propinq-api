@@ -8,5 +8,4 @@ public record FavoriteResponse(
         UUID userID,
         UUID propertyID,
         UUID buildingID
-
 ) {}

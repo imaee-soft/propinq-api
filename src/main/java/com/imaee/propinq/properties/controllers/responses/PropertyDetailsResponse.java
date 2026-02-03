@@ -1,5 +1,6 @@
 package com.imaee.propinq.properties.controllers.responses;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.UUID;
 
@@ -22,7 +23,9 @@ public record PropertyDetailsResponse (
         String ownerFullName,
         UUID ownerId,
         Double latitude,
-        Double longitude
-
-){}
-
+        Double longitude,
+        UUID favoriteId,
+        UUID contactId,
+        LocalDateTime createdAt,
+        String buildingName
+) {}

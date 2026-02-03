@@ -2,6 +2,7 @@ package com.imaee.propinq.notifications.controllers.packages;
 
 import lombok.Builder;
 
+import java.time.LocalDateTime;
 import java.util.UUID;
 
 @Builder
@@ -13,5 +14,7 @@ public record NotificationResponse(
         boolean seen,
         String notifierFullName,
         UUID notifierUserId,
-        UUID contactId
+        UUID contactId,
+        LocalDateTime createdAt,
+        String url
 ) {}

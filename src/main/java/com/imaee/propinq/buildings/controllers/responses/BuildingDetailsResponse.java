@@ -1,5 +1,6 @@
 package com.imaee.propinq.buildings.controllers.responses;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.UUID;
 
@@ -14,5 +15,7 @@ public record BuildingDetailsResponse(
         String buildingTypeName,
         boolean deleted,
         Double latitude,
-        Double longitude
+        Double longitude,
+        UUID favoriteId,
+        LocalDateTime createdAt
 ) {}

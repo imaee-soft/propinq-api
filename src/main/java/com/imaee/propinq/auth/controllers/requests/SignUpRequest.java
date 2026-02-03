@@ -10,10 +10,6 @@ import static com.imaee.propinq.shared.Patterns.EMAIL_PATTERN;
 
 public record SignUpRequest(
 
-        @NotNull(message = "El DNI del usuario no debe ser nulo")
-        @Size(max = 8, message = "El DNI del usuario debe tener entre 0 y 8 caracteres")
-        String dni,
-
         @NotNull(message = "La fecha de nacimiento del usuario no debe ser nula")
         @Size(min = 10, max = 10, message = "La fecha de nacimiento del usuario debe tener el formato AAAA-MM-DD")
         String birthDate,

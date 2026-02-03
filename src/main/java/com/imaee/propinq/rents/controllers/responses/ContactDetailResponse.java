@@ -10,9 +10,15 @@ public record ContactDetailResponse(
         UUID contactId,
         UUID propertyId,
         LocalDateTime contactDate,
+        String message,
+        LocalDateTime answerDate,
+        String answer,
         String owner,
+        String ownerPhoneNumber,
+        String issuer,
         String propertyAddress,
         String status,
         Double latitude,
-        Double longitude
+        Double longitude,
+        boolean isOwnerRetrieving
 ) {}

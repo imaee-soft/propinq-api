@@ -24,8 +24,21 @@ public class PropertyMapper {
         );
     }
 
-    public static PropertyDetailsResponse toPropertyDetailsResponse(Property property, List<String> imagesURLS) {
-        UUID buildingId = property.getBuilding() != null ? property.getBuilding().getBuildingId() : null;
+    public static PropertyDetailsResponse toPropertyDetailsResponse(
+            Property property,
+            List<String> imagesURLS
+    ) {
+        return toPropertyDetailsResponse(property, imagesURLS, null, null);
+    }
+
+    public static PropertyDetailsResponse toPropertyDetailsResponse(
+            Property property,
+            List<String> imagesURLS,
+            UUID favoriteId,
+            UUID contactId
+    ) {
+        final var buildingId = property.getBuilding() != null ? property.getBuilding().getBuildingId() : null;
+        final var buildingName =  property.getBuilding() != null ? property.getBuilding().getName() : null;
         return new PropertyDetailsResponse(
                 property.getPropertyId(),
                 property.getAddress(),
@@ -45,7 +58,11 @@ public class PropertyMapper {
                 property.getUser().getFullName(),
                 property.getUser().getUserId(),
                 property.getLatitude(),
-                property.getLongitude()
+                property.getLongitude(),
+                favoriteId,
+                contactId,
+                property.getCreatedAt(),
+                buildingName
         );
     }
 
@@ -56,6 +73,7 @@ public class PropertyMapper {
         apartment.setUser(building.getUser());
         apartment.setTitle(buildApartmentName(request.number(), request.floor()));
         apartment.setApartmentNumber(request.number());
+        apartment.setAddress(building.getAddress());
         return apartment;
     }
 
@@ -70,6 +88,7 @@ public class PropertyMapper {
         house.setTitle(buildHouseName(request.address()));
         house.setLatitude(request.latitude());
         house.setLongitude(request.longitude());
+        house.setAddress(request.address());
         return house;
     }
 

@@ -20,6 +20,7 @@ public class ContactService implements IContactService {
     private final IGetOwnerContactsUseCase getOwnerContactsUseCase;
     private final ISaveContactUseCase saveContactUseCase;
     private final IGetContactUseCase getContactUseCase;
+    private final IGetContactDetailsUseCase getContactDetailsUseCase;
     private final IAnswerContactUseCase answerContactUseCase;
     private final IDeleteContactUseCase deleteContactUseCase;
 
@@ -29,8 +30,8 @@ public class ContactService implements IContactService {
     }
 
     @Override
-    public Page<ContactDetailResponse> getOwnerContacts(Integer pageNumber, Integer pageSize) {
-        return getOwnerContactsUseCase.getOwnerContacts(pageNumber, pageSize);
+    public Page<ContactDetailResponse> getOwnerContacts(Integer pageNumber, Integer pageSize, String status) {
+        return getOwnerContactsUseCase.getOwnerContacts(pageNumber, pageSize, status);
     }
 
     @Override
@@ -41,6 +42,11 @@ public class ContactService implements IContactService {
     @Override
     public ContactResponse getContactRequest(UUID contactId) {
         return getContactUseCase.getContactRequest(contactId);
+    }
+
+    @Override
+    public ContactDetailResponse getContactDetails(UUID contactId) {
+        return getContactDetailsUseCase.getContactDetails(contactId);
     }
 
     @Override
