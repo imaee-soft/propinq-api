@@ -37,7 +37,8 @@ public class PropertyMapper {
             UUID favoriteId,
             UUID contactId
     ) {
-        UUID buildingId = property.getBuilding() != null ? property.getBuilding().getBuildingId() : null;
+        final var buildingId = property.getBuilding() != null ? property.getBuilding().getBuildingId() : null;
+        final var buildingName =  property.getBuilding() != null ? property.getBuilding().getName() : null;
         return new PropertyDetailsResponse(
                 property.getPropertyId(),
                 property.getAddress(),
@@ -60,7 +61,8 @@ public class PropertyMapper {
                 property.getLongitude(),
                 favoriteId,
                 contactId,
-                property.getCreatedAt()
+                property.getCreatedAt(),
+                buildingName
         );
     }
 

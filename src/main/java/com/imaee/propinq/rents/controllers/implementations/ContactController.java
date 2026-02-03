@@ -24,8 +24,8 @@ public class ContactController implements IContactController {
     }
 
     @Override
-    public Page<ContactDetailResponse> getOwnerContacts(Integer pageNumber, Integer pageSize) {
-        return contactService.getOwnerContacts(pageNumber, pageSize);
+    public Page<ContactDetailResponse> getOwnerContacts(Integer pageNumber, Integer pageSize, String status) {
+        return contactService.getOwnerContacts(pageNumber, pageSize, status);
     }
 
     @Override

@@ -34,7 +34,8 @@ public interface IContactController {
     @Operation(summary = "Retrieves all owner's contact requests.")
     Page<ContactDetailResponse> getOwnerContacts(
             @RequestParam(defaultValue = "0", name = "page") Integer pageNumber,
-            @RequestParam(defaultValue = "6", name = "size") Integer pageSize
+            @RequestParam(defaultValue = "6", name = "size") Integer pageSize,
+            @RequestParam(defaultValue = "all", name = "status") String status
     );
 
     @PostMapping

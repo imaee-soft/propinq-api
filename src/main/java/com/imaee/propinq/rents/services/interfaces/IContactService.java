@@ -10,7 +10,7 @@ import java.util.UUID;
 
 public interface IContactService {
     Page<ContactDetailResponse> getTenantContacts(Integer pageNumber, Integer pageSize);
-    Page<ContactDetailResponse> getOwnerContacts(Integer pageNumber, Integer pageSize);
+    Page<ContactDetailResponse> getOwnerContacts(Integer pageNumber, Integer pageSize, String status);
     void saveContactRequest(ContactRequest contactRequest);
     ContactResponse getContactRequest(UUID contactId);
     ContactDetailResponse getContactDetails(UUID contactId);

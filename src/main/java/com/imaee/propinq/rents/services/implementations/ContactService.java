@@ -30,8 +30,8 @@ public class ContactService implements IContactService {
     }
 
     @Override
-    public Page<ContactDetailResponse> getOwnerContacts(Integer pageNumber, Integer pageSize) {
-        return getOwnerContactsUseCase.getOwnerContacts(pageNumber, pageSize);
+    public Page<ContactDetailResponse> getOwnerContacts(Integer pageNumber, Integer pageSize, String status) {
+        return getOwnerContactsUseCase.getOwnerContacts(pageNumber, pageSize, status);
     }
 
     @Override

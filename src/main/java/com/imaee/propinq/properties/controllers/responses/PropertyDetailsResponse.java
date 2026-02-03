@@ -26,5 +26,6 @@ public record PropertyDetailsResponse (
         Double longitude,
         UUID favoriteId,
         UUID contactId,
-        LocalDateTime createdAt
+        LocalDateTime createdAt,
+        String buildingName
 ) {}

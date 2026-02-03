@@ -45,7 +45,7 @@ public class ContactMapper {
                 .answerDate(showMessages ? contact.getAnswerDate() : null)
                 .answer(showMessages ? contact.getContactAnswer() : null)
                 .ownerPhoneNumber(showMessages ? contact.getProperty().getUser().getPhoneNumber() : null)
-                .propertyAddress(contact.getProperty().getAddress())
+                .propertyAddress(contact.getProperty().getTitle())
                 .status(contact.getState().name())
                 .latitude(contact.getProperty().getLatitude())
                 .longitude(contact.getProperty().getLongitude())

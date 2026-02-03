@@ -1,6 +1,7 @@
 package com.imaee.propinq.rents.data.repositories;
 
 import com.imaee.propinq.properties.data.models.Property;
+import com.imaee.propinq.rents.data.enums.ContactState;
 import com.imaee.propinq.rents.data.models.Contact;
 import com.imaee.propinq.users.data.models.User;
 import org.springframework.data.domain.Page;
@@ -15,7 +16,8 @@ import java.util.UUID;
 public interface IContactRepository extends JpaRepository<Contact, UUID> {
     boolean existsByIssuerAndProperty(User issuer, Property property);
     Page<Contact> findAllByIssuer_Email(String issuerEmail, Pageable pageable);
-    Page<Contact> findAllByProperty_User_Email(String userEmail, Pageable pageable);
+    Page<Contact> findAllByProperty_User(User propertyUser, Pageable pageable);
+    Page<Contact> findAllByProperty_UserAndState(User propertyUser, ContactState state, Pageable pageable);
     boolean existsByContactIdAndIssuer_Email(UUID contactId, String issuerEmail);
     Optional<Contact> findByPropertyAndIssuer(Property property, User issuer);
 }
