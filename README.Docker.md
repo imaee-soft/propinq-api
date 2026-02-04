@@ -36,6 +36,25 @@ docker-compose -f docker-compose.dev.yaml up --build -d
   - `application-dev.yaml`: usa `localhost` como host de las bases de datos para desarrollo local.
   - `application-docker.yaml`: usa los nombres de los servicios de Docker Compose (`mysql-db`, `mongodb`) como host de las bases de datos para ejecución en contenedor.
   - `application-prod.yaml`: usa `localhost` como host de las bases de datos para desarrollo local y configuraciones de producción.
+  - `application-test.yaml` (perfil `test`): usado solo al ejecutar tests; H2 en memoria y MongoDB de test. **No toca MySQL real.**
+
+### Ejecutar tests en Docker
+
+Los tests deben correr con perfil `test` para usar H2 en memoria y no conectar a MySQL. Usa `--no-deps` para no levantar MySQL/MongoDB (evita conflicto si ya existen contenedores):
+
+```bash
+docker compose -f docker-compose.dev.yaml run --rm --no-deps -e SPRING_PROFILES_ACTIVE=test api ./mvnw test
+```
+
+En varias líneas (bash/zsh):
+
+```bash
+docker compose -f docker-compose.dev.yaml run --rm --no-deps \
+  -e SPRING_PROFILES_ACTIVE=test \
+  api ./mvnw test
+```
+
+**Regla:** Los unit tests no levantan Spring (`@SpringBootTest`). Se usan solo tests con Mockito (`@ExtendWith(MockitoExtension.class)`).
 
 ## Importante sobre scripts y formato de fin de línea (LF)
 
