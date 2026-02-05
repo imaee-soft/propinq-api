@@ -1,7 +1,7 @@
 package com.imaee.propinq.notifications.data.models;
 
 import com.imaee.propinq.notifications.data.enums.NotificationType;
-import com.imaee.propinq.rents.data.models.Contact;
+import com.imaee.propinq.contacts.data.models.Contact;
 import com.imaee.propinq.users.data.models.User;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Enumerated;

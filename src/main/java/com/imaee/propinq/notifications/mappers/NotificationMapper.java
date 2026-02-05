@@ -3,7 +3,7 @@ package com.imaee.propinq.notifications.mappers;
 import com.imaee.propinq.notifications.controllers.packages.NotificationResponse;
 import com.imaee.propinq.notifications.data.enums.NotificationType;
 import com.imaee.propinq.notifications.data.models.Notification;
-import com.imaee.propinq.rents.data.models.Contact;
+import com.imaee.propinq.contacts.data.models.Contact;
 import com.imaee.propinq.users.data.models.User;
 
 public class NotificationMapper {
