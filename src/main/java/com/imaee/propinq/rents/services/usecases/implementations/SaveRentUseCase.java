@@ -1,9 +1,12 @@
 package com.imaee.propinq.rents.services.usecases.implementations;
 
 import com.imaee.propinq.auth.services.interfaces.IAuthenticatedUserService;
+import com.imaee.propinq.contacts.data.models.Contact;
 import com.imaee.propinq.contacts.services.usecases.interfaces.IFindContactByIdUseCase;
 import com.imaee.propinq.contacts.services.usecases.interfaces.IRentContactUseCase;
 import com.imaee.propinq.rents.controllers.requests.RentRequest;
+import com.imaee.propinq.rents.controllers.responses.SaveRentResponse;
+import com.imaee.propinq.rents.data.models.Rent;
 import com.imaee.propinq.rents.data.repositories.IRentRepository;
 import com.imaee.propinq.rents.mappers.RentMapper;
 import com.imaee.propinq.rents.services.usecases.interfaces.ISaveRentUseCase;
@@ -22,22 +25,21 @@ import static org.springframework.http.HttpStatus.FORBIDDEN;
 @AllArgsConstructor
 public class SaveRentUseCase implements ISaveRentUseCase {
 
+    private static final String MISSING_DATES = "La fecha de fin del alquiler es inválida";
+
     private final IFindContactByIdUseCase findContactByIdUseCase;
     private final IAuthenticatedUserService authenticatedUserService;
     private final IRentRepository rentRepository;
     private final IRentContactUseCase rentContactUseCase;
 
     @Override
-    public void saveRent(RentRequest rentRequest, MultipartFile contract) {
+    public SaveRentResponse saveRent(RentRequest rentRequest, MultipartFile contract) {
         final var contact = findContactByIdUseCase.findContactById(rentRequest.contactId());
         throwExceptionIfLoggedUserIsNotOwner(contact.getProperty().getUser());
-        final var contractPdf = getBytes(contract);
-        rentRepository.save(RentMapper.buildRent(
-                contact,
-                rentRequest,
-                contractPdf
-        ));
+        throwExceptionIfDueDateIsLessThanRentDate(rentRequest);
+        final var rent = saveRent(rentRequest, contract, contact);
         rentContactUseCase.markAsRented(contact);
+        return new SaveRentResponse(rent.getRentId());
     }
 
     private void throwExceptionIfLoggedUserIsNotOwner(User owner) {
@@ -46,8 +48,25 @@ public class SaveRentUseCase implements ISaveRentUseCase {
             throw new ResponseStatusException(FORBIDDEN);
     }
 
+    private void throwExceptionIfDueDateIsLessThanRentDate(RentRequest rentRequest) {
+        if (rentRequest.date().plusMonths(1)
+                .isAfter(rentRequest.dueDate()))
+            throw new ResponseStatusException(BAD_REQUEST, MISSING_DATES);
+    }
+
     private byte[] getBytes(MultipartFile contract) {
         try { return contract.getBytes(); }
         catch (IOException ex) { throw new ResponseStatusException(BAD_REQUEST, ex.getMessage()); }
+    }
+
+    private Rent saveRent(RentRequest rentRequest, MultipartFile contract, Contact contact) {
+        final var contractPdf = getBytes(contract);
+        final var rent = RentMapper.buildRent(
+                contact,
+                rentRequest,
+                contractPdf
+        );
+        rentRepository.save(rent);
+        return rent;
     }
 }

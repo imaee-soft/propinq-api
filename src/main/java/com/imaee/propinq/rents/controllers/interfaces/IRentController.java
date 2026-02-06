@@ -1,18 +1,23 @@
 package com.imaee.propinq.rents.controllers.interfaces;
 
 import com.imaee.propinq.rents.controllers.requests.RentRequest;
+import com.imaee.propinq.rents.controllers.responses.RentDetail;
+import com.imaee.propinq.rents.controllers.responses.SaveRentResponse;
 import com.imaee.propinq.rents.controllers.responses.SimpleRent;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import org.springframework.data.domain.Page;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.multipart.MultipartFile;
+
+import java.util.UUID;
 
 import static org.springframework.http.HttpStatus.CREATED;
 import static org.springframework.http.HttpStatus.OK;
@@ -27,7 +32,7 @@ public interface IRentController {
     @PostMapping
     @ResponseStatus(CREATED)
     @Operation(summary = "Saves a new rent from a previous contact.")
-    void saveRent(
+    SaveRentResponse saveRent(
             @RequestPart("rent") @Valid RentRequest rentRequest,
             @RequestPart("contract") MultipartFile contract
     );
@@ -39,4 +44,9 @@ public interface IRentController {
             @RequestParam(defaultValue = "0", name = "page") Integer pageNumber,
             @RequestParam(defaultValue = "6", name = "size") Integer pageSize
     );
+
+    @GetMapping("/{rentId:[0-9a-fA-F\\\\-]{36}}")
+    @ResponseStatus(OK)
+    @Operation(summary = "Retrieves a whole rent.")
+    RentDetail getRent(@PathVariable UUID rentId);
 }

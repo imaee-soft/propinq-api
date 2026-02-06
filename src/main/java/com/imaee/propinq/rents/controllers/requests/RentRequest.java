@@ -18,9 +18,8 @@ public record RentRequest(
         @NotNull(message = "La fecha del alquiler es obligatoria")
         LocalDate date,
 
-        @NotNull(message = "La duración del alquiler es obligatoria")
-        @Min(value = 0, message = "La duración del alquiler no puede ser negativa")
-        Integer yearsDuration,
+        @NotNull(message = "La fecha de fin del contrato es obligatoria")
+        LocalDate dueDate,
 
         @NotNull(message = "El día límite de pago es obligatorio")
         @Min(value = 0, message = "El día límite de pago no puede ser negativo")

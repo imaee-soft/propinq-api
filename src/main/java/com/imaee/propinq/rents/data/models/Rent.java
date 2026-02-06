@@ -33,7 +33,7 @@ public class Rent {
     private LocalDate rentDate;
 
     @NotNull
-    private Integer rentDuration;
+    private LocalDate rentDueDate;
 
     @NotNull
     private Integer payday;
