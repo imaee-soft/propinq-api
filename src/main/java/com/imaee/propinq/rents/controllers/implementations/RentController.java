@@ -1,6 +1,8 @@
 package com.imaee.propinq.rents.controllers.implementations;
 
+import com.imaee.propinq.projections.responses.Projection;
 import com.imaee.propinq.rents.controllers.interfaces.IRentController;
+import com.imaee.propinq.rents.controllers.requests.RentDocumentRequest;
 import com.imaee.propinq.rents.controllers.requests.RentRequest;
 import com.imaee.propinq.rents.controllers.responses.RentDetail;
 import com.imaee.propinq.rents.controllers.responses.SaveRentResponse;
@@ -11,6 +13,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.util.List;
 import java.util.UUID;
 
 @RestController
@@ -32,5 +35,15 @@ public class RentController implements IRentController {
     @Override
     public RentDetail getRent(UUID rentId) {
         return rentService.getRent(rentId);
+    }
+
+    @Override
+    public List<Projection> getRentProjection(UUID rentId) {
+        return rentService.getRentProjection(rentId);
+    }
+
+    @Override
+    public void saveDocument(RentDocumentRequest rentDocumentRequest, MultipartFile document) {
+        rentService.saveDocument(rentDocumentRequest, document);
     }
 }

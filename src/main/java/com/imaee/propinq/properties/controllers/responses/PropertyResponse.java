@@ -5,6 +5,6 @@ import java.util.UUID;
 public record PropertyResponse (
         UUID propertyId,
         Double latitude,
-        Double longitude
-){
-}
+        Double longitude,
+        String title
+) {}

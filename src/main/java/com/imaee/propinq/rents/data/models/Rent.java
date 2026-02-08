@@ -6,6 +6,7 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.Lob;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -13,7 +14,11 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDate;
+import java.util.List;
 import java.util.UUID;
+
+import static jakarta.persistence.CascadeType.ALL;
+import static java.util.Collections.emptyList;
 
 @Entity(name="rents")
 @NoArgsConstructor
@@ -28,6 +33,9 @@ public class Rent {
     @ManyToOne
     @NotNull
     private Contact contact;
+
+    @OneToMany(cascade = ALL)
+    private List<Document> documents = emptyList();
 
     @NotNull
     private LocalDate rentDate;

@@ -1,5 +1,7 @@
 package com.imaee.propinq.rents.controllers.interfaces;
 
+import com.imaee.propinq.projections.responses.Projection;
+import com.imaee.propinq.rents.controllers.requests.RentDocumentRequest;
 import com.imaee.propinq.rents.controllers.requests.RentRequest;
 import com.imaee.propinq.rents.controllers.responses.RentDetail;
 import com.imaee.propinq.rents.controllers.responses.SaveRentResponse;
@@ -9,6 +11,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import org.springframework.data.domain.Page;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -17,6 +20,7 @@ import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.util.List;
 import java.util.UUID;
 
 import static org.springframework.http.HttpStatus.CREATED;
@@ -49,4 +53,17 @@ public interface IRentController {
     @ResponseStatus(OK)
     @Operation(summary = "Retrieves a whole rent.")
     RentDetail getRent(@PathVariable UUID rentId);
+
+    @GetMapping("/{rentId:[0-9a-fA-F\\\\-]{36}}/projection")
+    @ResponseStatus(OK)
+    @Operation(summary = "Retrieves a rent projection.")
+    List<Projection> getRentProjection(@PathVariable UUID rentId);
+
+    @PatchMapping("/{rentId:[0-9a-fA-F\\\\-]{36}}/document")
+    @ResponseStatus(OK)
+    @Operation(summary = "Retrieves a rent projection.")
+    void saveDocument(
+            @RequestPart("document") @Valid RentDocumentRequest rentDocumentRequest,
+            @RequestPart("content") MultipartFile document
+    );
 }

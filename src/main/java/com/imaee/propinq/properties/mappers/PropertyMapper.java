@@ -20,7 +20,8 @@ public class PropertyMapper {
         return new PropertyResponse(
                 property.getPropertyId(),
                 property.getLatitude(),
-                property.getLongitude()
+                property.getLongitude(),
+                property.getTitle()
         );
     }
 
