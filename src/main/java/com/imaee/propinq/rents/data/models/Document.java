@@ -33,6 +33,7 @@ public class Document {
     @NotNull
     private byte[] content;
 
+    @Builder.Default
     @NotNull
     private LocalDateTime createdAt = LocalDateTime.now();
 }

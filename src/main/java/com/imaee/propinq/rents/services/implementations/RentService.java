@@ -10,6 +10,7 @@ import com.imaee.propinq.rents.services.interfaces.IRentService;
 import com.imaee.propinq.rents.services.usecases.interfaces.IGetOwnerRentsUseCase;
 import com.imaee.propinq.rents.services.usecases.interfaces.IGetProjectionUseCase;
 import com.imaee.propinq.rents.services.usecases.interfaces.IGetRentDetailUseCase;
+import com.imaee.propinq.rents.services.usecases.interfaces.ISaveDocumentUseCase;
 import com.imaee.propinq.rents.services.usecases.interfaces.ISaveRentUseCase;
 import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -27,6 +28,7 @@ public class RentService implements IRentService {
     private final IGetOwnerRentsUseCase getOwnerRentsUseCase;
     private final IGetRentDetailUseCase getRentDetailUseCase;
     private final IGetProjectionUseCase getProjectionUseCase;
+    private final ISaveDocumentUseCase saveDocumentUseCase;
 
     @Override
     public SaveRentResponse saveRent(RentRequest rentRequest, MultipartFile contract) {
@@ -49,5 +51,7 @@ public class RentService implements IRentService {
     }
 
     @Override
-    public void saveDocument(RentDocumentRequest rentDocumentRequest, MultipartFile document) {}
+    public void saveDocument(RentDocumentRequest rentDocumentRequest, MultipartFile document) {
+        saveDocumentUseCase.saveDocument(rentDocumentRequest, document);
+    }
 }

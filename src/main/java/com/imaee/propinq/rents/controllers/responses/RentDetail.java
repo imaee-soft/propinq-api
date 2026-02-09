@@ -23,6 +23,6 @@ public record RentDetail(
     Double latitude,
     Double longitude,
     byte[] contract,
-    List<UUID> extraDocuments,
+    List<DocumentDetail> extraDocuments,
     boolean isOwnerRetrieving
 ) {}

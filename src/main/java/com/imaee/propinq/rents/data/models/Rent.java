@@ -34,7 +34,7 @@ public class Rent {
     @NotNull
     private Contact contact;
 
-    @OneToMany(cascade = ALL)
+    @OneToMany(mappedBy = "rent", cascade = ALL)
     private List<Document> documents = emptyList();
 
     @NotNull
