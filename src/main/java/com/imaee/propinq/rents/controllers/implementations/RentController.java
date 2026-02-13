@@ -33,6 +33,11 @@ public class RentController implements IRentController {
     }
 
     @Override
+    public Page<SimpleRent> getTenantRents(Integer pageNumber, Integer pageSize) {
+        return rentService.getTenantRents(pageNumber, pageSize);
+    }
+
+    @Override
     public RentDetail getRent(UUID rentId) {
         return rentService.getRent(rentId);
     }

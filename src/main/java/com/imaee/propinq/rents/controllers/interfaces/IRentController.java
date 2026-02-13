@@ -48,6 +48,14 @@ public interface IRentController {
             @RequestParam(defaultValue = "6", name = "size") Integer pageSize
     );
 
+    @GetMapping("/tenant")
+    @ResponseStatus(OK)
+    @Operation(summary = "Retrieves all tenant's rents.")
+    Page<SimpleRent> getTenantRents(
+            @RequestParam(defaultValue = "0", name = "page") Integer pageNumber,
+            @RequestParam(defaultValue = "6", name = "size") Integer pageSize
+    );
+
     @GetMapping("/{rentId:[0-9a-fA-F\\\\-]{36}}")
     @ResponseStatus(OK)
     @Operation(summary = "Retrieves a whole rent.")

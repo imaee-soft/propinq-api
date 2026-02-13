@@ -10,4 +10,5 @@ import java.util.UUID;
 
 public interface IRentRepository extends JpaRepository<Rent, UUID> {
     Page<Rent> findByContact_Property_User(User user, Pageable pageable);
+    Page<Rent> findByContact_Issuer(User user, Pageable pageable);
 }
