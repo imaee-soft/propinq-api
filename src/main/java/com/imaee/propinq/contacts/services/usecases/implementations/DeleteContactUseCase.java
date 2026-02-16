@@ -1,8 +1,8 @@
 package com.imaee.propinq.contacts.services.usecases.implementations;
 
-import com.imaee.propinq.notifications.data.repositories.INotificationRepository;
 import com.imaee.propinq.contacts.data.repositories.IContactRepository;
 import com.imaee.propinq.contacts.services.usecases.interfaces.IDeleteContactUseCase;
+import com.imaee.propinq.notifications.data.repositories.INotificationRepository;
 import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -32,7 +32,6 @@ public class DeleteContactUseCase implements IDeleteContactUseCase {
     }
 
     private void deleteContactCascade(UUID contactId) {
-        notificationRepository.deleteByContact_ContactId(contactId);
         contactRepository.deleteById(contactId);
     }
 }

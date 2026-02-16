@@ -3,26 +3,22 @@ package com.imaee.propinq.notifications.mappers;
 import com.imaee.propinq.notifications.controllers.packages.NotificationResponse;
 import com.imaee.propinq.notifications.data.enums.NotificationType;
 import com.imaee.propinq.notifications.data.models.Notification;
-import com.imaee.propinq.contacts.data.models.Contact;
 import com.imaee.propinq.users.data.models.User;
 
 public class NotificationMapper {
 
     public static Notification buildNotification(
             User notifier,
-            User notified,
             NotificationType notificationType,
             String title,
-            String description,
             String url
     ) {
-        return buildNotification(notifier, notified, null, notificationType, title, description, url);
+        return buildNotification(notifier, null, notificationType, title, null, url);
     }
 
     public static Notification buildNotification(
             User notifier,
             User notified,
-            Contact contact,
             NotificationType notificationType,
             String title,
             String description,
@@ -31,7 +27,6 @@ public class NotificationMapper {
         return Notification.builder()
                 .notifier(notifier)
                 .notified(notified)
-                .contact(contact)
                 .notificationType(notificationType)
                 .title(title)
                 .description(description)
@@ -48,7 +43,6 @@ public class NotificationMapper {
                 .seen(notification.isSeen())
                 .notifierFullName(notification.getNotifier().getFullName())
                 .notifierUserId(notification.getNotifier().getUserId())
-                .contactId(notification.getContact() != null ? notification.getContact().getContactId() : null)
                 .createdAt(notification.getCreatedAt())
                 .url(notification.getUrl())
                 .build();

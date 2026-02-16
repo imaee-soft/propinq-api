@@ -6,6 +6,7 @@ import com.imaee.propinq.notifications.data.models.Notification;
 import com.imaee.propinq.notifications.data.repositories.INotificationRepository;
 import com.imaee.propinq.notifications.mappers.NotificationMapper;
 import com.imaee.propinq.notifications.services.interfaces.INotificationService;
+import com.imaee.propinq.users.data.models.User;
 import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -69,5 +70,13 @@ public class NotificationService implements INotificationService {
         final var notification = findByIdOrThrowException(notificationId);
         notification.setSeen(false);
         notificationRepository.save(notification);
+    }
+
+    @Override
+    public void notifyUsers(Notification notification, List<User> users) {
+        users.forEach(user -> {
+            notification.setNotified(user);
+            notificationRepository.save(notification);
+        });
     }
 }

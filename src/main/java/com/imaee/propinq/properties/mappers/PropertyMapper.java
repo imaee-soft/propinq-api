@@ -94,7 +94,8 @@ public class PropertyMapper {
     }
 
     private static String buildHouseName(String address) {
-        return "Vivienda ubicada en " + address;
+        final var splitAddress = address.split(",");
+        return splitAddress[0] + ", " + splitAddress[1];
     }
 
     private static Property toBasicProperty(CreatePropertyRequest request, List<Image> images) {

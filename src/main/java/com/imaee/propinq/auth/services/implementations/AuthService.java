@@ -11,7 +11,9 @@ import com.imaee.propinq.auth.controllers.responses.UserAuthResponse;
 import com.imaee.propinq.auth.services.interfaces.IAuthService;
 import com.imaee.propinq.auth.services.interfaces.IRecaptchaService;
 import com.imaee.propinq.config.utils.JwtUtils;
+import com.imaee.propinq.users.controllers.responses.ProfileChangeResponse;
 import com.imaee.propinq.users.data.models.User;
+import com.imaee.propinq.users.services.interfaces.IUserProfilesService;
 import com.imaee.propinq.users.services.interfaces.IUserService;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -30,6 +32,7 @@ public class AuthService implements IAuthService {
     private final JwtUtils jwtUtils;
     private final AuthenticationManager authenticationManager;
     private final IRecaptchaService recaptchaService;
+    private final IUserProfilesService userProfilesService;
 
     @Override
     public void signUp(SignUpRequest signUpRequest) {
@@ -52,22 +55,21 @@ public class AuthService implements IAuthService {
                 );
 
             Authentication authentication = authenticationManager.authenticate(authToken);
-
             String accessToken = jwtUtils.createToken(authentication);
             String refreshToken = jwtUtils.createRefreshToken(authentication);
-
             User user = userService.findUserByEmail(loginRequest.email());
+            ProfileChangeResponse profileChange = userProfilesService.getProfileChangeByUser(user);
 
             return new AuthResponse(
                 accessToken,
                 refreshToken,
                 new UserAuthResponse(
-                    user.getUserId(),
-                    user.getEmail(),
-                    user.getRole()
+                        user.getUserId(),
+                        user.getEmail(),
+                        user.getRole(),
+                        profileChange
                 )
             );
-
         } catch (AuthenticationException e) {
             throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Credenciales Invalidas");
         }
@@ -77,19 +79,19 @@ public class AuthService implements IAuthService {
     public UserAuthResponse checkToken(CheckTokenRequest checkTokenRequest) {
         try {
             DecodedJWT decodedJWT = jwtUtils.validatetoken(checkTokenRequest.accessToken());
-            
             String email = jwtUtils.extractUserName(decodedJWT);
             User user = userService.findUserByEmail(email);
             if (!user.isActivated()) {
                 throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "La cuenta del usuario esta desactivada");
             }
-            
+            ProfileChangeResponse profileChange = userProfilesService.getProfileChangeByUser(user);
+
             return new UserAuthResponse(
-                user.getUserId(),
-                user.getEmail(),
-                user.getRole()
+                    user.getUserId(),
+                    user.getEmail(),
+                    user.getRole(),
+                    profileChange
             );
-            
         } catch (JWTVerificationException e) {
             throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Token invalido o expirado");
         } catch (Exception e) {
@@ -117,17 +119,18 @@ public class AuthService implements IAuthService {
             // Generar nuevos tokens
             String newAccessToken = jwtUtils.createToken(authToken);
             String newRefreshToken = jwtUtils.createRefreshToken(authToken);
+            ProfileChangeResponse profileChangeResponse = userProfilesService.getProfileChangeByUser(user);
 
             return new AuthResponse(
                 newAccessToken,
                 newRefreshToken,
                 new UserAuthResponse(
-                    user.getUserId(),
-                    user.getEmail(),
-                    user.getRole()
+                        user.getUserId(),
+                        user.getEmail(),
+                        user.getRole(),
+                        profileChangeResponse
                 )
             );
-
         } catch (JWTVerificationException e) {
             throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Refresh token inválido o expirado");
         } catch (Exception e) {

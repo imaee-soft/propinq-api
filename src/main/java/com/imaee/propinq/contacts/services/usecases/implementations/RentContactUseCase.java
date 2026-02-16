@@ -33,7 +33,6 @@ public class RentContactUseCase implements IRentContactUseCase {
                 buildNotification(
                         subject,
                         contact.getIssuer(),
-                        contact,
                         CONTACT_RENTED,
                         RENT_NOTIFICATION_TITLE,
                         contact.getProperty().getTitle(),

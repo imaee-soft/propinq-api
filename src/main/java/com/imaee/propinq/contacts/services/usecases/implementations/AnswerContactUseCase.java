@@ -1,25 +1,25 @@
 package com.imaee.propinq.contacts.services.usecases.implementations;
 
 import com.imaee.propinq.auth.services.interfaces.IAuthenticatedUserService;
-import com.imaee.propinq.notifications.services.interfaces.INotificationService;
 import com.imaee.propinq.contacts.controllers.requests.AnswerContactRequest;
 import com.imaee.propinq.contacts.data.models.Contact;
 import com.imaee.propinq.contacts.data.repositories.IContactRepository;
 import com.imaee.propinq.contacts.services.facade.IContactFacade;
 import com.imaee.propinq.contacts.services.usecases.interfaces.IAnswerContactUseCase;
 import com.imaee.propinq.contacts.services.usecases.interfaces.IFindContactByIdUseCase;
+import com.imaee.propinq.notifications.services.interfaces.INotificationService;
 import com.imaee.propinq.users.data.models.User;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Component;
 
 import java.util.UUID;
 
+import static com.imaee.propinq.contacts.data.enums.ContactState.getContactState;
 import static com.imaee.propinq.notifications.Constants.ACCEPT_CONTACT_NOTIFICATION_TITLE;
 import static com.imaee.propinq.notifications.Constants.REJECT_CONTACT_NOTIFICATION_TITLE;
 import static com.imaee.propinq.notifications.data.enums.NotificationType.CONTACT_ACCEPTED;
 import static com.imaee.propinq.notifications.data.enums.NotificationType.CONTACT_REJECTED;
 import static com.imaee.propinq.notifications.mappers.NotificationMapper.buildNotification;
-import static com.imaee.propinq.contacts.data.enums.ContactState.getContactState;
 import static java.time.LocalDateTime.now;
 
 @Component
@@ -54,7 +54,6 @@ public class AnswerContactUseCase implements IAnswerContactUseCase {
                 buildNotification(
                         subject,
                         contact.getIssuer(),
-                        contact,
                         contact.isAccepted() ? CONTACT_ACCEPTED : CONTACT_REJECTED,
                         contact.isAccepted() ? ACCEPT_CONTACT_NOTIFICATION_TITLE : REJECT_CONTACT_NOTIFICATION_TITLE,
                         contact.getContactAnswer(),

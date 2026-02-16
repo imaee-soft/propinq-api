@@ -52,7 +52,6 @@ public class CancelContactUseCase implements ICancelContactUseCase {
                 buildNotification(
                         subject,
                         contact.getIssuer(),
-                        contact,
                         CONTACT_CANCELLED,
                         CANCEL_CONTACT_NOTIFICATION_TITLE,
                         contact.getCancellationReason(),

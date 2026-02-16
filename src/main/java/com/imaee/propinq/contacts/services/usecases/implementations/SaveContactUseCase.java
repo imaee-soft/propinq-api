@@ -1,23 +1,23 @@
 package com.imaee.propinq.contacts.services.usecases.implementations;
 
-import com.imaee.propinq.notifications.services.interfaces.INotificationService;
-import com.imaee.propinq.properties.data.models.Property;
-import com.imaee.propinq.properties.services.usecases.interfaces.IFindPropertyByIdUseCase;
 import com.imaee.propinq.contacts.controllers.requests.ContactRequest;
 import com.imaee.propinq.contacts.data.models.Contact;
 import com.imaee.propinq.contacts.data.repositories.IContactRepository;
 import com.imaee.propinq.contacts.services.usecases.interfaces.ISaveContactUseCase;
+import com.imaee.propinq.notifications.services.interfaces.INotificationService;
+import com.imaee.propinq.properties.data.models.Property;
+import com.imaee.propinq.properties.services.usecases.interfaces.IFindPropertyByIdUseCase;
 import com.imaee.propinq.users.data.models.User;
 import com.imaee.propinq.users.services.usecases.interfaces.IGetLoggedUserUseCase;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Component;
 import org.springframework.web.server.ResponseStatusException;
 
+import static com.imaee.propinq.contacts.mappers.ContactMapper.buildContact;
 import static com.imaee.propinq.notifications.Constants.CONTACT_ALREADY_EXISTS;
 import static com.imaee.propinq.notifications.Constants.NEW_CONTACT_NOTIFICATION_TITLE;
 import static com.imaee.propinq.notifications.data.enums.NotificationType.NEW_CONTACT_REQUEST;
 import static com.imaee.propinq.notifications.mappers.NotificationMapper.buildNotification;
-import static com.imaee.propinq.contacts.mappers.ContactMapper.buildContact;
 import static org.springframework.http.HttpStatus.BAD_REQUEST;
 
 @Component
@@ -54,7 +54,6 @@ public class SaveContactUseCase implements ISaveContactUseCase {
                 buildNotification(
                         user,
                         property.getUser(),
-                        contact,
                         NEW_CONTACT_REQUEST,
                         NEW_CONTACT_NOTIFICATION_TITLE,
                         property.getAddress(),
