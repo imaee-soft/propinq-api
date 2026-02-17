@@ -44,4 +44,7 @@ public class ProfileChange {
 
     @Builder.Default
     private LocalDateTime createdAt = now();
+
+    private LocalDateTime acceptedAt;
+    private LocalDateTime rejectedAt;
 }
