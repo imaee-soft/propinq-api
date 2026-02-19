@@ -1,18 +1,14 @@
 package com.imaee.propinq.rents.services.implementations;
 
 import com.imaee.propinq.projections.responses.Projection;
+import com.imaee.propinq.rents.controllers.requests.CancelRentRequest;
 import com.imaee.propinq.rents.controllers.requests.RentDocumentRequest;
 import com.imaee.propinq.rents.controllers.requests.RentRequest;
 import com.imaee.propinq.rents.controllers.responses.RentDetail;
 import com.imaee.propinq.rents.controllers.responses.SaveRentResponse;
 import com.imaee.propinq.rents.controllers.responses.SimpleRent;
 import com.imaee.propinq.rents.services.interfaces.IRentService;
-import com.imaee.propinq.rents.services.usecases.interfaces.IGetOwnerRentsUseCase;
-import com.imaee.propinq.rents.services.usecases.interfaces.IGetProjectionUseCase;
-import com.imaee.propinq.rents.services.usecases.interfaces.IGetRentDetailUseCase;
-import com.imaee.propinq.rents.services.usecases.interfaces.IGetTenantRentsUseCase;
-import com.imaee.propinq.rents.services.usecases.interfaces.ISaveDocumentUseCase;
-import com.imaee.propinq.rents.services.usecases.interfaces.ISaveRentUseCase;
+import com.imaee.propinq.rents.services.usecases.interfaces.*;
 import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
@@ -31,6 +27,7 @@ public class RentService implements IRentService {
     private final IGetRentDetailUseCase getRentDetailUseCase;
     private final IGetProjectionUseCase getProjectionUseCase;
     private final ISaveDocumentUseCase saveDocumentUseCase;
+    private final ICancelRentUseCase cancelRentUseCase;
 
     @Override
     public SaveRentResponse saveRent(RentRequest rentRequest, MultipartFile contract) {
@@ -60,5 +57,10 @@ public class RentService implements IRentService {
     @Override
     public void saveDocument(RentDocumentRequest rentDocumentRequest, MultipartFile document) {
         saveDocumentUseCase.saveDocument(rentDocumentRequest, document);
+    }
+
+    @Override
+    public void cancelRent(UUID rentId, CancelRentRequest cancelRentRequest) {
+        cancelRentUseCase.cancelRent(rentId, cancelRentRequest);
     }
 }

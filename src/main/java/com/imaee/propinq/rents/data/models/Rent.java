@@ -2,11 +2,8 @@ package com.imaee.propinq.rents.data.models;
 
 import com.imaee.propinq.contacts.data.models.Contact;
 import com.imaee.propinq.rents.data.enums.RaiseIndex;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Lob;
-import jakarta.persistence.ManyToOne;
-import jakarta.persistence.OneToMany;
+import com.imaee.propinq.rents.data.enums.RentState;
+import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -14,10 +11,12 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.UUID;
 
 import static jakarta.persistence.CascadeType.ALL;
+import static jakarta.persistence.EnumType.STRING;
 import static java.util.Collections.emptyList;
 
 @Entity(name="rents")
@@ -44,6 +43,10 @@ public class Rent {
     private LocalDate rentDueDate;
 
     @NotNull
+    @Enumerated(STRING)
+    private RentState rentState;
+
+    @NotNull
     private Integer payday;
 
     @NotNull
@@ -58,4 +61,7 @@ public class Rent {
     @Lob
     @NotNull
     private byte[] contract;
+
+    private String cancellationReason;
+    private LocalDateTime cancellationDate;
 }

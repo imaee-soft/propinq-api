@@ -1,6 +1,7 @@
 package com.imaee.propinq.rents.controllers.interfaces;
 
 import com.imaee.propinq.projections.responses.Projection;
+import com.imaee.propinq.rents.controllers.requests.CancelRentRequest;
 import com.imaee.propinq.rents.controllers.requests.RentDocumentRequest;
 import com.imaee.propinq.rents.controllers.requests.RentRequest;
 import com.imaee.propinq.rents.controllers.responses.RentDetail;
@@ -10,13 +11,7 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import org.springframework.data.domain.Page;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RequestPart;
-import org.springframework.web.bind.annotation.ResponseStatus;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
@@ -72,5 +67,13 @@ public interface IRentController {
     void saveDocument(
             @RequestPart("document") @Valid RentDocumentRequest rentDocumentRequest,
             @RequestPart("content") MultipartFile document
+    );
+
+    @PostMapping("/{rentId:[0-9a-fA-F\\\\-]{36}}")
+    @ResponseStatus(OK)
+    @Operation(summary = "Cancels a current rent with a specified reason.")
+    void cancelRent(
+            @PathVariable UUID rentId,
+            @RequestBody @Valid CancelRentRequest cancelRentRequest
     );
 }

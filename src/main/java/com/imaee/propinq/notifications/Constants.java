@@ -10,4 +10,5 @@ public class Constants {
     public static final String PROFILE_CHANGE_REQUEST_NOTIFICATION_TITLE = "Solicitud de cambio de perfil";
     public static final String PROFILE_CHANGE_REQUEST_ACCEPTED_NOTIFICATION_TITLE = "Solicitud de cambio de perfil aceptada";
     public static final String PROFILE_CHANGE_REQUEST_REJECTED_NOTIFICATION_TITLE = "Solicitud de cambio de perfil rechazada";
+    public static final String RENT_CANCELLED_NOTIFICATION_TITLE = "Alquiler dado de baja";
 }

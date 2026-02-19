@@ -13,6 +13,9 @@ import com.imaee.propinq.users.data.models.User;
 import java.util.List;
 
 import static com.imaee.propinq.rents.data.enums.RaiseIndex.getRaiseIndex;
+import static com.imaee.propinq.rents.data.enums.RentState.ACTIVE;
+import static com.imaee.propinq.rents.data.enums.RentState.DONE;
+import static java.time.LocalDate.now;
 
 public class RentMapper {
 
@@ -21,10 +24,12 @@ public class RentMapper {
             RentRequest rentRequest,
             byte[] contractPdf
     ) {
+        final var state = rentRequest.dueDate().isBefore(now()) ? ACTIVE : DONE;
         return Rent.builder()
                 .contact(contact)
                 .rentDate(rentRequest.date())
                 .rentDueDate(rentRequest.dueDate())
+                .rentState(state)
                 .payday(rentRequest.payday())
                 .rentPrice(rentRequest.price())
                 .raiseIndex(getRaiseIndex(rentRequest.raiseIndex()))

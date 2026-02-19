@@ -1,6 +1,7 @@
 package com.imaee.propinq.rents.services.interfaces;
 
 import com.imaee.propinq.projections.responses.Projection;
+import com.imaee.propinq.rents.controllers.requests.CancelRentRequest;
 import com.imaee.propinq.rents.controllers.requests.RentDocumentRequest;
 import com.imaee.propinq.rents.controllers.requests.RentRequest;
 import com.imaee.propinq.rents.controllers.responses.RentDetail;
@@ -19,4 +20,5 @@ public interface IRentService {
     RentDetail getRent(UUID rentId);
     List<Projection> getRentProjection(UUID rentId);
     void saveDocument(RentDocumentRequest rentDocumentRequest, MultipartFile document);
+    void cancelRent(UUID rentId, CancelRentRequest cancelRentRequest);
 }

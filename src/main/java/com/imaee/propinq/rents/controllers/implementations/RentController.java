@@ -2,6 +2,7 @@ package com.imaee.propinq.rents.controllers.implementations;
 
 import com.imaee.propinq.projections.responses.Projection;
 import com.imaee.propinq.rents.controllers.interfaces.IRentController;
+import com.imaee.propinq.rents.controllers.requests.CancelRentRequest;
 import com.imaee.propinq.rents.controllers.requests.RentDocumentRequest;
 import com.imaee.propinq.rents.controllers.requests.RentRequest;
 import com.imaee.propinq.rents.controllers.responses.RentDetail;
@@ -50,5 +51,10 @@ public class RentController implements IRentController {
     @Override
     public void saveDocument(RentDocumentRequest rentDocumentRequest, MultipartFile document) {
         rentService.saveDocument(rentDocumentRequest, document);
+    }
+
+    @Override
+    public void cancelRent(UUID rentId, CancelRentRequest cancelRentRequest) {
+        rentService.cancelRent(rentId, cancelRentRequest);
     }
 }
