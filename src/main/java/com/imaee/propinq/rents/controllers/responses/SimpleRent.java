@@ -14,5 +14,6 @@ public record SimpleRent(
         String ownerFullName,
         String propertyName,
         Double latitude,
-        Double longitude
+        Double longitude,
+        String state
 ) {}

@@ -8,7 +8,13 @@ import com.imaee.propinq.rents.controllers.responses.RentDetail;
 import com.imaee.propinq.rents.controllers.responses.SaveRentResponse;
 import com.imaee.propinq.rents.controllers.responses.SimpleRent;
 import com.imaee.propinq.rents.services.interfaces.IRentService;
-import com.imaee.propinq.rents.services.usecases.interfaces.*;
+import com.imaee.propinq.rents.services.usecases.interfaces.ICancelRentUseCase;
+import com.imaee.propinq.rents.services.usecases.interfaces.IGetOwnerRentsUseCase;
+import com.imaee.propinq.rents.services.usecases.interfaces.IGetProjectionUseCase;
+import com.imaee.propinq.rents.services.usecases.interfaces.IGetRentDetailUseCase;
+import com.imaee.propinq.rents.services.usecases.interfaces.IGetTenantRentsUseCase;
+import com.imaee.propinq.rents.services.usecases.interfaces.ISaveDocumentUseCase;
+import com.imaee.propinq.rents.services.usecases.interfaces.ISaveRentUseCase;
 import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
@@ -35,8 +41,8 @@ public class RentService implements IRentService {
     }
 
     @Override
-    public Page<SimpleRent> getOwnerRents(Integer pageNumber, Integer pageSize) {
-        return getOwnerRentsUseCase.getOwnerRents(pageNumber, pageSize);
+    public Page<SimpleRent> getOwnerRents(Integer pageNumber, Integer pageSize, String surname) {
+        return getOwnerRentsUseCase.getOwnerRents(pageNumber, pageSize, surname);
     }
 
     @Override

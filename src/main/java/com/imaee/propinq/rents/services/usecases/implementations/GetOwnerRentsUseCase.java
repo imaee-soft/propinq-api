@@ -18,9 +18,12 @@ public class GetOwnerRentsUseCase implements IGetOwnerRentsUseCase {
     private final IRentRepository rentRepository;
 
     @Override
-    public Page<SimpleRent> getOwnerRents(Integer pageNumber, Integer pageSize) {
+    public Page<SimpleRent> getOwnerRents(Integer pageNumber, Integer pageSize, String surname) {
         final var user = authenticatedUserService.getLoggedUserOrThrowException();
-        return rentRepository.findByContact_Property_User(user, PageRequest.of(pageNumber, pageSize))
-                .map(RentMapper::buildSimpleRent);
+        return rentRepository.findByOwnerAndOptionalTenantSurname(
+                user,
+                surname.isEmpty() ? null : surname,
+                PageRequest.of(pageNumber, pageSize)
+        ).map(RentMapper::buildSimpleRent);
     }
 }

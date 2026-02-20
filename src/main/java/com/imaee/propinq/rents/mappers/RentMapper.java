@@ -58,6 +58,7 @@ public class RentMapper {
                 .propertyName(property.getTitle())
                 .latitude(property.getLatitude())
                 .longitude(property.getLongitude())
+                .state(rent.getRentState().name())
                 .build();
     }
 
