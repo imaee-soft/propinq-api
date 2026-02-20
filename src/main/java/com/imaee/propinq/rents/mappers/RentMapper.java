@@ -84,6 +84,9 @@ public class RentMapper {
                 .contract(rent.getContract())
                 .extraDocuments(buildRentDocuments(rent))
                 .isOwnerRetrieving(isOwnerRetrieving)
+                .rentState(rent.getRentState().name())
+                .cancellationDate(rent.getCancellationDate())
+                .cancellationReason(rent.getCancellationReason())
                 .build();
     }
 

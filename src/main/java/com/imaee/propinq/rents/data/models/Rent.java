@@ -11,7 +11,6 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.List;
 import java.util.UUID;
 
@@ -63,5 +62,5 @@ public class Rent {
     private byte[] contract;
 
     private String cancellationReason;
-    private LocalDateTime cancellationDate;
+    private LocalDate cancellationDate;
 }

@@ -69,7 +69,7 @@ public interface IRentController {
             @RequestPart("content") MultipartFile document
     );
 
-    @PostMapping("/{rentId:[0-9a-fA-F\\\\-]{36}}")
+    @PostMapping("/{rentId:[0-9a-fA-F\\\\-]{36}}/cancel")
     @ResponseStatus(OK)
     @Operation(summary = "Cancels a current rent with a specified reason.")
     void cancelRent(

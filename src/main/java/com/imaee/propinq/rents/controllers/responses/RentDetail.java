@@ -24,5 +24,8 @@ public record RentDetail(
     Double longitude,
     byte[] contract,
     List<DocumentDetail> extraDocuments,
-    boolean isOwnerRetrieving
+    boolean isOwnerRetrieving,
+    String rentState,
+    LocalDate cancellationDate,
+    String cancellationReason
 ) {}

@@ -18,6 +18,7 @@ import java.util.UUID;
 import static com.imaee.propinq.notifications.Constants.RENT_CANCELLED_NOTIFICATION_TITLE;
 import static com.imaee.propinq.notifications.data.enums.NotificationType.RENT_CANCELLED;
 import static com.imaee.propinq.rents.data.enums.RentState.CANCELLED;
+import static java.time.LocalDate.now;
 import static org.springframework.http.HttpStatus.FORBIDDEN;
 
 @Component
@@ -46,6 +47,7 @@ public class CancelRentUseCase implements ICancelRentUseCase {
     private void cancelRent(Rent rent, CancelRentRequest cancelRentRequest) {
         rent.setRentState(CANCELLED);
         rent.setCancellationReason(cancelRentRequest.reason());
+        rent.setCancellationDate(now());
         rentRepository.save(rent);
     }
 
