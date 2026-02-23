@@ -6,6 +6,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
+import java.util.List;
+
 import static org.springframework.http.HttpStatus.OK;
 
 @RequestMapping("/parameters")
@@ -24,4 +26,14 @@ public interface IParameterController {
     @ResponseStatus(OK)
     @Operation(summary = "Returns the max price available.")
     Double minPrice();
+
+    @GetMapping("/rooms")
+    @ResponseStatus(OK)
+    @Operation(summary = "Returns the rooms options available.")
+    List<Integer> rooms();
+
+    @GetMapping("/bathrooms")
+    @ResponseStatus(OK)
+    @Operation(summary = "Returns the bathrooms options available.")
+    List<Integer> bathrooms();
 }
