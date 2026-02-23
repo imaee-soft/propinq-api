@@ -29,8 +29,8 @@ public class RentController implements IRentController {
     }
 
     @Override
-    public Page<SimpleRent> getOwnerRents(Integer pageNumber, Integer pageSize, String surname) {
-        return rentService.getOwnerRents(pageNumber, pageSize, surname);
+    public Page<SimpleRent> getOwnerRents(Integer pageNumber, Integer pageSize, String surname, String status) {
+        return rentService.getOwnerRents(pageNumber, pageSize, surname, status);
     }
 
     @Override

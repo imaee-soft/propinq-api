@@ -15,11 +15,13 @@ public interface IRentRepository extends JpaRepository<Rent, UUID> {
           SELECT r
           FROM rents r
           WHERE r.contact.property.user = :user
+            AND (:status IS NULL OR LOWER(:status) = LOWER(r.rentState))
             AND (:surname IS NULL OR LOWER(r.contact.issuer.lastName) LIKE LOWER(CONCAT('%', :surname, '%')))
     """)
     Page<Rent> findByOwnerAndOptionalTenantSurname(
             @Param("user") User user,
             @Param("surname") String surname,
+            @Param("status") String status,
             Pageable pageable
     );
 

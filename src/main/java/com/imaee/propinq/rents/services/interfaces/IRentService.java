@@ -15,7 +15,7 @@ import java.util.UUID;
 
 public interface IRentService {
     SaveRentResponse saveRent(RentRequest rentRequest, MultipartFile contract);
-    Page<SimpleRent> getOwnerRents(Integer pageNumber, Integer pageSize, String surname);
+    Page<SimpleRent> getOwnerRents(Integer pageNumber, Integer pageSize, String surname, String status);
     Page<SimpleRent> getTenantRents(Integer pageNumber, Integer pageSize);
     RentDetail getRent(UUID rentId);
     List<Projection> getRentProjection(UUID rentId);

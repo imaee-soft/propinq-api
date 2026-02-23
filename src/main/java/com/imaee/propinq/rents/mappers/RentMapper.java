@@ -24,7 +24,7 @@ public class RentMapper {
             RentRequest rentRequest,
             byte[] contractPdf
     ) {
-        final var state = rentRequest.dueDate().isBefore(now()) ? ACTIVE : DONE;
+        final var state = rentRequest.dueDate().isAfter(now()) ? ACTIVE : DONE;
         return Rent.builder()
                 .contact(contact)
                 .rentDate(rentRequest.date())

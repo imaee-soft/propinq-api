@@ -1,9 +1,10 @@
 package com.imaee.propinq.contacts.data.models;
 
-import com.imaee.propinq.properties.data.models.Property;
 import com.imaee.propinq.contacts.data.enums.ContactState;
+import com.imaee.propinq.properties.data.models.Property;
 import com.imaee.propinq.users.data.models.User;
 import jakarta.persistence.Entity;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.Id;
 import jakarta.persistence.ManyToOne;
 import jakarta.validation.constraints.NotNull;
@@ -17,6 +18,7 @@ import java.util.UUID;
 
 import static com.imaee.propinq.contacts.data.enums.ContactState.ACCEPTED;
 import static com.imaee.propinq.contacts.data.enums.ContactState.CREATED;
+import static jakarta.persistence.EnumType.STRING;
 
 @Entity(name="contacts")
 @NoArgsConstructor
@@ -45,9 +47,12 @@ public class Contact {
     private LocalDateTime cancellationDate;
 
     @Builder.Default
+    @NotNull
     private LocalDateTime issueDate = LocalDateTime.now();
 
     @Builder.Default
+    @NotNull
+    @Enumerated(STRING)
     private ContactState state = CREATED;
 
     public boolean isAccepted() {

@@ -4,5 +4,5 @@ import com.imaee.propinq.contacts.controllers.responses.ContactDetailResponse;
 import org.springframework.data.domain.Page;
 
 public interface IGetOwnerContactsUseCase {
-    Page<ContactDetailResponse> getOwnerContacts(Integer pageNumber, Integer pageSize, String status);
+    Page<ContactDetailResponse> getOwnerContacts(Integer pageNumber, Integer pageSize, String surname, String status);
 }

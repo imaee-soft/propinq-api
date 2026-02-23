@@ -36,6 +36,7 @@ public interface IContactController {
     Page<ContactDetailResponse> getOwnerContacts(
             @RequestParam(defaultValue = "0", name = "page") Integer pageNumber,
             @RequestParam(defaultValue = "6", name = "size") Integer pageSize,
+            @RequestParam(defaultValue = "", name = "surname") String surname,
             @RequestParam(defaultValue = "all", name = "status") String status
     );
 

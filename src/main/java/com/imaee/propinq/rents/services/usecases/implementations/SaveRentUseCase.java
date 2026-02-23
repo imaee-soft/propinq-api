@@ -4,6 +4,7 @@ import com.imaee.propinq.auth.services.interfaces.IAuthenticatedUserService;
 import com.imaee.propinq.contacts.data.models.Contact;
 import com.imaee.propinq.contacts.services.usecases.interfaces.IFindContactByIdUseCase;
 import com.imaee.propinq.contacts.services.usecases.interfaces.IRentContactUseCase;
+import com.imaee.propinq.notifications.services.interfaces.INotificationService;
 import com.imaee.propinq.rents.controllers.requests.RentRequest;
 import com.imaee.propinq.rents.controllers.responses.SaveRentResponse;
 import com.imaee.propinq.rents.data.models.Rent;
@@ -18,6 +19,9 @@ import org.springframework.web.server.ResponseStatusException;
 
 import java.io.IOException;
 
+import static com.imaee.propinq.notifications.Constants.RENT_NOTIFICATION_TITLE;
+import static com.imaee.propinq.notifications.data.enums.NotificationType.CONTACT_RENTED;
+import static com.imaee.propinq.notifications.mappers.NotificationMapper.buildNotification;
 import static org.springframework.http.HttpStatus.BAD_REQUEST;
 import static org.springframework.http.HttpStatus.FORBIDDEN;
 
@@ -31,20 +35,19 @@ public class SaveRentUseCase implements ISaveRentUseCase {
     private final IAuthenticatedUserService authenticatedUserService;
     private final IRentRepository rentRepository;
     private final IRentContactUseCase rentContactUseCase;
+    private final INotificationService notificationService;
 
     @Override
     public SaveRentResponse saveRent(RentRequest rentRequest, MultipartFile contract) {
+        final var loggedUser = authenticatedUserService.getLoggedUserOrThrowException();
         final var contact = findContactByIdUseCase.findContactById(rentRequest.contactId());
-        throwExceptionIfLoggedUserIsNotOwner(contact.getProperty().getUser());
+        throwExceptionIfLoggedUserIsNotOwner(loggedUser, contact);
         throwExceptionIfDueDateIsLessThanRentDate(rentRequest);
-        final var rent = saveRent(rentRequest, contract, contact);
-        rentContactUseCase.markAsRented(contact);
-        return new SaveRentResponse(rent.getRentId());
+        return saveRentAndNotifyUser(loggedUser, rentRequest, contract, contact);
     }
 
-    private void throwExceptionIfLoggedUserIsNotOwner(User owner) {
-        final var loggedUser = authenticatedUserService.getLoggedUserOrThrowException();
-        if (!owner.getUserId().equals(loggedUser.getUserId()))
+    private void throwExceptionIfLoggedUserIsNotOwner(User loggedUser, Contact contact) {
+        if (!contact.getProperty().getUser().getUserId().equals(loggedUser.getUserId()))
             throw new ResponseStatusException(FORBIDDEN);
     }
 
@@ -54,9 +57,11 @@ public class SaveRentUseCase implements ISaveRentUseCase {
             throw new ResponseStatusException(BAD_REQUEST, MISSING_DATES);
     }
 
-    private byte[] getBytes(MultipartFile contract) {
-        try { return contract.getBytes(); }
-        catch (IOException ex) { throw new ResponseStatusException(BAD_REQUEST, ex.getMessage()); }
+    private SaveRentResponse saveRentAndNotifyUser(User user, RentRequest rentRequest, MultipartFile contract, Contact contact) {
+        final var rent = saveRent(rentRequest, contract, contact);
+        rentContactUseCase.markAsRented(contact);
+        notifyIssuer(rent, user);
+        return new SaveRentResponse(rent.getRentId());
     }
 
     private Rent saveRent(RentRequest rentRequest, MultipartFile contract, Contact contact) {
@@ -68,5 +73,25 @@ public class SaveRentUseCase implements ISaveRentUseCase {
         );
         rentRepository.save(rent);
         return rent;
+    }
+
+
+    private byte[] getBytes(MultipartFile contract) {
+        try { return contract.getBytes(); }
+        catch (IOException ex) { throw new ResponseStatusException(BAD_REQUEST, ex.getMessage()); }
+    }
+
+    private void notifyIssuer(Rent rent, User user) {
+        final var contactUrl = "/rent-details/" + rent.getRentId();
+        notificationService.saveNotification(
+                buildNotification(
+                        user,
+                        rent.getContact().getIssuer(),
+                        CONTACT_RENTED,
+                        RENT_NOTIFICATION_TITLE,
+                        rent.getContact().getProperty().getTitle(),
+                        contactUrl
+                )
+        );
     }
 }
