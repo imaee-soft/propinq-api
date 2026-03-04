@@ -21,4 +21,6 @@ public interface IRentService {
     List<Projection> getRentProjection(UUID rentId);
     void saveDocument(RentDocumentRequest rentDocumentRequest, MultipartFile document);
     void cancelRent(UUID rentId, CancelRentRequest cancelRentRequest);
+    void updateContract(UUID rentId, MultipartFile contract);
+    void deleteDocument(UUID documentId);
 }

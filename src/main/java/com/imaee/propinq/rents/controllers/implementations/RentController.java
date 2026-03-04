@@ -57,4 +57,14 @@ public class RentController implements IRentController {
     public void cancelRent(UUID rentId, CancelRentRequest cancelRentRequest) {
         rentService.cancelRent(rentId, cancelRentRequest);
     }
+
+    @Override
+    public void updateContract(UUID rentId, MultipartFile contract) {
+        rentService.updateContract(rentId, contract);
+    }
+
+    @Override
+    public void deleteDocument(UUID documentId) {
+        rentService.deleteDocument(documentId);
+    }
 }

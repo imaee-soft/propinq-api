@@ -78,4 +78,17 @@ public interface IRentController {
             @PathVariable UUID rentId,
             @RequestBody @Valid CancelRentRequest cancelRentRequest
     );
+
+    @PatchMapping("/{rentId:[0-9a-fA-F\\\\-]{36}}/contract")
+    @ResponseStatus(OK)
+    @Operation(summary = "Updates the rent contract file.")
+    void updateContract(
+            @PathVariable UUID rentId,
+            @RequestPart("contract") MultipartFile contract
+    );
+
+    @DeleteMapping("/document/{documentId:[0-9a-fA-F\\\\-]{36}}")
+    @ResponseStatus(OK)
+    @Operation(summary = "Deletes a rent document by its ID.")
+    void deleteDocument(@PathVariable UUID documentId);
 }

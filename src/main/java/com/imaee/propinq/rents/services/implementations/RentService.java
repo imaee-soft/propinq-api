@@ -28,6 +28,8 @@ public class RentService implements IRentService {
     private final IGetProjectionUseCase getProjectionUseCase;
     private final ISaveDocumentUseCase saveDocumentUseCase;
     private final ICancelRentUseCase cancelRentUseCase;
+    private final IUpdateContractUseCase updateContractUseCase;
+    private final IDeleteDocumentUseCase deleteDocumentUseCase;
 
     @Override
     public SaveRentResponse saveRent(RentRequest rentRequest, MultipartFile contract) {
@@ -62,5 +64,15 @@ public class RentService implements IRentService {
     @Override
     public void cancelRent(UUID rentId, CancelRentRequest cancelRentRequest) {
         cancelRentUseCase.cancelRent(rentId, cancelRentRequest);
+    }
+
+    @Override
+    public void updateContract(UUID rentId, MultipartFile contract) {
+        updateContractUseCase.updateContract(rentId, contract);
+    }
+
+    @Override
+    public void deleteDocument(UUID documentId) {
+        deleteDocumentUseCase.deleteDocument(documentId);
     }
 }
