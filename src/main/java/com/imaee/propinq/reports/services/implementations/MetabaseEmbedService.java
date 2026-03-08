@@ -11,6 +11,7 @@ import java.util.Map;
 
 @Service
 public class MetabaseEmbedService implements IMetabaseEmbedService {
+
     @Value("${metabase.site-url}")
     private String metabaseSiteUrl;
 

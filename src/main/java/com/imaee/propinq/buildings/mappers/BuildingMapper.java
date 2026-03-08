@@ -21,7 +21,8 @@ public class BuildingMapper {
         return new BuildingResponse(
                 building.getBuildingId(),
                 building.getLatitude(),
-                building.getLongitude()
+                building.getLongitude(),
+                building.getName()
         );
     }
 

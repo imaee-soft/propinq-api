@@ -1,7 +1,6 @@
 package com.imaee.propinq.notifications.data.models;
 
 import com.imaee.propinq.notifications.data.enums.NotificationType;
-import com.imaee.propinq.rents.data.models.Contact;
 import com.imaee.propinq.users.data.models.User;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Enumerated;
@@ -34,9 +33,6 @@ public class Notification {
     @ManyToOne
     @NotNull
     private User notified;
-
-    @ManyToOne
-    private Contact contact;
 
     @Enumerated(STRING)
     private NotificationType notificationType;

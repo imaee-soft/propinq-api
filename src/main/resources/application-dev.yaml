@@ -1,5 +1,4 @@
 spring:
-
   devtools:
     restart:
       enabled: ${DEVTOOLS_RESTART_ENABLED:true}
@@ -21,18 +20,15 @@ spring:
 
   datasource:
     url: jdbc:mysql://localhost:${MYSQL_PORT:3306}/${MYSQL_DATABASE:propinq}?createDatabaseIfNotExist=true
-    username: ${MYSQL_USERNAME:root}
+    username: ${MYSQL_USERNAME:imaee}
     password: ${MYSQL_PASSWORD:password}
     driver-class-name: com.mysql.cj.jdbc.Driver
 
-  data:
-    mongodb:
-      uri: {MONGO_URL:mongodb://localhost:27017/megastore_logs}
   mail:
     host: ${MAIL_HOST:smtp.gmail.com}
     port: ${MAIL_PORT:587}
-    username: ${MAIL_USERNAME:7up.megastore@gmail.com}
-    password: ${MAIL_PASSWORD:kemb pmbj helh ikvn}
+    username: ${MAIL_USERNAME}
+    password: ${MAIL_PASSWORD}
     properties:
       mail:
         smtp:
@@ -54,9 +50,9 @@ frontend:
   url: ${FRONTEND_URL:http://localhost:4200}
 
 cloudinary:
-  cloud-name: ${CLOUDINARY_NAME:dlomx8sc1}
-  api-key: ${CLOUDINARY_API_KEY:363723365928819}
-  api-secret: ${CLOUDINARY_API_SECRET:z1aLT2IRKpN97R8vMYNZAvFYG68}
+  cloud-name: ${CLOUDINARY_NAME}
+  api-key: ${CLOUDINARY_API_KEY}
+  api-secret: ${CLOUDINARY_API_SECRET}
 
 google:
   recaptcha:
@@ -92,4 +88,9 @@ security:
 
 metabase:
   site-url: ${METABASE_SITE_URL:http://localhost:3000}
-  secret-key: ${METABASE_SECRET_KEY:491b968d9df38474b1165c234dcb992ca50000894f9a65ec6abb5b0e70bbc769}
+  secret-key: ${METABASE_SECRET_KEY:409a1d0392c86c5973bcf274cc2f891b74a31a26149b6eaa69304ec5a4bfcd96}
+
+arquiler:
+  calculation-url: ${CALCULATION_URL}
+  api-key: ${ARQUILER_API_KEY}
+  api-host: ${ARQUILER_API_HOST}

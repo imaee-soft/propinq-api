@@ -2,6 +2,7 @@ package com.imaee.propinq.notifications.services.interfaces;
 
 import com.imaee.propinq.notifications.controllers.packages.NotificationResponse;
 import com.imaee.propinq.notifications.data.models.Notification;
+import com.imaee.propinq.users.data.models.User;
 import org.springframework.data.domain.Page;
 
 import java.util.List;
@@ -13,4 +14,5 @@ public interface INotificationService {
     void saveNotification(Notification notification);
     void markAsSeen(UUID notificationId);
     void markAsUnseen(UUID notificationId);
+    void notifyUsers(Notification notification, List<User> users);
 }

@@ -2,14 +2,7 @@ package com.imaee.propinq.users.data.models;
 
 import com.imaee.propinq.users.data.enums.Role;
 import com.imaee.propinq.users.data.pipes.PhoneNumberConverter;
-import jakarta.persistence.CascadeType;
-import jakarta.persistence.Column;
-import jakarta.persistence.Convert;
-import jakarta.persistence.Entity;
-import jakarta.persistence.EnumType;
-import jakarta.persistence.Enumerated;
-import jakarta.persistence.Id;
-import jakarta.persistence.OneToMany;
+import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -20,6 +13,9 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
+
+import static com.imaee.propinq.users.data.enums.Role.TENANT;
+import static jakarta.persistence.EnumType.STRING;
 
 @Entity(name = "users")
 @NoArgsConstructor
@@ -54,9 +50,9 @@ public class User {
     @Convert(converter = PhoneNumberConverter.class)
     private String phoneNumber;
  
-    @Enumerated(EnumType.STRING)
+    @Enumerated(STRING)
     @Builder.Default
-    private Role role = Role.TENANT;
+    private Role role = TENANT;
 
     @OneToMany(mappedBy = "user", cascade = {CascadeType.ALL})
     @Builder.Default

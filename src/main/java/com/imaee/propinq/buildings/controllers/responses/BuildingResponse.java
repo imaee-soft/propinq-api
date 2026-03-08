@@ -5,5 +5,6 @@ import java.util.UUID;
 public record BuildingResponse(
         UUID buildingId,
         Double latitude,
-        Double longitude
+        Double longitude,
+        String name
 ) {}

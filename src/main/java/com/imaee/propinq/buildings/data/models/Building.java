@@ -11,12 +11,12 @@ import jakarta.persistence.Enumerated;
 import jakarta.persistence.Id;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
+import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
-import lombok.NonNull;
 import lombok.experimental.SuperBuilder;
 
 import java.time.LocalDateTime;
@@ -30,7 +30,6 @@ import static jakarta.persistence.EnumType.STRING;
 import static jakarta.persistence.FetchType.EAGER;
 import static java.util.UUID.randomUUID;
 import static lombok.AccessLevel.PROTECTED;
-import static lombok.AccessLevel.PUBLIC;
 
 @EqualsAndHashCode(callSuper = true)
 @Entity(name = "buildings")
@@ -43,24 +42,24 @@ public class Building extends Locatable {
     @Id
     private final UUID buildingId = randomUUID();
 
-    @NonNull
+    @NotNull
     @Column(unique = true)
     private String name;
 
-    @NonNull
+    @NotNull
     private String description;
 
-    @NonNull
+    @NotNull
     private String address;
 
-    @NonNull
+    @NotNull
     @OneToMany(cascade = ALL, fetch = EAGER)
     private List<Image> images;
 
     @OneToMany(mappedBy = "building", cascade = ALL)
     private List<Property> properties = new ArrayList<>();
 
-    @NonNull
+    @NotNull
     @ManyToOne
     private User user;
 
