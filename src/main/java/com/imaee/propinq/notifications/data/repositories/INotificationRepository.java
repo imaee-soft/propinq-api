@@ -13,5 +13,4 @@ import java.util.UUID;
 public interface INotificationRepository extends JpaRepository<Notification, UUID> {
     Page<Notification> findByNotifiedUserId(UUID notifiedUserId, Pageable pageable);
     List<Notification> findByNotifiedUserIdAndSeenFalse(UUID notifiedUserId);
-    void deleteByContact_ContactId(UUID contactContactId);
 }
