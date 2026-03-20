@@ -1,0 +1,92 @@
+# syntax=docker/dockerfile:1
+
+################################################################################
+
+# Create a stage for resolving and downloading dependencies.
+# Etapa deps: 
+# Descarga las dependencias del proyecto utilizando Maven.
+# Aprovecha la caché de Docker para evitar descargas repetidas en futuras construcciones.
+# Para ejecutar esta etapa:
+# docker build --target deps -t propinq-api-deps .
+FROM eclipse-temurin:21-jdk-jammy AS deps
+
+WORKDIR /build
+
+# Copy the mvnw wrapper with executable permissions.
+COPY --chmod=0755 mvnw mvnw
+COPY .mvn/ .mvn/
+
+# Descargar dependencias (cachea ~/.m2)
+RUN --mount=type=bind,source=pom.xml,target=pom.xml \
+    --mount=type=cache,target=/root/.m2 \
+    ./mvnw dependency:go-offline -DskipTests
+
+################################################################################
+
+# Etapa package:
+# Compila el código fuente y genera un archivo JAR empaquetado (uber jar) con todas las dependencias necesarias.
+# Para ejecutar esta etapa:
+# docker build --target package -t propinq-api-package .
+FROM deps AS package
+
+WORKDIR /build
+
+COPY ./src src/
+RUN --mount=type=bind,source=pom.xml,target=pom.xml \
+    --mount=type=cache,target=/root/.m2 \
+    ./mvnw package -DskipTests && \
+    mv target/$(./mvnw help:evaluate -Dexpression=project.artifactId -q -DforceStdout)-$(./mvnw help:evaluate -Dexpression=project.version -q -DforceStdout).jar target/app.jar
+
+################################################################################
+
+# Etapa extract:
+# Utiliza herramientas de Spring Boot para dividir el JAR empaquetado en capas (dependencias, loader, etc.).
+# Esto optimiza la imagen para producción al permitir que Docker reutilice capas.
+# Para ejecutar esta etapa:
+# docker build --target extract -t propinq-api-extract .
+FROM package AS extract
+
+WORKDIR /build
+RUN java -Djarmode=layertools -jar target/app.jar extract --destination target/extracted
+
+################################################################################
+FROM eclipse-temurin:21-jdk-jammy AS final
+
+# Add live reload tools and entrypoint script.
+RUN apt-get update && apt-get install -y bash && \
+    apt-get install -y inotify-tools && \
+    rm -rf /var/lib/apt/lists/*
+COPY --chmod=0755 docker-entrypoint.dev.sh ./docker-entrypoint.dev.sh
+RUN apt-get update && apt-get install -y dos2unix && dos2unix ./docker-entrypoint.dev.sh
+
+# Usuario no root con UID parametrizable
+ARG UID=1000
+ARG GID=1000
+# Crear grupo/usuario sólo si no existen para que la capa sea idempotente
+RUN getent group appgroup >/dev/null || groupadd -g "${GID}" appgroup ; \
+    id -u appuser >/dev/null 2>&1 || useradd -ms /bin/bash -u "${UID}" -g "${GID}" appuser
+
+RUN mkdir -p /app /app/data /app/out /home/appuser/.m2 && chown -R appuser:appgroup /app /home/appuser/.m2
+
+USER appuser
+WORKDIR /app
+ENV HOME=/home/appuser
+
+# Capas extraídas
+COPY --from=extract /build/target/extracted/dependencies/ ./
+COPY --from=extract /build/target/extracted/snapshot-dependencies/ ./
+COPY --from=extract /build/target/extracted/spring-boot-loader/ ./
+COPY --from=extract /build/target/extracted/application/ ./
+
+# Maven Wrapper para entrypoint (spring-boot:run)
+COPY --chmod=0755 mvnw ./mvnw
+COPY .mvn/ .mvn/
+
+# Copiar scripts dentro de la imagen y asegurar +x
+COPY scripts/ /app/scripts/
+RUN chmod +x /app/scripts/*.sh || true
+
+EXPOSE 8080
+EXPOSE 35729
+
+ENTRYPOINT ["/docker-entrypoint.dev.sh"]

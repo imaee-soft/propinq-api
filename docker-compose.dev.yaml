@@ -1,0 +1,127 @@
+
+services:
+  # fix-perms:
+  #   image: busybox:1.36
+  #   container_name: propinq-fix-perms
+  #   user: "0:0"
+  #   command: sh -lc "mkdir -p /app/data /app/out /app/state && chown -R ${HOST_UID:-1000}:${HOST_GID:-1000} /app/data /app/out /app/state && ls -ld /app/data /app/out /app/state"
+  #   volumes:
+  #     - data-volume:/app/data
+  #     - out-volume:/app/out
+  #     - state-volume:/app/state
+  #   networks:
+  #     - app-network
+  #   restart: "no"
+
+  api:
+    build:
+      context: .
+      dockerfile: Dockerfile.dev
+      target: final
+      args:
+        UID: "${HOST_UID:-1000}"
+        GID: "${HOST_GID:-1000}"
+    image: propinq-api:latest
+    container_name: propinq-api
+    ports:
+      - "8080:8080"
+      - "35729:35729"
+    volumes:
+      - ./src:/app/src
+      - ./pom.xml:/app/pom.xml
+      - ./scripts:/app/scripts
+      - data-volume:/app/data
+      - out-volume:/app/out
+      - state-volume:/app/state
+      - maven-cache:/home/appuser/.m2
+    depends_on:
+      - mysql-db
+      - mongodb
+    environment:
+      SPRING_PROFILES_ACTIVE: ${SPRING_PROFILES_ACTIVE} # .env
+      SPRING_DATASOURCE_URL: jdbc:mysql://mysql-db:3306/propinq
+      SPRING_DATASOURCE_USERNAME: ${MYSQL_USERNAME}
+      SPRING_DATASOURCE_PASSWORD: ${MYSQL_PASSWORD} # .env
+      SPRING_DATA_MONGODB_URI: mongodb://${MONGO_USER}:${MONGO_PASSWORD}@mongodb:27017/propinq?authSource=admin
+      SECURITY_JWT_KEY: ${SECURITY_JWT_KEY}
+      SECURITY_JWT_USER: ${SECURITY_JWT_USER}
+      MAIL_HOST: ${MAIL_HOST}
+      MAIL_USERNAME: ${MAIL_USERNAME}
+      MAIL_PASSWORD: ${MAIL_PASSWORD}
+      CLOUDINARY_API_KEY: ${CLOUD_API_KEY}
+      CLOUDINARY_API_SECRET: ${CLOUD_API_SECRET}
+      CLOUDINARY_CLOUD_NAME: ${CLOUD_NAME}
+      GOOGLE_RECAPTCHA_SECRET: ${GOOGLE_RECAPTCHA_SECRET}
+      POI_SCHEDULER_RUN_DOWNLOAD: "false"
+      POI_SCHEDULER_RUN_EXTRACTION: "false"
+      POI_SCHEDULER_ENABLED: "true"
+      POI_RUN_ON_STARTUP: "true"
+
+    networks:
+      - app-network
+    stdin_open: true
+    tty: true
+
+  # frontend:
+  #   image: propinq-frontend:latest
+  #   container_name: propinq-frontend
+  #   ports:
+  #     - "4200:4200"
+  #   networks:
+  #     - app-network
+
+  mysql-db:
+    image: mysql:8
+    container_name: mysql-db
+    ports:
+      - "${MYSQL_PORT}:3306"
+    environment:
+      MYSQL_ROOT_PASSWORD: ${MYSQL_PASSWORD} # .env
+      MYSQL_DATABASE: ${MYSQL_DATABASE}
+    volumes:
+      - mysql-data:/var/lib/mysql
+    networks:
+      - app-network
+
+  mongodb:
+    image: mongo:6
+    container_name: mongodb
+    ports:
+      - "${MONGO_PORT}:27017"
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: ${MONGO_USER}
+      MONGO_INITDB_ROOT_PASSWORD: ${MONGO_PASSWORD}
+      MONGO_INITDB_DATABASE: ${MONGO_DATABASE}
+    volumes:
+      - mongo-data:/data/db
+    networks:
+      - app-network
+
+  metabase:
+    image: metabase/metabase:latest
+    container_name: metabase
+    ports:
+      - "3000:3000"
+    networks:
+      - app-network
+    depends_on:
+      - mysql-db
+    volumes:
+      - metabase-data:/metabase-data
+    environment:
+      MB_DB_FILE: /metabase-data/metabase.db
+
+volumes:
+  mysql-data:
+  mongo-data:
+  maven-cache:
+  data-volume:
+  out-volume:
+  state-volume:
+  metabase-data:
+
+
+networks:
+  app-network:
+    driver: bridge
+
