@@ -1,6 +1,65 @@
 -- Users seed
+-- users: 
+-- Owner:
+-- propietario@propinq.com
+-- admin123
+
+-- Admin:
+-- admin@propinq.com
+-- admin123
+
+-- Tenant:
+-- inquilino@gmail.com
+-- admin123
 INSERT IGNORE INTO users (
-    user_id, dni, password, birth_date, first_name, last_name, email, address, phone_number, cuit, role, activated, deleted
+    user_id,
+    activated,
+    address,
+    birth_date,
+    deleted,
+    email,
+    first_name,
+    last_name,
+    password,
+    phone_number,
+    role
 ) VALUES
-    (UNHEX('AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA'), '44244003', '$2a$10$XuN33pdjkfpv3SfA8I.jm.hQHV3aempTZquspVNsBSCUkxmKzydjS', '1990-01-01', 'PROP', 'INQ', 'admin@propinq.com', 'Sin dirección', '+5493534123456', '20123456789', 'ADMIN', 1, 0),
-    (UNHEX('11111111111111111111111111111111'), '12345678', '$2a$10$XuN33pdjkfpv3SfA8I.jm.hQHV3aempTZquspVNsBSCUkxmKzydjS', '1985-05-15', 'Juan', 'Propietario', 'propietario@propinq.com', 'Villa María, Córdoba', '+5493534987654', '20123456780', 'OWNER', 1, 0);
+(
+    UNHEX('AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA'),
+    1,
+    'Sin dirección',
+    '1990-01-01',
+    0,
+    'admin@propinq.com',
+    'PROP',
+    'INQ',
+    '$2a$10$XuN33pdjkfpv3SfA8I.jm.hQHV3aempTZquspVNsBSCUkxmKzydjS',
+    '+5493534123456',
+    'ADMIN'
+),
+(
+    UNHEX('11111111111111111111111111111111'),
+    1,
+    'Villa María, Córdoba',
+    '1985-05-15',
+    0,
+    'propietario@propinq.com',
+    'Juan',
+    'Propietario',
+    '$2a$10$XuN33pdjkfpv3SfA8I.jm.hQHV3aempTZquspVNsBSCUkxmKzydjS',
+    '+5493534987654',
+    'OWNER'
+),
+(
+    UNHEX('22222222222222222222222222222222'),
+    1,
+    'Buenos Aires, Argentina',
+    '1995-08-20',
+    0,
+    'inquilino@propinq.com',
+    'Pedro',
+    'Inquilino',
+    '$2a$10$XuN33pdjkfpv3SfA8I.jm.hQHV3aempTZquspVNsBSCUkxmKzydjS',
+    '+5491123456789',
+    'TENANT'
+);
