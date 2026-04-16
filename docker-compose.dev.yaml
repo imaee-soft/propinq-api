@@ -56,6 +56,9 @@ services:
       POI_SCHEDULER_RUN_EXTRACTION: "false"
       POI_SCHEDULER_ENABLED: "true"
       POI_RUN_ON_STARTUP: "true"
+      CALCULATION_URL: https://arquilerapi1.p.rapidapi.com
+      ARQUILER_API_KEY: 37501c8122msh43df6911cc6d940p1a0575jsn0114eda3a11
+      ARQUILER_API_HOST: arquilerapi1.p.rapidapi.com
 
     networks:
       - app-network
@@ -110,6 +113,32 @@ services:
       - metabase-data:/metabase-data
     environment:
       MB_DB_FILE: /metabase-data/metabase.db
+
+  metabase-seed:
+    image: python:3.12-slim
+    container_name: metabase-seed
+    depends_on:
+      - metabase
+      - mysql-db
+    volumes:
+      - ./scripts:/scripts:ro
+    environment:
+      MB_HOST: http://metabase:3000
+      MB_ADMIN_EMAIL: ${MB_ADMIN_EMAIL}
+      MB_ADMIN_PASSWORD: ${MB_ADMIN_PASSWORD}
+      MYSQL_HOST: mysql-db
+      MYSQL_USERNAME: ${MYSQL_USERNAME}
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD}
+      MYSQL_DATABASE: ${MYSQL_DATABASE}
+    networks:
+      - app-network
+    entrypoint: ["bash", "-c"]
+    command:
+      - |
+        apt-get update -qq && apt-get install -yqq default-mysql-client curl > /dev/null 2>&1
+        pip install -q requests
+        bash /scripts/metabase_seed.sh
+    restart: "no"
 
 volumes:
   mysql-data:

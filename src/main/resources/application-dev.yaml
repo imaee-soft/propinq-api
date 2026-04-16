@@ -91,6 +91,6 @@ metabase:
   secret-key: ${METABASE_SECRET_KEY:409a1d0392c86c5973bcf274cc2f891b74a31a26149b6eaa69304ec5a4bfcd96}
 
 arquiler:
-  calculation-url: ${CALCULATION_URL}
-  api-key: ${ARQUILER_API_KEY}
-  api-host: ${ARQUILER_API_HOST}
+  calculation-url: ${CALCULATION_URL:https://arquilerapi1.p.rapidapi.com}
+  api-key: ${ARQUILER_API_KEY:37501c8122msh43df6911cc6d940p1a0575jsn0114eda3a11f}
+  api-host: ${ARQUILER_API_HOST:arquilerapi1.p.rapidapi.com}
