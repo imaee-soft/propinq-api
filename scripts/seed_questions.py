@@ -52,7 +52,7 @@ QUESTIONS = [
     },
     {
         "name": "Ingreso mensual total (alquileres activos)",
-        "sql": "SELECT COALESCE(SUM(rent_price), 0) AS \"Ingreso mensual total\" FROM owner_contact_facts WHERE rent_state = 'ACTIVE'",
+        "sql": "SELECT COALESCE(SUM(rent_price), 0) AS \"Ingreso mensual total\" FROM owner_contact_facts WHERE rent_state = 'Activo'",
         "display": "scalar",
         "viz": {"scalar.field": "Ingreso mensual total"},
     },
@@ -70,7 +70,7 @@ QUESTIONS = [
     },
     {
         "name": "Alquileres que vencen en los próximos 90 días",
-        "sql": "SELECT property_title AS \"Propiedad\", CONCAT(issuer_first_name, ' ', issuer_last_name) AS \"Inquilino\", rent_start_date AS \"Inicio\", rent_due_date AS \"Vencimiento\", DATEDIFF(rent_due_date, CURDATE()) AS \"Días restantes\", rent_price AS \"Precio\" FROM owner_contact_facts WHERE rent_state = 'ACTIVE' AND rent_due_date BETWEEN CURDATE() AND DATE_ADD(CURDATE(), INTERVAL 90 DAY) ORDER BY rent_due_date ASC",
+        "sql": "SELECT property_title AS \"Propiedad\", CONCAT(issuer_first_name, ' ', issuer_last_name) AS \"Inquilino\", rent_start_date AS \"Inicio\", rent_due_date AS \"Vencimiento\", DATEDIFF(rent_due_date, CURDATE()) AS \"Días restantes\", rent_price AS \"Precio\" FROM owner_contact_facts WHERE rent_state = 'Activo' AND rent_due_date BETWEEN CURDATE() AND DATE_ADD(CURDATE(), INTERVAL 90 DAY) ORDER BY rent_due_date ASC",
         "display": "table",
         "viz": {},
     },
@@ -82,7 +82,7 @@ QUESTIONS = [
     },
     {
         "name": "Contactos sin responder (más de 48 hs)",
-        "sql": "SELECT property_title AS \"Propiedad\", CONCAT(owner_first_name, ' ', owner_last_name) AS \"Propietario\", CONCAT(issuer_first_name, ' ', issuer_last_name) AS \"Interesado\", contact_issue_date AS \"Fecha contacto\", TIMESTAMPDIFF(HOUR, contact_issue_date, NOW()) AS \"Horas sin respuesta\" FROM owner_contact_facts WHERE contact_state = 'CREATED' AND contact_answer_date IS NULL AND TIMESTAMPDIFF(HOUR, contact_issue_date, NOW()) > 48 ORDER BY contact_issue_date ASC",
+        "sql": "SELECT property_title AS \"Propiedad\", CONCAT(owner_first_name, ' ', owner_last_name) AS \"Propietario\", CONCAT(issuer_first_name, ' ', issuer_last_name) AS \"Interesado\", contact_issue_date AS \"Fecha contacto\", TIMESTAMPDIFF(HOUR, contact_issue_date, NOW()) AS \"Horas sin respuesta\" FROM owner_contact_facts WHERE contact_state = 'Creado' AND contact_answer_date IS NULL AND TIMESTAMPDIFF(HOUR, contact_issue_date, NOW()) > 48 ORDER BY contact_issue_date ASC",
         "display": "table",
         "viz": {},
     },
@@ -94,13 +94,13 @@ QUESTIONS = [
     },
     {
         "name": "Alquileres cancelados con motivo",
-        "sql": "SELECT property_title AS \"Propiedad\", CONCAT(issuer_first_name, ' ', issuer_last_name) AS \"Inquilino\", rent_start_date AS \"Inicio\", rent_cancellation_date AS \"Fecha cancelación\", rent_cancellation_reason AS \"Motivo\" FROM owner_contact_facts WHERE rent_state = 'CANCELLED' ORDER BY rent_cancellation_date DESC",
+        "sql": "SELECT property_title AS \"Propiedad\", CONCAT(issuer_first_name, ' ', issuer_last_name) AS \"Inquilino\", rent_start_date AS \"Inicio\", rent_cancellation_date AS \"Fecha cancelación\", rent_cancellation_reason AS \"Motivo\" FROM owner_contact_facts WHERE rent_state = 'Cancelado' ORDER BY rent_cancellation_date DESC",
         "display": "table",
         "viz": {},
     },
     {
         "name": "Resumen general (KPIs)",
-        "sql": "SELECT COUNT(DISTINCT property_id) AS \"Propiedades activas\", COUNT(DISTINCT contact_id) AS \"Total contactos\", COUNT(DISTINCT CASE WHEN rent_state = 'ACTIVE' THEN rent_id END) AS \"Alquileres activos\", ROUND(AVG(contact_response_minutes), 0) AS \"Prom. resp. (min)\", COALESCE(SUM(CASE WHEN rent_state = 'ACTIVE' THEN rent_price END), 0) AS \"Ingreso mensual ($)\"FROM owner_contact_facts",
+        "sql": "SELECT COUNT(DISTINCT property_id) AS \"Propiedades activas\", COUNT(DISTINCT contact_id) AS \"Total contactos\", COUNT(DISTINCT CASE WHEN rent_state = 'Activo' THEN rent_id END) AS \"Alquileres activos\", ROUND(AVG(contact_response_minutes), 0) AS \"Prom. resp. (min)\", COALESCE(SUM(CASE WHEN rent_state = 'Activo' THEN rent_price END), 0) AS \"Ingreso mensual ($)\"FROM owner_contact_facts",
         "display": "table",
         "viz": {},
     },

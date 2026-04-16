@@ -23,7 +23,13 @@ SELECT
     `b`.`name`                           AS `building_name`,
 
     BIN_TO_UUID(`c`.`contact_id`)        AS `contact_id`,
-    `c`.`state`                          AS `contact_state`,
+    CASE `c`.`state`
+        WHEN 'ACCEPTED' THEN 'Aceptado'
+        WHEN 'CREATED'  THEN 'Creado'
+        WHEN 'REJECTED' THEN 'Rechazado'
+        WHEN 'RENTED'   THEN 'Alquilado'
+        WHEN 'UNSETTLED' THEN 'Sin resolver'
+    END COLLATE utf8mb4_0900_ai_ci        AS `contact_state`,
     `c`.`issue_date`                     AS `contact_issue_date`,
     `c`.`answer_date`                    AS `contact_answer_date`,
     `c`.`contact_message`                AS `contact_message`,
@@ -41,7 +47,11 @@ SELECT
     `i`.`email`                          AS `issuer_email`,
 
     BIN_TO_UUID(`r`.`rent_id`)           AS `rent_id`,
-    `r`.`rent_state`                     AS `rent_state`,
+    CASE `r`.`rent_state`
+        WHEN 'ACTIVE'    THEN 'Activo'
+        WHEN 'CANCELLED' THEN 'Cancelado'
+        WHEN 'DONE'      THEN 'Finalizado'
+    END COLLATE utf8mb4_0900_ai_ci        AS `rent_state`,
     `r`.`rent_date`                      AS `rent_start_date`,
     `r`.`rent_due_date`                  AS `rent_due_date`,
     `r`.`rent_price`                     AS `rent_price`,
