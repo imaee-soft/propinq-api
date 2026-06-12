@@ -13,4 +13,6 @@ import static com.imaee.propinq.users.utils.TokenQueries.ACTIVE_TOKEN_BY_USER_AN
 public interface ITokenRepository extends JpaRepository<Token, UUID> {
     @Query(ACTIVE_TOKEN_BY_USER_AND_EXPIRATION)
     Optional<Token> findActiveTokenByUser(User user);
+
+    Optional<Token> findByVerificationCode(String verificationCode);
 }

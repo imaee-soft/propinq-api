@@ -11,7 +11,6 @@ import org.springframework.web.server.ResponseStatusException;
 
 import java.util.UUID;
 
-import static com.imaee.propinq.users.Constants.EXISTENT_DNI;
 import static org.springframework.http.HttpStatus.BAD_REQUEST;
 
 @Component

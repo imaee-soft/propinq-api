@@ -9,8 +9,6 @@ import com.imaee.propinq.users.services.usecases.interfaces.IResendActivationTok
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import java.util.UUID;
-
 @Service
 @AllArgsConstructor
 public class UserActivationService implements IUserActivationService {
@@ -20,8 +18,8 @@ public class UserActivationService implements IUserActivationService {
     private final IResendActivationTokenUseCase resendActivationTokenUseCase;
 
     @Override
-    public void activateUser(UUID userId, UUID activationTokenId) {
-        activateUserUseCase.activateUser(userId, activationTokenId);
+    public void activateUser(String email, String verificationCode) {
+        activateUserUseCase.activateUser(email, verificationCode);
     }
 
     @Override

@@ -24,6 +24,9 @@ public class Token {
     private final UUID tokenId = UUID.randomUUID();
 
     @Builder.Default
+    private String verificationCode = String.format("%06d", new java.util.Random().nextInt(1000000));
+
+    @Builder.Default
     private LocalDateTime tokenExpirationDate = now().plusMinutes(1440);
 
     @ManyToOne
