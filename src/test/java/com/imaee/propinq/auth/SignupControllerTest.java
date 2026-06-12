@@ -30,6 +30,7 @@ public class SignupControllerTest {
     @MockBean
     private com.imaee.propinq.log.data.LogRepository logRepository;
 
+    // Provide a real ua_parser.Parser bean and LoggingInterceptor to avoid Mockito inline mock issues on newer JVMs
     @org.springframework.boot.test.context.TestConfiguration
     static class UaParserConfig {
         @org.springframework.context.annotation.Bean
