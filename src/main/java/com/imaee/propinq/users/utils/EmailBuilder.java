@@ -12,9 +12,7 @@ public class EmailBuilder {
     @Value("${frontend.url}")
     private String frontendURL;
 
-    public String buildActivationEmailBody(User user, UUID activationTokenId) {
-        String activationUrl = frontendURL + "/auth/activate?userId="
-                + user.getUserId() + "&activationToken=" + activationTokenId;
+    public String buildActivationEmailBody(User user, String verificationCode) {
         return "<table style='width:100%; height:100%;'>"
                 + "<tr>"
                 + "<td style='width:100%; height:100%; text-align:center; vertical-align:middle;'>"
@@ -22,10 +20,10 @@ public class EmailBuilder {
                 + "<h1>Welcome to PropInq</h1>"
                 + "<h3>Hey " + user.getFirstName() + " " + user.getLastName() + "!</h3>"
                 + "<h4>Thanks for joining us!</h4>"
-                + "<p>Click the link below to activate your account</p>"
-                + "<a href=\""
-                + activationUrl
-                + "\">Activate account</a>"
+                + "<p>Tu código de verificación es:</p>"
+                + "<h2 style='letter-spacing: 5px; background-color: #f4f4f4; padding: 10px; border-radius: 5px; font-size: 32px;'>"
+                + verificationCode
+                + "</h2>"
                 + "</div>"
                 + "</td>"
                 + "</tr>"

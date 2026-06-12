@@ -8,10 +8,10 @@ import com.imaee.propinq.users.services.usecases.interfaces.IActivateUserUseCase
 import com.imaee.propinq.users.utils.EmailBuilder;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Component;
-
-import java.util.UUID;
+import org.springframework.web.server.ResponseStatusException;
 
 import static com.imaee.propinq.users.utils.Constants.WELCOME_EMAIL_SUBJECT;
+import static org.springframework.http.HttpStatus.BAD_REQUEST;
 
 @Component
 @AllArgsConstructor
@@ -23,9 +23,16 @@ public class ActivateUserUseCase implements IActivateUserUseCase {
     private final EmailBuilder emailBuilder;
 
     @Override
-    public void activateUser(UUID userId, UUID activationTokenId) {
-        tokenService.throwExceptionIfTokenIsExpired(activationTokenId);
-        final var user = tokenService.findUserByTokenId(activationTokenId);
+    public void activateUser(String email, String verificationCode) {
+        final var user = userRepository.findByEmailAndDeletedIsFalse(email)
+                .orElseThrow(() -> new ResponseStatusException(BAD_REQUEST, "Usuario no encontrado"));
+        
+        final var token = tokenService.findActiveTokenByUser(user);
+        
+        if (!token.getVerificationCode().equals(verificationCode)) {
+            throw new ResponseStatusException(BAD_REQUEST, "Código de verificación inválido o expirado");
+        }
+        
         activateUser(user);
         sendWelcomeEmail(user);
     }

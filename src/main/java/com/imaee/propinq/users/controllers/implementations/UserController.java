@@ -44,8 +44,8 @@ public class UserController implements IUserController {
     }
 
     @Override
-    public void activateUser(UUID userId, @Valid ActivateUserRequest activateUserRequest) {
-        userActivationService.activateUser(userId, activateUserRequest.activationToken());
+    public void activateUser(@Valid ActivateUserRequest activateUserRequest) {
+        userActivationService.activateUser(activateUserRequest.email(), activateUserRequest.verificationCode());
     }
 
     @Override

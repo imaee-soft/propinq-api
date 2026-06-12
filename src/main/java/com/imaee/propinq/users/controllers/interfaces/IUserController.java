@@ -92,10 +92,9 @@ public interface IUserController {
             @ApiResponse(responseCode = "400", description = "Token de activación inválido o usuario ya activado"),
             @ApiResponse(responseCode = "404", description = "Usuario no encontrado")
     })
-    @PostMapping("/{userId}/activate")
+    @PostMapping("/activate")
     @ResponseStatus(NO_CONTENT)
     void activateUser(
-            @Parameter(description = "ID del usuario a activar") @PathVariable UUID userId,
             @RequestBody @Valid ActivateUserRequest activateUserRequest
     );
 
