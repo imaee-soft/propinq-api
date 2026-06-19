@@ -16,7 +16,7 @@ import java.util.UUID;
 import static org.springframework.http.HttpStatus.NO_CONTENT;
 import static org.springframework.http.HttpStatus.OK;
 
-@RequestMapping(Endpoints.API_V1 + "/favorites")
+@RequestMapping(Endpoints.API + "/favorites")
 public interface IFavoriteController {
 
         @PostMapping

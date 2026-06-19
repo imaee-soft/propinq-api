@@ -22,7 +22,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import static org.springframework.http.HttpStatus.CREATED;
 import static org.springframework.http.HttpStatus.OK;
 
-@RequestMapping(Endpoints.API_V1 + "/auth")
+@RequestMapping(Endpoints.API + "/auth")
 @Tag(name = "Authentication", description = "Operaciones relacionadas con autenticación y registro")
 public interface IAuthController {
 

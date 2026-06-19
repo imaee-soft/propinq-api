@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import java.util.List;
 import java.util.UUID;
 
-@RequestMapping(Endpoints.API_V1 + "/provinces")
+@RequestMapping(Endpoints.API + "/provinces")
 @Tag(
         name = "Provinces",
         description = "Operations for managing and querying provinces."

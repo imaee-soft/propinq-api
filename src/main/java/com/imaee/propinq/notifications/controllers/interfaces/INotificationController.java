@@ -13,7 +13,7 @@ import java.util.UUID;
 
 import static org.springframework.http.HttpStatus.OK;
 
-@RequestMapping(Endpoints.API_V1 + "/notifications")
+@RequestMapping(Endpoints.API + "/notifications")
 @Tag(
         name = "Notifications",
         description = "Operations for managing user notifications managed inside the application."

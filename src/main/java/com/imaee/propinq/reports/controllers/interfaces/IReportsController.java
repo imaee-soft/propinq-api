@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.Map;
 
-@RequestMapping(Endpoints.API_V1 + "/reports")
+@RequestMapping(Endpoints.API + "/reports")
 @Tag(
         name = "reports",
         description = "Operations for managing and querying reports."

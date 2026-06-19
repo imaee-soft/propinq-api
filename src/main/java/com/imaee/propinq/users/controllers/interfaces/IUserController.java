@@ -30,7 +30,7 @@ import static org.springframework.http.HttpStatus.NO_CONTENT;
 import static org.springframework.http.HttpStatus.OK;
 
 @Tag(name = "Users", description = "Operaciones relacionadas con la gestión de usuarios")
-@RequestMapping(Endpoints.API_V1 + "/users")
+@RequestMapping(Endpoints.API + "/users")
 public interface IUserController {
 
     @Operation(

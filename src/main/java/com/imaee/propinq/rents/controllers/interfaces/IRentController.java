@@ -22,7 +22,7 @@ import java.util.UUID;
 import static org.springframework.http.HttpStatus.CREATED;
 import static org.springframework.http.HttpStatus.OK;
 
-@RequestMapping(Endpoints.API_V1 + "/rents")
+@RequestMapping(Endpoints.API + "/rents")
 @Tag(
         name = "Rents",
         description = "Operations for managing rents."

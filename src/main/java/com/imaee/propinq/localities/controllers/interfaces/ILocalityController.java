@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 import java.util.UUID;
 
-@RequestMapping(Endpoints.API_V1 + "/localities")
+@RequestMapping(Endpoints.API + "/localities")
 @Tag(
         name = "Localities",
         description = "Operations for managing and querying localities."

@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 
 import static org.springframework.http.HttpStatus.OK;
 
-@RequestMapping(Endpoints.API_V1 + "/pois")
+@RequestMapping(Endpoints.API + "/pois")
 @Tag(
         name = "Pois",
         description = "Operations for managing and querying Points of Interest."

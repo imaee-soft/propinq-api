@@ -17,7 +17,7 @@ import java.util.UUID;
 
 import static org.springframework.http.HttpStatus.*;
 
-@RequestMapping(Endpoints.API_V1 + "/contacts")
+@RequestMapping(Endpoints.API + "/contacts")
 @Tag(
         name = "Contact Requests",
         description = "Operations for managing contact requests, previous to rents."

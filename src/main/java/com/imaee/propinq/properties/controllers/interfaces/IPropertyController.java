@@ -19,7 +19,7 @@ import java.util.UUID;
 
 import static org.springframework.http.HttpStatus.*;
 
-@RequestMapping(Endpoints.API_V1 + "/properties")
+@RequestMapping(Endpoints.API + "/properties")
 @Tag(
         name = "Properties",
         description = "Operations for managing and querying properties."

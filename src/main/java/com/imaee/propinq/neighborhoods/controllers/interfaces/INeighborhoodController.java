@@ -20,7 +20,7 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import java.util.List;
 import java.util.UUID;
 
-@RequestMapping(Endpoints.API_V1 + "/neighborhoods")
+@RequestMapping(Endpoints.API + "/neighborhoods")
 @Tag(
         name = "Neighborhoods",
         description = "Operations for managing and querying neighborhoods."

@@ -17,7 +17,7 @@ import static org.springframework.http.HttpStatus.OK;
         name = "User profiles",
         description = "Operations for managing user profiles."
 )
-@RequestMapping(Endpoints.API_V1 + "/user-profiles")
+@RequestMapping(Endpoints.API + "/user-profiles")
 public interface IUserProfilesController {
 
     @PostMapping("/owner-request")
