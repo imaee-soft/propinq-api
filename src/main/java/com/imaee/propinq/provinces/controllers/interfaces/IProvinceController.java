@@ -1,5 +1,7 @@
 package com.imaee.propinq.provinces.controllers.interfaces;
 
+import com.imaee.propinq.config.utils.Endpoints;
+
 import com.imaee.propinq.provinces.controllers.responses.ProvinceResponse;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -12,7 +14,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import java.util.List;
 import java.util.UUID;
 
-@RequestMapping("/api/v1/provinces")
+@RequestMapping(Endpoints.API_V1 + "/provinces")
 @Tag(
         name = "Provinces",
         description = "Operations for managing and querying provinces."

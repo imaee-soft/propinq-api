@@ -1,5 +1,7 @@
 package com.imaee.propinq.reports.controllers.interfaces;
 
+import com.imaee.propinq.config.utils.Endpoints;
+
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -9,7 +11,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.Map;
 
-@RequestMapping("/api/v1/reports")
+@RequestMapping(Endpoints.API_V1 + "/reports")
 @Tag(
         name = "reports",
         description = "Operations for managing and querying reports."

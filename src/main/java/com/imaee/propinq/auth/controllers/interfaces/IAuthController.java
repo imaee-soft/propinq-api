@@ -1,5 +1,7 @@
 package com.imaee.propinq.auth.controllers.interfaces;
 
+import com.imaee.propinq.config.utils.Endpoints;
+
 import com.imaee.propinq.auth.controllers.requests.CheckTokenRequest;
 import com.imaee.propinq.auth.controllers.requests.LoginRequest;
 import com.imaee.propinq.auth.controllers.requests.RefreshTokenRequest;
@@ -20,7 +22,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import static org.springframework.http.HttpStatus.CREATED;
 import static org.springframework.http.HttpStatus.OK;
 
-@RequestMapping("/api/v1/auth")
+@RequestMapping(Endpoints.API_V1 + "/auth")
 @Tag(name = "Authentication", description = "Operaciones relacionadas con autenticación y registro")
 public interface IAuthController {
 

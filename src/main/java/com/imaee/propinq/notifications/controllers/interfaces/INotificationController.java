@@ -1,5 +1,7 @@
 package com.imaee.propinq.notifications.controllers.interfaces;
 
+import com.imaee.propinq.config.utils.Endpoints;
+
 import com.imaee.propinq.notifications.controllers.packages.NotificationResponse;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -11,7 +13,7 @@ import java.util.UUID;
 
 import static org.springframework.http.HttpStatus.OK;
 
-@RequestMapping("/api/v1/notifications")
+@RequestMapping(Endpoints.API_V1 + "/notifications")
 @Tag(
         name = "Notifications",
         description = "Operations for managing user notifications managed inside the application."

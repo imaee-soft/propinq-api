@@ -1,5 +1,7 @@
 package com.imaee.propinq.buildings.controllers.interfaces;
 
+import com.imaee.propinq.config.utils.Endpoints;
+
 import com.imaee.propinq.buildings.controllers.requests.BuildingPropertiesFilter;
 import com.imaee.propinq.buildings.controllers.requests.CreateBuildingRequest;
 import com.imaee.propinq.buildings.controllers.requests.UpdateBuildingRequest;
@@ -29,7 +31,7 @@ import java.util.UUID;
 import static org.springframework.http.HttpStatus.CREATED;
 import static org.springframework.http.HttpStatus.NO_CONTENT;
 import static org.springframework.http.HttpStatus.OK;
-@RequestMapping("/api/v1/buildings")
+@RequestMapping(Endpoints.API_V1 + "/buildings")
 @Tag(
         name = "Buildings",
         description = "Operations for managing and querying buildings."

@@ -1,5 +1,7 @@
 package com.imaee.propinq.properties.controllers.interfaces;
 
+import com.imaee.propinq.config.utils.Endpoints;
+
 import com.imaee.propinq.properties.controllers.requests.CreatePropertyRequest;
 import com.imaee.propinq.properties.controllers.requests.PropertyFilterRequest;
 import com.imaee.propinq.properties.controllers.requests.UpdatePropertyRequest;
@@ -17,7 +19,7 @@ import java.util.UUID;
 
 import static org.springframework.http.HttpStatus.*;
 
-@RequestMapping("/api/v1/properties")
+@RequestMapping(Endpoints.API_V1 + "/properties")
 @Tag(
         name = "Properties",
         description = "Operations for managing and querying properties."

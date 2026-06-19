@@ -1,5 +1,7 @@
 package com.imaee.propinq.localities.controllers.interfaces;
 
+import com.imaee.propinq.config.utils.Endpoints;
+
 import com.imaee.propinq.localities.controllers.requests.LocalityRequest;
 import com.imaee.propinq.localities.controllers.responses.LocalityResponse;
 import io.swagger.v3.oas.annotations.Operation;
@@ -11,7 +13,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 import java.util.UUID;
 
-@RequestMapping("/api/v1/localities")
+@RequestMapping(Endpoints.API_V1 + "/localities")
 @Tag(
         name = "Localities",
         description = "Operations for managing and querying localities."

@@ -1,5 +1,7 @@
 package com.imaee.propinq.rents.controllers.interfaces;
 
+import com.imaee.propinq.config.utils.Endpoints;
+
 import com.imaee.propinq.projections.responses.Projection;
 import com.imaee.propinq.rents.controllers.requests.CancelRentRequest;
 import com.imaee.propinq.rents.controllers.requests.RentDocumentRequest;
@@ -20,7 +22,7 @@ import java.util.UUID;
 import static org.springframework.http.HttpStatus.CREATED;
 import static org.springframework.http.HttpStatus.OK;
 
-@RequestMapping("/api/v1/rents")
+@RequestMapping(Endpoints.API_V1 + "/rents")
 @Tag(
         name = "Rents",
         description = "Operations for managing rents."

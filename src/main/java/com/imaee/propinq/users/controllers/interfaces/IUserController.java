@@ -1,5 +1,7 @@
 package com.imaee.propinq.users.controllers.interfaces;
 
+import com.imaee.propinq.config.utils.Endpoints;
+
 import com.imaee.propinq.users.controllers.requests.ActivateUserRequest;
 import com.imaee.propinq.users.controllers.requests.RecoverPasswordRequest;
 import com.imaee.propinq.users.controllers.requests.SendEmailRequest;
@@ -28,7 +30,7 @@ import static org.springframework.http.HttpStatus.NO_CONTENT;
 import static org.springframework.http.HttpStatus.OK;
 
 @Tag(name = "Users", description = "Operaciones relacionadas con la gestión de usuarios")
-@RequestMapping("/api/v1/users")
+@RequestMapping(Endpoints.API_V1 + "/users")
 public interface IUserController {
 
     @Operation(

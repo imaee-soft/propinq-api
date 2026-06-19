@@ -1,5 +1,7 @@
 package com.imaee.propinq.poi.controllers.interfaces;
 
+import com.imaee.propinq.config.utils.Endpoints;
+
 import com.imaee.propinq.poi.controllers.requests.PoiViewportRequest;
 import com.imaee.propinq.poi.controllers.responses.PoiViewportResult;
 import io.swagger.v3.oas.annotations.Operation;
@@ -14,7 +16,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 
 import static org.springframework.http.HttpStatus.OK;
 
-@RequestMapping("/api/v1/pois")
+@RequestMapping(Endpoints.API_V1 + "/pois")
 @Tag(
         name = "Pois",
         description = "Operations for managing and querying Points of Interest."

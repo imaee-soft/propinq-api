@@ -1,5 +1,7 @@
 package com.imaee.propinq.users.controllers.interfaces;
 
+import com.imaee.propinq.config.utils.Endpoints;
+
 import com.imaee.propinq.users.controllers.responses.ProfileChangeResponse;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -15,7 +17,7 @@ import static org.springframework.http.HttpStatus.OK;
         name = "User profiles",
         description = "Operations for managing user profiles."
 )
-@RequestMapping("/api/v1/user-profiles")
+@RequestMapping(Endpoints.API_V1 + "/user-profiles")
 public interface IUserProfilesController {
 
     @PostMapping("/owner-request")

@@ -1,5 +1,7 @@
 package com.imaee.propinq.contacts.controllers.interfaces;
 
+import com.imaee.propinq.config.utils.Endpoints;
+
 import com.imaee.propinq.contacts.controllers.requests.AnswerContactRequest;
 import com.imaee.propinq.contacts.controllers.requests.CancelContactRequest;
 import com.imaee.propinq.contacts.controllers.requests.ContactRequest;
@@ -15,7 +17,7 @@ import java.util.UUID;
 
 import static org.springframework.http.HttpStatus.*;
 
-@RequestMapping("/api/v1/contacts")
+@RequestMapping(Endpoints.API_V1 + "/contacts")
 @Tag(
         name = "Contact Requests",
         description = "Operations for managing contact requests, previous to rents."

@@ -1,5 +1,7 @@
 package com.imaee.propinq.favorites.controllers.interfaces;
 
+import com.imaee.propinq.config.utils.Endpoints;
+
 import com.imaee.propinq.favorites.controllers.requests.FavoriteRequest;
 import com.imaee.propinq.favorites.controllers.responses.FavoriteEntity;
 import com.imaee.propinq.favorites.controllers.responses.FavoriteResponse;
@@ -14,7 +16,7 @@ import java.util.UUID;
 import static org.springframework.http.HttpStatus.NO_CONTENT;
 import static org.springframework.http.HttpStatus.OK;
 
-@RequestMapping("/api/v1/favorites")
+@RequestMapping(Endpoints.API_V1 + "/favorites")
 public interface IFavoriteController {
 
         @PostMapping
