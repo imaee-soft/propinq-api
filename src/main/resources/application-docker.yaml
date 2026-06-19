@@ -106,3 +106,9 @@ metabase:
 #         classpath:/sql/07_buildings_images.sql,
 #         classpath:/sql/08_properties.sql,
 #         classpath:/sql/09_properties_images.sql
+
+arquiler:
+  calculation-url: ${CALCULATION_URL:http://localhost:8080/api/v1/arquiler}
+  api-key: ${ARQUILER_API_KEY:key}
+  api-host: ${ARQUILER_API_HOST:host}
+
