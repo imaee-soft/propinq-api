@@ -6,7 +6,7 @@ public class Endpoints {
 
     public static final String AUTH_ENDPOINTS = "/api/v1/auth/**";
 
-    public static final String PARAMETERS_ENDPOINTS = "/parameters/**";
+    public static final String PARAMETERS_ENDPOINTS = "/api/v1/parameters/**";
 
     public static final String[] USER_ACTIVATION_ENDPOINTS = {
             "/api/v1/users/activate",
@@ -27,5 +27,6 @@ public class Endpoints {
             "/api/v1/provinces/**",
             "/api/v1/localities/**",
             "/api/v1/pois/**",
+            "/api/v1/neighborhoods/**",
     };
 }
