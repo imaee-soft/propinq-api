@@ -15,11 +15,10 @@ spring:
   data:
     mongodb:
       uri: ${SPRING_DATA_MONGODB_URI:mongodb://localhost:27017/test}
-  mail:
-    host: localhost
-    port: 1025
-    username: test@localhost
-    password: test
+resend:
+  api-key: re_test_key
+  from-email: PropInq <test@localhost>
+  base-url: https://api.resend.com
 
 frontend:
   url: http://localhost:4200
