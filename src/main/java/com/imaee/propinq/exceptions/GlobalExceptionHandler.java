@@ -60,15 +60,7 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(MethodArgumentNotValidException.class)
     @ResponseStatus(BAD_REQUEST)
     public ExceptionMessage handleJakartaValidationsException(MethodArgumentNotValidException ex) {
-        final var fieldErrors = ex.getBindingResult().getFieldErrors();
-        final var preferred = fieldErrors.stream()
-                .filter(error -> error.getCodes() != null
-                        && java.util.Arrays.asList(error.getCodes()).contains("NotBlank"))
-                .findFirst()
-                .or(() -> fieldErrors.stream().findFirst());
-        final String message = preferred
-                .map(error -> error.getDefaultMessage())
-                .orElseGet(() -> ex.getBindingResult().getAllErrors().getFirst().getDefaultMessage());
+        final String message = ex.getBindingResult().getAllErrors().getFirst().getDefaultMessage();
         return of(message, 400);
     }
 

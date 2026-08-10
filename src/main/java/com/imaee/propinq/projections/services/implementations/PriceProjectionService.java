@@ -18,13 +18,13 @@ import static org.springframework.http.MediaType.APPLICATION_FORM_URLENCODED;
 @RequiredArgsConstructor
 public class PriceProjectionService implements IPriceProjectionService {
 
-    @Value("${arquiler.calculation-url}")
+    @Value("${arquiler.calculation-url:https://api.arquiler.com/calculate}")
     private String url;
 
-    @Value("${arquiler.api-key}")
+    @Value("${arquiler.api-key:}")
     private String key;
 
-    @Value("${arquiler.api-host}")
+    @Value("${arquiler.api-host:api.arquiler.com}")
     private String host;
 
     private final RestClient restClient;
