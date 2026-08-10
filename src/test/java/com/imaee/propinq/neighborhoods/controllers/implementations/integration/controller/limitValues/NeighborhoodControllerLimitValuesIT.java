@@ -1,6 +1,7 @@
 package com.imaee.propinq.neighborhoods.controllers.implementations.integration.controller.limitValues;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.imaee.propinq.log.data.LogRepository;
 import com.imaee.propinq.neighborhoods.builders.NeighborhoodRequestBuilder;
 import com.imaee.propinq.neighborhoods.controllers.implementations.NeighborhoodController;
 import com.imaee.propinq.neighborhoods.services.interfaces.INeighborhoodService;
@@ -12,6 +13,7 @@ import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.http.MediaType;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
+import ua_parser.Parser;
 
 import java.util.UUID;
 
@@ -37,6 +39,12 @@ class NeighborhoodControllerLimitValuesIT {
 
     @MockitoBean
     private INeighborhoodService neighborhoodService;
+
+    @MockitoBean
+    private LogRepository logRepository;
+
+    @MockitoBean
+    private Parser parser;
 
     @Nested
     class CreateNeighborhood_NeighborhoodRequestValidation {

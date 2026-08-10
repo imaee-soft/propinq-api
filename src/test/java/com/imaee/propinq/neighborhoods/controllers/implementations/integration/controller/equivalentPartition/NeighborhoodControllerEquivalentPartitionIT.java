@@ -1,6 +1,7 @@
 package com.imaee.propinq.neighborhoods.controllers.implementations.integration.controller.equivalentPartition;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.imaee.propinq.log.data.LogRepository;
 import com.imaee.propinq.neighborhoods.builders.NeighborhoodRequestBuilder;
 import com.imaee.propinq.neighborhoods.builders.NeighborhoodResponseBuilder;
 import com.imaee.propinq.neighborhoods.controllers.responses.NeighborhoodResponse;
@@ -13,6 +14,7 @@ import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.http.MediaType;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
+import ua_parser.Parser;
 
 import java.util.List;
 import java.util.UUID;
@@ -38,6 +40,12 @@ class NeighborhoodControllerEquivalentPartitionIT {
 
     @MockitoBean
     private INeighborhoodService neighborhoodService;
+
+    @MockitoBean
+    private LogRepository logRepository;
+
+    @MockitoBean
+    private Parser parser;
 
     @Nested
     class GetNeighborhoods {
@@ -106,7 +114,10 @@ class NeighborhoodControllerEquivalentPartitionIT {
         void shouldReturn400_whenNotExists() throws Exception {
             // Given
             when(neighborhoodService.getNeighborhood(FIXED_NEIGHBORHOOD_ID))
-                    .thenThrow(org.springframework.web.server.ResponseStatusException.class);
+                    .thenThrow(new org.springframework.web.server.ResponseStatusException(
+                            org.springframework.http.HttpStatus.BAD_REQUEST,
+                            "Barrio no encontrado"
+                    ));
 
             // When & Then
             mockMvc.perform(get(BASE_URL + "/" + FIXED_NEIGHBORHOOD_ID).with(csrf()))

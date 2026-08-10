@@ -347,7 +347,7 @@ class PropertyControllerGetPropertiesIT {
 
             mockMvc.perform(get(BASE_URL + "/" + nonExistent).with(csrf()))
                     .andExpect(status().isNotFound())
-                    .andExpect(jsonPath("$.message", containsString("La vivienda no fue encontrada")));
+                    .andExpect(jsonPath("$.message", containsString("La vivienda solicitada no existe")));
         }
     }
 }

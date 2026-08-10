@@ -13,7 +13,7 @@ public class CreatePropertyRequestBuilder {
     private static final double DEFAULT_PRICE = 150_000.0;
     private static final int DEFAULT_BEDROOMS = 2;
     private static final int DEFAULT_BATHROOMS = 1;
-    private static final String DEFAULT_ADDRESS = "Av. San Martín 1200";
+    private static final String DEFAULT_ADDRESS = "Av. San Martín 1200, Villa María";
     private static final double DEFAULT_LATITUDE = -32.4100;
     private static final double DEFAULT_LONGITUDE = -63.2400;
 
