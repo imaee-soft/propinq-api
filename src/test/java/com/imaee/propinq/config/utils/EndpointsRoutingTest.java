@@ -27,4 +27,16 @@ class EndpointsRoutingTest {
                 "/api/v1/provinces/**"
         );
     }
+
+    @Test
+    // Test type: UNIT
+    // Layer: config
+    // Quality Attribute: Compatibility
+    // Testing Technique: Equivalent Partition
+    void recoverPasswordEndpoints_shouldBePublic() {
+        assertThat(Endpoints.USER_ACTIVATION_ENDPOINTS).contains(
+                "/api/v1/users/recover-password/send-email",
+                "/api/v1/users/recover-password"
+        );
+    }
 }

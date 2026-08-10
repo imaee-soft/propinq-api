@@ -10,8 +10,10 @@ public class Endpoints {
 
     public static final String[] USER_ACTIVATION_ENDPOINTS = {
             "/api/v1/users/*/activate",
-            "/resend-activation-email",
-            "/send-new-activation-token",
+            "/api/v1/users/resend-activation-email",
+            "/api/v1/users/send-new-activation-token",
+            "/api/v1/users/recover-password/send-email",
+            "/api/v1/users/recover-password",
     };
 
     public static final String[] DOC_ENDPOINTS = {
