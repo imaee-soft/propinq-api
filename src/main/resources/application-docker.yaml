@@ -92,6 +92,11 @@ security:
 metabase:
   site-url: ${METABASE_SITE_URL:http://localhost:3000}
   secret-key: ${METABASE_SECRET_KEY:491b968d9df38474b1165c234dcb992ca50000894f9a65ec6abb5b0e70bbc769}
+
+arquiler:
+  calculation-url: ${CALCULATION_URL:http://localhost:8080/api/v1/arquiler}
+  api-key: ${ARQUILER_API_KEY:key}
+  api-host: ${ARQUILER_API_HOST:host}
 # Ejemplo por entidad (orden ordenado):
 # spring:
 #   sql:

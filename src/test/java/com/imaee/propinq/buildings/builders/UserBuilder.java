@@ -10,7 +10,6 @@ import java.time.LocalDate;
  */
 public class UserBuilder {
 
-    private static final String DEFAULT_DNI = "20111222333";
     private static final String DEFAULT_PASSWORD = "TestPassword1!";
     private static final LocalDate DEFAULT_BIRTH_DATE = LocalDate.of(1990, 1, 1);
     private static final String DEFAULT_FIRST_NAME = "Test";
@@ -19,7 +18,6 @@ public class UserBuilder {
     private static final String DEFAULT_ADDRESS = "Calle Falsa 123";
     private static final String DEFAULT_PHONE = "+5491112345678";
 
-    private String dni = DEFAULT_DNI;
     private String password = DEFAULT_PASSWORD;
     private LocalDate birthDate = DEFAULT_BIRTH_DATE;
     private String firstName = DEFAULT_FIRST_NAME;
@@ -33,19 +31,18 @@ public class UserBuilder {
         return new UserBuilder();
     }
 
-    public UserBuilder withDni(String dni) {
-        this.dni = dni;
-        return this;
-    }
-
     public UserBuilder withEmail(String email) {
         this.email = email;
         return this;
     }
 
+    public UserBuilder withRole(Role role) {
+        this.role = role;
+        return this;
+    }
+
     public User build() {
         return User.builder()
-                .dni(dni)
                 .password(password)
                 .birthDate(birthDate)
                 .firstName(firstName)
