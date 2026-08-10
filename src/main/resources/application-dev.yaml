@@ -24,18 +24,10 @@ spring:
     password: ${MYSQL_PASSWORD:password}
     driver-class-name: com.mysql.cj.jdbc.Driver
 
-  mail:
-    host: ${MAIL_HOST:smtp.gmail.com}
-    port: ${MAIL_PORT:587}
-    username: ${MAIL_USERNAME}
-    password: ${MAIL_PASSWORD}
-    properties:
-      mail:
-        smtp:
-          auth: ${MAIL_SMTP_AUTH:true}
-          starttls:
-            enable: ${MAIL_STARTTLS_ENABLE:true}
-          timeout: ${MAIL_TIMEOUT:2000}
+resend:
+  api-key: ${RESEND_API_KEY:}
+  from-email: ${RESEND_FROM_EMAIL:PropInq <onboarding@resend.dev>}
+  base-url: ${RESEND_BASE_URL:https://api.resend.com}
 
 logging:
   level:

@@ -94,8 +94,14 @@ public class PropertyMapper {
     }
 
     private static String buildHouseName(String address) {
-        final var splitAddress = address.split(",");
-        return splitAddress[0] + ", " + splitAddress[1];
+        if (address == null || address.isBlank()) {
+            return "";
+        }
+        final var splitAddress = address.split(",", 2);
+        if (splitAddress.length < 2) {
+            return splitAddress[0].trim();
+        }
+        return splitAddress[0].trim() + ", " + splitAddress[1].trim();
     }
 
     private static Property toBasicProperty(CreatePropertyRequest request, List<Image> images) {

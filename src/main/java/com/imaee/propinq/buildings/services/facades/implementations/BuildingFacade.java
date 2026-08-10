@@ -28,6 +28,9 @@ public class BuildingFacade implements IBuildingFacade {
 
     @Override
     public void validateBuildingImages(MultipartFile[] imageFiles) {
+        if (imageFiles == null || imageFiles.length == 0) {
+            return;
+        }
         stream(imageFiles).forEach(imageFile -> {
             throwExceptionIfImageExceedsMaximumSize(imageFile);
             throwExceptionIfImageHasBadFormat(imageFile);

@@ -50,6 +50,9 @@ public class RecoverPasswordUseCase implements IRecoverPasswordUseCase {
     private void recoverUserPassword(RecoverPasswordRequest recoverPasswordRequest) {
         final var user = tokenService.findUserByTokenId(recoverPasswordRequest.recoverPasswordToken());
         user.setPassword(passwordEncoder.encode(recoverPasswordRequest.password()));
+        // Email ownership is proven by the recover token; activate so login works
+        // even if the original activation link was never used.
+        user.setActivated(true);
         userRepository.save(user);
     }
 }

@@ -41,7 +41,7 @@ public interface IBuildingController {
     @Operation(summary = "Saves a new building with name, description and address.")
     void createBuilding(
             @RequestPart("building") @Valid CreateBuildingRequest createBuildingRequest,
-            @RequestPart("images") MultipartFile[] imageFiles
+            @RequestPart(value = "images", required = false) MultipartFile[] imageFiles
     );
 
     @GetMapping
