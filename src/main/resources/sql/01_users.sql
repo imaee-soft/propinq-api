@@ -1,65 +1,52 @@
--- Users seed
--- users: 
--- Owner:
--- propietario@propinq.com
--- admin123
-
--- Admin:
--- admin@propinq.com
--- admin123
-
--- Tenant:
--- inquilino@gmail.com
--- admin123
-INSERT IGNORE INTO users (
-    user_id,
-    activated,
-    address,
-    birth_date,
-    deleted,
-    email,
-    first_name,
-    last_name,
-    password,
-    phone_number,
-    role
+-- Users seed (demo). Contraseña de todos: admin123
+-- bcrypt = $2a$10$udlZWB5DwOzA1I1QJZ3usOVV764/LGq4Ir4/oYZPjMzCbiccTaT6u
+INSERT INTO users (
+    user_id, password, birth_date, first_name, last_name, email,
+    address, phone_number, role, activated, deleted
 ) VALUES
-(
-    UNHEX('AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA'),
-    1,
-    'Sin dirección',
-    '1990-01-01',
-    0,
-    'admin@propinq.com',
-    'PROP',
-    'INQ',
-    '$2a$10$XuN33pdjkfpv3SfA8I.jm.hQHV3aempTZquspVNsBSCUkxmKzydjS',
-    '+5493534123456',
-    'ADMIN'
-),
-(
-    UNHEX('11111111111111111111111111111111'),
-    1,
-    'Villa María, Córdoba',
-    '1985-05-15',
-    0,
-    'propietario@propinq.com',
-    'Juan',
-    'Propietario',
-    '$2a$10$XuN33pdjkfpv3SfA8I.jm.hQHV3aempTZquspVNsBSCUkxmKzydjS',
-    '+5493534987654',
-    'OWNER'
-),
-(
-    UNHEX('22222222222222222222222222222222'),
-    1,
-    'Buenos Aires, Argentina',
-    '1995-08-20',
-    0,
-    'inquilino@propinq.com',
-    'Pedro',
-    'Inquilino',
-    '$2a$10$XuN33pdjkfpv3SfA8I.jm.hQHV3aempTZquspVNsBSCUkxmKzydjS',
-    '+5491123456789',
-    'TENANT'
-);
+    (
+        UNHEX('AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA'),
+        '$2a$10$udlZWB5DwOzA1I1QJZ3usOVV764/LGq4Ir4/oYZPjMzCbiccTaT6u',
+        '1990-01-01',
+        'Admin',
+        'Propinq',
+        'admin@propinq.com',
+        'Sin dirección',
+        '+5493534000001',
+        'ADMIN',
+        1,
+        0
+    ),
+    (
+        UNHEX('11111111111111111111111111111111'),
+        '$2a$10$udlZWB5DwOzA1I1QJZ3usOVV764/LGq4Ir4/oYZPjMzCbiccTaT6u',
+        '1985-05-15',
+        'Juan',
+        'Propietario',
+        'propietario@propinq.com',
+        'Villa María, Córdoba',
+        '+5493534987654',
+        'OWNER',
+        1,
+        0
+    ),
+    (
+        UNHEX('22222222222222222222222222222222'),
+        '$2a$10$udlZWB5DwOzA1I1QJZ3usOVV764/LGq4Ir4/oYZPjMzCbiccTaT6u',
+        '1992-08-20',
+        'Ana',
+        'Inquilina',
+        'inquilino@propinq.com',
+        'Córdoba Capital',
+        '+5493514000003',
+        'TENANT',
+        1,
+        0
+    )
+ON DUPLICATE KEY UPDATE
+    password = VALUES(password),
+    role = VALUES(role),
+    activated = 1,
+    deleted = 0,
+    first_name = VALUES(first_name),
+    last_name = VALUES(last_name);

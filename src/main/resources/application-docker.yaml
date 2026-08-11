@@ -69,6 +69,10 @@ cloudinary:
   api-key: ${CLOUD_API_KEY}
   api-secret: ${CLOUD_API_SECRET}
 
+google:
+  recaptcha:
+    secret: ${GOOGLE_RECAPTCHA_SECRET:}
+
 springdoc:
   swagger-ui:
     disable-swagger-default-url: ${SWAGGER_DISABLE_DEFAULT_URL:true}
