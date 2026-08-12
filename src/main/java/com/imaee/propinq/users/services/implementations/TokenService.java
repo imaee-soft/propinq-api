@@ -8,7 +8,10 @@ import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
+import java.time.LocalDateTime;
 import java.util.UUID;
+
+import static java.time.LocalDateTime.now;
 
 import static com.imaee.propinq.users.utils.Constants.EXPIRED_ACTIVATION_TOKEN_MESSAGE;
 import static com.imaee.propinq.users.utils.Constants.NONEXISTING_TOKEN_MESSAGE;
@@ -55,5 +58,12 @@ public class TokenService implements ITokenService {
     public void throwExceptionIfTokenIsExpired(UUID tokenId) {
         if (isTokenExpired(tokenId))
             throw new ResponseStatusException(BAD_REQUEST, EXPIRED_ACTIVATION_TOKEN_MESSAGE);
+    }
+
+    @Override
+    public void expireToken(UUID tokenId) {
+        final var token = findTokenById(tokenId);
+        token.setTokenExpirationDate(now().minusSeconds(1));
+        tokenRepository.save(token);
     }
 }
