@@ -12,4 +12,5 @@ public interface ITokenService {
     Token findActiveTokenByUser(User user);
     boolean isTokenExpired(UUID tokenId);
     void throwExceptionIfTokenIsExpired(UUID tokenId);
+    void expireToken(UUID tokenId);
 }
