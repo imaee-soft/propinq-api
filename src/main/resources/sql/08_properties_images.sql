@@ -1,15 +1,28 @@
+-- Datos demo actuales (fuente: propinq-infra/scripts/seed-demo-properties.sql).
+-- Alineado con CT102 / www.propinq.online.
+
 -- Property to images relations
 INSERT IGNORE INTO properties_images (properties_property_id, images_url) VALUES
-  (UNHEX(REPLACE('AAAABBBB-CCCC-DDDD-EEEE-FFFF00000001', '-', '')), 'https://images.adsttc.com/media/images/590c/93c8/e58e/ce1f/9800/004b/slideshow/17-03-02_425.jpg?1493996481'),
-  (UNHEX(REPLACE('AAAABBBB-CCCC-DDDD-EEEE-FFFF00000001', '-', '')), 'https://images.adsttc.com/media/images/590c/945c/e58e/cee9/b200/0014/slideshow/17-03-02_359.jpg?1493996629'),
-  (UNHEX(REPLACE('AAAABBBB-CCCC-DDDD-EEEE-FFFF00000002', '-', '')), 'https://images.adsttc.com/media/images/590c/940d/e58e/ce1f/9800/004e/slideshow/17-03-02_397.jpg?1493996550'),
-  (UNHEX(REPLACE('AAAABBBB-CCCC-DDDD-EEEE-FFFF00000002', '-', '')), 'https://images.adsttc.com/media/images/590c/932a/e58e/ce1f/9800/0041/slideshow/17-03-02_447.jpg?1493996326'),
-  (UNHEX(REPLACE('AAAABBBB-CCCC-DDDD-EEEE-FFFF00000002', '-', '')), 'https://images.adsttc.com/media/images/590c/93f6/e58e/ce1f/9800/004d/slideshow/17-03-02_406.jpg?1493996527'),
-  (UNHEX(REPLACE('AAAABBBB-CCCC-DDDD-EEEE-FFFF00000003', '-', '')), 'https://images.adsttc.com/media/images/590d/2d63/e58e/ce34/8300/002f/slideshow/2016_10_METAFORMA_POZNAN-7055.jpg?1494035802'),
-  (UNHEX(REPLACE('AAAABBBB-CCCC-DDDD-EEEE-FFFF00000003', '-', '')), 'https://images.adsttc.com/media/images/590d/2e3d/e58e/ce34/8300/0034/slideshow/2016_10_METAFORMA_POZNAN-7105.jpg?1494036012'),
-  (UNHEX(REPLACE('AAAABBBB-CCCC-DDDD-EEEE-FFFF00000003', '-', '')), 'https://images.adsttc.com/media/images/590d/2da4/e58e/ce65/4200/01ce/slideshow/2016_10_METAFORMA_POZNAN-7066.jpg?1494035867'),
-  (UNHEX(REPLACE('AAAABBBB-CCCC-DDDD-EEEE-FFFF00000004', '-', '')), 'https://images.homify.com/c_fill,f_auto,h_700,q_auto/v1453219822/p/photo/image/1255680/Arquiteta_Camila_Castilho-84.jpg'),
-  (UNHEX(REPLACE('AAAABBBB-CCCC-DDDD-EEEE-FFFF00000004', '-', '')), 'https://images.homify.com/c_fill,f_auto,h_700,q_auto/v1453219892/p/photo/image/1255695/10.jpg'),
-  (UNHEX(REPLACE('AAAABBBB-CCCC-DDDD-EEEE-FFFF00000004', '-', '')), 'https://images.homify.com/c_fill,f_auto,h_700,q_auto/v1453219874/p/photo/image/1255691/05.jpg');
+(UNHEX(REPLACE('a1000000-0000-4000-8000-000000000001', '-', '')), 'https://images.unsplash.com/photo-1564013799919-ab600027ffc6?w=1200&q=80'),
+(UNHEX(REPLACE('a1000000-0000-4000-8000-000000000001', '-', '')), 'https://images.unsplash.com/photo-1600566753190-17f0baa2a6c3?w=1200&q=80'),
+(UNHEX(REPLACE('a1000000-0000-4000-8000-000000000002', '-', '')), 'https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?w=1200&q=80'),
+(UNHEX(REPLACE('a1000000-0000-4000-8000-000000000003', '-', '')), 'https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=1200&q=80'),
+(UNHEX(REPLACE('a1000000-0000-4000-8000-000000000004', '-', '')), 'https://images.unsplash.com/photo-1600047509807-ba8f99d2cd0c?w=1200&q=80'),
+(UNHEX(REPLACE('a1000000-0000-4000-8000-000000000004', '-', '')), 'https://images.unsplash.com/photo-1600210492486-724fe5c67fb0?w=1200&q=80'),
+(UNHEX(REPLACE('a1000000-0000-4000-8000-000000000005', '-', '')), 'https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?w=1200&q=80'),
+(UNHEX(REPLACE('a1000000-0000-4000-8000-000000000006', '-', '')), 'https://images.unsplash.com/photo-1570129477492-45c003edd2be?w=1200&q=80'),
+(UNHEX(REPLACE('a1000000-0000-4000-8000-000000000007', '-', '')), 'https://images.unsplash.com/photo-1512917774080-9991f1c4c750?w=1200&q=80'),
+(UNHEX(REPLACE('a1000000-0000-4000-8000-000000000008', '-', '')), 'https://images.unsplash.com/photo-1580587771525-78b9eaa60c84?w=1200&q=80'),
+(UNHEX(REPLACE('a1000000-0000-4000-8000-000000000009', '-', '')), 'https://images.unsplash.com/photo-1568605114967-8130f3a36994?w=1200&q=80');
 
-  
+
+INSERT IGNORE INTO properties_images (properties_property_id, images_url) VALUES
+(UNHEX(REPLACE('a2000000-0000-4000-8000-000000000001', '-', '')), 'https://images.unsplash.com/photo-1502672260266-1c1ef2d93688?w=1200&q=80'),
+(UNHEX(REPLACE('a2000000-0000-4000-8000-000000000002', '-', '')), 'https://images.unsplash.com/photo-1522708323590-d24dbb6b0267?w=1200&q=80'),
+(UNHEX(REPLACE('a2000000-0000-4000-8000-000000000003', '-', '')), 'https://images.unsplash.com/photo-1560448204-e02f11c3d0e2?w=1200&q=80'),
+(UNHEX(REPLACE('a2000000-0000-4000-8000-000000000004', '-', '')), 'https://images.unsplash.com/photo-1505693416388-ac5ce068fe85?w=1200&q=80'),
+(UNHEX(REPLACE('a2000000-0000-4000-8000-000000000005', '-', '')), 'https://images.unsplash.com/photo-1536376072261-38c75010e6c9?w=1200&q=80'),
+(UNHEX(REPLACE('a2000000-0000-4000-8000-000000000006', '-', '')), 'https://images.unsplash.com/photo-1554995207-c18c203602cb?w=1200&q=80'),
+(UNHEX(REPLACE('a2000000-0000-4000-8000-000000000007', '-', '')), 'https://images.unsplash.com/photo-1560185127-6ed189bf02f4?w=1200&q=80'),
+(UNHEX(REPLACE('a2000000-0000-4000-8000-000000000008', '-', '')), 'https://images.unsplash.com/photo-1630699144867-37acec97df5e?w=1200&q=80'),
+(UNHEX(REPLACE('a2000000-0000-4000-8000-000000000009', '-', '')), 'https://images.unsplash.com/photo-1616594039964-ae9021a400a0?w=1200&q=80');
