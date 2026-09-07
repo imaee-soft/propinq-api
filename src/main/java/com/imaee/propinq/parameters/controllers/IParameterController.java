@@ -10,7 +10,7 @@ import java.util.List;
 
 import static org.springframework.http.HttpStatus.OK;
 
-@RequestMapping("/parameters")
+@RequestMapping("/api/v1/parameters")
 @Tag(
         name = "Parameters",
         description = "Operations for managing parameters."

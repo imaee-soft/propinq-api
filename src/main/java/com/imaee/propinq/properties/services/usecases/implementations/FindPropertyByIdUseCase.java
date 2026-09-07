@@ -5,11 +5,12 @@ import com.imaee.propinq.properties.data.repositories.IPropertyRepository;
 import com.imaee.propinq.properties.services.usecases.interfaces.IFindPropertyByIdUseCase;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Component;
+import org.springframework.web.server.ResponseStatusException;
 
-import java.util.NoSuchElementException;
 import java.util.UUID;
 
 import static com.imaee.propinq.properties.Constants.NO_PROPERTY_MESSAGE;
+import static org.springframework.http.HttpStatus.NOT_FOUND;
 
 
 @Component
@@ -20,6 +21,6 @@ public class FindPropertyByIdUseCase implements IFindPropertyByIdUseCase {
     @Override
     public Property findProperty(UUID propertyId) {
         return propertyRepository.findById(propertyId)
-                .orElseThrow(() -> new NoSuchElementException(NO_PROPERTY_MESSAGE));
+                .orElseThrow(() -> new ResponseStatusException(NOT_FOUND, NO_PROPERTY_MESSAGE));
     }
 }

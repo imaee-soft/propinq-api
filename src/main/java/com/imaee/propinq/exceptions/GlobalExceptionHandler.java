@@ -60,7 +60,8 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(MethodArgumentNotValidException.class)
     @ResponseStatus(BAD_REQUEST)
     public ExceptionMessage handleJakartaValidationsException(MethodArgumentNotValidException ex) {
-        return of(ex.getBindingResult().getAllErrors().getFirst().getDefaultMessage(), 400);
+        final String message = ex.getBindingResult().getAllErrors().getFirst().getDefaultMessage();
+        return of(message, 400);
     }
 
     @ExceptionHandler({

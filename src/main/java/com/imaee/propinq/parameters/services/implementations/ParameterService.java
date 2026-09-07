@@ -15,16 +15,18 @@ public class ParameterService implements IParameterService {
 
     @Override
     public Double maxPrice() {
-        return entityManager
+        Double result = entityManager
                 .createQuery("SELECT MAX(p.price) FROM properties p", Double.class)
                 .getSingleResult();
+        return result != null ? result : 0.0;
     }
 
     @Override
     public Double minPrice() {
-        return entityManager
+        Double result = entityManager
                 .createQuery("SELECT MIN(p.price) FROM properties p", Double.class)
                 .getSingleResult();
+        return result != null ? result : 0.0;
     }
 
     @Override

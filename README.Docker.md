@@ -22,6 +22,29 @@ Start the application using Docker Compose:
 docker-compose -f docker-compose.dev.yaml up --build -d
 ```
 
+El backend expone por defecto `http://localhost:8080` y el frontend dev en `http://localhost:4200`.
+
+---
+
+## Variables de entorno (backend)
+
+Para desarrollo local, la aplicación lee sus variables desde el fichero `.env` de `propinq-api`.  
+Las variables mínimas que deberías revisar/ajustar son:
+
+- Backend / seguridad:
+  - `SPRING_PROFILES_ACTIVE`
+  - `SECURITY_JWT_KEY`
+  - `SECURITY_JWT_USER`
+- Base de datos:
+  - `MYSQL_DATABASE`, `MYSQL_USERNAME`, `MYSQL_PASSWORD`
+  - `MONGO_DATABASE`, `MONGO_USER`, `MONGO_PASSWORD`
+- Mail:
+  - `MAIL_HOST`, `MAIL_USERNAME`, `MAIL_PASSWORD`
+- Cloudinary:
+  - `CLOUD_NAME`, `CLOUD_API_KEY`, `CLOUD_API_SECRET`
+
+Para despliegue en producción dentro de Docker, las mismas variables se configuran desde los `.env.*` del repo de infra (`.env.api`, `.env.mysql`, `.env.mongodb`, `.env.nginx`). Consulta [`imaee-soft/propinq-infra`](https://github.com/imaee-soft/propinq-infra) para el detalle.
+
 ## Perfiles y configuración de entorno
 
 - El archivo `.env` define la variable `SPRING_PROFILES_ACTIVE` para seleccionar el perfil de Spring Boot:
@@ -36,6 +59,25 @@ docker-compose -f docker-compose.dev.yaml up --build -d
   - `application-dev.yaml`: usa `localhost` como host de las bases de datos para desarrollo local.
   - `application-docker.yaml`: usa los nombres de los servicios de Docker Compose (`mysql-db`, `mongodb`) como host de las bases de datos para ejecución en contenedor.
   - `application-prod.yaml`: usa `localhost` como host de las bases de datos para desarrollo local y configuraciones de producción.
+  - `application-test.yaml` (perfil `test`): usado solo al ejecutar tests; H2 en memoria y MongoDB de test. **No toca MySQL real.**
+
+### Ejecutar tests en Docker
+
+Los tests deben correr con perfil `test` para usar H2 en memoria y no conectar a MySQL. Usa `--no-deps` para no levantar MySQL/MongoDB (evita conflicto si ya existen contenedores):
+
+```bash
+docker compose -f docker-compose.dev.yaml run --rm --no-deps -e SPRING_PROFILES_ACTIVE=test api ./mvnw test
+```
+
+En varias líneas (bash/zsh):
+
+```bash
+docker compose -f docker-compose.dev.yaml run --rm --no-deps \
+  -e SPRING_PROFILES_ACTIVE=test \
+  api ./mvnw test
+```
+
+**Regla:** Los unit tests no levantan Spring (`@SpringBootTest`). Se usan solo tests con Mockito (`@ExtendWith(MockitoExtension.class)`).
 
 ## Importante sobre scripts y formato de fin de línea (LF)
 

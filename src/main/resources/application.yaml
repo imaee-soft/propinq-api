@@ -1,6 +1,5 @@
 spring:
   profiles:
     active: ${SPRING_PROFILES_ACTIVE:dev}
-  # prod -> application-prod.yaml
   # dev -> application-dev.yaml
-  # docker -> application-devDocker.yaml
+  # docker -> application-docker.yaml

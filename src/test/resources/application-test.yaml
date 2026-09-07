@@ -1,0 +1,55 @@
+spring:
+  datasource:
+    url: jdbc:h2:mem:testdb;MODE=MySQL;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=FALSE
+    driver-class-name: org.h2.Driver
+    username: sa
+    password: ""
+  jpa:
+    hibernate:
+      ddl-auto: create-drop
+    database-platform: org.hibernate.dialect.H2Dialect
+    defer-datasource-initialization: false
+  sql:
+    init:
+      mode: never
+  data:
+    mongodb:
+      uri: ${SPRING_DATA_MONGODB_URI:mongodb://localhost:27017/test}
+resend:
+  api-key: re_test_key
+  from-email: PropInq <test@localhost>
+  base-url: https://api.resend.com
+
+frontend:
+  url: http://localhost:4200
+
+security:
+  jwt:
+    key: SgHeAYlgQ+JozW6vY7xxsPQXuvvqSDL+6PiBkpr1KvA=
+    user: test-user
+
+cloudinary:
+  cloud-name: test-cloud
+  api-key: test-key
+  api-secret: test-secret
+
+google:
+  recaptcha:
+    secret: test-recaptcha-secret
+
+cors:
+  allowed-origins: "*"
+
+metabase:
+  site-url: http://localhost:3000
+  secret-key: 409a1d0392c86c5973bcf274cc2f891b74a31a26149b6eaa69304ec5a4bfcd96
+
+poi:
+  scheduler:
+    enabled: false
+    run-on-startup: false
+
+arquiler:
+  calculation-url: http://localhost:8080/api/v1/arquiler
+  api-key: test-key
+  api-host: localhost

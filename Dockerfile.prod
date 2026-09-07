@@ -1,0 +1,55 @@
+# syntax=docker/dockerfile:1
+# Production Dockerfile for propinq-api (Spring Boot).
+# Reuses same deps/package/extract stages as Dockerfile.dev; final stage is JRE-only.
+
+################################################################################
+# Etapa deps: descarga dependencias (cachea ~/.m2)
+################################################################################
+FROM eclipse-temurin:21-jdk-jammy AS deps
+
+WORKDIR /build
+
+COPY --chmod=0755 mvnw mvnw
+COPY .mvn/ .mvn/
+
+RUN --mount=type=bind,source=pom.xml,target=pom.xml \
+    --mount=type=cache,target=/root/.m2 \
+    ./mvnw dependency:go-offline -DskipTests
+
+################################################################################
+# Etapa package: compila y genera JAR
+################################################################################
+FROM deps AS package
+
+WORKDIR /build
+
+COPY ./src src/
+RUN --mount=type=bind,source=pom.xml,target=pom.xml \
+    --mount=type=cache,target=/root/.m2 \
+    ./mvnw package -DskipTests && \
+    mv target/$(./mvnw help:evaluate -Dexpression=project.artifactId -q -DforceStdout)-$(./mvnw help:evaluate -Dexpression=project.version -q -DforceStdout).jar target/app.jar
+
+################################################################################
+# Etapa extract: layertools para capas
+################################################################################
+FROM package AS extract
+
+WORKDIR /build
+RUN java -Djarmode=layertools -jar target/app.jar extract --destination target/extracted
+
+################################################################################
+# Etapa prod: solo JRE, sin dev tools
+################################################################################
+FROM eclipse-temurin:21-jre-jammy AS prod
+
+WORKDIR /app
+
+COPY --from=extract /build/target/extracted/dependencies/ ./
+COPY --from=extract /build/target/extracted/snapshot-dependencies/ ./
+COPY --from=extract /build/target/extracted/spring-boot-loader/ ./
+COPY --from=extract /build/target/extracted/application/ ./
+
+EXPOSE 8080
+
+ENTRYPOINT ["java", "org.springframework.boot.loader.launch.JarLauncher"]
+
