@@ -52,13 +52,17 @@ services:
       CLOUDINARY_API_SECRET: ${CLOUD_API_SECRET}
       CLOUDINARY_CLOUD_NAME: ${CLOUD_NAME}
       GOOGLE_RECAPTCHA_SECRET: ${GOOGLE_RECAPTCHA_SECRET}
-      POI_SCHEDULER_RUN_DOWNLOAD: "false"
-      POI_SCHEDULER_RUN_EXTRACTION: "false"
-      POI_SCHEDULER_ENABLED: "true"
-      POI_RUN_ON_STARTUP: "true"
-      CALCULATION_URL: https://arquilerapi1.p.rapidapi.com
-      ARQUILER_API_KEY: 37501c8122msh43df6911cc6d940p1a0575jsn0114eda3a11
-      ARQUILER_API_HOST: arquilerapi1.p.rapidapi.com
+      POI_SCHEDULER_RUN_DOWNLOAD: ${POI_RUN_DOWNLOAD:-false}
+      POI_SCHEDULER_RUN_EXTRACTION: ${POI_RUN_EXTRACTION:-false}
+      POI_SCHEDULER_ENABLED: ${POI_SCHEDULER_ENABLED:-false}
+      POI_STARTUP_ENABLED: ${POI_STARTUP_ENABLED:-false}
+      CALCULATION_URL: ${CALCULATION_URL:-https://arquilerapi1.p.rapidapi.com/calculate}
+      ARQUILER_API_KEY: ${ARQUILER_API_KEY}
+      ARQUILER_API_HOST: ${ARQUILER_API_HOST:-arquilerapi1.p.rapidapi.com}
+      RESEND_API_KEY: ${RESEND_API_KEY:-}
+      RESEND_FROM_EMAIL: ${RESEND_FROM_EMAIL:-}
+      CORS_ALLOWED_ORIGINS: ${CORS_ALLOWED_ORIGINS:-http://localhost:4200}
+      FRONTEND_URL: ${FRONTEND_URL:-http://localhost:4200}
 
     networks:
       - app-network
