@@ -33,7 +33,7 @@ public class MetabaseEmbedService implements IMetabaseEmbedService {
                 .withClaim("exp", expMillis / 1000) // en segundos UNIX
                 .sign(Algorithm.HMAC256(metabaseSecretKey));
         System.out.println(token);
-        return metabaseSiteUrl + "/embed/" + type + "/" + token + "#bordered=true&titled=true";
+        return metabaseSiteUrl + "/embed/" + type + "/" + token + "#bordered=false&titled=false&theme=night";
     }
 
 }
